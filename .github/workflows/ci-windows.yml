@@ -20,13 +20,13 @@ jobs:
 
     steps:
       - name: Check out ZaeREo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           lfs: true
           persist-credentials: false
 
       - name: Check out pinned vcpkg
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: microsoft/vcpkg
           ref: 4334d8b4c8916018600212ab4dd4bbdc343065d1
@@ -34,7 +34,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
 
