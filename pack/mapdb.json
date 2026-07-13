@@ -1,0 +1,38 @@
+{
+  "episodes": [
+    {
+      "id": "zaero",
+      "command": "exec zaerostart.cfg",
+      "name": "Zaero",
+      "activity": "start_quake",
+      "needsSkillSelect": true
+    }
+  ],
+  "maps": [
+    {"bsp": "*elogo.cin+intro.cin+zlogo.cin+zbase1", "title": "Zaero", "episode": "zaero", "display_bsp": false, "sp": true, "coop": true},
+    {"bsp": "elogo.cin", "title": "Engine Logo", "episode": "zaero", "unit": 1},
+    {"bsp": "intro.cin", "title": "Introduction", "episode": "zaero", "unit": 1},
+    {"bsp": "zlogo.cin", "title": "Zaero Logo", "episode": "zaero", "unit": 1},
+    {"bsp": "zbase1", "title": "Outer Perimeter", "episode": "zaero", "unit": 1, "sp": true, "coop": true, "dm": true},
+    {"bsp": "zbase2", "title": "Installation", "episode": "zaero", "unit": 1, "sp": true, "coop": true, "dm": true},
+    {"bsp": "zdef1", "title": "Shield Control", "episode": "zaero", "unit": 2, "sp": true, "coop": true, "dm": true},
+    {"bsp": "zdef2", "title": "Mining Depot", "episode": "zaero", "unit": 2, "sp": true, "coop": true, "dm": true},
+    {"bsp": "zdef3", "title": "Research Lab", "episode": "zaero", "unit": 2, "sp": true, "coop": true, "dm": true},
+    {"bsp": "zdef4", "title": "Administration Center", "episode": "zaero", "unit": 2, "sp": true, "coop": true, "dm": true},
+    {"bsp": "zwaste1", "title": "Pipeline Junction", "episode": "zaero", "unit": 3, "sp": true, "coop": true, "dm": true},
+    {"bsp": "zwaste2", "title": "Flow Control Station", "episode": "zaero", "unit": 3, "sp": true, "coop": true, "dm": true},
+    {"bsp": "zwaste3", "title": "Extraction Pump", "episode": "zaero", "unit": 3, "sp": true, "coop": true, "dm": true},
+    {"bsp": "ztomb1", "title": "The Gateway", "episode": "zaero", "unit": 4, "sp": true, "coop": true, "dm": true},
+    {"bsp": "ztomb2", "title": "Waste Combustion", "episode": "zaero", "unit": 4, "sp": true, "coop": true, "dm": true},
+    {"bsp": "ztomb3", "title": "Energy Transformation", "episode": "zaero", "unit": 4, "sp": true, "coop": true, "dm": true},
+    {"bsp": "ztomb4", "title": "The Gathering", "episode": "zaero", "unit": 4, "sp": true, "coop": true, "dm": true},
+    {"bsp": "zboss", "title": "Filtration System", "episode": "zaero", "unit": 5, "sp": true, "coop": true, "dm": true},
+    {"bsp": "outro.cin", "title": "Outro", "episode": "zaero", "unit": 5},
+    {"bsp": "zdm1", "title": "Abandoned Base", "episode": "zaero", "dm": true},
+    {"bsp": "zdm2", "title": "Damned!", "episode": "zaero", "dm": true},
+    {"bsp": "zdm3", "title": "Palefaced", "episode": "zaero", "dm": true},
+    {"bsp": "zdm4", "title": "Astray", "episode": "zaero", "dm": true},
+    {"bsp": "zdm5", "title": "Num: The Becoming", "episode": "zaero", "dm": true},
+    {"bsp": "zdm6", "title": "The Decay of Num", "episode": "zaero", "dm": true}
+  ]
+}

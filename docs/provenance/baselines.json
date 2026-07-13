@@ -1,0 +1,1766 @@
+{
+  "baselines": {
+    "legacy_quake2_game": {
+      "aggregate_algorithm": "sha256(path_utf8 + NUL + decimal_size + NUL + sha256 + LF)",
+      "case_collisions": [],
+      "description": "Legacy Quake II game source",
+      "file_count": 78,
+      "files": [
+        {
+          "path": "g_ai.c",
+          "sha256": "6b00d707b108203acde3e6927494231b45f991d0ee1599886127d0d3226c8aff",
+          "size": 25020
+        },
+        {
+          "path": "g_chase.c",
+          "sha256": "25648f0ce1bd11454faf8e43e75f55f17376495d532da7df16d8ee04fa8dc3dc",
+          "size": 4142
+        },
+        {
+          "path": "g_cmds.c",
+          "sha256": "dc0e265097f463728c70c2cbf60325db9b92931503027cd6048deeafda640da0",
+          "size": 18481
+        },
+        {
+          "path": "g_combat.c",
+          "sha256": "ee8badcf891215ae3e627a987dadde2e4bf11eb19095e3fca9e1b60c0c658f38",
+          "size": 14553
+        },
+        {
+          "path": "g_func.c",
+          "sha256": "aa12e2ef06f30bba957adb46cc9caecf843c575041ca5287abec5ecaad2c7873",
+          "size": 51174
+        },
+        {
+          "path": "g_items.c",
+          "sha256": "4d55d1d1c83ff7552326efabc520ca07b1107ef37cd7a877af409eddcd6cdc77",
+          "size": 46311
+        },
+        {
+          "path": "g_local.h",
+          "sha256": "eb04d914a532f0baa87a12e00bc2e39a3d3a8ee1576bcdf87ea5af419919e095",
+          "size": 28552
+        },
+        {
+          "path": "g_main.c",
+          "sha256": "558f05adc5adac93bdc6151f5157b009ac87c255f788240a2a9f41755e3c8fd4",
+          "size": 8283
+        },
+        {
+          "path": "g_misc.c",
+          "sha256": "d39e96f6e8793ea768c56df820edcd987d90c9f43b7c3c7037e6ed7cd92413ee",
+          "size": 45231
+        },
+        {
+          "path": "g_monster.c",
+          "sha256": "6baf247deec1f53040f4b38302f918e255096f43de262ed7b95d739eec125cab",
+          "size": 17585
+        },
+        {
+          "path": "g_phys.c",
+          "sha256": "31e3b813814c249734550d262d2b4766184849563960c0d9715005a6e5743481",
+          "size": 21442
+        },
+        {
+          "path": "g_save.c",
+          "sha256": "2e5904205be8aa92c564b20aaf0d31bdb73d7f2e0c4f15ab0934a1e3361cd62d",
+          "size": 18283
+        },
+        {
+          "path": "g_spawn.c",
+          "sha256": "4c401dfb37076aa1186bf1b321d4606a997a1324fd4c2c3afb933d0a045a0eff",
+          "size": 23662
+        },
+        {
+          "path": "g_svcmds.c",
+          "sha256": "6646afb330cc83ef3de98146243e48eb0029917426c5c85e5a9e9c0b847dda04",
+          "size": 6075
+        },
+        {
+          "path": "g_target.c",
+          "sha256": "e66801c5ec863fb280c5df31bbeb2d388815b33feb9a769bd6b91f9f92e8494f",
+          "size": 20523
+        },
+        {
+          "path": "g_trigger.c",
+          "sha256": "8b68089f68cbd686b4fb13e6f37497c62c23554054ce801d8b4046849acdad9c",
+          "size": 13860
+        },
+        {
+          "path": "g_turret.c",
+          "sha256": "776f68766acce51a1f75f1b72cf71d82e8ef30425abedd2ab26bf9c8ca0c08e1",
+          "size": 11278
+        },
+        {
+          "path": "g_utils.c",
+          "sha256": "441b5eeb751763171e507e262cf4a8d525db72c5d98a271edd591f0a6dbb6f22",
+          "size": 11074
+        },
+        {
+          "path": "g_weapon.c",
+          "sha256": "ef25ff12da0e65ffb77623101530362e866b03e80cc922e30c461a47b1e8aa1f",
+          "size": 23483
+        },
+        {
+          "path": "game.001",
+          "sha256": "0e69d2fe4db445b7f1c7483439156fc8cc0c66fec1bc45552a6ac339d7a4148d",
+          "size": 27440
+        },
+        {
+          "path": "game.def",
+          "sha256": "62c006f653fc4a5072b80405da118d6ea74086d73fe38d1029d2176885cffebd",
+          "size": 20
+        },
+        {
+          "path": "game.dsp",
+          "sha256": "c01e39f3f1d5e624ad2d2b205a37f65ab6d9f1fe9c686995907d33de74187bd6",
+          "size": 27480
+        },
+        {
+          "path": "game.h",
+          "sha256": "c5427be9d385cd0d4183be925f83d5435ff0f1d31f54c5ce63d6a90f3bf8a303",
+          "size": 8262
+        },
+        {
+          "path": "game.plg",
+          "sha256": "bf511276bc652f7d31d595fe28d8249a5fe9ad209519e3562c21ba61cecc5e3f",
+          "size": 3111
+        },
+        {
+          "path": "m_actor.c",
+          "sha256": "d614e9d027bb6ca9e09694461aab731416f2442de235e1f32f7f4ff46471593d",
+          "size": 13963
+        },
+        {
+          "path": "m_actor.h",
+          "sha256": "f540433320d4176da18716ff4dcd75c8d94251c5138a3714ba160d9cdafd9b9f",
+          "size": 17575
+        },
+        {
+          "path": "m_berserk.c",
+          "sha256": "b2865145a1a22b6047805c7704ab1212e90a21616b3d21b08eecaee214f88361",
+          "size": 11972
+        },
+        {
+          "path": "m_berserk.h",
+          "sha256": "b0fd4a30d71a94ec0fd6777c14b24540dc122632e206fa6e33c69339df30513d",
+          "size": 9288
+        },
+        {
+          "path": "m_boss2.c",
+          "sha256": "c9348d358ae949952e61650a099fdbc57084defb78dfc3ef45e4d26636683ee8",
+          "size": 16533
+        },
+        {
+          "path": "m_boss2.h",
+          "sha256": "edd5dce4694d47420fd660fe0d80ede95fbd258a9974990da03e6f8d8d628524",
+          "size": 7081
+        },
+        {
+          "path": "m_boss3.c",
+          "sha256": "da05cb04906c0f85a5a87be494de319334ba942cae37322c4f5912ee04e15c57",
+          "size": 2046
+        },
+        {
+          "path": "m_boss31.c",
+          "sha256": "c620232f2e28c6c8e5a32a43885fe82ba9ae405cd24858c770aa91c33da4f27c",
+          "size": 17733
+        },
+        {
+          "path": "m_boss31.h",
+          "sha256": "7816fc92e693ecb97d4304c88b33318cd181cd9ed2d00094f1150c87fa31d0e7",
+          "size": 7331
+        },
+        {
+          "path": "m_boss32.c",
+          "sha256": "a1a1da79940480231ea00584b65042fc1b454fd01fc74f55b550a7b1c91303ad",
+          "size": 21222
+        },
+        {
+          "path": "m_boss32.h",
+          "sha256": "fe3b794e8d33547c8ef74e676f36c6405f5b52ae0a6fb276fdd3bdfdf45e9c50",
+          "size": 17937
+        },
+        {
+          "path": "m_brain.c",
+          "sha256": "a641c8e79735ef803bfacfcb7cedd07976e1c70fd3c3bf4449210e1b018fbe52",
+          "size": 15226
+        },
+        {
+          "path": "m_brain.h",
+          "sha256": "9f853800b03775eaed0153bdb7e5ae6082031bfd00cd80c07dc773a1e44aa81f",
+          "size": 8516
+        },
+        {
+          "path": "m_chick.c",
+          "sha256": "bfab2d7c065a0d724690cb870bf6d7795246ca68bdf361fe579caaf0a389df36",
+          "size": 15888
+        },
+        {
+          "path": "m_chick.h",
+          "sha256": "6d91f7798bddaeff491e5c02a7730daa8445adca4d2028ae9393f5f69242899c",
+          "size": 10823
+        },
+        {
+          "path": "m_flash.c",
+          "sha256": "0a10115e01c33d008db24911cd8897bec9120d728d0f18a27a54cd7181f19324",
+          "size": 12444
+        },
+        {
+          "path": "m_flipper.c",
+          "sha256": "1f2df0ce2c4da49f2c4885d2d3b0e7eee4db0e8b961b582a8c6e068c26573e7c",
+          "size": 9692
+        },
+        {
+          "path": "m_flipper.h",
+          "sha256": "3cab4dcd2a063042d5c096bb450d66d7f1e420eb287191e043b27f017ddccaaf",
+          "size": 6348
+        },
+        {
+          "path": "m_float.c",
+          "sha256": "641a7547f68a71aa0d18119ddef3445781768d48578cb8de0114b399b1fde000",
+          "size": 15620
+        },
+        {
+          "path": "m_float.h",
+          "sha256": "b48e4e70e241b2cdbb4545703d04524f7779a2638e0effd6127fe730d822fd45",
+          "size": 9426
+        },
+        {
+          "path": "m_flyer.c",
+          "sha256": "3e66271bc9da5b1fdad27d588d7f38d7d33c13ce8548c7ce028b36a8a34686a4",
+          "size": 14678
+        },
+        {
+          "path": "m_flyer.h",
+          "sha256": "c8eb5f8c64fda3f9dba5930d6ec1520967f9204634429a17d11a4e46a646af31",
+          "size": 6162
+        },
+        {
+          "path": "m_gladiator.c",
+          "sha256": "a174ad502c17473a891898de0a7e80b2e2a01587276b23f11019054e3fbf5cd8",
+          "size": 9866
+        },
+        {
+          "path": "m_gladiator.h",
+          "sha256": "c208243d77b872555f8d9a0409b62964efc12051c2857b380aa682b67bd1bae9",
+          "size": 3909
+        },
+        {
+          "path": "m_gunner.c",
+          "sha256": "72c295b49f7518f766423ebea18849c5b4686cd97d42fb38eed34474e0143080",
+          "size": 14951
+        },
+        {
+          "path": "m_gunner.h",
+          "sha256": "c1f90e743e4c5c75a062a47a0fc4c4ed6590db24c81489f69e738f9dfdefea2c",
+          "size": 8053
+        },
+        {
+          "path": "m_hover.c",
+          "sha256": "e3a6ca713a655b7b9ac1a533d10a971d5d0498d01c5737956086de5378fadbaa",
+          "size": 14149
+        },
+        {
+          "path": "m_hover.h",
+          "sha256": "85e53d1b4cebf2aac9418062d6ed14b545bd04bda4a1f06caeee3d343d7f0f8c",
+          "size": 7921
+        },
+        {
+          "path": "m_infantry.c",
+          "sha256": "acf0c4684c0def6422134b290b68fd7415ab7878b2ae8225b69f97339d97d3ab",
+          "size": 14651
+        },
+        {
+          "path": "m_infantry.h",
+          "sha256": "fd6f184a75a48c2a90d99d46ca3404009b91267aafe82567e789e4a38739709a",
+          "size": 7994
+        },
+        {
+          "path": "m_insane.c",
+          "sha256": "40442dfb2e78f40d3f781648cbfa3b6b0a0aab1f44948e414bc6584c2a5d7737",
+          "size": 17253
+        },
+        {
+          "path": "m_insane.h",
+          "sha256": "254f486db7683ab4c3d1faac36a6292d3bfc1fb6830399be39838b85a9147b21",
+          "size": 10617
+        },
+        {
+          "path": "m_medic.c",
+          "sha256": "356cc8d5850d177b77670ab8d8d1ad20f180d82afa0e7650c3bb284d66888872",
+          "size": 17997
+        },
+        {
+          "path": "m_medic.h",
+          "sha256": "b800648492123baa9bd8860c8706925554fe26b4997d74b32cfadf2898801910",
+          "size": 9041
+        },
+        {
+          "path": "m_move.c",
+          "sha256": "d0e5858e385db1d6397581b2f79f31c401b807717769a30be4d99d21ebc27081",
+          "size": 11476
+        },
+        {
+          "path": "m_mutant.c",
+          "sha256": "91317ed8b8febb578325a8c85102f1ed5d817e4ae52f5f3c9b673afac2506a69",
+          "size": 14658
+        },
+        {
+          "path": "m_mutant.h",
+          "sha256": "4ba445bbf5fe20213ef643e4ec6c4e5915fb791116418baee9a77ed2145e2378",
+          "size": 5962
+        },
+        {
+          "path": "m_parasite.c",
+          "sha256": "c6c3691a0a72acf93ac889e81312642bac62c3b8118fc965e67922223772a05a",
+          "size": 13757
+        },
+        {
+          "path": "m_parasite.h",
+          "sha256": "1ae3cf27d596d12127a3abacab5e15944fb303ce32806b6403da96e8da2aa0b5",
+          "size": 5008
+        },
+        {
+          "path": "m_player.h",
+          "sha256": "9944e67c2f7bf3bbfd8b268c64f6a485a4a5a4790fb192bb8cecc469a1a5aff0",
+          "size": 7675
+        },
+        {
+          "path": "m_rider.h",
+          "sha256": "5fbacacb27b9580fc2a9987bb31c4dc7ebf9f30bd5d6ddff064a14ce3fa1cc86",
+          "size": 2162
+        },
+        {
+          "path": "m_soldier.c",
+          "sha256": "4c2f258311095e79c04124c3177b21be45083a20cb3d98713dd844d9e756a1ff",
+          "size": 29053
+        },
+        {
+          "path": "m_soldier.h",
+          "sha256": "1b4ec8a19e1bccf545c516085588ded4f8a8f05661ebac15434609a10773c127",
+          "size": 17373
+        },
+        {
+          "path": "m_supertank.c",
+          "sha256": "7af4bc417199d7c8c26f9c35d59f4dd7df9d5d0008ba76c99eb8d5af7be3b627",
+          "size": 16293
+        },
+        {
+          "path": "m_supertank.h",
+          "sha256": "558548b6879a200acb759dcaef1e7c49ee451150d44c8f959b27c8a433f48d48",
+          "size": 9643
+        },
+        {
+          "path": "m_tank.c",
+          "sha256": "d2c039e121cd9fcf71b2c98f07ad7781ebd90f8d0370f353a3843b0224768d25",
+          "size": 20036
+        },
+        {
+          "path": "m_tank.h",
+          "sha256": "687a712a6cb05f648ab2cfa815a670dbb0bb188592066de8c0c3f550cb1f8d7b",
+          "size": 11032
+        },
+        {
+          "path": "p_client.c",
+          "sha256": "d4bad9aa34ec3d2c667eaf64c0d84c7a555e8162b8252c245fde4a54e343ae3f",
+          "size": 42397
+        },
+        {
+          "path": "p_hud.c",
+          "sha256": "df67a4c0246e2c34f4127c9b2b985bf87aefb190dae455e84e1a18fc6b3ecf83",
+          "size": 13342
+        },
+        {
+          "path": "p_trail.c",
+          "sha256": "1c51498fb7697d89e3da397989460808a9f43503c951fe698a50dfc449d51885",
+          "size": 2852
+        },
+        {
+          "path": "p_view.c",
+          "sha256": "915358415b8088552f7ace5d0a822f122d99b4fe2b9fdb553b9aca460712efcf",
+          "size": 26675
+        },
+        {
+          "path": "p_weapon.c",
+          "sha256": "6ea1fe950206e780da1b746cc33e01e953bdb39a8c934da3fc92bfe483ffa3a1",
+          "size": 34565
+        },
+        {
+          "path": "q_shared.c",
+          "sha256": "ebdbc0a79a2eae288630647cc3f5542f0d5bc2aa6f2d8c04781c6aaebfbe0e60",
+          "size": 25613
+        },
+        {
+          "path": "q_shared.h",
+          "sha256": "c552978e0efed7d7f2daf3cef50af5b7b248555021e93a3347cc73d46d25389c",
+          "size": 34549
+        }
+      ],
+      "origin": "supplied local tree; upstream commit or archive origin is not recorded",
+      "total_size": 1223352,
+      "tree_sha256": "4a3f4763c1c9037773715f6c03ba2f9a99c0390b82048f8deb1ea1f5b7d0c14a"
+    },
+    "quake2_rerelease": {
+      "aggregate_algorithm": "sha256(path_utf8 + NUL + decimal_size + NUL + sha256 + LF)",
+      "case_collisions": [],
+      "description": "Quake II Rerelease API 2023 source",
+      "file_count": 144,
+      "files": [
+        {
+          "path": "bg_local.h",
+          "sha256": "0a66fff4539f15603a8563c150b56b4be64bdd36144053730a3eb1301feaad79",
+          "size": 7150
+        },
+        {
+          "path": "bots/bot_debug.cpp",
+          "sha256": "09dec0b26f80eb827f9b7b62b4b5f37b21c130658fd655ff43447e8f10c2f24e",
+          "size": 5683
+        },
+        {
+          "path": "bots/bot_debug.h",
+          "sha256": "3d833800c3ce840540f8bc900b67a0e54f5eedbf2cef7e652ea81911d4b46473",
+          "size": 128
+        },
+        {
+          "path": "bots/bot_exports.cpp",
+          "sha256": "39df37958744c8790240f1e10467a8def8625ac02fa7ff4679c0ea9025d5a83b",
+          "size": 4028
+        },
+        {
+          "path": "bots/bot_exports.h",
+          "sha256": "84fd05f455f843f4324cf22403e37aa9027fb802dc64d5d872693447d10d8b78",
+          "size": 484
+        },
+        {
+          "path": "bots/bot_includes.h",
+          "sha256": "dbea4b59fb8b7454156896779ab8ad7e103166cf7d26fd9bbb06b20f7b0115bd",
+          "size": 199
+        },
+        {
+          "path": "bots/bot_think.cpp",
+          "sha256": "c65ea23133a2e70b7117cbffb61ad6516f0dce173a69c849aea80544c6a9bfde",
+          "size": 330
+        },
+        {
+          "path": "bots/bot_think.h",
+          "sha256": "ca2a1fdf23c8a37a1ad92fad96c64006a43ebca8ea1711fef79a15eaf448abf5",
+          "size": 179
+        },
+        {
+          "path": "bots/bot_utils.cpp",
+          "sha256": "1ef5ce1a71b6bf70a87f9121da69bba38e914bddb2475977d01aa0164df84030",
+          "size": 14166
+        },
+        {
+          "path": "bots/bot_utils.h",
+          "sha256": "bec108300767c724661b66637ac8fe5f90a95f7b3530edb21823f1127b5ad066",
+          "size": 319
+        },
+        {
+          "path": "cg_local.h",
+          "sha256": "ebf7d8783e787705974c678d8da600f533a79ed3291175ee4edfdc27a9eab7d6",
+          "size": 363
+        },
+        {
+          "path": "cg_main.cpp",
+          "sha256": "a673f0092f5fffa968fd3affc3d0cb57b02a535ff7c14a04326578bcd8371c90",
+          "size": 3379
+        },
+        {
+          "path": "cg_screen.cpp",
+          "sha256": "c850d3c10d9b7fe8540aa2a3236d7fa7ab4861348b51d18c31fd9835d18fc460",
+          "size": 55624
+        },
+        {
+          "path": "ctf/g_ctf.cpp",
+          "sha256": "8916630fa272345c1c8a680a36cfbfba91e06935e0814f6932f0a13226633f52",
+          "size": 100443
+        },
+        {
+          "path": "ctf/g_ctf.h",
+          "sha256": "1d9bfa4009fe635ddac14619352272fabd690548bf006a7b497eb74d15097521",
+          "size": 5607
+        },
+        {
+          "path": "ctf/p_ctf_menu.cpp",
+          "sha256": "f6170bd0b81b5b5a6a231a08e7f5d237605068a52f835cfe702e36c470b7f18f",
+          "size": 4831
+        },
+        {
+          "path": "ctf/p_ctf_menu.h",
+          "sha256": "7bc4435faaac1cfc6736043efbb10a75d20e986cc0667e443ab3beaf9168d100",
+          "size": 930
+        },
+        {
+          "path": "g_ai.cpp",
+          "sha256": "6c2cc226fd9abd092ca09fb5fc01e55fe53a2ab0c84bcd1c491c3293bcba4a2f",
+          "size": 56652
+        },
+        {
+          "path": "g_chase.cpp",
+          "sha256": "dbf0a5174c825329c9816403ea7ce857c893f35cb030a83b2cfef85c43dfef6b",
+          "size": 3531
+        },
+        {
+          "path": "g_cmds.cpp",
+          "sha256": "9e179e651226ed074464b405fac3862c1a33aad6bed668c048a3ee71a644e0ab",
+          "size": 36137
+        },
+        {
+          "path": "g_combat.cpp",
+          "sha256": "fc12f0e56aeef6e88f0785152aa33b76122b6c3593debe6bc356d1921afb41a8",
+          "size": 23120
+        },
+        {
+          "path": "g_func.cpp",
+          "sha256": "4c8016f18389980918cf04ac89cd42875bb2f9ccd727684416d2272d56956854",
+          "size": 76338
+        },
+        {
+          "path": "g_items.cpp",
+          "sha256": "f62f6e3b7552a2f3baa8abd667dbf18e7ca5a95cbd3c2e2a22ba908586963ac8",
+          "size": 113166
+        },
+        {
+          "path": "g_local.h",
+          "sha256": "3257c79f07d9e8ef333342b9a0be0bde7dd514d9de1b9b36173aad157601aecf",
+          "size": 110951
+        },
+        {
+          "path": "g_main.cpp",
+          "sha256": "438e2dcb631b94ff4501e74230237ea739e210da331dfce6e456c6154338d1b5",
+          "size": 27683
+        },
+        {
+          "path": "g_misc.cpp",
+          "sha256": "0f49030c276b67926af307a293cb7c6f575e6be2ef184b6c75bf0037df382378",
+          "size": 64655
+        },
+        {
+          "path": "g_monster.cpp",
+          "sha256": "8f9f4eeb2c979fa6e429902729263678300d1f4d3c858bd71e8664ab1720d9fb",
+          "size": 43917
+        },
+        {
+          "path": "g_phys.cpp",
+          "sha256": "c09d96106cee08d30bfca282159a487d91a93c852870b3f1ed6b21a4df6b4737",
+          "size": 24280
+        },
+        {
+          "path": "g_save.cpp",
+          "sha256": "ec2a980c3dd9412a31754e478b33b400b08e30f7cbdfcd964ec516cdda3597c4",
+          "size": 70657
+        },
+        {
+          "path": "g_spawn.cpp",
+          "sha256": "9b78e2a1c8e2a739a450add01006e4cf39f0aabc1441b55c30be2f425fcb3742",
+          "size": 48879
+        },
+        {
+          "path": "g_statusbar.h",
+          "sha256": "b92c41f9833d380d44543831bc3f6de1ed5a6cc27728af7d9e30315e0a413290",
+          "size": 2658
+        },
+        {
+          "path": "g_svcmds.cpp",
+          "sha256": "d77b9d6c821ca232b3e01dc5cc4dbdf0ac4566056bedcc9e8bdca8fc5f44cad4",
+          "size": 5912
+        },
+        {
+          "path": "g_target.cpp",
+          "sha256": "7a620d794956f4dc1bef050cc621984ab51bd7cd4f7a4ce5a0693777e3be4cd9",
+          "size": 56017
+        },
+        {
+          "path": "g_trigger.cpp",
+          "sha256": "c982a9ede2390f18e2b26da7c7e643501ca278dcb351eca49e91cae97fc5e95b",
+          "size": 36415
+        },
+        {
+          "path": "g_turret.cpp",
+          "sha256": "178074430644e72181b5549c0e06dd135c4c2f4c71497598e31f043da2855ca5",
+          "size": 17358
+        },
+        {
+          "path": "g_utils.cpp",
+          "sha256": "3c1aad5639585e19c8385559ea1e2a05880245fd30eec8fa6b90369ef20a7b0c",
+          "size": 12840
+        },
+        {
+          "path": "g_weapon.cpp",
+          "sha256": "b9532c2ffa31a91f541912d146b10b60c99c51a9f6160e11063841b0e6fa921e",
+          "size": 31952
+        },
+        {
+          "path": "game.h",
+          "sha256": "66defbd069c38c4a1740c5087a3f6f2343d603b956ca0d6e1d89e8ad46d0843f",
+          "size": 84018
+        },
+        {
+          "path": "game.sln",
+          "sha256": "f4c6026a5be779057b01f48900e8276b160dffe97e45a0caed7b969983a03cff",
+          "size": 1041
+        },
+        {
+          "path": "game.vcxproj",
+          "sha256": "009e343c1590913f7506a2a07659ecf1ae8dbdca26f2a194137a3af035d52e40",
+          "size": 11273
+        },
+        {
+          "path": "game.vcxproj.filters",
+          "sha256": "98b198c2267b1ea519297f3ef926f67a6fbdd08b587e28b9ca79363cc86440fa",
+          "size": 9179
+        },
+        {
+          "path": "m_actor.cpp",
+          "sha256": "a911a0fd8fbe86eba21a836a1ed4b60f96bb16995a8f28e2020a0d98e8d9b358",
+          "size": 12981
+        },
+        {
+          "path": "m_actor.h",
+          "sha256": "9627445782ebd163dfdbcff6c5edfd3b020638cdbe89634700424d549fa2f5d5",
+          "size": 8171
+        },
+        {
+          "path": "m_arachnid.cpp",
+          "sha256": "245002af67281386b0110470bbb1160811a7f64bc5b75eaa9fcafada9456d292",
+          "size": 8898
+        },
+        {
+          "path": "m_arachnid.h",
+          "sha256": "341e333a887560deefcbb702e348a58aa9fa69de00a1a9ec2aeba0151d80fe14",
+          "size": 2444
+        },
+        {
+          "path": "m_berserk.cpp",
+          "sha256": "370c4fdac999bb158d833faced6cc0b8fd41987ddf51c3ae6e87242e17874218",
+          "size": 22179
+        },
+        {
+          "path": "m_berserk.h",
+          "sha256": "d1df44dd2be435def1fe53e59bc5aa0dba3e25ba61c0cd6121d46475ad37743b",
+          "size": 4134
+        },
+        {
+          "path": "m_boss2.cpp",
+          "sha256": "983a0e18e1e5feb390b5c22b03e5cf7bd8ec36801fe069b769dccb5e6a6cc3d2",
+          "size": 18222
+        },
+        {
+          "path": "m_boss2.h",
+          "sha256": "e04bdf9d7d8b66049c3d840e957c823fb0aa2c224c702109a2aa3da1b80dc704",
+          "size": 3087
+        },
+        {
+          "path": "m_boss3.cpp",
+          "sha256": "7eb790e4c46f9bd5cda8837f71f4d6a042af59101a38caf2454029b76aa8ffcd",
+          "size": 1518
+        },
+        {
+          "path": "m_boss31.cpp",
+          "sha256": "a1de677858d7f3d217cedf342f2afb60d52f1854353d4b352ed5b2cb0c520cba",
+          "size": 16008
+        },
+        {
+          "path": "m_boss31.h",
+          "sha256": "f5f53ceec50147e6f13f99d53a039a44dca5f6122aa6618e5ae1e875fa652cb3",
+          "size": 3255
+        },
+        {
+          "path": "m_boss32.cpp",
+          "sha256": "9dfb2723bec023e360b0787d47589e030ea2115c929a83f60bcad6dba964f52f",
+          "size": 18804
+        },
+        {
+          "path": "m_boss32.h",
+          "sha256": "9aa75b6ee79a64a643af693163e5a4ef492ac7490a448f362f8f098d51cd80fb",
+          "size": 8329
+        },
+        {
+          "path": "m_brain.cpp",
+          "sha256": "67431bba340ffe07463804bebf21735ec6243aec0526390e2bfb2638a363b039",
+          "size": 19786
+        },
+        {
+          "path": "m_brain.h",
+          "sha256": "45edc75d24472502c03a0cec3d79c7eb362cc0136e61d561c1bbf87ab8493bdc",
+          "size": 3846
+        },
+        {
+          "path": "m_chick.cpp",
+          "sha256": "67bb6ede614e9e38eaaf4515f4bf40a284d6d8183a8f090310292f5551d2408b",
+          "size": 21226
+        },
+        {
+          "path": "m_chick.h",
+          "sha256": "d72db92bb6d5a567f3e24b67a88384f51f3b9f0e9e23e5b7a2cfd68ba1f9d85b",
+          "size": 5030
+        },
+        {
+          "path": "m_flash.h",
+          "sha256": "439f6d0f4987b80ff0d6f82b03f06e810dcca81063f85307f432281d44948498",
+          "size": 18116
+        },
+        {
+          "path": "m_flipper.cpp",
+          "sha256": "977008e79d92f7351929475777a4ecc3370f205654e30e047bf0aca1640ccd1e",
+          "size": 8855
+        },
+        {
+          "path": "m_flipper.h",
+          "sha256": "36fb6b35b2c2c03c99dc56cfad755dbb6d7e86b76381b4404d1e35ff3afdf0f8",
+          "size": 2958
+        },
+        {
+          "path": "m_float.cpp",
+          "sha256": "8fd1f41eeaed2e14f879fcfbc62683c7fedb0ba73c0583e77f448faa1e18eb55",
+          "size": 16290
+        },
+        {
+          "path": "m_float.h",
+          "sha256": "fbda077b1ba3c77ae835570282e777592f6654ab9b7eadb43c613f856b481058",
+          "size": 4412
+        },
+        {
+          "path": "m_flyer.cpp",
+          "sha256": "97d9e065277e91b85db3d1b154412c2445e9b7cc76c902c9d7667a8eb5bbf783",
+          "size": 19222
+        },
+        {
+          "path": "m_flyer.h",
+          "sha256": "d6578706ac12eae2185b972bc5cb5dc55f3e5f715e402d5beecc4f2a5c20e6cf",
+          "size": 2688
+        },
+        {
+          "path": "m_gladiator.cpp",
+          "sha256": "21685b0a699ccd680cb805f9e72c773ab2b25b09c946f4df32e2610a90716f0e",
+          "size": 12418
+        },
+        {
+          "path": "m_gladiator.h",
+          "sha256": "d9d34190670ce8651bbebce107054e7940cdd2d676de7a7f823424fe1ff10421",
+          "size": 1599
+        },
+        {
+          "path": "m_guardian.cpp",
+          "sha256": "a93e8f62d4ecc04acd1102cdf81800cd78a29eb1bd154e5d7225f4d4bb2a1d04",
+          "size": 12492
+        },
+        {
+          "path": "m_guardian.h",
+          "sha256": "373dd2473fdb2820f6c0f9a69465cb6ad02a7bd3c4154f83701c5a0fad5816c9",
+          "size": 3709
+        },
+        {
+          "path": "m_guncmdr.cpp",
+          "sha256": "f3c3ad77eb6f9790cd1be31bcfe48961d4d766bbcc85206d0de6c7bb5b1a5a6c",
+          "size": 38296
+        },
+        {
+          "path": "m_gunner.cpp",
+          "sha256": "a51777666ea7658297a137439a9468ce9f2eb0777f468c3e4b91f62a434c01bf",
+          "size": 22737
+        },
+        {
+          "path": "m_gunner.h",
+          "sha256": "5d0e026de1eecaf25eb8dc1e8e300a1da1d1f07917de7838bf866816f159b918",
+          "size": 14741
+        },
+        {
+          "path": "m_hover.cpp",
+          "sha256": "7406b1fda69f994327946dc13884dde61f51703fb9bff99fd31a52e59ad18350",
+          "size": 16146
+        },
+        {
+          "path": "m_hover.h",
+          "sha256": "c7eda7eb55d0db617ee53a7205b21a29b3f93612b6757a28ed37877b7995d787",
+          "size": 3623
+        },
+        {
+          "path": "m_infantry.cpp",
+          "sha256": "d745a3d27f0988cec9204babe89bc0cadce2ac199ddd4a9b118e14bcf4dfe518",
+          "size": 25271
+        },
+        {
+          "path": "m_infantry.h",
+          "sha256": "852c7e81c7e23f18f0675728264ab2da4dc81e94776810ee65d0e957e641fbd6",
+          "size": 4619
+        },
+        {
+          "path": "m_insane.cpp",
+          "sha256": "da38eb03e0baa89ccbdd0ff66ee117ce92fb3819908d66b59ce200bd5494d0ff",
+          "size": 17333
+        },
+        {
+          "path": "m_insane.h",
+          "sha256": "52b4eca387b274402c939e5ef263daa85b169b4a3440c6c612b69614fc90e28a",
+          "size": 4823
+        },
+        {
+          "path": "m_medic.cpp",
+          "sha256": "944119fd920680c6ee032759b4cce480ff777b85be9280e38a90b6400f561dcc",
+          "size": 43141
+        },
+        {
+          "path": "m_medic.h",
+          "sha256": "696e2f4b007daa4f6f91e5d4c0bffdd8a6195a07a33683fe3f4e36b4b69eb414",
+          "size": 3890
+        },
+        {
+          "path": "m_move.cpp",
+          "sha256": "c1c0c5cc96907c359e8bad0bf0272afba17fbcf268a0e68d5a967aed9236da0c",
+          "size": 39354
+        },
+        {
+          "path": "m_mutant.cpp",
+          "sha256": "85c16ab0cb5903ada8e5d6e11460b115de11ab5143da05057acdaa12334facd8",
+          "size": 17485
+        },
+        {
+          "path": "m_mutant.h",
+          "sha256": "56bc621ae6bceb095082c6f0752e16e81017d02b2eecf449db5bbe89af50cc72",
+          "size": 2779
+        },
+        {
+          "path": "m_parasite.cpp",
+          "sha256": "25527418629a1ef6f73505564a176b894e474b25593b35e5b6292e6857070638",
+          "size": 26323
+        },
+        {
+          "path": "m_parasite.h",
+          "sha256": "fccc1c4e111fc39e16cd92ddba90903ab0815371ff86175c02aaa1adc5a3430a",
+          "size": 2244
+        },
+        {
+          "path": "m_player.h",
+          "sha256": "fbe60bc9287426da3f109b7b344035ddb7855bac940e1c584718b04820f59ba4",
+          "size": 3413
+        },
+        {
+          "path": "m_rider.h",
+          "sha256": "5c35a827fa7f82a571cb40c7dd5e45792b50854d3603019bdad3dabba1d01289",
+          "size": 1261
+        },
+        {
+          "path": "m_shambler.cpp",
+          "sha256": "feb2f751d0b213bc542ea89f814e5a63983faa5a85b7a870c921a99f7af4568e",
+          "size": 14062
+        },
+        {
+          "path": "m_shambler.h",
+          "sha256": "104cf5b563ac3880dd0af1246322c03e08af7d5200625f41d7f8103dec41b731",
+          "size": 1724
+        },
+        {
+          "path": "m_soldier.cpp",
+          "sha256": "ea7e2f4bdc5fd59d32184552ac3c333f733347726a76448ce0edd13f7be81944",
+          "size": 47256
+        },
+        {
+          "path": "m_soldier.h",
+          "sha256": "3b76273468252bae8d77e7fb6bd68c5e15342cc8080bb2146ad1c6ea5e04b3ed",
+          "size": 9795
+        },
+        {
+          "path": "m_supertank.cpp",
+          "sha256": "1d2f16ba5d8ce988fca6860569ee603e75705539c15d15dabe8442a9f7b198e8",
+          "size": 17783
+        },
+        {
+          "path": "m_supertank.h",
+          "sha256": "7f8c80dffadad4350f7fbb7bca291f9bb51000b7d2f64c7406959a71a9b4d5f3",
+          "size": 4563
+        },
+        {
+          "path": "m_tank.cpp",
+          "sha256": "41fa8252edfc875955913bba98be5e3943c98397102322a4f218d176bf1e3e39",
+          "size": 28266
+        },
+        {
+          "path": "m_tank.h",
+          "sha256": "c7f214b8417d16d8d1d974c41e4da5f0ad05f06e621a7173b465da53430ae094",
+          "size": 5125
+        },
+        {
+          "path": "p_client.cpp",
+          "sha256": "b47a44e43573c1e471ae29b392cd9f603d16310eedecdc84ac09b927aa3cbacf",
+          "size": 96663
+        },
+        {
+          "path": "p_hud.cpp",
+          "sha256": "0ecc77d97b735f9d22e908c9385d409461b618ec34a12b5c8e57455505b3729a",
+          "size": 29597
+        },
+        {
+          "path": "p_move.cpp",
+          "sha256": "0bed089782386fa1d9a4872a0bcfdae97f5d967a7d8bc3e6dc3fa3dd23dc2cc5",
+          "size": 37414
+        },
+        {
+          "path": "p_trail.cpp",
+          "sha256": "336f64ab94e91a4641ec9100ba737c0911b0308be289af3f0e4135adebb9a2f6",
+          "size": 4057
+        },
+        {
+          "path": "p_view.cpp",
+          "sha256": "2a7ba4a253fa6c7d029aa64329190ac75da42c695667ada475b3d000212d6d6a",
+          "size": 40427
+        },
+        {
+          "path": "p_weapon.cpp",
+          "sha256": "7d79c4633af254211ee52c89b5ac6c06de498e387065b7336ef7ece014890853",
+          "size": 49964
+        },
+        {
+          "path": "q_std.cpp",
+          "sha256": "07e86350a249ab3acf19220670b1f9c2c3d08b5b88aa6b3b1228e26755e4f4a4",
+          "size": 6470
+        },
+        {
+          "path": "q_std.h",
+          "sha256": "e5ef629d4c67fedb9e9b79768647e0d879939c0e6a9f840901b6163f6fd88f9e",
+          "size": 4866
+        },
+        {
+          "path": "q_vec3.h",
+          "sha256": "f7939807b3cd8b246bd74ecf4aaf4f1bc50ed4a8c0031481fc671838ae4d0463",
+          "size": 13217
+        },
+        {
+          "path": "rogue/g_rogue_combat.cpp",
+          "sha256": "98bba9a16d80bb89e8b2e913fda2d31a5435b44242eb6804ad5b67b8d0df7cf6",
+          "size": 3436
+        },
+        {
+          "path": "rogue/g_rogue_func.cpp",
+          "sha256": "060605d9aa3bc9b1936af95a7860b709dbe3b5588fd0035bd690a600057c7c51",
+          "size": 10132
+        },
+        {
+          "path": "rogue/g_rogue_items.cpp",
+          "sha256": "067074cf023d3621416004a0a95791f1facbbf4cd02a8a4c83166ec3766d86e5",
+          "size": 5279
+        },
+        {
+          "path": "rogue/g_rogue_misc.cpp",
+          "sha256": "9277acedf206f811dfaca5b632b5087bac9f2595187646a91e98b835523e2170",
+          "size": 632
+        },
+        {
+          "path": "rogue/g_rogue_monster.cpp",
+          "sha256": "1158deb5b08b34cd4c86b35e9a32e5eacc0b6a5151624b0ba89926aca6573a7b",
+          "size": 3085
+        },
+        {
+          "path": "rogue/g_rogue_newai.cpp",
+          "sha256": "76d710cef6eb59aad7420672a3fea69e9b4cead8af2d80c20aa5a405ed5e3bc3",
+          "size": 38806
+        },
+        {
+          "path": "rogue/g_rogue_newdm.cpp",
+          "sha256": "d538ad5c49ed427d264606305daf3c266429a7e8f5f38016cabfaa34842d9191",
+          "size": 9092
+        },
+        {
+          "path": "rogue/g_rogue_newfnc.cpp",
+          "sha256": "1f1623385b779e8eb726aab9970e619adde94032baf5a995e4c7fd1da92d0465",
+          "size": 8331
+        },
+        {
+          "path": "rogue/g_rogue_newtarg.cpp",
+          "sha256": "df693a5c9790e3cba6345daafec544ea7aa32defab20097d111539a1a21e3635",
+          "size": 7550
+        },
+        {
+          "path": "rogue/g_rogue_newtrig.cpp",
+          "sha256": "19fc73100dd95e1fac07bdc7523e642a3b7afbd61758a2d3a9b98870b23102dd",
+          "size": 4827
+        },
+        {
+          "path": "rogue/g_rogue_newweap.cpp",
+          "sha256": "e5bfbdb9d909047aa40eb8b3957c8d4a3959e5297a5fef79e9c34e01e7d5d8ce",
+          "size": 42614
+        },
+        {
+          "path": "rogue/g_rogue_phys.cpp",
+          "sha256": "01b2f0ce13b9c8ada9c42e9a20c6b933fe6619f7ce0ff93f89562f301c2ae748",
+          "size": 2842
+        },
+        {
+          "path": "rogue/g_rogue_spawn.cpp",
+          "sha256": "9f5f19c90255bfd5560703cf60771d310e25cd96d8ef0fe2847ebcb1ea362570",
+          "size": 10376
+        },
+        {
+          "path": "rogue/g_rogue_sphere.cpp",
+          "sha256": "61ae21e81176d61d60400a9230d9d5e57142d50196fc3c63347f6ddc65f773ab",
+          "size": 16141
+        },
+        {
+          "path": "rogue/g_rogue_utils.cpp",
+          "sha256": "a551ef50ecb75ec33357cdfc14e2c74fa0637fbc512f5a8f81f42d36b70cabbf",
+          "size": 980
+        },
+        {
+          "path": "rogue/m_rogue_carrier.cpp",
+          "sha256": "aa180ec89eb80234531b45281a60e6b00c646009d144e8935ef0385989357b70",
+          "size": 33160
+        },
+        {
+          "path": "rogue/m_rogue_carrier.h",
+          "sha256": "96cac6811562b767a2818721e8b3cc4efeeeb4fa28422144c82f65fb878f0478",
+          "size": 1494
+        },
+        {
+          "path": "rogue/m_rogue_stalker.cpp",
+          "sha256": "e2f0d0d1af05babf7c9716dc1497474ad7d859473bec05184df6a5a441174a29",
+          "size": 25217
+        },
+        {
+          "path": "rogue/m_rogue_stalker.h",
+          "sha256": "cb0eb09cb8abfd76e3de498cf46ed5be02a073e01edb4779157788f0f122a880",
+          "size": 1715
+        },
+        {
+          "path": "rogue/m_rogue_turret.cpp",
+          "sha256": "f16f6a5681b11e361f2ce6b1d220a287c21315e0dba8157e33fba61583b5fa49",
+          "size": 26075
+        },
+        {
+          "path": "rogue/m_rogue_turret.h",
+          "sha256": "8c6a579c9295cd9a9b8b72bdbb749e9ad2fa7b62b365467d19254961a33407b3",
+          "size": 483
+        },
+        {
+          "path": "rogue/m_rogue_widow.cpp",
+          "sha256": "1e00b861c796fb2f3f9b6d39baf8e455981d03d3852f2ee64fea1b993bc14868",
+          "size": 34090
+        },
+        {
+          "path": "rogue/m_rogue_widow.h",
+          "sha256": "4504ae96377cbdf55368713b6a4729673f362db7d8587b7414100f8c6ad6384c",
+          "size": 2895
+        },
+        {
+          "path": "rogue/m_rogue_widow2.cpp",
+          "sha256": "809ddeb14357e963aac0475a234b4af730796eb1dc7caeeedaf4014598ff137f",
+          "size": 41497
+        },
+        {
+          "path": "rogue/m_rogue_widow2.h",
+          "sha256": "86a50ee14b3ecdd9d4f560f289238e4c88db77e7aa3d1562ace43a3896cd339e",
+          "size": 2267
+        },
+        {
+          "path": "rogue/p_rogue_weapon.cpp",
+          "sha256": "91f51ac45d9f7f24c20aa8128fc21172b5958e8f8aad5cc04bce6e37a904d89e",
+          "size": 11126
+        },
+        {
+          "path": "rogue/rogue_dm_ball.cpp",
+          "sha256": "2afdc70aade486239a6a6f62d819f10650422ce0a7b04803ac235966c870db23",
+          "size": 15192
+        },
+        {
+          "path": "rogue/rogue_dm_tag.cpp",
+          "sha256": "411f08b5da341454e77f8aa1e2857245de2669f4ee3c0768cce5a8a4e04aa762",
+          "size": 6542
+        },
+        {
+          "path": "vcpkg.json",
+          "sha256": "70ceb509b42231d0c452d6664df9b62dbb0e9c159fa1eb8a573116d34738a41e",
+          "size": 197
+        },
+        {
+          "path": "xatrix/g_xatrix_func.cpp",
+          "sha256": "1c98d3e9cf277e09e3442b489b6e3125105628e1e483160eb32b4d13856098d8",
+          "size": 4312
+        },
+        {
+          "path": "xatrix/g_xatrix_items.cpp",
+          "sha256": "ab20b67bc8490162fff6fe990f41cd347af01e56e44aa5438125e9901d6af637",
+          "size": 876
+        },
+        {
+          "path": "xatrix/g_xatrix_misc.cpp",
+          "sha256": "3fb909dea75738802af3a148e03fc555c77e18c8963490253078ae39d592a2f1",
+          "size": 3295
+        },
+        {
+          "path": "xatrix/g_xatrix_monster.cpp",
+          "sha256": "3affb60169b569c549e0e4e5078299077dfa2f66fa89c57efdf958e7b8453876",
+          "size": 3938
+        },
+        {
+          "path": "xatrix/g_xatrix_target.cpp",
+          "sha256": "a58e4e197a6e27cf4fb12707f3af9be4296628edc20ec7aeac25dccc3d182204",
+          "size": 2529
+        },
+        {
+          "path": "xatrix/g_xatrix_weapon.cpp",
+          "sha256": "872defca4f52ab71c77538d8744b432039c66aa2989efbd3dc836124f8bb9c69",
+          "size": 14356
+        },
+        {
+          "path": "xatrix/m_xatrix_fixbot.cpp",
+          "sha256": "8221a12bf3084f4070398e9ecafe59871ed61b7cfa0f12c9f128ec7ebd4f04d0",
+          "size": 33337
+        },
+        {
+          "path": "xatrix/m_xatrix_fixbot.h",
+          "sha256": "127ede87b37757856031f6bcba6abebf599459e236a53a99d6c329239f18ba1c",
+          "size": 4254
+        },
+        {
+          "path": "xatrix/m_xatrix_gekk.cpp",
+          "sha256": "e6505510a0898b91d34ac6b3f2f8b6f30cab4623e1cd2b41915c800735495019",
+          "size": 40223
+        },
+        {
+          "path": "xatrix/m_xatrix_gekk.h",
+          "sha256": "9c8cc684d199c7a769a5ed2e1745e64b9c0431c64fd5ed24ef0d1910fa2bd334",
+          "size": 6302
+        },
+        {
+          "path": "xatrix/p_xatrix_weapon.cpp",
+          "sha256": "1ed30f049bbb07561e599dc76cd7e8bd8f2c43faf192cbf738d6cd5eb5cc3dd2",
+          "size": 3910
+        }
+      ],
+      "origin": "supplied local tree; upstream commit or archive origin is not recorded",
+      "total_size": 2635282,
+      "tree_sha256": "74b79d4f853fb521a866aaa5b1510c1c46afb63a73370b907b10143146629bf5"
+    },
+    "zaero_install": {
+      "aggregate_algorithm": "sha256(path_utf8 + NUL + decimal_size + NUL + sha256 + LF)",
+      "case_collisions": [],
+      "description": "Zaero 1.1 installation",
+      "file_count": 21,
+      "files": [
+        {
+          "path": "Readme-1st-ZaeroDM.txt",
+          "sha256": "9a92bb15596e2530d46b03808e487077a609079d3130b389057ffa73ad87777e",
+          "size": 496
+        },
+        {
+          "path": "Uninst.isu",
+          "sha256": "636746b041463ec61c02db5dae050b388eb50fcfa274891d9a1313e253e819fb",
+          "size": 13024
+        },
+        {
+          "path": "autoexec",
+          "sha256": "53b3592e7fd178225bff212c1c91b45248780517cb26524a059f8a46f03fe462",
+          "size": 1235
+        },
+        {
+          "path": "changelog.txt",
+          "sha256": "34eb75741e3c02a15564b0662aed7f0b456ee859bae643f6b62ceb892ac13ff4",
+          "size": 423
+        },
+        {
+          "path": "gamei386.so",
+          "sha256": "db0fab26d46a74314142b6a1c268fd4986450932588352bd89c772b3964a3d12",
+          "size": 681210
+        },
+        {
+          "path": "gamex86.dll",
+          "sha256": "9f530380d2202b03e252726478894a27f57ac7d5e54e97da106ecde199a2d786",
+          "size": 461312
+        },
+        {
+          "path": "pak0.pak",
+          "sha256": "1de0161318cb946dbaad1ad6ac9abe375d3aa1da57f3571fdee3e5549cb0fafd",
+          "size": 95910332
+        },
+        {
+          "path": "pak1.pak",
+          "sha256": "3806e4cc59564e5a081518adf04fc608d79159b1e31d073b6699f0a3a34b4973",
+          "size": 4931
+        },
+        {
+          "path": "pak2.pak",
+          "sha256": "e0b043599386f5b39701919f334de37d21011dd254630e17504dece497fec82e",
+          "size": 12001303
+        },
+        {
+          "path": "readme-1.1.txt",
+          "sha256": "593a6cac682692d07503974e5d03d55f95c656a4f3ef52e7fb01c05163bfebee",
+          "size": 1431
+        },
+        {
+          "path": "sprites/plasma1.sp2",
+          "sha256": "f6d48de85014265c3e74b4d07bd7dc358c6ee29b16a3e63cbfcf176b4614bb2a",
+          "size": 332
+        },
+        {
+          "path": "sprites/plasma1_0.pcx",
+          "sha256": "5c5cf4ffe605527096dea1d99772856aa2c507f73e0acc1108fededc2f5b1f10",
+          "size": 8679
+        },
+        {
+          "path": "sprites/plasma1_1.pcx",
+          "sha256": "7d387962ca8a8354c2c31080576289ae5d9368f65abbf22d344658e517ed2845",
+          "size": 8733
+        },
+        {
+          "path": "sprites/plasma1_2.pcx",
+          "sha256": "5c5cf4ffe605527096dea1d99772856aa2c507f73e0acc1108fededc2f5b1f10",
+          "size": 8679
+        },
+        {
+          "path": "sprites/plasma1_3.pcx",
+          "sha256": "514f9021fd5684a8d5d8e9c06f308e853b33a7e63988a864fc495008d03d9015",
+          "size": 8630
+        },
+        {
+          "path": "sprites/plasmashield.sp2",
+          "sha256": "bc534f26c80aacfd578db5e2979e51f58e83656f66c03e2b8a03a5c3a565ffd7",
+          "size": 92
+        },
+        {
+          "path": "sprites/plasmashield_0.pcx",
+          "sha256": "493766008bac06a8b714325d45f1fec9ef231afff58b7e5e421a9b0773f05b12",
+          "size": 5505
+        },
+        {
+          "path": "video/intro.cin",
+          "sha256": "1ca8188f2f6a0c83445d069f8b57220347a262f71c86f2d4e331ccb3b98e2fce",
+          "size": 49817132
+        },
+        {
+          "path": "video/outro.cin",
+          "sha256": "313e06e29bf354e454353f0f11dddc63ff99645c8700ccfd42b56c5e6e0c0932",
+          "size": 16606854
+        },
+        {
+          "path": "zaero.ico",
+          "sha256": "31a8749a9911d7295f1b0d0180a0f822925c3206feda6af3d089af0d4ee61a60",
+          "size": 6318
+        },
+        {
+          "path": "zaero_readme.txt",
+          "sha256": "fcf387632c91287263db60ea9a17b5a205bc133cdf37f7ecd557680680a29379",
+          "size": 1086
+        }
+      ],
+      "origin": "supplied local tree; upstream commit or archive origin is not recorded",
+      "total_size": 175547737,
+      "tree_sha256": "5901fa64a8ac0cb0b126f313218e49c8bcbbb68cdd0ad9b4b57ee4d1f985f522"
+    },
+    "zaero_source": {
+      "aggregate_algorithm": "sha256(path_utf8 + NUL + decimal_size + NUL + sha256 + LF)",
+      "case_collisions": [],
+      "description": "Zaero game source",
+      "file_count": 100,
+      "files": [
+        {
+          "path": "g_ai.c",
+          "sha256": "9900846fdd8349b0fd75535705de98d2c1c270a0cbc4bc7a357d175dcbdd62ef",
+          "size": 26137
+        },
+        {
+          "path": "g_cmds.c",
+          "sha256": "ea6fd0c0e44bbc4c3849dda0e0002167a54fa835e31fa89489a44e16ac6a3500",
+          "size": 20561
+        },
+        {
+          "path": "g_combat.c",
+          "sha256": "b600b4371abe59a0e7d3ac2fbb6e3c19cd17ae24100b3e3d9f34882d1d3180cb",
+          "size": 15942
+        },
+        {
+          "path": "g_func.c",
+          "sha256": "aa7d05629c1213145e8fb74d14252d0b982b35cbc2dd4c75f1c27882f72adea6",
+          "size": 57554
+        },
+        {
+          "path": "g_items.c",
+          "sha256": "a02f4cfda2944ad36cf51eb928c82f13f4317d4198389ef63fac361795b0bf46",
+          "size": 57428
+        },
+        {
+          "path": "g_local.h",
+          "sha256": "6934a1b6c673389018e5500b60f81d44d527beb8600f3c963872cabe5fb9c470",
+          "size": 32402
+        },
+        {
+          "path": "g_main.c",
+          "sha256": "5b1aa4ebf8aeec3bc6aeb8634b5b7075d0ab4391abd2b785428a2dc63951d35d",
+          "size": 6902
+        },
+        {
+          "path": "g_misc.c",
+          "sha256": "60378a0a35864453e5d6a2e1a18a43cc73c327e28dc3a45a1bec087425515fe1",
+          "size": 45373
+        },
+        {
+          "path": "g_monster.c",
+          "sha256": "592e8fa51568f3eea5974a1b70f837235edc1591cfe9271323a39901b222a7a2",
+          "size": 17961
+        },
+        {
+          "path": "g_phys.c",
+          "sha256": "21a0e0374a925c9de1ac9e5143de80a64c2f197702b4ec8cbab1ecea45d5d056",
+          "size": 25085
+        },
+        {
+          "path": "g_save.c",
+          "sha256": "f1e6fb25ad6cc3e9916bfc759025866fd6063830f1715542ed1d32b8ebdf88e0",
+          "size": 17312
+        },
+        {
+          "path": "g_spawn.c",
+          "sha256": "60cf870a254e8f80aa5a2a28eb81b7522534f84c7221002247dfae9c091cc75b",
+          "size": 24260
+        },
+        {
+          "path": "g_svcmds.c",
+          "sha256": "2fe0e5cd805e6c7e53eeb4353a4102cb59661b76e2f85eaee27f7ecfc4864fc3",
+          "size": 504
+        },
+        {
+          "path": "g_target.c",
+          "sha256": "25b0bab6a361b6682fdcea59c4b2e2f306b85a079f7ea52d7b869bfecb046af0",
+          "size": 20814
+        },
+        {
+          "path": "g_trigger.c",
+          "sha256": "5cc187c5534263996e17c4941385e5ada89a119a7908099f3e55ae21928ece08",
+          "size": 13751
+        },
+        {
+          "path": "g_turret.c",
+          "sha256": "5150cc72fd0b714fde9e3b0af110f4dffeabea083cb09c2585ca5f83e6ec98a7",
+          "size": 10734
+        },
+        {
+          "path": "g_utils.c",
+          "sha256": "9f38a328cd489960933de750600781b4e89224bb37b38a97d021d45db3c1fcb9",
+          "size": 11878
+        },
+        {
+          "path": "g_weapon.c",
+          "sha256": "e3b24b2a959d8db4be77ad084b22a587109a3d643aebd9c84e13d0105dd1203b",
+          "size": 24627
+        },
+        {
+          "path": "game.def",
+          "sha256": "62c006f653fc4a5072b80405da118d6ea74086d73fe38d1029d2176885cffebd",
+          "size": 20
+        },
+        {
+          "path": "game.h",
+          "sha256": "a2c8774b14f5f9dd66529cb60c1bf7a215d9c1d36e8c00511a9f921bb042c027",
+          "size": 6802
+        },
+        {
+          "path": "m_actor.c",
+          "sha256": "666bef685bcd78c89a6d26f746deaea372021a4fd0620869a2eba7c29a016d4e",
+          "size": 13233
+        },
+        {
+          "path": "m_actor.h",
+          "sha256": "ed234446d257fd7f22fd537a3b9d2c30e737ff424b056f59d1aaed051f763935",
+          "size": 16845
+        },
+        {
+          "path": "m_berserk.c",
+          "sha256": "f53e8c6d0b776b4c5c24fde3e6a8cdea195a03b673f0f786a0c35fd9eb1fe993",
+          "size": 11319
+        },
+        {
+          "path": "m_berserk.h",
+          "sha256": "e9e3ddc7f19bdb8b741d1c236e36a3768632441bbbf994eee55103f9c2ace2ce",
+          "size": 8558
+        },
+        {
+          "path": "m_boss2.c",
+          "sha256": "21cb9e48a36e9d9d57e1a0d628c7e51453f73c453478379841b372c39d913b2d",
+          "size": 16166
+        },
+        {
+          "path": "m_boss2.h",
+          "sha256": "80ec1546ac69d38be700316df00d8693e0197cef3c058eae401ba1d4d820d71a",
+          "size": 6351
+        },
+        {
+          "path": "m_boss3.c",
+          "sha256": "c6e371f5fc9d1a374817e1aa65743896d93d197bac18cdd71a2e7418acaba385",
+          "size": 1316
+        },
+        {
+          "path": "m_boss31.c",
+          "sha256": "087245defb1615b31e432f2cdce392f299a56c62acc82e66e883a5584b5853ed",
+          "size": 17363
+        },
+        {
+          "path": "m_boss31.h",
+          "sha256": "671e8d14e85a2636797b9d8f18089d0d468ac74aa67f5a95bbe4496f6ec8bb1b",
+          "size": 6601
+        },
+        {
+          "path": "m_boss32.c",
+          "sha256": "8fdfc548046ccfee88411b36e0f4524baf4b52592464f35902ae7dd445fe3262",
+          "size": 20641
+        },
+        {
+          "path": "m_boss32.h",
+          "sha256": "0ce3f0c1d876b40865f73610d8f7bad4a54d2a15e9587dec15bd36b515779dd3",
+          "size": 17207
+        },
+        {
+          "path": "m_brain.c",
+          "sha256": "9f386fc56c82372d4ef1f586539730d726254bc6a9b211bfb1701a23e81c9469",
+          "size": 14571
+        },
+        {
+          "path": "m_brain.h",
+          "sha256": "5882d48377f613ade721b38a44fa0e3fa584defbe39bfa68e10edae69f9128c7",
+          "size": 7786
+        },
+        {
+          "path": "m_chick.c",
+          "sha256": "a4ff10c0e3078dc1c3162d099dbc2659956b0a5e3573e7a8908ef560f5b886b8",
+          "size": 15069
+        },
+        {
+          "path": "m_chick.h",
+          "sha256": "43fc59a10e80aa2adc32ac9c2156e28277ae478912385896e40c9fa5b12c149d",
+          "size": 10093
+        },
+        {
+          "path": "m_flash.c",
+          "sha256": "26425c97e6a107a159d210a16eac717eebd3f3a4212f7b0e8bffde9d1ea43ca9",
+          "size": 7882
+        },
+        {
+          "path": "m_flipper.c",
+          "sha256": "22a1a35d1b19af45f3511baae6a4b2631b9bcaf55eb4dca0e5694be2f11040d2",
+          "size": 9040
+        },
+        {
+          "path": "m_flipper.h",
+          "sha256": "3da4e3eeddf1a6be0020ccfe689a70cce978ed3e146c34a0f96d3b9dd83b4634",
+          "size": 5618
+        },
+        {
+          "path": "m_float.c",
+          "sha256": "d601f2575739ffd7a0363e170e94b6b2464180a2570580972e3dc1c4b850c279",
+          "size": 14969
+        },
+        {
+          "path": "m_float.h",
+          "sha256": "cedffe3a7c11f884bb58abd98fc6e86c5492b89bc8a46f2aa4d08b544855ddd3",
+          "size": 8696
+        },
+        {
+          "path": "m_flyer.c",
+          "sha256": "1cf561743178224dfe4326f6b90f646f893085bcf34e6ae1492c966dfac3fa88",
+          "size": 14022
+        },
+        {
+          "path": "m_flyer.h",
+          "sha256": "b14e6dcf3499dbf0a4fd1b0f946117fcca571a88d99bd32fafd47832298b431c",
+          "size": 5432
+        },
+        {
+          "path": "m_gladiator.c",
+          "sha256": "6f4c562ccee121f0153ecebd5df6bb209e311f850eda35296141dd789fa58b2a",
+          "size": 9217
+        },
+        {
+          "path": "m_gladiator.h",
+          "sha256": "cc18ecd3596283aff4239b7a4857517e23994407866c6de865a5e5acba8dbf01",
+          "size": 3179
+        },
+        {
+          "path": "m_gunner.c",
+          "sha256": "13a89b22e21a516ed72f32870a22ff109c974ec40ab42a0157eb1b3f83f19f03",
+          "size": 14298
+        },
+        {
+          "path": "m_gunner.h",
+          "sha256": "46f0e8e23864aafbc0dfc90d86290453b1945fb97fbf6cb5954efd40a0ecab57",
+          "size": 7323
+        },
+        {
+          "path": "m_hover.c",
+          "sha256": "d2b8dc0ad586c69d886b38ca404c65b2e211302ce6cc3b5cabf8d9c4e18d965a",
+          "size": 14808
+        },
+        {
+          "path": "m_hover.h",
+          "sha256": "cde919a17045c7a50b66df3a26fd28208f55052b24f34113631433cf24dcc1ce",
+          "size": 7191
+        },
+        {
+          "path": "m_infantry.c",
+          "sha256": "cff4a56387c313a5b02a9d07ecaa8cd1ff16c852e70e7221628870c437f09300",
+          "size": 14836
+        },
+        {
+          "path": "m_infantry.h",
+          "sha256": "37897e5214210f5a77d7f035898c58dbb3099cafd14e7c2d4878bfd13049b1db",
+          "size": 7264
+        },
+        {
+          "path": "m_insane.c",
+          "sha256": "6e1547aa0afe12fe23fe03699cc5a00eb1b750933c0119b3bdf87d79eb52dfc3",
+          "size": 16593
+        },
+        {
+          "path": "m_insane.h",
+          "sha256": "f05b510623e510ff9d9f219c69e5ba4638a7de1ee124a1b847edfa0049204b7e",
+          "size": 9887
+        },
+        {
+          "path": "m_medic.c",
+          "sha256": "3e0a4f33ad4256400c86d655ef94013f8cae984d2290d6d6e42c598bc35b7ba0",
+          "size": 17341
+        },
+        {
+          "path": "m_medic.h",
+          "sha256": "71dd0e9d09426008fe1ac4f81be36bc241f02d3a4e940cedbb76f0356f714c3f",
+          "size": 8311
+        },
+        {
+          "path": "m_move.c",
+          "sha256": "6880cc71cff1f4efb5151abe10a8693d5e88ced681b57e66b031b15d7c20c6fa",
+          "size": 12340
+        },
+        {
+          "path": "m_mutant.c",
+          "sha256": "6454004b066dd847155587266ff340db59d71a1abb4885d44ce4679a0f506fe8",
+          "size": 14005
+        },
+        {
+          "path": "m_mutant.h",
+          "sha256": "f82cc70e877e3df4cdd2da664aa65bfa46ab1aedeee97100e146e4b7e592f1a6",
+          "size": 5232
+        },
+        {
+          "path": "m_parasite.c",
+          "sha256": "8279108781b0f56c69f6b112c5de44c19d82dbc8510daca58e5c4785f9fc84e7",
+          "size": 13107
+        },
+        {
+          "path": "m_parasite.h",
+          "sha256": "a563820cf25805532b2ee42551e1ee963614adf2fb0ff77746c4f30a4aaaef12",
+          "size": 4278
+        },
+        {
+          "path": "m_player.h",
+          "sha256": "ca94c29c89c7d7501ab2121f8bb7608aa64e6b6b9aabb6d022c3cecdb7a76e6d",
+          "size": 6945
+        },
+        {
+          "path": "m_rider.h",
+          "sha256": "5fbacacb27b9580fc2a9987bb31c4dc7ebf9f30bd5d6ddff064a14ce3fa1cc86",
+          "size": 2162
+        },
+        {
+          "path": "m_soldier.c",
+          "sha256": "94396aa6b86e4d2f687e04c6670e6b0b57daf8fa4f9da45e2636d6948aebbe16",
+          "size": 28735
+        },
+        {
+          "path": "m_soldier.h",
+          "sha256": "e49bdfc242f30b73185a1b98247de1057b75802025b97805661b29e874fefa8a",
+          "size": 16643
+        },
+        {
+          "path": "m_supertank.c",
+          "sha256": "2227a2050dbef60523d26f0166514e00b254d3bb88da2dcec51d3a4757fccc76",
+          "size": 15790
+        },
+        {
+          "path": "m_supertank.h",
+          "sha256": "17838b44f7068fd55e672ad4c30f8d69fba8e68fa89ba02410662c021279e0af",
+          "size": 8913
+        },
+        {
+          "path": "m_tank.c",
+          "sha256": "b1193e25cd83d8b0fa040d80df26a9bdea0cc6b5dcc952306ab24c3609735bef",
+          "size": 19522
+        },
+        {
+          "path": "m_tank.h",
+          "sha256": "046056b83a0b102e937a76945839647c0211eb2527c42a9b3793da83fcf46d6d",
+          "size": 10302
+        },
+        {
+          "path": "p_client.c",
+          "sha256": "f0e871b588fb4527bcafb42458bc810f4eef748c32f245646de760e9036db6a4",
+          "size": 40165
+        },
+        {
+          "path": "p_hud.c",
+          "sha256": "310e2bc0e11fd73041d8a96ed04b6570377ebb180e92a5eb95b15dcabe359765",
+          "size": 12620
+        },
+        {
+          "path": "p_trail.c",
+          "sha256": "a904959bdeadb3f9276650ce39b892873b82e349eb2ed881961738ad66328912",
+          "size": 2122
+        },
+        {
+          "path": "p_view.c",
+          "sha256": "918b00ebd2e851a10685f4fd8169fe7aa5a432291c667aea181518d2258c11bd",
+          "size": 29074
+        },
+        {
+          "path": "p_weapon.c",
+          "sha256": "e2d34274f20cb5799f7e29b1e71e16fe102bb0f8cd70b6d2ab6be9c224b5f68b",
+          "size": 33792
+        },
+        {
+          "path": "q_shared.c",
+          "sha256": "40b4f2b8310fde55b344399fe0d39fcc90b98a17cdfa8ff0b40a229c1581747d",
+          "size": 24899
+        },
+        {
+          "path": "q_shared.h",
+          "sha256": "99691482ad4286b2973cd6fd167a9699f6b1c456762bc6829d8fe7289047e059",
+          "size": 28042
+        },
+        {
+          "path": "readme.txt",
+          "sha256": "6f7bdf406911548a1d1b3c747abeedb16cdb5f0f62af85dc800f4ceb8da28ddb",
+          "size": 1056
+        },
+        {
+          "path": "z_acannon.c",
+          "sha256": "156f834e729ec02287b0ac9e592a5e1041c791b0933f1d7d1de5e5c2a29f615b",
+          "size": 21969
+        },
+        {
+          "path": "z_ai.c",
+          "sha256": "0abe81464130bc5cdf5d5d8d02ab80191c79f2c7ef54231c8484b315f6e05c6a",
+          "size": 9521
+        },
+        {
+          "path": "z_anim.c",
+          "sha256": "39dfdd07dcfe0affc294b4790734a2c2b12335ab72f42d7b1c8b83ce94b6905d",
+          "size": 18946
+        },
+        {
+          "path": "z_anim.h",
+          "sha256": "a9640d85554de01a7b265ac65931a55ec5d19bbac8c56f6f3ba09deddcea628b",
+          "size": 1464
+        },
+        {
+          "path": "z_boss.c",
+          "sha256": "b13b1f40b018ceab03f603ea047f2082b4469d1f129c0c1f2681d58684d15e3e",
+          "size": 41164
+        },
+        {
+          "path": "z_boss.h",
+          "sha256": "a417007251551c32b3b82d02674a72c4369aef1e50018eba93087f593685a794",
+          "size": 4146
+        },
+        {
+          "path": "z_camera.c",
+          "sha256": "5a4b802772d4bf6d7b1f1b80e3df9bebe12f9001f96f544f7e10c237e712c5b8",
+          "size": 2759
+        },
+        {
+          "path": "z_debug.c",
+          "sha256": "df8d9775e7e2e462d712fbdf06e43237bb8d281470895ce0f9154554f27fc17c",
+          "size": 137
+        },
+        {
+          "path": "z_debug.h",
+          "sha256": "0de6e42164ab7d0301657d5dd3dced0f361c63c197e974fae3b15ad1c1474cd2",
+          "size": 274
+        },
+        {
+          "path": "z_frames.c",
+          "sha256": "b3b34be6fe58f0c0f6de1ae8abd7630a28bde7e0302773ed3b4700284531138f",
+          "size": 12455
+        },
+        {
+          "path": "z_frames.h",
+          "sha256": "798f43d03076f1eb2c94e8b82a4076f9dad9704d2d0fc76428557ce249f0c02a",
+          "size": 340
+        },
+        {
+          "path": "z_handler.c",
+          "sha256": "4d328ab722c4730eea75d486c632269fe31cb8a636c2e66af5b64ffce7db9c06",
+          "size": 9169
+        },
+        {
+          "path": "z_handler.h",
+          "sha256": "25160096801e10419bcaf7a4dbc7486d98ed03b261af2fc80b6809f208f3c8fb",
+          "size": 735
+        },
+        {
+          "path": "z_hound.c",
+          "sha256": "2a2c664c05ce99a6c6a88548ee69087cb4e37fb16af5291b6e488eda69bd98fb",
+          "size": 14739
+        },
+        {
+          "path": "z_hound.h",
+          "sha256": "2bfcef41ae46196c98c6555a8d1258c05c8dcc3c8c651073cee998c212ee3182",
+          "size": 963
+        },
+        {
+          "path": "z_item.c",
+          "sha256": "23dcc0fda023260c73e26260bb86d2c78d6edfc29f0486a4b6472568561f94ae",
+          "size": 13659
+        },
+        {
+          "path": "z_list.c",
+          "sha256": "597051676a37e2fea40150095d91df2709246b4e0750a4e6866f17490d10a8d4",
+          "size": 3809
+        },
+        {
+          "path": "z_list.h",
+          "sha256": "c5f4762aee465729ebddb1af9fa89c04b05688c3eec7707b61a81d33d45aac6a",
+          "size": 1133
+        },
+        {
+          "path": "z_mtest.c",
+          "sha256": "3020d448a70045262bceb2f37e35ed2389eada638af907408d960c79d32fc6e7",
+          "size": 11223
+        },
+        {
+          "path": "z_sentien.c",
+          "sha256": "cea70fef97e3965d122cb48432a9d4e04fcc94295d0a59a85b8aa6f3007d120e",
+          "size": 29541
+        },
+        {
+          "path": "z_sentien.h",
+          "sha256": "d015b10b24e5419b3b9c7ce8215104eb6010c003c94cd7a4a7cf7b783aba1d8e",
+          "size": 1395
+        },
+        {
+          "path": "z_spawn.c",
+          "sha256": "639ec4b2d1f05a6a78c4722f190505e3e4c3d97f3f900fe6de2b01abbadff521",
+          "size": 2377
+        },
+        {
+          "path": "z_trigger.c",
+          "sha256": "1db62252c19019ce8568014acd4502a3289e45f0e88ad4ac46150bc68f1c3af4",
+          "size": 5406
+        },
+        {
+          "path": "z_weapon.c",
+          "sha256": "bd23c9d99bb4d7d5af6a0e329aa30db7baafc155a3d5cf0814166576e5669d90",
+          "size": 38318
+        },
+        {
+          "path": "zaero.dsp",
+          "sha256": "ba0122518b87183e7c1fd5c155a236b7e075dcf22427dada54909bb3f7cccb0e",
+          "size": 9531
+        }
+      ],
+      "origin": "supplied local tree; upstream commit or archive origin is not recorded",
+      "total_size": 1399990,
+      "tree_sha256": "aba05eb669e39b51adb6d66ecd3c00fe70653cd61e4ec7c4879bb9c1a7a840be"
+    }
+  },
+  "format": "ZaeREo baseline provenance manifest",
+  "hash_algorithm": "SHA-256",
+  "schema_version": 1
+}

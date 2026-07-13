@@ -1,0 +1,310 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zaereo.invalid/schemas/asset-policy.schema.json",
+  "title": "ZaeREo runtime asset policy overlay",
+  "description": "Per-runtime-path media license and shipping policy. Exact-path rules override category rules; unmatched paths fail closed in the consuming validator.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schema",
+    "policy_id",
+    "revision",
+    "review",
+    "inventory",
+    "default_unmatched_status",
+    "rules",
+    "notes"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "schemas/asset-policy.schema.json"
+    },
+    "schema": {
+      "const": "zaereo.asset-policy/v1"
+    },
+    "policy_id": {
+      "$ref": "#/$defs/id"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "review": {
+      "$ref": "#/$defs/review"
+    },
+    "inventory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "schema_version",
+        "effective_runtime_path_count"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/repositoryPath"
+        },
+        "schema_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "effective_runtime_path_count": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "default_unmatched_status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "license_status",
+        "shipping_status"
+      ],
+      "properties": {
+        "license_status": {
+          "const": "unknown"
+        },
+        "shipping_status": {
+          "const": "blocked"
+        }
+      }
+    },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/rule"
+      }
+    },
+    "notes": {
+      "$ref": "#/$defs/nonEmptyString"
+    }
+  },
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:[a-z0-9-]*[a-z0-9])?$"
+    },
+    "repositoryPath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?![A-Za-z]:)(?!.*\\\\)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\u0000]+$"
+    },
+    "runtimePath": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "pattern": "^(?!/)(?![A-Za-z]:)(?!.*\\\\)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?!.*[?*\\[\\]])[A-Za-z0-9_.+-]+(?:/[A-Za-z0-9_.+ -]+)*$"
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reviewed_at",
+        "reviewer",
+        "authority",
+        "rights_clearance",
+        "valid_until",
+        "revisit_condition",
+        "notes"
+      ],
+      "properties": {
+        "reviewed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reviewer": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "authority": {
+          "enum": [
+            "engineering-inventory-review",
+            "project-owner-rights-review",
+            "qualified-legal-review"
+          ]
+        },
+        "rights_clearance": {
+          "type": "boolean"
+        },
+        "valid_until": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "format": "date-time"
+            }
+          ]
+        },
+        "revisit_condition": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "notes": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "selector": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "runtime_path"
+          ],
+          "properties": {
+            "runtime_path": {
+              "$ref": "#/$defs/runtimePath"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "category"
+          ],
+          "properties": {
+            "category": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(?:[a-z0-9-]*[a-z0-9])?$"
+            }
+          }
+        }
+      ]
+    },
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "selector",
+        "component_id",
+        "license_status",
+        "spdx_expression",
+        "shipping_status",
+        "references",
+        "reviewer",
+        "expires_at",
+        "revisit_condition",
+        "notes"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "selector": {
+          "$ref": "#/$defs/selector"
+        },
+        "component_id": {
+          "$ref": "#/$defs/id"
+        },
+        "license_status": {
+          "enum": [
+            "unknown",
+            "no-grant",
+            "permitted"
+          ]
+        },
+        "spdx_expression": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "shipping_status": {
+          "enum": [
+            "blocked",
+            "local-import-only",
+            "excluded",
+            "distributable"
+          ]
+        },
+        "references": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          }
+        },
+        "reviewer": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "expires_at": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "format": "date-time"
+            }
+          ]
+        },
+        "revisit_condition": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "notes": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "license_status": {
+                "const": "permitted"
+              }
+            },
+            "required": [
+              "license_status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "spdx_expression": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "spdx_expression": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "shipping_status": {
+                "const": "distributable"
+              }
+            },
+            "required": [
+              "shipping_status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "license_status": {
+                "const": "permitted"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,4037 @@
+{
+  "comparison": {
+    "directory_method": "git diff --no-index --find-renames=50% --ignore-space-at-eol --numstat",
+    "directory_numstat": {
+      "additions": 14887,
+      "binary_path_count": 0,
+      "deletions": 6981,
+      "record_count": 102
+    },
+    "file_record_method": "logical path union; common paths use git diff --no-index --no-renames --ignore-space-at-eol --numstat",
+    "file_records": [
+      {
+        "additions": 90,
+        "deletions": 22,
+        "functions": {
+          "added": [
+            {
+              "name": "ai_fly_strafe",
+              "zaero_lines": [
+                794,
+                811
+              ]
+            },
+            {
+              "name": "inweaponLineOfSight",
+              "zaero_lines": [
+                332,
+                346
+              ]
+            }
+          ],
+          "added_count": 2,
+          "changed": [
+            {
+              "legacy_lines": [
+                347,
+                387
+              ],
+              "name": "FoundTarget",
+              "zaero_lines": [
+                367,
+                413
+              ]
+            },
+            {
+              "legacy_lines": [
+                194,
+                204
+              ],
+              "name": "ai_charge",
+              "zaero_lines": [
+                175,
+                197
+              ]
+            },
+            {
+              "legacy_lines": [
+                771,
+                904
+              ],
+              "name": "ai_checkattack",
+              "zaero_lines": [
+                822,
+                954
+              ]
+            },
+            {
+              "legacy_lines": [
+                914,
+                1117
+              ],
+              "name": "ai_run",
+              "zaero_lines": [
+                964,
+                1185
+              ]
+            },
+            {
+              "legacy_lines": [
+                287,
+                302
+              ],
+              "name": "visible",
+              "zaero_lines": [
+                280,
+                298
+              ]
+            }
+          ],
+          "changed_count": 5,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 14
+        },
+        "legacy_sha256": "6b00d707b108203acde3e6927494231b45f991d0ee1599886127d0d3226c8aff",
+        "path": "g_ai.c",
+        "status": "modified",
+        "zaero_sha256": "9900846fdd8349b0fd75535705de98d2c1c270a0cbc4bc7a357d175dcbdd62ef"
+      },
+      {
+        "additions": 0,
+        "deletions": 175,
+        "legacy_sha256": "25648f0ce1bd11454faf8e43e75f55f17376495d532da7df16d8ee04fa8dc3dc",
+        "path": "g_chase.c",
+        "status": "legacy_only",
+        "zaero_sha256": null
+      },
+      {
+        "additions": 239,
+        "deletions": 101,
+        "functions": {
+          "added": [
+            {
+              "name": "altSelect",
+              "zaero_lines": [
+                456,
+                493
+              ]
+            },
+            {
+              "name": "findNext",
+              "zaero_lines": [
+                437,
+                454
+              ]
+            },
+            {
+              "name": "tryUse",
+              "zaero_lines": [
+                413,
+                435
+              ]
+            }
+          ],
+          "added_count": 3,
+          "changed": [
+            {
+              "legacy_lines": [
+                908,
+                992
+              ],
+              "name": "ClientCommand",
+              "zaero_lines": [
+                995,
+                1130
+              ]
+            },
+            {
+              "legacy_lines": [
+                432,
+                458
+              ],
+              "name": "Cmd_Drop_f",
+              "zaero_lines": [
+                551,
+                578
+              ]
+            },
+            {
+              "legacy_lines": [
+                152,
+                296
+              ],
+              "name": "Cmd_Give_f",
+              "zaero_lines": [
+                126,
+                301
+              ]
+            },
+            {
+              "legacy_lines": [
+                466,
+                490
+              ],
+              "name": "Cmd_Inven_f",
+              "zaero_lines": [
+                586,
+                617
+              ]
+            },
+            {
+              "legacy_lines": [
+                648,
+                656
+              ],
+              "name": "Cmd_Kill_f",
+              "zaero_lines": [
+                783,
+                794
+              ]
+            },
+            {
+              "legacy_lines": [
+                663,
+                668
+              ],
+              "name": "Cmd_PutAway_f",
+              "zaero_lines": [
+                802,
+                810
+              ]
+            },
+            {
+              "legacy_lines": [
+                787,
+                870
+              ],
+              "name": "Cmd_Say_f",
+              "zaero_lines": [
+                929,
+                988
+              ]
+            },
+            {
+              "legacy_lines": [
+                396,
+                422
+              ],
+              "name": "Cmd_Use_f",
+              "zaero_lines": [
+                502,
+                539
+              ]
+            },
+            {
+              "legacy_lines": [
+                559,
+                588
+              ],
+              "name": "Cmd_WeapNext_f",
+              "zaero_lines": [
+                690,
+                723
+              ]
+            },
+            {
+              "legacy_lines": [
+                523,
+                552
+              ],
+              "name": "Cmd_WeapPrev_f",
+              "zaero_lines": [
+                650,
+                683
+              ]
+            },
+            {
+              "legacy_lines": [
+                66,
+                96
+              ],
+              "name": "SelectNextItem",
+              "zaero_lines": [
+                46,
+                73
+              ]
+            },
+            {
+              "legacy_lines": [
+                98,
+                128
+              ],
+              "name": "SelectPrevItem",
+              "zaero_lines": [
+                75,
+                102
+              ]
+            }
+          ],
+          "changed_count": 12,
+          "removed": [
+            {
+              "legacy_lines": [
+                872,
+                900
+              ],
+              "name": "Cmd_PlayerList_f"
+            }
+          ],
+          "removed_count": 1,
+          "unchanged_count": 12
+        },
+        "legacy_sha256": "dc0e265097f463728c70c2cbf60325db9b92931503027cd6048deeafda640da0",
+        "path": "g_cmds.c",
+        "status": "modified",
+        "zaero_sha256": "ea6fd0c0e44bbc4c3849dda0e0002167a54fa835e31fa89489a44e16ac6a3500"
+      },
+      {
+        "additions": 142,
+        "deletions": 69,
+        "functions": {
+          "added": [
+            {
+              "name": "T_RadiusDamagePosition",
+              "zaero_lines": [
+                620,
+                649
+              ]
+            }
+          ],
+          "added_count": 1,
+          "changed": [
+            {
+              "legacy_lines": [
+                255,
+                293
+              ],
+              "name": "CheckArmor",
+              "zaero_lines": [
+                263,
+                307
+              ]
+            },
+            {
+              "legacy_lines": [
+                171,
+                253
+              ],
+              "name": "CheckPowerArmor",
+              "zaero_lines": [
+                154,
+                261
+              ]
+            },
+            {
+              "legacy_lines": [
+                92,
+                126
+              ],
+              "name": "Killed",
+              "zaero_lines": [
+                73,
+                108
+              ]
+            },
+            {
+              "legacy_lines": [
+                295,
+                368
+              ],
+              "name": "M_ReactToDamage",
+              "zaero_lines": [
+                309,
+                375
+              ]
+            },
+            {
+              "legacy_lines": [
+                377,
+                539
+              ],
+              "name": "T_Damage",
+              "zaero_lines": [
+                384,
+                575
+              ]
+            }
+          ],
+          "changed_count": 5,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 4
+        },
+        "legacy_sha256": "ee8badcf891215ae3e627a987dadde2e4bf11eb19095e3fca9e1b60c0c658f38",
+        "path": "g_combat.c",
+        "status": "modified",
+        "zaero_sha256": "b600b4371abe59a0e7d3ac2fbb6e3c19cd17ae24100b3e3d9f34882d1d3180cb"
+      },
+      {
+        "additions": 332,
+        "deletions": 49,
+        "functions": {
+          "added": [
+            {
+              "name": "Think_SmoothAccelMove",
+              "zaero_lines": [
+                400,
+                431
+              ]
+            },
+            {
+              "name": "door_openclose",
+              "zaero_lines": [
+                1100,
+                1133
+              ]
+            },
+            {
+              "name": "parseTargets",
+              "zaero_lines": [
+                2007,
+                2044
+              ]
+            },
+            {
+              "name": "rotating_think",
+              "zaero_lines": [
+                696,
+                728
+              ]
+            }
+          ],
+          "added_count": 4,
+          "changed": [
+            {
+              "legacy_lines": [
+                96,
+                110
+              ],
+              "name": "Move_Begin",
+              "zaero_lines": [
+                86,
+                103
+              ]
+            },
+            {
+              "legacy_lines": [
+                114,
+                140
+              ],
+              "name": "Move_Calc",
+              "zaero_lines": [
+                108,
+                173
+              ]
+            },
+            {
+              "legacy_lines": [
+                76,
+                80
+              ],
+              "name": "Move_Done",
+              "zaero_lines": [
+                65,
+                70
+              ]
+            },
+            {
+              "legacy_lines": [
+                1138,
+                1229
+              ],
+              "name": "SP_func_door",
+              "zaero_lines": [
+                1328,
+                1423
+              ]
+            },
+            {
+              "legacy_lines": [
+                1261,
+                1360
+              ],
+              "name": "SP_func_door_rotating",
+              "zaero_lines": [
+                1455,
+                1554
+              ]
+            },
+            {
+              "legacy_lines": [
+                623,
+                665
+              ],
+              "name": "SP_func_rotating",
+              "zaero_lines": [
+                771,
+                816
+              ]
+            },
+            {
+              "legacy_lines": [
+                1795,
+                1816
+              ],
+              "name": "SP_func_timer",
+              "zaero_lines": [
+                2076,
+                2099
+              ]
+            },
+            {
+              "legacy_lines": [
+                1654,
+                1694
+              ],
+              "name": "SP_func_train",
+              "zaero_lines": [
+                1877,
+                1930
+              ]
+            },
+            {
+              "legacy_lines": [
+                1038,
+                1074
+              ],
+              "name": "Think_SpawnDoorTrigger",
+              "zaero_lines": [
+                1223,
+                1260
+              ]
+            },
+            {
+              "legacy_lines": [
+                980,
+                996
+              ],
+              "name": "Touch_DoorTrigger",
+              "zaero_lines": [
+                1160,
+                1181
+              ]
+            },
+            {
+              "legacy_lines": [
+                436,
+                449
+              ],
+              "name": "Touch_Plat_Center",
+              "zaero_lines": [
+                515,
+                537
+              ]
+            },
+            {
+              "legacy_lines": [
+                726,
+                735
+              ],
+              "name": "button_fire",
+              "zaero_lines": [
+                877,
+                886
+              ]
+            },
+            {
+              "legacy_lines": [
+                699,
+                709
+              ],
+              "name": "button_return",
+              "zaero_lines": [
+                850,
+                860
+              ]
+            },
+            {
+              "legacy_lines": [
+                1076,
+                1111
+              ],
+              "name": "door_blocked",
+              "zaero_lines": [
+                1262,
+                1298
+              ]
+            },
+            {
+              "legacy_lines": [
+                900,
+                919
+              ],
+              "name": "door_go_down",
+              "zaero_lines": [
+                1051,
+                1070
+              ]
+            },
+            {
+              "legacy_lines": [
+                921,
+                947
+              ],
+              "name": "door_go_up",
+              "zaero_lines": [
+                1072,
+                1098
+              ]
+            },
+            {
+              "legacy_lines": [
+                1902,
+                1905
+              ],
+              "name": "door_secret_move2",
+              "zaero_lines": [
+                2185,
+                2188
+              ]
+            },
+            {
+              "legacy_lines": [
+                1915,
+                1918
+              ],
+              "name": "door_secret_move4",
+              "zaero_lines": [
+                2198,
+                2201
+              ]
+            },
+            {
+              "legacy_lines": [
+                1926,
+                1929
+              ],
+              "name": "door_secret_move6",
+              "zaero_lines": [
+                2209,
+                2212
+              ]
+            },
+            {
+              "legacy_lines": [
+                1886,
+                1894
+              ],
+              "name": "door_secret_use",
+              "zaero_lines": [
+                2169,
+                2177
+              ]
+            },
+            {
+              "legacy_lines": [
+                1125,
+                1136
+              ],
+              "name": "door_touch",
+              "zaero_lines": [
+                1312,
+                1326
+              ]
+            },
+            {
+              "legacy_lines": [
+                949,
+                978
+              ],
+              "name": "door_use",
+              "zaero_lines": [
+                1136,
+                1158
+              ]
+            },
+            {
+              "legacy_lines": [
+                1771,
+                1775
+              ],
+              "name": "func_timer_think",
+              "zaero_lines": [
+                2046,
+                2056
+              ]
+            },
+            {
+              "legacy_lines": [
+                383,
+                393
+              ],
+              "name": "plat_go_down",
+              "zaero_lines": [
+                462,
+                472
+              ]
+            },
+            {
+              "legacy_lines": [
+                395,
+                405
+              ],
+              "name": "plat_go_up",
+              "zaero_lines": [
+                474,
+                484
+              ]
+            },
+            {
+              "legacy_lines": [
+                600,
+                604
+              ],
+              "name": "rotating_touch",
+              "zaero_lines": [
+                690,
+                694
+              ]
+            },
+            {
+              "legacy_lines": [
+                606,
+                621
+              ],
+              "name": "rotating_use",
+              "zaero_lines": [
+                730,
+                769
+              ]
+            },
+            {
+              "legacy_lines": [
+                1529,
+                1584
+              ],
+              "name": "train_next",
+              "zaero_lines": [
+                1727,
+                1807
+              ]
+            },
+            {
+              "legacy_lines": [
+                1586,
+                1599
+              ],
+              "name": "train_resume",
+              "zaero_lines": [
+                1809,
+                1822
+              ]
+            }
+          ],
+          "changed_count": 29,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 46
+        },
+        "legacy_sha256": "aa12e2ef06f30bba957adb46cc9caecf843c575041ca5287abec5ecaad2c7873",
+        "path": "g_func.c",
+        "status": "modified",
+        "zaero_sha256": "aa7d05629c1213145e8fb74d14252d0b982b35cbc2dd4c75f1c27882f72adea6"
+      },
+      {
+        "additions": 662,
+        "deletions": 97,
+        "functions": {
+          "added": [
+            {
+              "name": "Drop_Visor",
+              "zaero_lines": [
+                910,
+                917
+              ]
+            },
+            {
+              "name": "Pickup_A2k",
+              "zaero_lines": [
+                620,
+                636
+              ]
+            },
+            {
+              "name": "Pickup_PlasmaShield",
+              "zaero_lines": [
+                866,
+                882
+              ]
+            },
+            {
+              "name": "Pickup_Visor",
+              "zaero_lines": [
+                885,
+                908
+              ]
+            },
+            {
+              "name": "precacheAllItems",
+              "zaero_lines": [
+                121,
+                133
+              ]
+            }
+          ],
+          "added_count": 5,
+          "changed": [
+            {
+              "legacy_lines": [
+                447,
+                481
+              ],
+              "name": "Add_Ammo",
+              "zaero_lines": [
+                510,
+                556
+              ]
+            },
+            {
+              "legacy_lines": [
+                513,
+                536
+              ],
+              "name": "Drop_Ammo",
+              "zaero_lines": [
+                605,
+                618
+              ]
+            },
+            {
+              "legacy_lines": [
+                483,
+                511
+              ],
+              "name": "Pickup_Ammo",
+              "zaero_lines": [
+                558,
+                603
+              ]
+            },
+            {
+              "legacy_lines": [
+                556,
+                586
+              ],
+              "name": "Pickup_Health",
+              "zaero_lines": [
+                657,
+                696
+              ]
+            },
+            {
+              "legacy_lines": [
+                259,
+                335
+              ],
+              "name": "Pickup_Pack",
+              "zaero_lines": [
+                278,
+                398
+              ]
+            },
+            {
+              "legacy_lines": [
+                2200,
+                2216
+              ],
+              "name": "SetItemNames",
+              "zaero_lines": [
+                2765,
+                2781
+              ]
+            },
+            {
+              "legacy_lines": [
+                1061,
+                1130
+              ],
+              "name": "SpawnItem",
+              "zaero_lines": [
+                1212,
+                1281
+              ]
+            },
+            {
+              "legacy_lines": [
+                761,
+                821
+              ],
+              "name": "Touch_Item",
+              "zaero_lines": [
+                926,
+                972
+              ]
+            },
+            {
+              "legacy_lines": [
+                833,
+                841
+              ],
+              "name": "drop_make_touchable",
+              "zaero_lines": [
+                984,
+                992
+              ]
+            },
+            {
+              "legacy_lines": [
+                825,
+                831
+              ],
+              "name": "drop_temp_touch",
+              "zaero_lines": [
+                976,
+                982
+              ]
+            }
+          ],
+          "changed_count": 10,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 32
+        },
+        "legacy_sha256": "4d55d1d1c83ff7552326efabc520ca07b1107ef37cd7a877af409eddcd6cdc77",
+        "path": "g_items.c",
+        "status": "modified",
+        "zaero_sha256": "a02f4cfda2944ad36cf51eb928c82f13f4317d4198389ef63fac361795b0bf46"
+      },
+      {
+        "additions": 302,
+        "deletions": 136,
+        "legacy_sha256": "eb04d914a532f0baa87a12e00bc2e39a3d3a8ee1576bcdf87ea5af419919e095",
+        "path": "g_local.h",
+        "status": "modified",
+        "zaero_sha256": "6934a1b6c673389018e5500b60f81d44d527beb8600f3c963872cabe5fb9c470"
+      },
+      {
+        "additions": 43,
+        "deletions": 88,
+        "functions": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                218,
+                269
+              ],
+              "name": "EndDMLevel",
+              "zaero_lines": [
+                184,
+                217
+              ]
+            },
+            {
+              "legacy_lines": [
+                321,
+                344
+              ],
+              "name": "ExitLevel",
+              "zaero_lines": [
+                269,
+                292
+              ]
+            },
+            {
+              "legacy_lines": [
+                353,
+                410
+              ],
+              "name": "G_RunFrame",
+              "zaero_lines": [
+                301,
+                365
+              ]
+            },
+            {
+              "legacy_lines": [
+                110,
+                138
+              ],
+              "name": "GetGameAPI",
+              "zaero_lines": [
+                91,
+                122
+              ]
+            }
+          ],
+          "changed_count": 4,
+          "removed": [
+            {
+              "legacy_lines": [
+                200,
+                209
+              ],
+              "name": "CreateTargetChangeLevel"
+            }
+          ],
+          "removed_count": 1,
+          "unchanged_count": 5
+        },
+        "legacy_sha256": "558f05adc5adac93bdc6151f5157b009ac87c255f788240a2a9f41755e3c8fd4",
+        "path": "g_main.c",
+        "status": "modified",
+        "zaero_sha256": "5b1aa4ebf8aeec3bc6aeb8634b5b7075d0ab4391abd2b785428a2dc63951d35d"
+      },
+      {
+        "additions": 67,
+        "deletions": 34,
+        "functions": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                974,
+                1011
+              ],
+              "name": "SP_misc_explobox",
+              "zaero_lines": [
+                966,
+                1003
+              ]
+            },
+            {
+              "legacy_lines": [
+                1285,
+                1310
+              ],
+              "name": "SP_misc_viper",
+              "zaero_lines": [
+                1277,
+                1343
+              ]
+            },
+            {
+              "legacy_lines": [
+                229,
+                273
+              ],
+              "name": "ThrowClientHead",
+              "zaero_lines": [
+                210,
+                249
+              ]
+            },
+            {
+              "legacy_lines": [
+                873,
+                885
+              ],
+              "name": "barrel_touch",
+              "zaero_lines": [
+                854,
+                877
+              ]
+            },
+            {
+              "legacy_lines": [
+                342,
+                397
+              ],
+              "name": "path_corner_touch",
+              "zaero_lines": [
+                318,
+                378
+              ]
+            }
+          ],
+          "changed_count": 5,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 78
+        },
+        "legacy_sha256": "d39e96f6e8793ea768c56df820edcd987d90c9f43b7c3c7037e6ed7cd92413ee",
+        "path": "g_misc.c",
+        "status": "modified",
+        "zaero_sha256": "60378a0a35864453e5d6a2e1a18a43cc73c327e28dc3a45a1bec087425515fe1"
+      },
+      {
+        "additions": 51,
+        "deletions": 24,
+        "functions": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                361,
+                416
+              ],
+              "name": "M_MoveFrame",
+              "zaero_lines": [
+                372,
+                429
+              ]
+            },
+            {
+              "legacy_lines": [
+                91,
+                99
+              ],
+              "name": "monster_fire_bfg",
+              "zaero_lines": [
+                95,
+                110
+              ]
+            },
+            {
+              "legacy_lines": [
+                51,
+                59
+              ],
+              "name": "monster_fire_blaster",
+              "zaero_lines": [
+                33,
+                48
+              ]
+            },
+            {
+              "legacy_lines": [
+                31,
+                39
+              ],
+              "name": "monster_fire_bullet",
+              "zaero_lines": [
+                11,
+                20
+              ]
+            },
+            {
+              "legacy_lines": [
+                61,
+                69
+              ],
+              "name": "monster_fire_grenade",
+              "zaero_lines": [
+                50,
+                59
+              ]
+            },
+            {
+              "legacy_lines": [
+                81,
+                89
+              ],
+              "name": "monster_fire_railgun",
+              "zaero_lines": [
+                78,
+                93
+              ]
+            },
+            {
+              "legacy_lines": [
+                71,
+                79
+              ],
+              "name": "monster_fire_rocket",
+              "zaero_lines": [
+                61,
+                76
+              ]
+            },
+            {
+              "legacy_lines": [
+                41,
+                49
+              ],
+              "name": "monster_fire_shotgun",
+              "zaero_lines": [
+                22,
+                31
+              ]
+            },
+            {
+              "legacy_lines": [
+                534,
+                581
+              ],
+              "name": "monster_start",
+              "zaero_lines": [
+                556,
+                608
+              ]
+            },
+            {
+              "legacy_lines": [
+                419,
+                430
+              ],
+              "name": "monster_think",
+              "zaero_lines": [
+                432,
+                447
+              ]
+            },
+            {
+              "legacy_lines": [
+                460,
+                481
+              ],
+              "name": "monster_triggered_spawn",
+              "zaero_lines": [
+                477,
+                503
+              ]
+            }
+          ],
+          "changed_count": 11,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 20
+        },
+        "legacy_sha256": "6baf247deec1f53040f4b38302f918e255096f43de262ed7b95d739eec125cab",
+        "path": "g_monster.c",
+        "status": "modified",
+        "zaero_sha256": "592e8fa51568f3eea5974a1b70f837235edc1591cfe9271323a39901b222a7a2"
+      },
+      {
+        "additions": 193,
+        "deletions": 26,
+        "functions": {
+          "added": [
+            {
+              "name": "SV_Physics_FallFloat",
+              "zaero_lines": [
+                926,
+                1061
+              ]
+            },
+            {
+              "name": "SV_Physics_Ride",
+              "zaero_lines": [
+                1075,
+                1081
+              ]
+            },
+            {
+              "name": "adjustRiders",
+              "zaero_lines": [
+                1063,
+                1073
+              ]
+            }
+          ],
+          "added_count": 3,
+          "changed": [
+            {
+              "legacy_lines": [
+                932,
+                961
+              ],
+              "name": "G_RunEntity",
+              "zaero_lines": [
+                1092,
+                1128
+              ]
+            },
+            {
+              "legacy_lines": [
+                183,
+                313
+              ],
+              "name": "SV_FlyMove",
+              "zaero_lines": [
+                164,
+                293
+              ]
+            },
+            {
+              "legacy_lines": [
+                815,
+                923
+              ],
+              "name": "SV_Physics_Step",
+              "zaero_lines": [
+                816,
+                922
+              ]
+            },
+            {
+              "legacy_lines": [
+                670,
+                763
+              ],
+              "name": "SV_Physics_Toss",
+              "zaero_lines": [
+                653,
+                764
+              ]
+            },
+            {
+              "legacy_lines": [
+                403,
+                552
+              ],
+              "name": "SV_Push",
+              "zaero_lines": [
+                385,
+                535
+              ]
+            }
+          ],
+          "changed_count": 5,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 11
+        },
+        "legacy_sha256": "31e3b813814c249734550d262d2b4766184849563960c0d9715005a6e5743481",
+        "path": "g_phys.c",
+        "status": "modified",
+        "zaero_sha256": "21a0e0374a925c9de1ac9e5143de80a64c2f197702b4ec8cbab1ecea45d5d056"
+      },
+      {
+        "additions": 135,
+        "deletions": 140,
+        "functions": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                152,
+                222
+              ],
+              "name": "InitGame",
+              "zaero_lines": [
+                163,
+                241
+              ]
+            },
+            {
+              "legacy_lines": [
+                591,
+                601
+              ],
+              "name": "ReadEdict",
+              "zaero_lines": [
+                581,
+                591
+              ]
+            },
+            {
+              "legacy_lines": [
+                320,
+                392
+              ],
+              "name": "ReadField",
+              "zaero_lines": [
+                315,
+                376
+              ]
+            },
+            {
+              "legacy_lines": [
+                487,
+                515
+              ],
+              "name": "ReadGame",
+              "zaero_lines": [
+                471,
+                501
+              ]
+            },
+            {
+              "legacy_lines": [
+                682,
+                769
+              ],
+              "name": "ReadLevel",
+              "zaero_lines": [
+                678,
+                763
+              ]
+            },
+            {
+              "legacy_lines": [
+                527,
+                550
+              ],
+              "name": "WriteEdict",
+              "zaero_lines": [
+                514,
+                540
+              ]
+            },
+            {
+              "legacy_lines": [
+                226,
+                296
+              ],
+              "name": "WriteField1",
+              "zaero_lines": [
+                245,
+                294
+              ]
+            },
+            {
+              "legacy_lines": [
+                299,
+                318
+              ],
+              "name": "WriteField2",
+              "zaero_lines": [
+                296,
+                313
+              ]
+            },
+            {
+              "legacy_lines": [
+                628,
+                663
+              ],
+              "name": "WriteLevel",
+              "zaero_lines": [
+                622,
+                659
+              ]
+            }
+          ],
+          "changed_count": 9,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 5
+        },
+        "legacy_sha256": "2e5904205be8aa92c564b20aaf0d31bdb73d7f2e0c4f15ab0934a1e3361cd62d",
+        "path": "g_save.c",
+        "status": "modified",
+        "zaero_sha256": "f1e6fb25ad6cc3e9916bfc759025866fd6063830f1715542ed1d32b8ebdf88e0"
+      },
+      {
+        "additions": 88,
+        "deletions": 59,
+        "functions": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                358,
+                404
+              ],
+              "name": "ED_ParseField",
+              "zaero_lines": [
+                383,
+                429
+              ]
+            },
+            {
+              "legacy_lines": [
+                796,
+                983
+              ],
+              "name": "SP_worldspawn",
+              "zaero_lines": [
+                835,
+                1012
+              ]
+            },
+            {
+              "legacy_lines": [
+                520,
+                620
+              ],
+              "name": "SpawnEntities",
+              "zaero_lines": [
+                547,
+                652
+              ]
+            }
+          ],
+          "changed_count": 3,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 4
+        },
+        "legacy_sha256": "4c401dfb37076aa1186bf1b321d4606a997a1324fd4c2c3afb933d0a045a0eff",
+        "path": "g_spawn.c",
+        "status": "modified",
+        "zaero_sha256": "60cf870a254e8f80aa5a2a28eb81b7522534f84c7221002247dfae9c091cc75b"
+      },
+      {
+        "additions": 0,
+        "deletions": 271,
+        "functions": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                282,
+                299
+              ],
+              "name": "ServerCommand",
+              "zaero_lines": [
+                19,
+                28
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [
+            {
+              "legacy_lines": [
+                158,
+                182
+              ],
+              "name": "SVCmd_AddIP_f"
+            },
+            {
+              "legacy_lines": [
+                220,
+                231
+              ],
+              "name": "SVCmd_ListIP_f"
+            },
+            {
+              "legacy_lines": [
+                189,
+                213
+              ],
+              "name": "SVCmd_RemoveIP_f"
+            },
+            {
+              "legacy_lines": [
+                238,
+                271
+              ],
+              "name": "SVCmd_WriteIP_f"
+            },
+            {
+              "legacy_lines": [
+                123,
+                150
+              ],
+              "name": "SV_FilterPacket"
+            },
+            {
+              "legacy_lines": [
+                76,
+                116
+              ],
+              "name": "StringToFilter"
+            }
+          ],
+          "removed_count": 6,
+          "unchanged_count": 1
+        },
+        "legacy_sha256": "6646afb330cc83ef3de98146243e48eb0029917426c5c85e5a9e9c0b847dda04",
+        "path": "g_svcmds.c",
+        "status": "modified",
+        "zaero_sha256": "2fe0e5cd805e6c7e53eeb4353a4102cb59661b76e2f85eaee27f7ecfc4864fc3"
+      },
+      {
+        "additions": 49,
+        "deletions": 24,
+        "functions": {
+          "added": [
+            {
+              "name": "target_explosion_explode_think",
+              "zaero_lines": [
+                210,
+                223
+              ]
+            }
+          ],
+          "added_count": 1,
+          "changed": [
+            {
+              "legacy_lines": [
+                258,
+                262
+              ],
+              "name": "SP_target_explosion",
+              "zaero_lines": [
+                275,
+                280
+              ]
+            },
+            {
+              "legacy_lines": [
+                227,
+                242
+              ],
+              "name": "target_explosion_explode",
+              "zaero_lines": [
+                225,
+                259
+              ]
+            },
+            {
+              "legacy_lines": [
+                416,
+                429
+              ],
+              "name": "use_target_blaster",
+              "zaero_lines": [
+                435,
+                454
+              ]
+            },
+            {
+              "legacy_lines": [
+                380,
+                394
+              ],
+              "name": "use_target_spawner",
+              "zaero_lines": [
+                398,
+                413
+              ]
+            }
+          ],
+          "changed_count": 4,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 33
+        },
+        "legacy_sha256": "e66801c5ec863fb280c5df31bbeb2d388815b33feb9a769bd6b91f9f92e8494f",
+        "path": "g_target.c",
+        "status": "modified",
+        "zaero_sha256": "25b0bab6a361b6682fdcea59c4b2e2f306b85a079f7ea52d7b869bfecb046af0"
+      },
+      {
+        "additions": 27,
+        "deletions": 22,
+        "functions": {
+          "added": [
+            {
+              "name": "trigger_push_use",
+              "zaero_lines": [
+                413,
+                419
+              ]
+            }
+          ],
+          "added_count": 1,
+          "changed": [
+            {
+              "legacy_lines": [
+                424,
+                432
+              ],
+              "name": "SP_trigger_push",
+              "zaero_lines": [
+                425,
+                437
+              ]
+            },
+            {
+              "legacy_lines": [
+                394,
+                417
+              ],
+              "name": "trigger_push_touch",
+              "zaero_lines": [
+                377,
+                411
+              ]
+            }
+          ],
+          "changed_count": 2,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 22
+        },
+        "legacy_sha256": "8b68089f68cbd686b4fb13e6f37497c62c23554054ce801d8b4046849acdad9c",
+        "path": "g_trigger.c",
+        "status": "modified",
+        "zaero_sha256": "5cc187c5534263996e17c4941385e5ada89a119a7908099f3e55ae21928ece08"
+      },
+      {
+        "additions": 10,
+        "deletions": 20,
+        "functions": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                387,
+                432
+              ],
+              "name": "SP_turret_driver",
+              "zaero_lines": [
+                374,
+                422
+              ]
+            },
+            {
+              "legacy_lines": [
+                78,
+                94
+              ],
+              "name": "turret_breach_fire",
+              "zaero_lines": [
+                59,
+                81
+              ]
+            }
+          ],
+          "changed_count": 2,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 10
+        },
+        "legacy_sha256": "776f68766acce51a1f75f1b72cf71d82e8ef30425abedd2ab26bf9c8ca0c08e1",
+        "path": "g_turret.c",
+        "status": "modified",
+        "zaero_sha256": "5150cc72fd0b714fde9e3b0af110f4dffeabea083cb09c2585ca5f83e6ec98a7"
+      },
+      {
+        "additions": 78,
+        "deletions": 33,
+        "functions": {
+          "added": [
+            {
+              "name": "MonsterKillBox",
+              "zaero_lines": [
+                551,
+                573
+              ]
+            },
+            {
+              "name": "MonsterPlayerKillBox",
+              "zaero_lines": [
+                585,
+                613
+              ]
+            }
+          ],
+          "added_count": 2,
+          "changed": [
+            {
+              "legacy_lines": [
+                452,
+                466
+              ],
+              "name": "G_FreeEdict",
+              "zaero_lines": [
+                422,
+                437
+              ]
+            },
+            {
+              "legacy_lines": [
+                173,
+                255
+              ],
+              "name": "G_UseTargets",
+              "zaero_lines": [
+                154,
+                236
+              ]
+            },
+            {
+              "legacy_lines": [
+                356,
+                389
+              ],
+              "name": "vectoangles",
+              "zaero_lines": [
+                331,
+                359
+              ]
+            },
+            {
+              "legacy_lines": [
+                333,
+                353
+              ],
+              "name": "vectoyaw",
+              "zaero_lines": [
+                314,
+                328
+              ]
+            }
+          ],
+          "changed_count": 4,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 14
+        },
+        "legacy_sha256": "441b5eeb751763171e507e262cf4a8d525db72c5d98a271edd591f0a6dbb6f22",
+        "path": "g_utils.c",
+        "status": "modified",
+        "zaero_sha256": "9f38a328cd489960933de750600781b4e89224bb37b38a97d021d45db3c1fcb9"
+      },
+      {
+        "additions": 110,
+        "deletions": 31,
+        "functions": {
+          "added": [
+            {
+              "name": "animrocket",
+              "zaero_lines": [
+                588,
+                611
+              ]
+            }
+          ],
+          "added_count": 1,
+          "changed": [
+            {
+              "legacy_lines": [
+                398,
+                453
+              ],
+              "name": "Grenade_Explode",
+              "zaero_lines": [
+                409,
+                464
+              ]
+            },
+            {
+              "legacy_lines": [
+                455,
+                484
+              ],
+              "name": "Grenade_Touch",
+              "zaero_lines": [
+                466,
+                500
+              ]
+            },
+            {
+              "legacy_lines": [
+                721,
+                763
+              ],
+              "name": "bfg_explode",
+              "zaero_lines": [
+                793,
+                837
+              ]
+            },
+            {
+              "legacy_lines": [
+                765,
+                801
+              ],
+              "name": "bfg_touch",
+              "zaero_lines": [
+                839,
+                880
+              ]
+            },
+            {
+              "legacy_lines": [
+                306,
+                343
+              ],
+              "name": "blaster_touch",
+              "zaero_lines": [
+                318,
+                360
+              ]
+            },
+            {
+              "legacy_lines": [
+                32,
+                53
+              ],
+              "name": "check_dodge",
+              "zaero_lines": [
+                13,
+                65
+              ]
+            },
+            {
+              "legacy_lines": [
+                345,
+                390
+              ],
+              "name": "fire_blaster",
+              "zaero_lines": [
+                362,
+                401
+              ]
+            },
+            {
+              "legacy_lines": [
+                569,
+                618
+              ],
+              "name": "rocket_touch",
+              "zaero_lines": [
+                616,
+                690
+              ]
+            }
+          ],
+          "changed_count": 8,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 10
+        },
+        "legacy_sha256": "ef25ff12da0e65ffb77623101530362e866b03e80cc922e30c461a47b1e8aa1f",
+        "path": "g_weapon.c",
+        "status": "modified",
+        "zaero_sha256": "e3b24b2a959d8db4be77ad084b22a587109a3d643aebd9c84e13d0105dd1203b"
+      },
+      {
+        "additions": 0,
+        "deletions": 1619,
+        "legacy_sha256": "0e69d2fe4db445b7f1c7483439156fc8cc0c66fec1bc45552a6ac339d7a4148d",
+        "path": "game.001",
+        "status": "legacy_only",
+        "zaero_sha256": null
+      },
+      {
+        "additions": 0,
+        "deletions": 0,
+        "legacy_sha256": "62c006f653fc4a5072b80405da118d6ea74086d73fe38d1029d2176885cffebd",
+        "path": "game.def",
+        "status": "identical",
+        "zaero_sha256": "62c006f653fc4a5072b80405da118d6ea74086d73fe38d1029d2176885cffebd"
+      },
+      {
+        "additions": 0,
+        "deletions": 1618,
+        "legacy_sha256": "c01e39f3f1d5e624ad2d2b205a37f65ab6d9f1fe9c686995907d33de74187bd6",
+        "path": "game.dsp",
+        "status": "legacy_only",
+        "zaero_sha256": null
+      },
+      {
+        "additions": 0,
+        "deletions": 38,
+        "legacy_sha256": "c5427be9d385cd0d4183be925f83d5435ff0f1d31f54c5ce63d6a90f3bf8a303",
+        "path": "game.h",
+        "status": "modified",
+        "zaero_sha256": "a2c8774b14f5f9dd66529cb60c1bf7a215d9c1d36e8c00511a9f921bb042c027"
+      },
+      {
+        "additions": 0,
+        "deletions": 75,
+        "legacy_sha256": "bf511276bc652f7d31d595fe28d8249a5fe9ad209519e3562c21ba61cecc5e3f",
+        "path": "game.plg",
+        "status": "legacy_only",
+        "zaero_sha256": null
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "functions": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 13
+        },
+        "legacy_sha256": "d614e9d027bb6ca9e09694461aab731416f2442de235e1f32f7f4ff46471593d",
+        "path": "m_actor.c",
+        "status": "modified",
+        "zaero_sha256": "666bef685bcd78c89a6d26f746deaea372021a4fd0620869a2eba7c29a016d4e"
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "legacy_sha256": "f540433320d4176da18716ff4dcd75c8d94251c5138a3714ba160d9cdafd9b9f",
+        "path": "m_actor.h",
+        "status": "modified",
+        "zaero_sha256": "ed234446d257fd7f22fd537a3b9d2c30e737ff424b056f59d1aaed051f763935"
+      },
+      {
+        "additions": 12,
+        "deletions": 26,
+        "functions": {
+          "added": [
+            {
+              "name": "SP_monster_berserk_precache",
+              "zaero_lines": [
+                392,
+                401
+              ]
+            }
+          ],
+          "added_count": 1,
+          "changed": [
+            {
+              "legacy_lines": [
+                413,
+                457
+              ],
+              "name": "SP_monster_berserk",
+              "zaero_lines": [
+                405,
+                443
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 14
+        },
+        "legacy_sha256": "b2865145a1a22b6047805c7704ab1212e90a21616b3d21b08eecaee214f88361",
+        "path": "m_berserk.c",
+        "status": "modified",
+        "zaero_sha256": "f53e8c6d0b776b4c5c24fde3e6a8cdea195a03b673f0f786a0c35fd9eb1fe993"
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "legacy_sha256": "b0fd4a30d71a94ec0fd6777c14b24540dc122632e206fa6e33c69339df30513d",
+        "path": "m_berserk.h",
+        "status": "modified",
+        "zaero_sha256": "e9e3ddc7f19bdb8b741d1c236e36a3768632441bbbf994eee55103f9c2ace2ce"
+      },
+      {
+        "additions": 24,
+        "deletions": 24,
+        "functions": {
+          "added": [
+            {
+              "name": "SP_monster_boss2_precache",
+              "zaero_lines": [
+                627,
+                634
+              ]
+            }
+          ],
+          "added_count": 1,
+          "changed": [
+            {
+              "legacy_lines": [
+                636,
+                679
+              ],
+              "name": "SP_monster_boss2",
+              "zaero_lines": [
+                640,
+                679
+              ]
+            },
+            {
+              "legacy_lines": [
+                113,
+                128
+              ],
+              "name": "boss2_firebullet_left",
+              "zaero_lines": [
+                100,
+                121
+              ]
+            },
+            {
+              "legacy_lines": [
+                97,
+                111
+              ],
+              "name": "boss2_firebullet_right",
+              "zaero_lines": [
+                78,
+                98
+              ]
+            }
+          ],
+          "changed_count": 3,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 13
+        },
+        "legacy_sha256": "c9348d358ae949952e61650a099fdbc57084defb78dfc3ef45e4d26636683ee8",
+        "path": "m_boss2.c",
+        "status": "modified",
+        "zaero_sha256": "21cb9e48a36e9d9d57e1a0d628c7e51453f73c453478379841b372c39d913b2d"
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "legacy_sha256": "edd5dce4694d47420fd660fe0d80ede95fbd258a9974990da03e6f8d8d628524",
+        "path": "m_boss2.h",
+        "status": "modified",
+        "zaero_sha256": "80ec1546ac69d38be700316df00d8693e0197cef3c058eae401ba1d4d820d71a"
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "functions": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 3
+        },
+        "legacy_sha256": "da05cb04906c0f85a5a87be494de319334ba942cae37322c4f5912ee04e15c57",
+        "path": "m_boss3.c",
+        "status": "modified",
+        "zaero_sha256": "c6e371f5fc9d1a374817e1aa65743896d93d197bac18cdd71a2e7418acaba385"
+      },
+      {
+        "additions": 27,
+        "deletions": 28,
+        "functions": {
+          "added": [
+            {
+              "name": "SP_monster_jorg_precache",
+              "zaero_lines": [
+                687,
+                706
+              ]
+            }
+          ],
+          "added_count": 1,
+          "changed": [
+            {
+              "legacy_lines": [
+                696,
+                749
+              ],
+              "name": "SP_monster_jorg",
+              "zaero_lines": [
+                710,
+                748
+              ]
+            },
+            {
+              "legacy_lines": [
+                517,
+                531
+              ],
+              "name": "jorg_firebullet_left",
+              "zaero_lines": [
+                504,
+                524
+              ]
+            },
+            {
+              "legacy_lines": [
+                501,
+                515
+              ],
+              "name": "jorg_firebullet_right",
+              "zaero_lines": [
+                482,
+                502
+              ]
+            }
+          ],
+          "changed_count": 3,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 17
+        },
+        "legacy_sha256": "c620232f2e28c6c8e5a32a43885fe82ba9ae405cd24858c770aa91c33da4f27c",
+        "path": "m_boss31.c",
+        "status": "modified",
+        "zaero_sha256": "087245defb1615b31e432f2cdce392f299a56c62acc82e66e883a5584b5853ed"
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "legacy_sha256": "7816fc92e693ecb97d4304c88b33318cd181cd9ed2d00094f1150c87fa31d0e7",
+        "path": "m_boss31.h",
+        "status": "modified",
+        "zaero_sha256": "671e8d14e85a2636797b9d8f18089d0d468ac74aa67f5a95bbe4496f6ec8bb1b"
+      },
+      {
+        "additions": 6,
+        "deletions": 19,
+        "functions": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                410,
+                426
+              ],
+              "name": "makronBFG",
+              "zaero_lines": [
+                391,
+                413
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 25
+        },
+        "legacy_sha256": "a1a1da79940480231ea00584b65042fc1b454fd01fc74f55b550a7b1c91303ad",
+        "path": "m_boss32.c",
+        "status": "modified",
+        "zaero_sha256": "8fdfc548046ccfee88411b36e0f4524baf4b52592464f35902ae7dd445fe3262"
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "legacy_sha256": "fe3b794e8d33547c8ef74e676f36c6405f5b52ae0a6fb276fdd3bdfdf45e9c50",
+        "path": "m_boss32.h",
+        "status": "modified",
+        "zaero_sha256": "0ce3f0c1d876b40865f73610d8f7bad4a54d2a15e9587dec15bd36b515779dd3"
+      },
+      {
+        "additions": 16,
+        "deletions": 28,
+        "functions": {
+          "added": [
+            {
+              "name": "SP_monster_brain_precache",
+              "zaero_lines": [
+                601,
+                617
+              ]
+            }
+          ],
+          "added_count": 1,
+          "changed": [
+            {
+              "legacy_lines": [
+                621,
+                676
+              ],
+              "name": "SP_monster_brain",
+              "zaero_lines": [
+                622,
+                664
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 22
+        },
+        "legacy_sha256": "a641c8e79735ef803bfacfcb7cedd07976e1c70fd3c3bf4449210e1b018fbe52",
+        "path": "m_brain.c",
+        "status": "modified",
+        "zaero_sha256": "9f386fc56c82372d4ef1f586539730d726254bc6a9b211bfb1701a23e81c9469"
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "legacy_sha256": "9f853800b03775eaed0153bdb7e5ae6082031bfd00cd80c07dc773a1e44aa81f",
+        "path": "m_brain.h",
+        "status": "modified",
+        "zaero_sha256": "5882d48377f613ade721b38a44fa0e3fa584defbe39bfa68e10edae69f9128c7"
+      },
+      {
+        "additions": 17,
+        "deletions": 34,
+        "functions": {
+          "added": [
+            {
+              "name": "SP_monster_chick_precache",
+              "zaero_lines": [
+                603,
+                619
+              ]
+            }
+          ],
+          "added_count": 1,
+          "changed": [
+            {
+              "legacy_lines": [
+                626,
+                677
+              ],
+              "name": "SP_monster_chick",
+              "zaero_lines": [
+                623,
+                660
+              ]
+            },
+            {
+              "legacy_lines": [
+                266,
+                295
+              ],
+              "name": "chick_pain",
+              "zaero_lines": [
+                246,
+                273
+              ]
+            }
+          ],
+          "changed_count": 2,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 22
+        },
+        "legacy_sha256": "bfab2d7c065a0d724690cb870bf6d7795246ca68bdf361fe579caaf0a389df36",
+        "path": "m_chick.c",
+        "status": "modified",
+        "zaero_sha256": "a4ff10c0e3078dc1c3162d099dbc2659956b0a5e3573e7a8908ef560f5b886b8"
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "legacy_sha256": "6d91f7798bddaeff491e5c02a7730daa8445adca4d2028ae9393f5f69242899c",
+        "path": "m_chick.h",
+        "status": "modified",
+        "zaero_sha256": "43fc59a10e80aa2adc32ac9c2156e28277ae478912385896e40c9fa5b12c149d"
+      },
+      {
+        "additions": 12,
+        "deletions": 188,
+        "functions": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
+        "legacy_sha256": "0a10115e01c33d008db24911cd8897bec9120d728d0f18a27a54cd7181f19324",
+        "path": "m_flash.c",
+        "status": "modified",
+        "zaero_sha256": "26425c97e6a107a159d210a16eac717eebd3f3a4212f7b0e8bffde9d1ea43ca9"
+      },
+      {
+        "additions": 14,
+        "deletions": 27,
+        "functions": {
+          "added": [
+            {
+              "name": "SP_monster_flipper_precache",
+              "zaero_lines": [
+                341,
+                351
+              ]
+            }
+          ],
+          "added_count": 1,
+          "changed": [
+            {
+              "legacy_lines": [
+                361,
+                403
+              ],
+              "name": "SP_monster_flipper",
+              "zaero_lines": [
+                355,
+                390
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 12
+        },
+        "legacy_sha256": "1f2df0ce2c4da49f2c4885d2d3b0e7eee4db0e8b961b582a8c6e068c26573e7c",
+        "path": "m_flipper.c",
+        "status": "modified",
+        "zaero_sha256": "22a1a35d1b19af45f3511baae6a4b2631b9bcaf55eb4dca0e5694be2f11040d2"
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "legacy_sha256": "3cab4dcd2a063042d5c096bb450d66d7f1e420eb287191e043b27f017ddccaaf",
+        "path": "m_flipper.h",
+        "status": "modified",
+        "zaero_sha256": "3da4e3eeddf1a6be0020ccfe689a70cce978ed3e146c34a0f96d3b9dd83b4634"
+      },
+      {
+        "additions": 14,
+        "deletions": 26,
+        "functions": {
+          "added": [
+            {
+              "name": "SP_monster_floater_precache",
+              "zaero_lines": [
+                591,
+                600
+              ]
+            }
+          ],
+          "added_count": 1,
+          "changed": [
+            {
+              "legacy_lines": [
+                611,
+                663
+              ],
+              "name": "SP_monster_floater",
+              "zaero_lines": [
+                605,
+                651
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 13
+        },
+        "legacy_sha256": "641a7547f68a71aa0d18119ddef3445781768d48578cb8de0114b399b1fde000",
+        "path": "m_float.c",
+        "status": "modified",
+        "zaero_sha256": "d601f2575739ffd7a0363e170e94b6b2464180a2570580972e3dc1c4b850c279"
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "legacy_sha256": "b48e4e70e241b2cdbb4545703d04524f7779a2638e0effd6127fe730d822fd45",
+        "path": "m_float.h",
+        "status": "modified",
+        "zaero_sha256": "cedffe3a7c11f884bb58abd98fc6e86c5492b89bc8a46f2aa4d08b544855ddd3"
+      },
+      {
+        "additions": 13,
+        "deletions": 26,
+        "functions": {
+          "added": [
+            {
+              "name": "SP_monster_flyer_precache",
+              "zaero_lines": [
+                552,
+                561
+              ]
+            }
+          ],
+          "added_count": 1,
+          "changed": [
+            {
+              "legacy_lines": [
+                573,
+                626
+              ],
+              "name": "SP_monster_flyer",
+              "zaero_lines": [
+                566,
+                613
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 21
+        },
+        "legacy_sha256": "3e66271bc9da5b1fdad27d588d7f38d7d33c13ce8548c7ce028b36a8a34686a4",
+        "path": "m_flyer.c",
+        "status": "modified",
+        "zaero_sha256": "1cf561743178224dfe4326f6b90f646f893085bcf34e6ae1492c966dfac3fa88"
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "legacy_sha256": "c8eb5f8c64fda3f9dba5930d6ec1520967f9204634429a17d11a4e46a646af31",
+        "path": "m_flyer.h",
+        "status": "modified",
+        "zaero_sha256": "b14e6dcf3499dbf0a4fd1b0f946117fcca571a88d99bd32fafd47832298b431c"
+      },
+      {
+        "additions": 15,
+        "deletions": 29,
+        "functions": {
+          "added": [
+            {
+              "name": "SP_monster_gladiator_precache",
+              "zaero_lines": [
+                318,
+                330
+              ]
+            }
+          ],
+          "added_count": 1,
+          "changed": [
+            {
+              "legacy_lines": [
+                339,
+                387
+              ],
+              "name": "SP_monster_gladiator",
+              "zaero_lines": [
+                335,
+                373
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 14
+        },
+        "legacy_sha256": "a174ad502c17473a891898de0a7e80b2e2a01587276b23f11019054e3fbf5cd8",
+        "path": "m_gladiator.c",
+        "status": "modified",
+        "zaero_sha256": "6f4c562ccee121f0153ecebd5df6bb209e311f850eda35296141dd789fa58b2a"
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "legacy_sha256": "c208243d77b872555f8d9a0409b62964efc12051c2857b380aa682b67bd1bae9",
+        "path": "m_gladiator.h",
+        "status": "modified",
+        "zaero_sha256": "cc18ecd3596283aff4239b7a4857517e23994407866c6de865a5e5acba8dbf01"
+      },
+      {
+        "additions": 14,
+        "deletions": 26,
+        "functions": {
+          "added": [
+            {
+              "name": "SP_monster_gunner_precache",
+              "zaero_lines": [
+                561,
+                570
+              ]
+            }
+          ],
+          "added_count": 1,
+          "changed": [
+            {
+              "legacy_lines": [
+                581,
+                628
+              ],
+              "name": "SP_monster_gunner",
+              "zaero_lines": [
+                575,
+                616
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 21
+        },
+        "legacy_sha256": "72c295b49f7518f766423ebea18849c5b4686cd97d42fb38eed34474e0143080",
+        "path": "m_gunner.c",
+        "status": "modified",
+        "zaero_sha256": "13a89b22e21a516ed72f32870a22ff109c974ec40ab42a0157eb1b3f83f19f03"
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "legacy_sha256": "c1f90e743e4c5c75a062a47a0fc4c4ed6590db24c81489f69e738f9dfdefea2c",
+        "path": "m_gunner.h",
+        "status": "modified",
+        "zaero_sha256": "46f0e8e23864aafbc0dfc90d86290453b1945fb97fbf6cb5954efd40a0ecab57"
+      },
+      {
+        "additions": 61,
+        "deletions": 25,
+        "functions": {
+          "added": [
+            {
+              "name": "SP_monster_hover_precache",
+              "zaero_lines": [
+                602,
+                611
+              ]
+            },
+            {
+              "name": "hover_dodge",
+              "zaero_lines": [
+                555,
+                600
+              ]
+            }
+          ],
+          "added_count": 2,
+          "changed": [
+            {
+              "legacy_lines": [
+                573,
+                620
+              ],
+              "name": "SP_monster_hover",
+              "zaero_lines": [
+                615,
+                656
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 13
+        },
+        "legacy_sha256": "e3a6ca713a655b7b9ac1a533d10a971d5d0498d01c5737956086de5378fadbaa",
+        "path": "m_hover.c",
+        "status": "modified",
+        "zaero_sha256": "d2b8dc0ad586c69d886b38ca404c65b2e211302ce6cc3b5cabf8d9c4e18d965a"
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "legacy_sha256": "85e53d1b4cebf2aac9418062d6ed14b545bd04bda4a1f06caeee3d343d7f0f8c",
+        "path": "m_hover.h",
+        "status": "modified",
+        "zaero_sha256": "cde919a17045c7a50b66df3a26fd28208f55052b24f34113631433cf24dcc1ce"
+      },
+      {
+        "additions": 45,
+        "deletions": 29,
+        "functions": {
+          "added": [
+            {
+              "name": "SP_monster_infantry_precache",
+              "zaero_lines": [
+                540,
+                555
+              ]
+            },
+            {
+              "name": "handler_ConvertToInfantry",
+              "zaero_lines": [
+                600,
+                623
+              ]
+            }
+          ],
+          "added_count": 2,
+          "changed": [
+            {
+              "legacy_lines": [
+                260,
+                297
+              ],
+              "name": "InfantryMachineGun",
+              "zaero_lines": [
+                241,
+                284
+              ]
+            },
+            {
+              "legacy_lines": [
+                556,
+                607
+              ],
+              "name": "SP_monster_infantry",
+              "zaero_lines": [
+                559,
+                597
+              ]
+            }
+          ],
+          "changed_count": 2,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 17
+        },
+        "legacy_sha256": "acf0c4684c0def6422134b290b68fd7415ab7878b2ae8225b69f97339d97d3ab",
+        "path": "m_infantry.c",
+        "status": "modified",
+        "zaero_sha256": "cff4a56387c313a5b02a9d07ecaa8cd1ff16c852e70e7221628870c437f09300"
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "legacy_sha256": "fd6f184a75a48c2a90d99d46ca3404009b91267aafe82567e789e4a38739709a",
+        "path": "m_infantry.h",
+        "status": "modified",
+        "zaero_sha256": "37897e5214210f5a77d7f035898c58dbb3099cafd14e7c2d4878bfd13049b1db"
+      },
+      {
+        "additions": 17,
+        "deletions": 30,
+        "functions": {
+          "added": [
+            {
+              "name": "SP_misc_insane_precache",
+              "zaero_lines": [
+                600,
+                613
+              ]
+            }
+          ],
+          "added_count": 1,
+          "changed": [
+            {
+              "legacy_lines": [
+                621,
+                693
+              ],
+              "name": "SP_misc_insane",
+              "zaero_lines": [
+                618,
+                680
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 14
+        },
+        "legacy_sha256": "40442dfb2e78f40d3f781648cbfa3b6b0a0aab1f44948e414bc6584c2a5d7737",
+        "path": "m_insane.c",
+        "status": "modified",
+        "zaero_sha256": "6e1547aa0afe12fe23fe03699cc5a00eb1b750933c0119b3bdf87d79eb52dfc3"
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "legacy_sha256": "254f486db7683ab4c3d1faac36a6292d3bfc1fb6830399be39838b85a9147b21",
+        "path": "m_insane.h",
+        "status": "modified",
+        "zaero_sha256": "f05b510623e510ff9d9f219c69e5ba4638a7de1ee124a1b847edfa0049204b7e"
+      },
+      {
+        "additions": 15,
+        "deletions": 28,
+        "functions": {
+          "added": [
+            {
+              "name": "SP_monster_medic_precache",
+              "zaero_lines": [
+                697,
+                709
+              ]
+            }
+          ],
+          "added_count": 1,
+          "changed": [
+            {
+              "legacy_lines": [
+                718,
+                769
+              ],
+              "name": "SP_monster_medic",
+              "zaero_lines": [
+                714,
+                756
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 21
+        },
+        "legacy_sha256": "356cc8d5850d177b77670ab8d8d1ad20f180d82afa0e7650c3bb284d66888872",
+        "path": "m_medic.c",
+        "status": "modified",
+        "zaero_sha256": "3e0a4f33ad4256400c86d655ef94013f8cae984d2290d6d6e42c598bc35b7ba0"
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "legacy_sha256": "b800648492123baa9bd8860c8706925554fe26b4997d74b32cfadf2898801910",
+        "path": "m_medic.h",
+        "status": "modified",
+        "zaero_sha256": "71dd0e9d09426008fe1ac4f81be36bc241f02d3a4e940cedbb76f0356f714c3f"
+      },
+      {
+        "additions": 83,
+        "deletions": 24,
+        "functions": {
+          "added": [
+            {
+              "name": "M_MoveAwayFromFlare",
+              "zaero_lines": [
+                566,
+                615
+              ]
+            }
+          ],
+          "added_count": 1,
+          "changed": [
+            {
+              "legacy_lines": [
+                304,
+                341
+              ],
+              "name": "M_ChangeYaw",
+              "zaero_lines": [
+                307,
+                344
+              ]
+            },
+            {
+              "legacy_lines": [
+                403,
+                487
+              ],
+              "name": "SV_NewChaseDir",
+              "zaero_lines": [
+                406,
+                490
+              ]
+            },
+            {
+              "legacy_lines": [
+                112,
+                293
+              ],
+              "name": "SV_movestep",
+              "zaero_lines": [
+                93,
+                296
+              ]
+            }
+          ],
+          "changed_count": 3,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 6
+        },
+        "legacy_sha256": "d0e5858e385db1d6397581b2f79f31c401b807717769a30be4d99d21ebc27081",
+        "path": "m_move.c",
+        "status": "modified",
+        "zaero_sha256": "6880cc71cff1f4efb5151abe10a8693d5e88ced681b57e66b031b15d7c20c6fa"
+      },
+      {
+        "additions": 16,
+        "deletions": 28,
+        "functions": {
+          "added": [
+            {
+              "name": "SP_monster_mutant_precache",
+              "zaero_lines": [
+                591,
+                606
+              ]
+            }
+          ],
+          "added_count": 1,
+          "changed": [
+            {
+              "legacy_lines": [
+                611,
+                663
+              ],
+              "name": "SP_monster_mutant",
+              "zaero_lines": [
+                611,
+                651
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 24
+        },
+        "legacy_sha256": "91317ed8b8febb578325a8c85102f1ed5d817e4ae52f5f3c9b673afac2506a69",
+        "path": "m_mutant.c",
+        "status": "modified",
+        "zaero_sha256": "6454004b066dd847155587266ff340db59d71a1abb4885d44ce4679a0f506fe8"
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "legacy_sha256": "4ba445bbf5fe20213ef643e4ec6c4e5915fb791116418baee9a77ed2145e2378",
+        "path": "m_mutant.h",
+        "status": "modified",
+        "zaero_sha256": "f82cc70e877e3df4cdd2da664aa65bfa46ab1aedeee97100e146e4b7e592f1a6"
+      },
+      {
+        "additions": 15,
+        "deletions": 28,
+        "functions": {
+          "added": [
+            {
+              "name": "SP_monster_parasite_precache",
+              "zaero_lines": [
+                485,
+                498
+              ]
+            }
+          ],
+          "added_count": 1,
+          "changed": [
+            {
+              "legacy_lines": [
+                506,
+                552
+              ],
+              "name": "SP_monster_parasite",
+              "zaero_lines": [
+                503,
+                539
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 21
+        },
+        "legacy_sha256": "c6c3691a0a72acf93ac889e81312642bac62c3b8118fc965e67922223772a05a",
+        "path": "m_parasite.c",
+        "status": "modified",
+        "zaero_sha256": "8279108781b0f56c69f6b112c5de44c19d82dbc8510daca58e5c4785f9fc84e7"
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "legacy_sha256": "1ae3cf27d596d12127a3abacab5e15944fb303ce32806b6403da96e8da2aa0b5",
+        "path": "m_parasite.h",
+        "status": "modified",
+        "zaero_sha256": "a563820cf25805532b2ee42551e1ee963614adf2fb0ff77746c4f30a4aaaef12"
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "legacy_sha256": "9944e67c2f7bf3bbfd8b268c64f6a485a4a5a4790fb192bb8cecc469a1a5aff0",
+        "path": "m_player.h",
+        "status": "modified",
+        "zaero_sha256": "ca94c29c89c7d7501ab2121f8bb7608aa64e6b6b9aabb6d022c3cecdb7a76e6d"
+      },
+      {
+        "additions": 0,
+        "deletions": 0,
+        "legacy_sha256": "5fbacacb27b9580fc2a9987bb31c4dc7ebf9f30bd5d6ddff064a14ce3fa1cc86",
+        "path": "m_rider.h",
+        "status": "identical",
+        "zaero_sha256": "5fbacacb27b9580fc2a9987bb31c4dc7ebf9f30bd5d6ddff064a14ce3fa1cc86"
+      },
+      {
+        "additions": 44,
+        "deletions": 30,
+        "functions": {
+          "added": [
+            {
+              "name": "SP_monster_soldier_light_precache",
+              "zaero_lines": [
+                1222,
+                1228
+              ]
+            },
+            {
+              "name": "SP_monster_soldier_precache",
+              "zaero_lines": [
+                1255,
+                1261
+              ]
+            },
+            {
+              "name": "SP_monster_soldier_ss_precache",
+              "zaero_lines": [
+                1286,
+                1292
+              ]
+            },
+            {
+              "name": "SP_monster_soldier_x_precache",
+              "zaero_lines": [
+                1181,
+                1187
+              ]
+            }
+          ],
+          "added_count": 4,
+          "changed": [
+            {
+              "legacy_lines": [
+                1261,
+                1278
+              ],
+              "name": "SP_monster_soldier",
+              "zaero_lines": [
+                1266,
+                1282
+              ]
+            },
+            {
+              "legacy_lines": [
+                1238,
+                1257
+              ],
+              "name": "SP_monster_soldier_light",
+              "zaero_lines": [
+                1233,
+                1251
+              ]
+            },
+            {
+              "legacy_lines": [
+                1282,
+                1299
+              ],
+              "name": "SP_monster_soldier_ss",
+              "zaero_lines": [
+                1297,
+                1313
+              ]
+            },
+            {
+              "legacy_lines": [
+                1200,
+                1233
+              ],
+              "name": "SP_monster_soldier_x",
+              "zaero_lines": [
+                1190,
+                1218
+              ]
+            }
+          ],
+          "changed_count": 4,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 31
+        },
+        "legacy_sha256": "4c2f258311095e79c04124c3177b21be45083a20cb3d98713dd844d9e756a1ff",
+        "path": "m_soldier.c",
+        "status": "modified",
+        "zaero_sha256": "94396aa6b86e4d2f687e04c6670e6b0b57daf8fa4f9da45e2636d6948aebbe16"
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "legacy_sha256": "1b4ec8a19e1bccf545c516085588ded4f8a8f05661ebac15434609a10773c127",
+        "path": "m_soldier.h",
+        "status": "modified",
+        "zaero_sha256": "e49bdfc242f30b73185a1b98247de1057b75802025b97805661b29e874fefa8a"
+      },
+      {
+        "additions": 20,
+        "deletions": 26,
+        "functions": {
+          "added": [
+            {
+              "name": "SP_monster_supertank_precache",
+              "zaero_lines": [
+                658,
+                667
+              ]
+            }
+          ],
+          "added_count": 1,
+          "changed": [
+            {
+              "legacy_lines": [
+                672,
+                717
+              ],
+              "name": "SP_monster_supertank",
+              "zaero_lines": [
+                672,
+                711
+              ]
+            },
+            {
+              "legacy_lines": [
+                520,
+                548
+              ],
+              "name": "supertankMachineGun",
+              "zaero_lines": [
+                501,
+                535
+              ]
+            }
+          ],
+          "changed_count": 2,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 13
+        },
+        "legacy_sha256": "7af4bc417199d7c8c26f9c35d59f4dd7df9d5d0008ba76c99eb8d5af7be3b627",
+        "path": "m_supertank.c",
+        "status": "modified",
+        "zaero_sha256": "2227a2050dbef60523d26f0166514e00b254d3bb88da2dcec51d3a4757fccc76"
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "legacy_sha256": "558548b6879a200acb759dcaef1e7c49ee451150d44c8f959b27c8a433f48d48",
+        "path": "m_supertank.h",
+        "status": "modified",
+        "zaero_sha256": "17838b44f7068fd55e672ad4c30f8d69fba8e68fa89ba02410662c021279e0af"
+      },
+      {
+        "additions": 20,
+        "deletions": 27,
+        "functions": {
+          "added": [
+            {
+              "name": "SP_monster_tank_precache",
+              "zaero_lines": [
+                780,
+                790
+              ]
+            }
+          ],
+          "added_count": 1,
+          "changed": [
+            {
+              "legacy_lines": [
+                792,
+                856
+              ],
+              "name": "SP_monster_tank",
+              "zaero_lines": [
+                792,
+                849
+              ]
+            },
+            {
+              "legacy_lines": [
+                387,
+                421
+              ],
+              "name": "TankMachineGun",
+              "zaero_lines": [
+                368,
+                408
+              ]
+            }
+          ],
+          "changed_count": 2,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 19
+        },
+        "legacy_sha256": "d2c039e121cd9fcf71b2c98f07ad7781ebd90f8d0370f353a3843b0224768d25",
+        "path": "m_tank.c",
+        "status": "modified",
+        "zaero_sha256": "b1193e25cd83d8b0fa040d80df26a9bdea0cc6b5dcc952306ab24c3609735bef"
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "legacy_sha256": "687a712a6cb05f648ab2cfa815a670dbb0bb188592066de8c0c3f550cb1f8d7b",
+        "path": "m_tank.h",
+        "status": "modified",
+        "zaero_sha256": "046056b83a0b102e937a76945839647c0211eb2527c42a9b3793da83fcf46d6d"
+      },
+      {
+        "additions": 303,
+        "deletions": 356,
+        "functions": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                1755,
+                1805
+              ],
+              "name": "ClientBeginServerFrame",
+              "zaero_lines": [
+                1702,
+                1752
+              ]
+            },
+            {
+              "legacy_lines": [
+                1431,
+                1494
+              ],
+              "name": "ClientConnect",
+              "zaero_lines": [
+                1413,
+                1445
+              ]
+            },
+            {
+              "legacy_lines": [
+                211,
+                405
+              ],
+              "name": "ClientObituary",
+              "zaero_lines": [
+                221,
+                460
+              ]
+            },
+            {
+              "legacy_lines": [
+                1570,
+                1744
+              ],
+              "name": "ClientThink",
+              "zaero_lines": [
+                1530,
+                1691
+              ]
+            },
+            {
+              "legacy_lines": [
+                1362,
+                1416
+              ],
+              "name": "ClientUserinfoChanged",
+              "zaero_lines": [
+                1343,
+                1398
+              ]
+            },
+            {
+              "legacy_lines": [
+                668,
+                675
+              ],
+              "name": "FetchClientEntData",
+              "zaero_lines": [
+                740,
+                748
+              ]
+            },
+            {
+              "legacy_lines": [
+                607,
+                630
+              ],
+              "name": "InitClientPersistant",
+              "zaero_lines": [
+                659,
+                702
+              ]
+            },
+            {
+              "legacy_lines": [
+                185,
+                196
+              ],
+              "name": "IsFemale",
+              "zaero_lines": [
+                175,
+                186
+              ]
+            },
+            {
+              "legacy_lines": [
+                463,
+                494
+              ],
+              "name": "LookAtKiller",
+              "zaero_lines": [
+                523,
+                542
+              ]
+            },
+            {
+              "legacy_lines": [
+                1097,
+                1256
+              ],
+              "name": "PutClientInServer",
+              "zaero_lines": [
+                1087,
+                1237
+              ]
+            },
+            {
+              "legacy_lines": [
+                70,
+                102
+              ],
+              "name": "SP_CreateCoopSpots",
+              "zaero_lines": [
+                52,
+                87
+              ]
+            },
+            {
+              "legacy_lines": [
+                650,
+                666
+              ],
+              "name": "SaveClientData",
+              "zaero_lines": [
+                722,
+                738
+              ]
+            },
+            {
+              "legacy_lines": [
+                410,
+                455
+              ],
+              "name": "TossClientWeapon",
+              "zaero_lines": [
+                465,
+                515
+              ]
+            },
+            {
+              "legacy_lines": [
+                501,
+                595
+              ],
+              "name": "player_die",
+              "zaero_lines": [
+                552,
+                647
+              ]
+            },
+            {
+              "legacy_lines": [
+                179,
+                182
+              ],
+              "name": "player_pain",
+              "zaero_lines": [
+                164,
+                172
+              ]
+            },
+            {
+              "legacy_lines": [
+                980,
+                1004
+              ],
+              "name": "respawn",
+              "zaero_lines": [
+                1053,
+                1074
+              ]
+            }
+          ],
+          "changed_count": 16,
+          "removed": [
+            {
+              "legacy_lines": [
+                198,
+                209
+              ],
+              "name": "IsNeutral"
+            },
+            {
+              "legacy_lines": [
+                1010,
+                1084
+              ],
+              "name": "spectator_respawn"
+            }
+          ],
+          "removed_count": 2,
+          "unchanged_count": 21
+        },
+        "legacy_sha256": "d4bad9aa34ec3d2c667eaf64c0d84c7a555e8162b8252c245fde4a54e343ae3f",
+        "path": "p_client.c",
+        "status": "modified",
+        "zaero_sha256": "f0e871b588fb4527bcafb42458bc810f4eef748c32f245646de760e9036db6a4"
+      },
+      {
+        "additions": 35,
+        "deletions": 70,
+        "functions": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                73,
+                155
+              ],
+              "name": "BeginIntermission",
+              "zaero_lines": [
+                54,
+                139
+              ]
+            },
+            {
+              "legacy_lines": [
+                346,
+                367
+              ],
+              "name": "Cmd_Help_f",
+              "zaero_lines": [
+                330,
+                351
+              ]
+            },
+            {
+              "legacy_lines": [
+                164,
+                251
+              ],
+              "name": "DeathmatchScoreboardMessage",
+              "zaero_lines": [
+                148,
+                235
+              ]
+            },
+            {
+              "legacy_lines": [
+                377,
+                523
+              ],
+              "name": "G_SetStats",
+              "zaero_lines": [
+                361,
+                535
+              ]
+            }
+          ],
+          "changed_count": 4,
+          "removed": [
+            {
+              "legacy_lines": [
+                530,
+                542
+              ],
+              "name": "G_CheckChaseStats"
+            },
+            {
+              "legacy_lines": [
+                549,
+                570
+              ],
+              "name": "G_SetSpectatorStats"
+            }
+          ],
+          "removed_count": 2,
+          "unchanged_count": 4
+        },
+        "legacy_sha256": "df67a4c0246e2c34f4127c9b2b985bf87aefb190dae455e84e1a18fc6b3ecf83",
+        "path": "p_hud.c",
+        "status": "modified",
+        "zaero_sha256": "310e2bc0e11fd73041d8a96ed04b6570377ebb180e92a5eb95b15dcabe359765"
+      },
+      {
+        "additions": 0,
+        "deletions": 19,
+        "functions": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 6
+        },
+        "legacy_sha256": "1c51498fb7697d89e3da397989460808a9f43503c951fe698a50dfc449d51885",
+        "path": "p_trail.c",
+        "status": "modified",
+        "zaero_sha256": "a904959bdeadb3f9276650ce39b892873b82e349eb2ed881961738ad66328912"
+      },
+      {
+        "additions": 158,
+        "deletions": 77,
+        "functions": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                958,
+                1086
+              ],
+              "name": "ClientEndServerFrame",
+              "zaero_lines": [
+                1021,
+                1167
+              ]
+            },
+            {
+              "legacy_lines": [
+                745,
+                790
+              ],
+              "name": "G_SetClientEffects",
+              "zaero_lines": [
+                799,
+                855
+              ]
+            },
+            {
+              "legacy_lines": [
+                855,
+                947
+              ],
+              "name": "G_SetClientFrame",
+              "zaero_lines": [
+                922,
+                1006
+              ]
+            },
+            {
+              "legacy_lines": [
+                815,
+                848
+              ],
+              "name": "G_SetClientSound",
+              "zaero_lines": [
+                880,
+                915
+              ]
+            },
+            {
+              "legacy_lines": [
+                418,
+                493
+              ],
+              "name": "SV_CalcBlend",
+              "zaero_lines": [
+                457,
+                547
+              ]
+            },
+            {
+              "legacy_lines": [
+                345,
+                389
+              ],
+              "name": "SV_CalcGunOffset",
+              "zaero_lines": [
+                373,
+                428
+              ]
+            },
+            {
+              "legacy_lines": [
+                222,
+                338
+              ],
+              "name": "SV_CalcViewOffset",
+              "zaero_lines": [
+                203,
+                366
+              ]
+            }
+          ],
+          "changed_count": 7,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 6
+        },
+        "legacy_sha256": "915358415b8088552f7ace5d0a822f122d99b4fe2b9fdb553b9aca460712efcf",
+        "path": "p_view.c",
+        "status": "modified",
+        "zaero_sha256": "918b00ebd2e851a10685f4fd8169fe7aa5a432291c667aea181518d2258c11bd"
+      },
+      {
+        "additions": 191,
+        "deletions": 194,
+        "functions": {
+          "added": [
+            {
+              "name": "playQuadSound",
+              "zaero_lines": [
+                11,
+                15
+              ]
+            },
+            {
+              "name": "stuffcmd",
+              "zaero_lines": [
+                284,
+                289
+              ]
+            }
+          ],
+          "added_count": 2,
+          "changed": [
+            {
+              "legacy_lines": [
+                816,
+                844
+              ],
+              "name": "Blaster_Fire",
+              "zaero_lines": [
+                782,
+                824
+              ]
+            },
+            {
+              "legacy_lines": [
+                1047,
+                1164
+              ],
+              "name": "Chaingun_Fire",
+              "zaero_lines": [
+                1009,
+                1123
+              ]
+            },
+            {
+              "legacy_lines": [
+                174,
+                227
+              ],
+              "name": "ChangeWeapon",
+              "zaero_lines": [
+                163,
+                206
+              ]
+            },
+            {
+              "legacy_lines": [
+                953,
+                1037
+              ],
+              "name": "Machinegun_Fire",
+              "zaero_lines": [
+                924,
+                999
+              ]
+            },
+            {
+              "legacy_lines": [
+                33,
+                43
+              ],
+              "name": "P_ProjectSource",
+              "zaero_lines": [
+                20,
+                30
+              ]
+            },
+            {
+              "legacy_lines": [
+                118,
+                163
+              ],
+              "name": "Pickup_Weapon",
+              "zaero_lines": [
+                105,
+                152
+              ]
+            },
+            {
+              "legacy_lines": [
+                311,
+                340
+              ],
+              "name": "Use_Weapon",
+              "zaero_lines": [
+                299,
+                334
+              ]
+            },
+            {
+              "legacy_lines": [
+                380,
+                531
+              ],
+              "name": "Weapon_Generic",
+              "zaero_lines": [
+                374,
+                493
+              ]
+            },
+            {
+              "legacy_lines": [
+                868,
+                935
+              ],
+              "name": "Weapon_HyperBlaster_Fire",
+              "zaero_lines": [
+                848,
+                906
+              ]
+            },
+            {
+              "legacy_lines": [
+                759,
+                797
+              ],
+              "name": "Weapon_RocketLauncher_Fire",
+              "zaero_lines": [
+                714,
+                763
+              ]
+            },
+            {
+              "legacy_lines": [
+                1367,
+                1423
+              ],
+              "name": "weapon_bfg_fire",
+              "zaero_lines": [
+                1343,
+                1420
+              ]
+            },
+            {
+              "legacy_lines": [
+                546,
+                593
+              ],
+              "name": "weapon_grenade_fire",
+              "zaero_lines": [
+                508,
+                537
+              ]
+            },
+            {
+              "legacy_lines": [
+                709,
+                741
+              ],
+              "name": "weapon_grenadelauncher_fire",
+              "zaero_lines": [
+                653,
+                697
+              ]
+            },
+            {
+              "legacy_lines": [
+                1302,
+                1347
+              ],
+              "name": "weapon_railgun_fire",
+              "zaero_lines": [
+                1267,
+                1323
+              ]
+            },
+            {
+              "legacy_lines": [
+                1184,
+                1228
+              ],
+              "name": "weapon_shotgun_fire",
+              "zaero_lines": [
+                1143,
+                1190
+              ]
+            },
+            {
+              "legacy_lines": [
+                1239,
+                1282
+              ],
+              "name": "weapon_supershotgun_fire",
+              "zaero_lines": [
+                1201,
+                1247
+              ]
+            }
+          ],
+          "changed_count": 16,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 16
+        },
+        "legacy_sha256": "6ea1fe950206e780da1b746cc33e01e953bdb39a8c934da3fc92bfe483ffa3a1",
+        "path": "p_weapon.c",
+        "status": "modified",
+        "zaero_sha256": "e2d34274f20cb5799f7e29b1e71e16fe102bb0f8cd70b6d2ab6be9c224b5f68b"
+      },
+      {
+        "additions": 5,
+        "deletions": 23,
+        "functions": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                1072,
+                1150
+              ],
+              "name": "COM_Parse",
+              "zaero_lines": [
+                1053,
+                1132
+              ]
+            },
+            {
+              "legacy_lines": [
+                1216,
+                1219
+              ],
+              "name": "Q_strcasecmp",
+              "zaero_lines": [
+                1198,
+                1201
+              ]
+            },
+            {
+              "legacy_lines": [
+                1180,
+                1187
+              ],
+              "name": "Q_stricmp",
+              "zaero_lines": [
+                1162,
+                1169
+              ]
+            },
+            {
+              "legacy_lines": [
+                1190,
+                1214
+              ],
+              "name": "Q_strncasecmp",
+              "zaero_lines": [
+                1172,
+                1196
+              ]
+            }
+          ],
+          "changed_count": 4,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 54
+        },
+        "legacy_sha256": "ebdbc0a79a2eae288630647cc3f5542f0d5bc2aa6f2d8c04781c6aaebfbe0e60",
+        "path": "q_shared.c",
+        "status": "modified",
+        "zaero_sha256": "40b4f2b8310fde55b344399fe0d39fcc90b98a17cdfa8ff0b40a229c1581747d"
+      },
+      {
+        "additions": 37,
+        "deletions": 259,
+        "legacy_sha256": "c552978e0efed7d7f2daf3cef50af5b7b248555021e93a3347cc73d46d25389c",
+        "path": "q_shared.h",
+        "status": "modified",
+        "zaero_sha256": "99691482ad4286b2973cd6fd167a9699f6b1c456762bc6829d8fe7289047e059"
+      },
+      {
+        "additions": 32,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "readme.txt",
+        "status": "zaero_only",
+        "zaero_sha256": "6f7bdf406911548a1d1b3c747abeedb16cdb5f0f62af85dc800f4ceb8da28ddb"
+      },
+      {
+        "additions": 919,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "z_acannon.c",
+        "status": "zaero_only",
+        "zaero_sha256": "156f834e729ec02287b0ac9e592a5e1041c791b0933f1d7d1de5e5c2a29f615b"
+      },
+      {
+        "additions": 491,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "z_ai.c",
+        "status": "zaero_only",
+        "zaero_sha256": "0abe81464130bc5cdf5d5d8d02ab80191c79f2c7ef54231c8484b315f6e05c6a"
+      },
+      {
+        "additions": 705,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "z_anim.c",
+        "status": "zaero_only",
+        "zaero_sha256": "39dfdd07dcfe0affc294b4790734a2c2b12335ab72f42d7b1c8b83ce94b6905d"
+      },
+      {
+        "additions": 58,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "z_anim.h",
+        "status": "zaero_only",
+        "zaero_sha256": "a9640d85554de01a7b265ac65931a55ec5d19bbac8c56f6f3ba09deddcea628b"
+      },
+      {
+        "additions": 1897,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "z_boss.c",
+        "status": "zaero_only",
+        "zaero_sha256": "b13b1f40b018ceab03f603ea047f2082b4469d1f129c0c1f2681d58684d15e3e"
+      },
+      {
+        "additions": 136,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "z_boss.h",
+        "status": "zaero_only",
+        "zaero_sha256": "a417007251551c32b3b82d02674a72c4369aef1e50018eba93087f593685a794"
+      },
+      {
+        "additions": 124,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "z_camera.c",
+        "status": "zaero_only",
+        "zaero_sha256": "5a4b802772d4bf6d7b1f1b80e3df9bebe12f9001f96f544f7e10c237e712c5b8"
+      },
+      {
+        "additions": 6,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "z_debug.c",
+        "status": "zaero_only",
+        "zaero_sha256": "df8d9775e7e2e462d712fbdf06e43237bb8d281470895ce0f9154554f27fc17c"
+      },
+      {
+        "additions": 12,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "z_debug.h",
+        "status": "zaero_only",
+        "zaero_sha256": "0de6e42164ab7d0301657d5dd3dced0f361c63c197e974fae3b15ad1c1474cd2"
+      },
+      {
+        "additions": 319,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "z_frames.c",
+        "status": "zaero_only",
+        "zaero_sha256": "b3b34be6fe58f0c0f6de1ae8abd7630a28bde7e0302773ed3b4700284531138f"
+      },
+      {
+        "additions": 13,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "z_frames.h",
+        "status": "zaero_only",
+        "zaero_sha256": "798f43d03076f1eb2c94e8b82a4076f9dad9704d2d0fc76428557ce249f0c02a"
+      },
+      {
+        "additions": 474,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "z_handler.c",
+        "status": "zaero_only",
+        "zaero_sha256": "4d328ab722c4730eea75d486c632269fe31cb8a636c2e66af5b64ffce7db9c06"
+      },
+      {
+        "additions": 33,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "z_handler.h",
+        "status": "zaero_only",
+        "zaero_sha256": "25160096801e10419bcaf7a4dbc7486d98ed03b261af2fc80b6809f208f3c8fb"
+      },
+      {
+        "additions": 674,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "z_hound.c",
+        "status": "zaero_only",
+        "zaero_sha256": "2a2c664c05ce99a6c6a88548ee69087cb4e37fb16af5291b6e488eda69bd98fb"
+      },
+      {
+        "additions": 38,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "z_hound.h",
+        "status": "zaero_only",
+        "zaero_sha256": "2bfcef41ae46196c98c6555a8d1258c05c8dcc3c8c651073cee998c212ee3182"
+      },
+      {
+        "additions": 606,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "z_item.c",
+        "status": "zaero_only",
+        "zaero_sha256": "23dcc0fda023260c73e26260bb86d2c78d6edfc29f0486a4b6472568561f94ae"
+      },
+      {
+        "additions": 216,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "z_list.c",
+        "status": "zaero_only",
+        "zaero_sha256": "597051676a37e2fea40150095d91df2709246b4e0750a4e6866f17490d10a8d4"
+      },
+      {
+        "additions": 52,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "z_list.h",
+        "status": "zaero_only",
+        "zaero_sha256": "c5f4762aee465729ebddb1af9fa89c04b05688c3eec7707b61a81d33d45aac6a"
+      },
+      {
+        "additions": 561,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "z_mtest.c",
+        "status": "zaero_only",
+        "zaero_sha256": "3020d448a70045262bceb2f37e35ed2389eada638af907408d960c79d32fc6e7"
+      },
+      {
+        "additions": 1173,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "z_sentien.c",
+        "status": "zaero_only",
+        "zaero_sha256": "cea70fef97e3965d122cb48432a9d4e04fcc94295d0a59a85b8aa6f3007d120e"
+      },
+      {
+        "additions": 55,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "z_sentien.h",
+        "status": "zaero_only",
+        "zaero_sha256": "d015b10b24e5419b3b9c7ce8215104eb6010c003c94cd7a4a7cf7b783aba1d8e"
+      },
+      {
+        "additions": 142,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "z_spawn.c",
+        "status": "zaero_only",
+        "zaero_sha256": "639ec4b2d1f05a6a78c4722f190505e3e4c3d97f3f900fe6de2b01abbadff521"
+      },
+      {
+        "additions": 256,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "z_trigger.c",
+        "status": "zaero_only",
+        "zaero_sha256": "1db62252c19019ce8568014acd4502a3289e45f0e88ad4ac46150bc68f1c3af4"
+      },
+      {
+        "additions": 1534,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "z_weapon.c",
+        "status": "zaero_only",
+        "zaero_sha256": "bd23c9d99bb4d7d5af6a0e329aa30db7baafc155a3d5cf0814166576e5669d90"
+      },
+      {
+        "additions": 494,
+        "deletions": 0,
+        "legacy_sha256": null,
+        "path": "zaero.dsp",
+        "status": "zaero_only",
+        "zaero_sha256": "ba0122518b87183e7c1fd5c155a236b7e075dcf22427dada54909bb3f7cccb0e"
+      }
+    ]
+  },
+  "format": "ZaeREo source delta audit",
+  "inputs": {
+    "legacy_label": "legacy-quake2-game",
+    "rerelease_label": "quake2-rerelease-api-2023",
+    "zaero_label": "zaero-source"
+  },
+  "schema_version": 1,
+  "summary": {
+    "additions": 14887,
+    "binary_path_count": 0,
+    "compared_path_count": 102,
+    "deletions": 6981,
+    "function_delta": {
+      "added": 50,
+      "changed": 200,
+      "removed": 12,
+      "unchanged": 817
+    },
+    "legacy_extension_counts": {
+      ".001": 1,
+      ".c": 48,
+      ".def": 1,
+      ".dsp": 1,
+      ".h": 26,
+      ".plg": 1
+    },
+    "legacy_file_count": 78,
+    "legacy_tree_sha256": "4a3f4763c1c9037773715f6c03ba2f9a99c0390b82048f8deb1ea1f5b7d0c14a",
+    "logical_path_count": 104,
+    "rerelease_extension_counts": {
+      ".cpp": 92,
+      ".filters": 1,
+      ".h": 48,
+      ".json": 1,
+      ".sln": 1,
+      ".vcxproj": 1
+    },
+    "rerelease_file_count": 144,
+    "rerelease_tree_sha256": "74b79d4f853fb521a866aaa5b1510c1c46afb63a73370b907b10143146629bf5",
+    "status_counts": {
+      "identical": 2,
+      "legacy_only": 4,
+      "modified": 72,
+      "zaero_only": 26
+    },
+    "zaero_extension_counts": {
+      ".c": 63,
+      ".def": 1,
+      ".dsp": 1,
+      ".h": 34,
+      ".txt": 1
+    },
+    "zaero_file_count": 100,
+    "zaero_tree_sha256": "aba05eb669e39b51adb6d66ecd3c00fe70653cd61e4ec7c4879bb9c1a7a840be"
+  }
+}

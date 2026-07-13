@@ -1,0 +1,38 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "ZaeREo: Launch installed campaign (Debug)",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${input:q2Executable}",
+      "cwd": "${input:q2RereleaseEngineRoot}",
+      "args": [
+        "+set",
+        "game",
+        "zaereo",
+        "+set",
+        "developer",
+        "1",
+        "+exec",
+        "zaerostart.cfg"
+      ],
+      "symbolSearchPath": "${workspaceFolder}\\build\\Debug;${workspaceFolder}\\.install\\zaereo",
+      "stopAtEntry": false,
+      "console": false,
+      "internalConsoleOptions": "neverOpen"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "q2Executable",
+      "type": "promptString",
+      "description": "Full path to the local Quake II Rerelease executable"
+    },
+    {
+      "id": "q2RereleaseEngineRoot",
+      "type": "promptString",
+      "description": "Read-only Quake II Rerelease engine/data root containing baseq2; zaereo is installed in the per-user data root"
+    }
+  ]
+}

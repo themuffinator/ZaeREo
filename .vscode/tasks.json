@@ -1,0 +1,131 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "ZaeREo: Bootstrap",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoLogo",
+        "-NoProfile",
+        "-File",
+        "./tools/bootstrap.ps1"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "ZaeREo: Build Debug",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoLogo",
+        "-NoProfile",
+        "-File",
+        "./tools/build_game.ps1",
+        "-Configuration",
+        "Debug"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "ZaeREo: Build Release",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoLogo",
+        "-NoProfile",
+        "-File",
+        "./tools/build_game.ps1",
+        "-Configuration",
+        "Release"
+      ],
+      "group": "build",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "ZaeREo: Import legacy assets",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "./tools/import_legacy_assets.py",
+        "--source",
+        "${input:zaeroLegacyRoot}",
+        "--output",
+        ".install/imported/zaereo",
+        "--manifest",
+        ".install/imported/zaereo-asset-manifest.json"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "ZaeREo: Validate imported assets",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "./tools/validate_runtime.py",
+        "--root",
+        ".install/imported/zaereo",
+        "--manifest",
+        ".install/imported/zaereo-asset-manifest.json",
+        "--strict"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "ZaeREo: Install developer build",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoLogo",
+        "-NoProfile",
+        "-File",
+        "./tools/install_dev.ps1",
+        "-EngineRoot",
+        "${input:q2RereleaseEngineRoot}",
+        "-ContentRoot",
+        ".install/imported/zaereo",
+        "-AssetManifest",
+        ".install/imported/zaereo-asset-manifest.json",
+        "-Configuration",
+        "Debug",
+        "-SkipBuild"
+      ],
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "ZaeREo: Build Debug"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "ZaeREo: Package importer kit (local verification)",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoLogo",
+        "-NoProfile",
+        "-File",
+        "./tools/package_windows.ps1",
+        "-DistributionMode",
+        "importer-kit",
+        "-AllowDirty"
+      ],
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "zaeroLegacyRoot",
+      "type": "promptString",
+      "description": "Path to a legitimate local Zaero installation"
+    },
+    {
+      "id": "q2RereleaseEngineRoot",
+      "type": "promptString",
+      "description": "Read-only Quake II Rerelease engine/data root containing baseq2; install uses the per-user data root"
+    }
+  ]
+}

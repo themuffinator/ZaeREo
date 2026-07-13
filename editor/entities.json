@@ -1,0 +1,454 @@
+{
+  "schema_version": 1,
+  "entities": [
+    {
+      "classname": "ammo_a2k",
+      "title": "A2K",
+      "description": "Single-use five-second area-destruction weapon. Inventory maximum is one.",
+      "color": [77, 77, 255],
+      "mins": [-16, -16, -16],
+      "maxs": [16, 16, 16],
+      "model": "models/weapons/g_a2k/tris.md2"
+    },
+    {
+      "classname": "ammo_empnuke",
+      "title": "EMP Nuke",
+      "description": "Deployable EMP field item.",
+      "color": [77, 77, 255],
+      "mins": [-16, -16, -16],
+      "maxs": [16, 16, 16],
+      "model": "models/weapons/g_enuke/tris.md2",
+      "spawnflags": [
+        {"bit": 4, "name": "Respawn after 15 seconds outside deathmatch"},
+        {"bit": 8, "name": "Cap pickup inventory to entity quantity"}
+      ]
+    },
+    {
+      "classname": "ammo_flares",
+      "title": "Flares",
+      "description": "Three-flare ammunition pickup for the Flare Gun.",
+      "color": [77, 77, 255],
+      "mins": [-16, -16, -16],
+      "maxs": [16, 16, 16],
+      "model": "models/items/ammo/flares/tris.md2",
+      "spawnflags": [
+        {"bit": 4, "name": "Respawn after 15 seconds outside deathmatch"},
+        {"bit": 8, "name": "Cap pickup inventory to entity quantity"}
+      ]
+    },
+    {
+      "classname": "ammo_ired",
+      "title": "IRED",
+      "description": "Three-unit deployable laser mine ammunition pickup.",
+      "color": [77, 77, 255],
+      "mins": [-16, -16, -16],
+      "maxs": [16, 16, 16],
+      "model": "models/items/ammo/ireds/tris.md2",
+      "spawnflags": [
+        {"bit": 4, "name": "Respawn after 15 seconds outside deathmatch"},
+        {"bit": 8, "name": "Cap pickup inventory to entity quantity"}
+      ]
+    },
+    {
+      "classname": "ammo_plasmashield",
+      "title": "Plasma Shield",
+      "description": "Five-unit deployable plasma-shield pickup.",
+      "color": [77, 77, 255],
+      "mins": [-16, -16, -16],
+      "maxs": [16, 16, 16],
+      "model": "models/items/plasma/tris.md2",
+      "spawnflags": [
+        {"bit": 4, "name": "Respawn after 15 seconds outside deathmatch"},
+        {"bit": 8, "name": "Cap pickup inventory to entity quantity"}
+      ]
+    },
+    {
+      "classname": "func_barrier",
+      "title": "Invisible Barrier",
+      "description": "Fixed invisible barrier that briefly reveals itself when touched or damaged.",
+      "color": [0, 128, 204],
+      "mins": [-32, -32, -32],
+      "maxs": [32, 32, 32],
+      "model": "models/objects/wall/tris.md2",
+      "properties": [
+        {"name": "angle", "type": "angle", "description": "Yaw"},
+        {"name": "maxs", "type": "vector", "description": "Runtime collision maximums; shipped map supplies this explicitly"},
+        {"name": "mins", "type": "vector", "description": "Runtime collision minimums; shipped map supplies this explicitly"},
+        {"name": "targetname", "type": "target_source", "description": "Target name"}
+      ]
+    },
+    {
+      "classname": "item_visor",
+      "title": "Visor",
+      "description": "Timed security-camera viewer; uses Cells and cycles active misc_securitycamera entities.",
+      "color": [77, 77, 255],
+      "mins": [-16, -16, -16],
+      "maxs": [16, 16, 16],
+      "model": "models/items/visor/tris.md2"
+    },
+    {
+      "classname": "key_clearancepass",
+      "title": "Clearance Pass",
+      "description": "Source-exposed Zaero security key for community maps.",
+      "color": [0, 128, 204],
+      "mins": [-16, -16, -16],
+      "maxs": [16, 16, 16],
+      "model": "models/items/keys/pass/tris.md2"
+    },
+    {
+      "classname": "key_energy",
+      "title": "Energy Key",
+      "description": "Energy-system key used by Tomb maps.",
+      "color": [0, 128, 204],
+      "mins": [-16, -16, -16],
+      "maxs": [16, 16, 16],
+      "model": "models/items/keys/energy/tris.md2"
+    },
+    {
+      "classname": "key_lab",
+      "title": "Laboratory Key",
+      "description": "Source-exposed Zaero laboratory key for community maps.",
+      "color": [0, 128, 204],
+      "mins": [-16, -16, -16],
+      "maxs": [16, 16, 16],
+      "model": "models/items/keys/pass/tris.md2"
+    },
+    {
+      "classname": "key_landing_area",
+      "title": "Airfield Pass",
+      "description": "Airfield access key used by zdef4.",
+      "color": [0, 128, 204],
+      "mins": [-16, -16, -16],
+      "maxs": [16, 16, 16],
+      "model": "models/items/keys/key/tris.md2"
+    },
+    {
+      "classname": "key_lava",
+      "title": "Lava Key",
+      "description": "Lava-system key used by Tomb maps.",
+      "color": [0, 128, 204],
+      "mins": [-16, -16, -16],
+      "maxs": [16, 16, 16],
+      "model": "models/items/keys/lava/tris.md2"
+    },
+    {
+      "classname": "key_slime",
+      "title": "Slime Key",
+      "description": "Slime-system key used by Tomb maps.",
+      "color": [0, 128, 204],
+      "mins": [-16, -16, -16],
+      "maxs": [16, 16, 16],
+      "model": "models/items/keys/slime/tris.md2"
+    },
+    {
+      "classname": "load_mirrorlevel",
+      "title": "Mirror Level Loader (Compatibility No-op)",
+      "description": "Accepted for Zaero map compatibility and intentionally removed at spawn; mirror rendering was dormant in the supplied source.",
+      "color": [255, 0, 0],
+      "mins": [-16, -16, -16],
+      "maxs": [16, 16, 16],
+      "properties": [
+        {"name": "target", "type": "string", "description": "Legacy mirror map name"}
+      ]
+    },
+    {
+      "classname": "misc_commdish",
+      "title": "Communications Dish",
+      "description": "One-shot use-animated communications dish.",
+      "color": [0, 128, 204],
+      "mins": [-100, -100, 0],
+      "maxs": [100, 100, 275],
+      "model": "models/objects/satdish/tris.md2",
+      "properties": [
+        {"name": "angle", "type": "angle", "description": "Yaw"},
+        {"name": "targetname", "type": "target_source", "description": "Target name used to activate the dish"}
+      ]
+    },
+    {
+      "classname": "misc_crate",
+      "title": "Large Crate",
+      "description": "64-unit pushable FALLFLOAT crate.",
+      "color": [0, 128, 204],
+      "mins": [-32, -32, 0],
+      "maxs": [32, 32, 64],
+      "model": "models/objects/crate/crate64.md2",
+      "properties": [
+        {"name": "mass", "type": "integer", "description": "Push resistance; zero uses the Zaero default"}
+      ]
+    },
+    {
+      "classname": "misc_crate_medium",
+      "title": "Medium Crate",
+      "description": "48-unit pushable FALLFLOAT crate.",
+      "color": [0, 128, 204],
+      "mins": [-24, -24, 0],
+      "maxs": [24, 24, 48],
+      "model": "models/objects/crate/crate48.md2",
+      "properties": [
+        {"name": "mass", "type": "integer", "description": "Push resistance; zero uses the Zaero default"}
+      ]
+    },
+    {
+      "classname": "misc_crate_small",
+      "title": "Small Crate",
+      "description": "32-unit pushable FALLFLOAT crate exposed by the source for community maps.",
+      "color": [0, 128, 204],
+      "mins": [-16, -16, 0],
+      "maxs": [16, 16, 32],
+      "model": "models/objects/crate/crate32.md2",
+      "properties": [
+        {"name": "mass", "type": "integer", "description": "Push resistance; zero uses the Zaero default"}
+      ]
+    },
+    {
+      "classname": "misc_ired",
+      "title": "Map-authored IRED",
+      "description": "Mapper-placed laser mine with arm/use/target lifecycle.",
+      "color": [0, 128, 204],
+      "mins": [-8, -8, -8],
+      "maxs": [8, 8, 8],
+      "model": "models/objects/ired/tris.md2",
+      "properties": [
+        {"name": "angle", "type": "angle", "description": "Beam direction"},
+        {"name": "delay", "type": "float", "description": "Arming delay"},
+        {"name": "target", "type": "target_destination", "description": "Target fired on detonation"},
+        {"name": "targetname", "type": "target_source", "description": "Target name used to toggle the mine"},
+        {"name": "wait", "type": "float", "description": "Active lifetime"}
+      ],
+      "spawnflags": [
+        {"bit": 1, "name": "Start off"}
+      ]
+    },
+    {
+      "classname": "misc_seat",
+      "title": "Pushable Seat",
+      "description": "Pushable FALLFLOAT seat with crate-style mass interaction.",
+      "color": [0, 128, 204],
+      "mins": [-16, -16, 0],
+      "maxs": [16, 16, 40],
+      "model": "models/objects/seat/tris.md2",
+      "properties": [
+        {"name": "angle", "type": "angle", "description": "Yaw"},
+        {"name": "mass", "type": "integer", "description": "Push resistance; zero uses the Zaero default"}
+      ]
+    },
+    {
+      "classname": "misc_securitycamera",
+      "title": "Security Camera",
+      "description": "Visor camera. Message is required; mangle supplies its view direction. A targetname makes it start inactive and toggleable.",
+      "color": [0, 128, 204],
+      "mins": [-16, -16, -32],
+      "maxs": [16, 16, 0],
+      "model": "models/objects/camera/tris.md2",
+      "properties": [
+        {"name": "mangle", "type": "vector", "description": "Camera pitch yaw roll"},
+        {"name": "message", "type": "string", "description": "Required camera display name"},
+        {"name": "targetname", "type": "target_source", "description": "Optional toggle name; presence starts the camera inactive"}
+      ]
+    },
+    {
+      "classname": "monster_autocannon",
+      "title": "Ceiling Autocannon",
+      "description": "Multipart ceiling defence. Style selects bullet, rocket, blaster, or laser fire.",
+      "color": [255, 128, 0],
+      "mins": [-12, -12, -48],
+      "maxs": [12, 12, -4],
+      "properties": [
+        {"name": "angle", "type": "angle", "description": "Centre yaw"},
+        {"name": "health", "type": "integer", "description": "Health", "default": 100},
+        {"name": "lip", "type": "float", "description": "Optional yaw search limit"},
+        {"name": "style", "type": "integer", "description": "Weapon style: 1 bullet, 2 rocket, 3 blaster, 4 laser", "default": 1},
+        {"name": "targetname", "type": "target_source", "description": "Optional activation/toggle name"}
+      ],
+      "spawnflags": [
+        {"bit": 1, "name": "Start off"},
+        {"bit": 2, "name": "Berserk"},
+        {"bit": 4, "name": "Toggle berserk"}
+      ]
+    },
+    {
+      "classname": "monster_autocannon_floor",
+      "title": "Floor Autocannon",
+      "description": "Floor-mounted autocannon that can ride movers. Bullet style 1 is invalid.",
+      "color": [255, 128, 0],
+      "mins": [-12, -12, 4],
+      "maxs": [12, 12, 48],
+      "properties": [
+        {"name": "angle", "type": "angle", "description": "Centre yaw"},
+        {"name": "health", "type": "integer", "description": "Health", "default": 100},
+        {"name": "lip", "type": "float", "description": "Optional yaw search limit"},
+        {"name": "style", "type": "integer", "description": "Weapon style: 2 rocket, 3 blaster, 4 laser", "default": 2},
+        {"name": "targetname", "type": "target_source", "description": "Optional activation/toggle name"}
+      ],
+      "spawnflags": [
+        {"bit": 1, "name": "Start off"},
+        {"bit": 2, "name": "Berserk"},
+        {"bit": 4, "name": "Toggle berserk"}
+      ]
+    },
+    {
+      "classname": "monster_handler",
+      "title": "Handler",
+      "description": "Composite Handler/Hound creature that separates into a Hound and converted Infantry.",
+      "color": [255, 128, 0],
+      "mins": [-16, -16, -24],
+      "maxs": [16, 16, 32],
+      "properties": [
+        {"name": "combattarget", "type": "target_destination", "description": "Combat target"},
+        {"name": "deathtarget", "type": "target_destination", "description": "Death target"},
+        {"name": "health", "type": "integer", "description": "Combined health"},
+        {"name": "mteam", "type": "string", "description": "Zaero monster team"},
+        {"name": "target", "type": "target_destination", "description": "Target"},
+        {"name": "targetname", "type": "target_source", "description": "Trigger-spawn name"}
+      ],
+      "spawnflags": [
+        {"bit": 1, "name": "Ambush"},
+        {"bit": 2, "name": "Trigger spawn"},
+        {"bit": 4, "name": "Sight"}
+      ]
+    },
+    {
+      "classname": "monster_hound",
+      "title": "Hound",
+      "description": "Leaping/bite monster. Spawnflag 8 enables schooling behavior.",
+      "color": [255, 128, 0],
+      "mins": [-16, -16, -24],
+      "maxs": [16, 16, 32],
+      "properties": [
+        {"name": "combattarget", "type": "target_destination", "description": "Combat target"},
+        {"name": "deathtarget", "type": "target_destination", "description": "Death target"},
+        {"name": "health", "type": "integer", "description": "Health"},
+        {"name": "mteam", "type": "string", "description": "Zaero monster team/school"},
+        {"name": "target", "type": "target_destination", "description": "Target"},
+        {"name": "targetname", "type": "target_source", "description": "Trigger-spawn name"}
+      ],
+      "spawnflags": [
+        {"bit": 1, "name": "Ambush"},
+        {"bit": 2, "name": "Trigger spawn"},
+        {"bit": 4, "name": "Sight"},
+        {"bit": 8, "name": "Schooling"}
+      ]
+    },
+    {
+      "classname": "monster_sentien",
+      "title": "Sentien",
+      "description": "Zaero flying monster. The historical sentien spelling is required map ABI.",
+      "color": [255, 128, 0],
+      "mins": [-32, -32, -16],
+      "maxs": [32, 32, 72],
+      "model": "models/monsters/sentien/tris.md2",
+      "properties": [
+        {"name": "combattarget", "type": "target_destination", "description": "Combat target"},
+        {"name": "deathtarget", "type": "target_destination", "description": "Death target"},
+        {"name": "health", "type": "integer", "description": "Health"},
+        {"name": "target", "type": "target_destination", "description": "Target"},
+        {"name": "targetname", "type": "target_source", "description": "Trigger-spawn name"}
+      ],
+      "spawnflags": [
+        {"bit": 1, "name": "Ambush"},
+        {"bit": 2, "name": "Trigger spawn"},
+        {"bit": 4, "name": "Sight"}
+      ]
+    },
+    {
+      "classname": "monster_zboss",
+      "title": "Zaero Boss",
+      "description": "Final Zaero boss with grapple, EMP reaction, target markers, and finale state machine.",
+      "color": [255, 128, 0],
+      "mins": [-32, -74, -30],
+      "maxs": [32, 50, 74],
+      "model": "models/monsters/bossz/mech/tris.md2",
+      "properties": [
+        {"name": "combattarget", "type": "target_destination", "description": "Combat target"},
+        {"name": "deathtarget", "type": "target_destination", "description": "Death target"},
+        {"name": "health", "type": "integer", "description": "Optional health override"},
+        {"name": "target", "type": "target_destination", "description": "Target"},
+        {"name": "targetname", "type": "target_source", "description": "Trigger-spawn name"}
+      ],
+      "spawnflags": [
+        {"bit": 1, "name": "Ambush"},
+        {"bit": 2, "name": "Trigger spawn"},
+        {"bit": 4, "name": "Sight"}
+      ]
+    },
+    {
+      "classname": "sound_echo",
+      "title": "Sound Echo (Compatibility No-op)",
+      "description": "Accepted for Zaero source compatibility and intentionally removed at spawn.",
+      "color": [255, 0, 0],
+      "mins": [-16, -16, -16],
+      "maxs": [16, 16, 16],
+      "properties": [
+        {"name": "delay", "type": "float", "description": "Legacy echo delay"},
+        {"name": "dmg_radius", "type": "float", "description": "Legacy echo radius"},
+        {"name": "wait", "type": "float", "description": "Legacy volume decay"}
+      ]
+    },
+    {
+      "classname": "target_zboss_target",
+      "title": "ZBoss Target Marker",
+      "description": "One-shot boss target marker used by the zboss encounter.",
+      "color": [255, 128, 0],
+      "mins": [-8, -8, -8],
+      "maxs": [8, 8, 8],
+      "properties": [
+        {"name": "target", "type": "target_destination", "description": "Marker destination/chain target"},
+        {"name": "targetname", "type": "target_source", "description": "Target name"}
+      ]
+    },
+    {
+      "classname": "trigger_laser",
+      "title": "Laser Trigger",
+      "description": "Point laser trigger that traces about 2048 units along angle and fires when a client crosses the beam.",
+      "color": [255, 0, 0],
+      "mins": [-16, -16, -16],
+      "maxs": [16, 16, 16],
+      "properties": [
+        {"name": "angle", "type": "angle", "description": "Beam direction"},
+        {"name": "delay", "type": "float", "description": "Delay before firing targets"},
+        {"name": "message", "type": "string", "description": "Center-print message"},
+        {"name": "target", "type": "target_destination", "description": "Target fired by the beam"},
+        {"name": "targetname", "type": "target_source", "description": "Optional toggle name"},
+        {"name": "wait", "type": "float", "description": "Reactivation delay"}
+      ],
+      "spawnflags": [
+        {"bit": 1, "name": "Trigger multiple"}
+      ]
+    },
+    {
+      "classname": "weapon_flaregun",
+      "title": "Flare Gun",
+      "description": "Zaero flare weapon pickup; uses Flares.",
+      "color": [77, 77, 255],
+      "mins": [-16, -16, -16],
+      "maxs": [16, 16, 16],
+      "model": "models/weapons/g_flare/tris.md2"
+    },
+    {
+      "classname": "weapon_push",
+      "title": "Push (Hidden Player Weapon)",
+      "description": "Always-owned compatibility weapon. It is registered for source/community-map compatibility but should not normally be placed.",
+      "color": [77, 77, 255],
+      "mins": [-16, -16, -16],
+      "maxs": [16, 16, 16]
+    },
+    {
+      "classname": "weapon_sniperrifle",
+      "title": "Sniper Rifle",
+      "description": "Zaero scoped rifle pickup; each shot consumes three Slugs.",
+      "color": [77, 77, 255],
+      "mins": [-16, -16, -16],
+      "maxs": [16, 16, 16],
+      "model": "models/weapons/g_sniper/tris.md2"
+    },
+    {
+      "classname": "weapon_soniccannon",
+      "title": "Sonic Cannon",
+      "description": "Zaero charge weapon pickup; uses Cells.",
+      "color": [77, 77, 255],
+      "mins": [-16, -16, -16],
+      "maxs": [16, 16, 16],
+      "model": "models/weapons/g_sonic/tris.md2"
+    }
+  ]
+}

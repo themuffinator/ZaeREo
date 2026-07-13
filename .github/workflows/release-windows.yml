@@ -1,0 +1,73 @@
+name: Verify stable Windows candidate locally
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing protected stable tag (exactly vVERSION)"
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: zaereo-stable-${{ github.ref_name }}
+  cancel-in-progress: false
+
+env:
+  VCPKG_ROOT: ${{ runner.temp }}\vcpkg
+  VCPKG_DEFAULT_BINARY_CACHE: ${{ runner.temp }}\vcpkg-cache
+
+jobs:
+  release-candidate:
+    runs-on: windows-2022
+    timeout-minutes: 90
+    steps:
+      - name: Check out protected tag without proprietary content
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag }}
+          fetch-depth: 0
+          lfs: false
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pinned vcpkg outside the worktree
+        shell: pwsh
+        run: |
+          $baseline = (Get-Content ./vcpkg.json -Raw | ConvertFrom-Json).'builtin-baseline'
+          git clone --filter=blob:none https://github.com/microsoft/vcpkg.git $env:VCPKG_ROOT
+          git -C $env:VCPKG_ROOT checkout $baseline
+          & "$env:VCPKG_ROOT\bootstrap-vcpkg.bat" -disableMetrics
+          New-Item -ItemType Directory -Force $env:VCPKG_DEFAULT_BINARY_CACHE | Out-Null
+
+      - name: Verify stable identity
+        id: identity
+        shell: pwsh
+        run: |
+          $version = (Get-Content ./VERSION -Raw).Trim()
+          if ($version.Contains('-')) { throw 'Stable workflow refuses a prerelease VERSION.' }
+          $tag = '${{ inputs.tag }}'
+          if ($tag -ne "v$version") { throw "Tag '$tag' must exactly equal v$version." }
+          $commit = (git rev-parse HEAD).Trim()
+          "version=$version" >> $env:GITHUB_OUTPUT
+          "tag=$tag" >> $env:GITHUB_OUTPUT
+          "commit=$commit" >> $env:GITHUB_OUTPUT
+
+      - name: Build, validate, and package importer-only release candidate
+        id: package
+        shell: pwsh
+        run: ./tools/package_windows.ps1 -DistributionMode importer-kit -ArtifactLabel "${{ steps.identity.outputs.tag }}" -IncludeSymbols
+
+      - name: Confirm stable candidate remains runner-local
+        shell: pwsh
+        run: |
+          if (-not (Test-Path '${{ steps.package.outputs.archive_path }}' -PathType Leaf)) {
+            throw 'Expected local stable verification archive is missing.'
+          }
+          Write-Host 'Phase-0 containment: no candidate artifact, cache, tag, draft, or release is published.'

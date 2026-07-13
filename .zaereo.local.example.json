@@ -1,0 +1,10 @@
+{
+  "$schema": "docs/provenance/schemas/local-config.schema.json",
+  "schemaVersion": 1,
+  "q2RereleaseEngineRoot": "",
+  "q2RereleaseUserRoot": "",
+  "zaeroLegacyRoot": "",
+  "zaeroImportedRoot": "",
+  "zaeroAssetManifest": "",
+  "vcpkgRoot": ""
+}

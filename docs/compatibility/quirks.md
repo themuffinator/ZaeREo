@@ -1,0 +1,89 @@
+# Zaero quirk and defect ledger
+
+- Ledger status: audited backlog and execution ledger
+- Runtime implementation: **in progress; see per-row evidence**
+- Default policy: preserve observable behavior; fix memory safety and undefined
+  behavior only with tests for the valid legacy path
+
+Evidence codes:
+
+- **SRC** — supplied Zaero source compared with the supplied legacy Quake II
+  game source;
+- **MAP** — parsed entity data from the 20 supplied BSPs;
+- **PKG** — supplied PAK/loose installation structure;
+- **DOC** — supplied Zaero configuration/readme/changelog; and
+- **RR** — supplied Quake II Rerelease target source.
+
+Normalized source-delta reports are committed under `docs/audits/`; SRC remains
+a compact evidence code because the audited legacy trees are external inputs.
+Implementation/test links are added per row as work proceeds. OPEN means no
+implementation or regression proof exists yet.
+
+| ID | Finding and legacy effect | Evidence | Initial disposition | Required decision/proof | Owner | Status |
+| --- | --- | --- | --- | --- | --- | --- |
+| Q-001 | One IRED/EMP phase-out path compares rather than assigns SVF_NOCLIENT, so intended hiding does not occur | SRC | FIX | [The isolated IRED port deliberately preserves the visible no-op](../../src/zaero/g_zaero_ired.cpp) under a [static source contract](../../tests/compatibility/test_zaero_ired.py). Capture the retail visibility sequence before deciding whether/when to correct it without changing timing | IRED slice | IN PROGRESS |
+| Q-002 | Barrier trace helper can reach the end without returning a value | SRC | FIX | [The Rerelease-native trace helper has an explicit no-hit result](../../src/zaero/g_zaero_entities.cpp), and [static blocked/through/no-hit contracts](../../tests/compatibility/test_zaero_world_entities.py) pass; live valid/invalid trace fixtures remain | World entities | IN PROGRESS |
+| Q-003 | A2K consumes the item, holds gunframe 19, makes the firing client immune even to no-protection damage for exactly five seconds (`50` legacy frames = `200` target ticks as a duration), cancels on death, then combines primary radial and visibility-gated outer passes; qualifying targets may be hit twice and self damage is unusual | SRC | PARITY | Exact 40 Hz duration boundary, HUD, immunity/damage modes, death/save phases, helper creation only at detonation, and golden targets at distance/visibility boundaries | Unassigned | OPEN |
+| Q-004 | Quad state at A2K blast time multiplies its damage and both radii, while Sonic plays Quad audio without multiplying damage | SRC | PARITY | [Sonic discharge checks actual Quad time only and leaves both damage equations unscaled](../../src/zaero/g_zaero_sonic.cpp); [static single-audio/no-multiplier contracts](../../tests/compatibility/test_zaero_sonic.py) pass. Live Quad/non-Quad capture and A2K activation-versus-blast timing remain | Sonic weapon slice / A2K unassigned | IN PROGRESS |
+| Q-005 | Flare compensates for disabled gl_polyblend by damaging that player; zdmflags bit 1 disables it | SRC/DOC | PARITY | [Per-client blend and damage compensation](../../src/zaero/g_zaero_weapons.cpp), including the bit-1 disable gate, has [static timing/damage/save contracts](../../tests/compatibility/test_zaero_items_weapons.py); live exact-tick multiplayer proof remains | Item/weapon slice | IN PROGRESS |
+| Q-006 | Visor cycling may loop forever when every camera is inactive | SRC | FIX | Zero/one/all-inactive/multiple-camera tests; bounded termination | Unassigned | OPEN |
+| Q-007 | Visor restores WALK rather than the exact prior movement state and has a broken player-copy skin-change path | SRC | FIX | Preserve ordinary view presentation while restoring complete prior state | Unassigned | OPEN |
+| Q-008 | Plasma Shield pickup code contains contradictory cap logic, while observable inventory uses the generic configured cap | SRC | PARITY | [The item/max/Pack foundation uses the generic 20→40 configured cap](../../src/g_items.cpp) under [static arithmetic contracts](../../tests/compatibility/test_zaero_items_weapons.py); Shield pickup/drop/death/save live captures and lifecycle implementation remain | Item foundation / Shield unassigned | IN PROGRESS |
+| Q-009 | Plasma Shield has no normal damage-owner attribution and owner shots collide | SRC | ADAPT | Preserve collision/durability; choose stable native attribution and kill messaging | Unassigned | OPEN |
+| Q-010 | IRED shrapnel can dereference a missing trace plane | SRC | FIX | [Typed trace handling](../../src/zaero/g_zaero_ired.cpp) rejects an invalid plane while retaining valid bounce/impact vectors; [static invalid/valid path contracts](../../tests/compatibility/test_zaero_ired.py) pass. Live impact fixtures remain | IRED slice | IN PROGRESS |
+| Q-011 | Sentien bullet helper ignores its requested damage and fires hard-coded two-damage/four-kick shots | SRC | PARITY | Attack damage capture by skill/range before any balance correction | Unassigned | OPEN |
+| Q-012 | Autocannon death blast reports Tripbomb MOD and excludes its current enemy | SRC | PARITY | [Delayed 150/384 blast preserves both Tripbomb attribution and enemy exclusion](../../src/zaero/g_zaero_autocannon.cpp); [source contract](../../tests/compatibility/test_zaero_autocannon.py) passes. Live radius target and obituary capture remain | Autocannon slice | IN PROGRESS |
+| Q-013 | Fly-strafe reset uses a comparison where assignment appears intended, potentially leaving a stuck state | SRC | FIX | Capture normal dodge/reset sequence, then prove no persistent stale state | Unassigned | OPEN |
+| Q-014 | Hound schooling writes temporary radius/distance data into nearby edicts; ZBoss reuses the same field for EMP cooldown, allowing cross-system corruption | SRC | FIX | Separate state storage and test a schooling Hound within 2,000 units of ZBoss | Unassigned | OPEN |
+| Q-015 | Schooling averages yaw arithmetically, includes non-schooling Hounds, and one minimum-distance path copies heading instead of separating | SRC | PARITY | Sequence captures for yaw wrap, peer types, proximity, and leader loss | Unassigned | OPEN |
+| Q-016 | Handler release duplicates remaining durability into converted Handler and detached Hound; identity/max-health/count data can be unstable | SRC | ADAPT | Preserve encounter durability while normalizing IDs, counts, save, and no-count | Unassigned | OPEN |
+| Q-017 | Sentien laser helper is switched off but not freed on death/gib | SRC | FIX | Preserve shutdown event and prove helper is freed once without stale handles | Unassigned | OPEN |
+| Q-018 | ZBoss marker can run without a live enemy while its firing path dereferences that enemy, and target calls are insufficiently validated | SRC | FIX | Null/type/ownership/free-reuse tests plus ordinary one-shot marker behavior | Unassigned | OPEN |
+| Q-019 | DAMAGE_ARMORMOSTLY has no known caller and can produce an invalid result | SRC | FIX | Keep out of public ABI; quarantine or correct before any demonstrated use | Unassigned | OPEN |
+| Q-020 | Random timer and old give parsers use fixed unchecked buffers | SRC/MAP | FIX | Timer list is bounded/tested; retain accepted syntax and overlong rejection, then apply the same proof to the still-unassigned give parser | Map behaviors (timer); give parser unassigned | IN PROGRESS |
+| Q-021 | FALLFLOAT ground/water transitions and rotating START_ON reset contain suspicious assignments | SRC/MAP | PARITY | FALLFLOAT retains the inverted legacy landing-sound gate while its 10 Hz damping/thresholds are time-scaled; rotation keeps the source START_ON reset pending shipped captures | Physics core / map behaviors | IN PROGRESS |
+| Q-022 | Player death clears inventory before an old co-op key-preservation path can retain keys; power-armor state may remain stale | SRC | ADAPT | Choose native co-op key policy from map tests and explicitly clear stale power state | Unassigned | OPEN |
+| Q-023 | Ammo spawnflags add out-of-DM cap/respawn behavior; Pack intentionally omits Flares | SRC/MAP | PARITY | [Zaero-gated cap/15-second pickup flags and Pack omission](../../src/g_items.cpp) have [static arithmetic, ordering, and isolation contracts](../../tests/compatibility/test_zaero_items_weapons.py); live pickup/delay/save proof remains | Item/weapon slice | IN PROGRESS |
+| Q-024 | Old no-ammo fallback does not know custom weapons | SRC | ADAPT | [Zero-stack active ammo drops](../../src/g_items.cpp) now queue the native fallback, and incomplete A2K/Shield/Visor selections safely return to the prior weapon; implemented Flare/Sonic/Sniper/IRED/EMP callbacks use native fallback paths. [Stock/custom/native-map contracts](../../tests/compatibility/test_zaero_items_weapons.py) pass; the complete live exhaust/drop matrix remains | Item/weapon slice | IN PROGRESS |
+| Q-025 | Health pickup temporarily mutates a shared global item sound | SRC | FIX | Select sound per pickup; concurrent pickups leave global item data unchanged | Unassigned | OPEN |
+| Q-026 | target_explosion flag 1 has an EMP-like name but only selects A2K-style cosmetic presentation; damage/targets remain ordinary | SRC/MAP | PARITY | [One Zaero-gated presentation branch](../../src/g_target.cpp) selects the A2K sound and six-tenth animated model before the single shared radius-damage/target path; it creates no EMP state. [Static/source and three shipped zbase2 pattern contracts](../../tests/compatibility/test_stock_world_extensions.py) pass; live damage, target, save/load and stock-map proof remain | Stock world extensions | IN PROGRESS |
+| Q-027 | Zaero 1.1 readme says use weapon 0–9, but source/config implement 1–10 and key 0 invokes use weapon 10 | SRC/DOC | ADAPT | [Tracked non-destructive aliases use the authoritative 1–10 scheme](../../pack/zaero.cfg); command dispatch, wheel behavior, all-number tests, and player-facing documentation remain | Player command/wheel integration | IN PROGRESS |
+| Q-028 | ZDM_ZAERO_ITEMS symbolic name reads opposite to bit 2 behavior | SRC/DOC | PARITY | Preserve numeric semantics; use clearer internal naming without cvar breakage | Unassigned | OPEN |
+| Q-029 | Mirror fields and load entity are present but the mirror-level system is dormant | SRC/MAP | PARITY | [Mirror keys are explicitly accepted](../../src/g_spawn.cpp) and [load_mirrorlevel is an explicit no-op](../../src/zaero/g_zaero_entities.cpp); [parser/no-op contracts](../../tests/compatibility/test_spawn_save_contract.py) pass. Live spawn-log/community-map proof remains | Compatibility spine/world entities | IN PROGRESS |
+| Q-030 | Several maps exceeded the old sound-index limit and historically lost sounds | DOC/RR | ADAPT | Use native cached indexes and prove audible/reference closure; do not emulate loss | Unassigned | OPEN |
+| Q-031 | Original default.cfg and loose autoexec unbind all user controls | DOC/PKG | ADAPT | [Explicit opt-in zaero.cfg](../../pack/zaero.cfg), importer exclusion, and release/runtime allowlists prevent legacy config installation; [content scaffolding contracts](../../tests/content/test_pack_scaffolding.py) pass. Clean-profile before/after live proof remains | Repository tooling | IN PROGRESS |
+| Q-032 | One ztomb1 changelevel names tomb1, but no supplied tomb1 BSP exists | MAP/PKG | PARITY | Test reachability and original outcome; data patch only through a versioned FIX | Unassigned | OPEN |
+| Q-033 | Hound long-range leap selection has no upper bound and only a low random chance beyond 100 units | SRC | PARITY | Distance/random-seed captures; do not impose a modern cap silently | Unassigned | OPEN |
+| Q-034 | Hound attack can produce two or four 30–34 damage strikes and a 40–49 leap impact | SRC | PARITY | Frame/order/damage capture at 40 Hz and save mid-attack | Unassigned | OPEN |
+| Q-035 | Handler split leaves the same remaining health on the converted body and derives Hound health from it, increasing total encounter durability | SRC | PARITY | Lock total damage-to-clear across split before identity bookkeeping adaptation | Unassigned | OPEN |
+| Q-036 | Sentien laser locks aim on its first frame; skill changes damage and turn speed, while fend reduces damage to 85 percent | SRC | PARITY | Per-skill aim/damage/turn/fend captures | Unassigned | OPEN |
+| Q-037 | Ceiling Autocannon death uses 150/384 radial damage and floor cannon rejects bullet style 1 | SRC | PARITY | [Exact style gate and delayed blast](../../src/zaero/g_zaero_autocannon.cpp) plus [static source/map contracts](../../tests/compatibility/test_zaero_autocannon.py) pass; live death-radius and invalid-community-map fixture remain | Autocannon slice | IN PROGRESS |
+| Q-038 | ZBoss direct damage is quartered only when the inflictor itself is monster-classified | SRC | PARITY | Owner/inflictor classification matrix for direct and projectile attacks | Unassigned | OPEN |
+| Q-039 | Source debug/test entities, animated-rocket experiment, and disabled grapple rendering blocks are not in the shipped Release build | SRC | ADAPT | Release denylist; developer-only work cannot be mistaken for parity scope | Unassigned | OPEN |
+| Q-040 | Conditional CACHE_SOUND workaround was not enabled in the supplied Release project and contains unsafe/leaky behavior | SRC/RR | ADAPT | Native resource-index closure; no legacy cache mutation/allocation path | Unassigned | OPEN |
+| Q-041 | FALLFLOAT divides by displaced-water mass derived from entity volume; degenerate bounds produce NaN and malformed non-positive masses produce nonsensical buoyancy | SRC | FIX | [The target physics path retains valid authored arithmetic, checks finite positive displacement, clamps malformed mass, and lets zero-volume objects sink](../../src/g_phys.cpp); [static safety/parity contracts](../../tests/compatibility/test_zaero_physics_contract.py) pass. A live valid/zero-volume fixture remains | Physics core | IN PROGRESS |
+| Q-042 | Autocannon `turretIdle` has four integers but is indexed by styles 1–4; the shipped ELF places zero-valued `turretIdleStart` at the style-4 overread address | SRC/PKG | FIX | [D-019](decisions.md#d-019--autocannon-style-4-idle-overread)'s [bounded five-entry table spells style 4 as false](../../src/zaero/g_zaero_autocannon.cpp), preserving the retail result without undefined memory access; [ELF hash/symbol and table contract](../../tests/compatibility/test_zaero_autocannon.py) pass | Autocannon slice | IN PROGRESS |
+| Q-043 | EMP is an explicit selective call-site matrix, and legacy BFG stores its frame-9 misfire latch in flag `0x4000`, which collides with Rerelease `FL_SAM_RAIMI`; Rerelease generic powerup audio also runs at a different point | SRC/RR | ADAPT | [D-020](decisions.md#d-020--selective-emp-matrix-and-bfg-state) uses one explicit EMP query, attack-specific hooks, a saved per-client BFG latch, and Zaero-gated generic-audio control while preserving recoil, ammo, misfire spelling, redundant/multiple checks, and unaffected attacks. [Static lifecycle/call-site/order/audio/save contracts](../../tests/compatibility/test_zaero_emp.py) pass; live owner/foreign/overlap matrix and future Shield/Sentien/ZBoss sites remain | EMP slice plus future monster slices | IN PROGRESS |
+| Q-044 | Visor creates a solid, non-damageable `VisorCopy` overlapping the still-solid real player; the copy can absorb traces while the real player remains vulnerable | SRC | PARITY | [D-021](decisions.md#d-021--visor-copy-collision-and-trace-behavior) requires owner/enemy hitscan/projectile retail captures before exact absorption or a safe transparent-copy FIX is selected | Unassigned | OPEN |
+| Q-045 | Picking up a dropped Visor adds its remaining `visorFrames` to a partially consumed Visor and can exceed the nominal 30 seconds (`300` legacy frames = `1,200` target ticks, represented as duration) | SRC | PARITY | Fresh, partial, dropped, stacked-over-30-seconds, death/drop, timer display, and mid-duration save round trips | Unassigned | OPEN |
+| Q-046 | `M_ReactToDamage` may select the reacting monster itself through `attacker->enemy`, alongside intended player, mteam, AI_SOUND_TARGET, and non-monster Autocannon changes | SRC | FIX | Lock ordinary attacker/reaction paths first, then reject self-target without changing enemy selection, friendly rules, or sound-target retention | Unassigned | OPEN |
+| Q-047 | Zaero `SV_Physics_Step` removes the post-`G_TouchTriggers` `inuse` guard and can continue after a trigger frees the stepped entity | SRC | FIX | Restore lifetime validation; prove valid trigger order, one-shot/free, callback generation, save, and ordinary step physics | Unassigned | OPEN |
+| Q-048 | Zaero `SV_FlyMove` removes legacy duplicate-plane suppression globally, changing multi-plane clipping beyond custom entities | SRC/RR | ADAPT | Golden corner/wedge/stair/projectile/monster clips must classify intentional Zaero behavior versus source-age drift before any scoped or global target change | Unassigned | OPEN |
+| Q-049 | Shared projectile dodge introduces a saved skill-throttled timeout for Rocket, BFG, and Flare, while the Blaster call is deliberately commented out | SRC | PARITY | Lock both legacy timeout formulas, deterministic skill/random cadence, exact included/excluded call sites, 10 Hz intent at 40 Hz, and mid-timeout save | Unassigned | OPEN |
+
+## Recording a resolved quirk
+
+Before changing a status, add or link:
+
+- exact source/map/package/retail evidence;
+- ordinary behavior that must remain;
+- alternatives considered;
+- final PARITY, ADAPT, or FIX decision and decision-record ID;
+- implementation and owner;
+- deterministic regression test, including save/40 Hz/multiplayer dimensions;
+- migration or player-visible release note; and
+- verification command/result.
+
+Retail observation may refine source-derived expectations, but it must describe
+version, platform, setup, and repeatability. Memory or preference is not parity
+evidence.

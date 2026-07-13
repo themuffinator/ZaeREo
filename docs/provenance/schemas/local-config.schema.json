@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zaereo.invalid/schemas/local-config.schema.json",
+  "title": "ZaeREo ignored local path configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schemaVersion": {
+      "const": 1
+    },
+    "q2RereleaseEngineRoot": {
+      "type": "string"
+    },
+    "q2RereleaseUserRoot": {
+      "type": "string"
+    },
+    "q2RereleaseRoot": {
+      "type": "string",
+      "deprecated": true,
+      "description": "One-release migration alias for q2RereleaseEngineRoot; never treated as writable."
+    },
+    "zaeroLegacyRoot": {
+      "type": "string"
+    },
+    "zaeroImportedRoot": {
+      "type": "string"
+    },
+    "zaeroAssetManifest": {
+      "type": "string"
+    },
+    "vcpkgRoot": {
+      "type": "string"
+    }
+  }
+}

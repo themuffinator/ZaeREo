@@ -1,0 +1,81 @@
+name: Tooling or project bug
+description: Report a reproducible defect outside a specific Zaero gameplay comparison.
+title: "[Bug] "
+labels: []
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ZaeREo is pre-release. Please distinguish missing planned work from a regression in something already implemented.
+        Use the compatibility form for map or legacy-behavior differences and report security issues privately.
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      description: Give the VERSION value, release name, or full Git commit.
+      placeholder: 0.1.0-dev.0 / commit SHA
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Bootstrap or dependencies
+        - Build
+        - Content importer or audit
+        - Developer installation
+        - Runtime validation
+        - Packaging or release
+        - Documentation
+        - Other non-gameplay behavior
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: Platform and tool versions
+      placeholder: Windows 11 x64; VS 2022 17.x; PowerShell 7.x; Python 3.11.x
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      description: Include exact commands and parameters with personal paths and credentials removed.
+      placeholder: |
+        1. Run ...
+        2. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Paste relevant text. Do not upload original PAKs, maps, media, saves containing proprietary content, secrets, or private paths.
+      render: shell
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Submission checks
+      options:
+        - label: I checked the roadmap and this is a defect in implemented behavior, not merely a planned feature.
+          required: true
+        - label: I removed credentials, private paths, and proprietary Zaero content.
+          required: true
+        - label: This report does not disclose a security vulnerability.
+          required: true
+

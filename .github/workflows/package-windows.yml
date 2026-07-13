@@ -1,0 +1,61 @@
+name: Verify Windows importer kit locally
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "src/**"
+      - "pack/**"
+      - "tools/**"
+      - "tests/**"
+      - "docs/release-readme.html"
+      - "VERSION"
+      - "vcpkg.json"
+      - ".github/workflows/package-windows.yml"
+
+permissions:
+  contents: read
+
+env:
+  VCPKG_ROOT: ${{ runner.temp }}\vcpkg
+  VCPKG_DEFAULT_BINARY_CACHE: ${{ runner.temp }}\vcpkg-cache
+
+jobs:
+  package:
+    runs-on: windows-2022
+    timeout-minutes: 75
+
+    steps:
+      - name: Check out source without proprietary content
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: false
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pinned vcpkg outside the worktree
+        shell: pwsh
+        run: |
+          $baseline = (Get-Content ./vcpkg.json -Raw | ConvertFrom-Json).'builtin-baseline'
+          git clone --filter=blob:none https://github.com/microsoft/vcpkg.git $env:VCPKG_ROOT
+          git -C $env:VCPKG_ROOT checkout $baseline
+          & "$env:VCPKG_ROOT\bootstrap-vcpkg.bat" -disableMetrics
+          New-Item -ItemType Directory -Force $env:VCPKG_DEFAULT_BINARY_CACHE | Out-Null
+
+      - name: Build, validate, and package importer kit
+        id: package
+        shell: pwsh
+        run: ./tools/package_windows.ps1 -DistributionMode importer-kit -IncludeSymbols
+
+      - name: Confirm package remains runner-local
+        shell: pwsh
+        run: |
+          if (-not (Test-Path '${{ steps.package.outputs.archive_path }}' -PathType Leaf)) {
+            throw 'Expected local verification archive is missing.'
+          }
+          Write-Host 'Phase-0 containment: importer archives, DLLs, and symbols are not uploaded or cached.'

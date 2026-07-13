@@ -1,0 +1,75 @@
+name: Windows CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  VCPKG_ROOT: ${{ github.workspace }}\_vcpkg
+  VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}\_vcpkg_cache
+
+jobs:
+  build-and-test:
+    runs-on: windows-2022
+    timeout-minutes: 60
+
+    steps:
+      - name: Check out ZaeREo
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+          persist-credentials: false
+
+      - name: Check out pinned vcpkg
+        uses: actions/checkout@v4
+        with:
+          repository: microsoft/vcpkg
+          ref: 4334d8b4c8916018600212ab4dd4bbdc343065d1
+          path: _vcpkg
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Bootstrap vcpkg
+        shell: pwsh
+        run: |
+          & "$env:VCPKG_ROOT\bootstrap-vcpkg.bat" -disableMetrics
+          New-Item -ItemType Directory -Force $env:VCPKG_DEFAULT_BINARY_CACHE | Out-Null
+
+      - name: Bootstrap dependencies
+        shell: pwsh
+        run: ./tools/bootstrap.ps1
+
+      - name: Validate project manifest and tools
+        shell: pwsh
+        run: |
+          python ./tools/check_project_sources.py
+          python -m unittest discover -s tests -p "test_*.py" -v
+
+      - name: Build Debug
+        shell: pwsh
+        run: ./tools/build_game.ps1 -Configuration Debug -SkipBootstrap
+
+      - name: Build Release
+        shell: pwsh
+        run: ./tools/build_game.ps1 -Configuration Release -SkipBootstrap
+
+      - name: Verify DLL exports
+        shell: pwsh
+        run: ./tools/verify_binary.ps1 -BinaryPath ./build/Release/game_x64.dll
+
+      - name: Confirm compiled outputs remain runner-local
+        shell: pwsh
+        run: |
+          if (-not (Test-Path ./build/Release/game_x64.dll -PathType Leaf)) {
+            throw 'Expected local verification DLL is missing.'
+          }
+          Write-Host 'Phase-0 containment: compiled outputs are not uploaded or cached.'

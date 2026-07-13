@@ -1,0 +1,67 @@
+name: Feature or scope proposal
+description: Propose parity work, a documented adaptation, tooling, or a post-parity enhancement.
+title: "[Proposal] "
+labels: []
+assignees: []
+body:
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Required Zaero parity
+        - Rerelease-native adaptation
+        - Compatibility defect fix
+        - Build, audit, editor, or release tooling
+        - Documentation
+        - Post-1.0 optional enhancement
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Compatibility need or problem
+      description: Explain the observable player, mapper, contributor, or release need.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and roadmap relationship
+      description: Link the relevant roadmap section, matrix row, source/map evidence, or decision.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed result
+      description: Describe behavior and acceptance criteria, not just an implementation preference.
+    validations:
+      required: true
+  - type: dropdown
+    id: disposition
+    attributes:
+      label: Suggested disposition
+      options:
+        - PARITY
+        - ADAPT
+        - FIX
+        - Not a gameplay compatibility change
+        - Unsure
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives and risks
+      description: Include save, multiplayer, 40 Hz, provenance, distribution, or migration impact where relevant.
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope checks
+      options:
+        - label: I understand remasters, balance changes, rebuilt maps, and new protocol work are outside the 1.0 parity baseline unless approved.
+          required: true
+        - label: This proposal does not require distributing uncleared Zaero source or media.
+          required: true
+

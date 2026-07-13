@@ -1,0 +1,71 @@
+name: Nightly Windows local verification
+
+on:
+  schedule:
+    - cron: "23 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: zaereo-nightly-windows
+  cancel-in-progress: false
+
+env:
+  VCPKG_ROOT: ${{ runner.temp }}\vcpkg
+  VCPKG_DEFAULT_BINARY_CACHE: ${{ runner.temp }}\vcpkg-cache
+
+jobs:
+  nightly:
+    runs-on: windows-2022
+    timeout-minutes: 75
+
+    steps:
+      - name: Check out main without proprietary content
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          lfs: false
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pinned vcpkg outside the worktree
+        shell: pwsh
+        run: |
+          $baseline = (Get-Content ./vcpkg.json -Raw | ConvertFrom-Json).'builtin-baseline'
+          git clone --filter=blob:none https://github.com/microsoft/vcpkg.git $env:VCPKG_ROOT
+          git -C $env:VCPKG_ROOT checkout $baseline
+          & "$env:VCPKG_ROOT\bootstrap-vcpkg.bat" -disableMetrics
+          New-Item -ItemType Directory -Force $env:VCPKG_DEFAULT_BINARY_CACHE | Out-Null
+
+      - name: Derive immutable nightly identity
+        id: identity
+        shell: pwsh
+        run: |
+          $version = (Get-Content ./VERSION -Raw).Trim()
+          $stamp = [DateTime]::UtcNow.ToString('yyyyMMdd.HHmmss')
+          $short = (git rev-parse --short=8 HEAD).Trim()
+          $commit = (git rev-parse HEAD).Trim()
+          $tag = "v$version-nightly.$stamp.g$short"
+          "version=$version" >> $env:GITHUB_OUTPUT
+          "tag=$tag" >> $env:GITHUB_OUTPUT
+          "commit=$commit" >> $env:GITHUB_OUTPUT
+
+      - name: Build, validate, and package importer kit
+        id: package
+        shell: pwsh
+        run: ./tools/package_windows.ps1 -DistributionMode importer-kit -ArtifactLabel "${{ steps.identity.outputs.tag }}" -IncludeSymbols
+
+      - name: Confirm nightly package remains runner-local
+        shell: pwsh
+        run: |
+          if (-not (Test-Path '${{ steps.package.outputs.archive_path }}' -PathType Leaf)) {
+            throw 'Expected local nightly verification archive is missing.'
+          }
+          Write-Host 'Phase-0 containment: no nightly artifact, cache, tag, or release is published.'

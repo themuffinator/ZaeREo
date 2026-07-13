@@ -1,0 +1,755 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zaereo.invalid/schemas/distribution-policy.schema.json",
+  "title": "ZaeREo distribution policy",
+  "description": "Fail-closed component, channel, and release-mode policy. Schema validity is necessary but not sufficient: tools/validate_distribution_policy.py applies cross-record invariants.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schema",
+    "policy_id",
+    "revision",
+    "policy_status",
+    "review",
+    "code_distribution_permitted",
+    "media_distribution_permitted",
+    "public_gameplay_tree_permitted",
+    "public_distribution_enabled",
+    "evidence",
+    "components",
+    "channels",
+    "modes",
+    "waiver_policy",
+    "notes"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "schemas/distribution-policy.schema.json"
+    },
+    "schema": {
+      "const": "zaereo.distribution-policy/v1"
+    },
+    "policy_id": {
+      "$ref": "#/$defs/id"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "policy_status": {
+      "enum": [
+        "active-fail-closed",
+        "active-reviewed"
+      ]
+    },
+    "review": {
+      "$ref": "#/$defs/review"
+    },
+    "code_distribution_permitted": {
+      "type": "boolean"
+    },
+    "media_distribution_permitted": {
+      "type": "boolean"
+    },
+    "public_gameplay_tree_permitted": {
+      "type": "boolean"
+    },
+    "public_distribution_enabled": {
+      "type": "boolean"
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/evidence"
+      }
+    },
+    "components": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/component"
+      }
+    },
+    "channels": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/channel"
+      }
+    },
+    "modes": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "$ref": "#/$defs/mode"
+      },
+      "contains": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "const": "local-full"
+          },
+          "permanent_private": {
+            "const": true
+          },
+          "publication_permitted": {
+            "const": false
+          }
+        },
+        "required": [
+          "id",
+          "permanent_private",
+          "publication_permitted"
+        ]
+      }
+    },
+    "waiver_policy": {
+      "$ref": "#/$defs/waiverPolicy"
+    },
+    "notes": {
+      "$ref": "#/$defs/nonEmptyString"
+    }
+  },
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:[a-z0-9-]*[a-z0-9])?$"
+    },
+    "repositoryPath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?![A-Za-z]:)(?!.*\\\\)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*[?*\\[\\]])[^\\u0000]+$"
+    },
+    "narrowGlob": {
+      "type": "string",
+      "minLength": 3,
+      "pattern": "^(?!/)(?![A-Za-z]:)(?!\\*\\*?$)(?!.*\\\\)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\u0000]+$"
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reviewed_at",
+        "reviewer",
+        "authority",
+        "rights_clearance",
+        "valid_until",
+        "revisit_condition",
+        "notes"
+      ],
+      "properties": {
+        "reviewed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reviewer": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "authority": {
+          "enum": [
+            "engineering-containment-only",
+            "project-owner-rights-review",
+            "qualified-legal-review"
+          ]
+        },
+        "rights_clearance": {
+          "type": "boolean"
+        },
+        "valid_until": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "format": "date-time"
+            }
+          ]
+        },
+        "revisit_condition": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "notes": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "path",
+        "locator",
+        "observed_on",
+        "supports"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "enum": [
+            "roadmap-decision",
+            "notice",
+            "provenance-record",
+            "license-text",
+            "rights-grant",
+            "legal-review",
+            "technical-review",
+            "repository-audit",
+            "source-baseline"
+          ]
+        },
+        "path": {
+          "$ref": "#/$defs/repositoryPath"
+        },
+        "locator": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "observed_on": {
+          "type": "string",
+          "format": "date"
+        },
+        "supports": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "selectors": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "exact_paths",
+        "narrow_globs",
+        "external_inputs"
+      ],
+      "properties": {
+        "exact_paths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/repositoryPath"
+          }
+        },
+        "narrow_globs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/narrowGlob"
+          }
+        },
+        "external_inputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          }
+        }
+      },
+      "anyOf": [
+        {
+          "properties": {
+            "exact_paths": {
+              "minItems": 1
+            }
+          }
+        },
+        {
+          "properties": {
+            "narrow_globs": {
+              "minItems": 1
+            }
+          }
+        },
+        {
+          "properties": {
+            "external_inputs": {
+              "minItems": 1
+            }
+          }
+        }
+      ]
+    },
+    "licenseDecision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "spdx_expression",
+        "no_grant"
+      ],
+      "properties": {
+        "spdx_expression": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "no_grant": {
+          "type": "boolean"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "no_grant": {
+                "const": true
+              }
+            },
+            "required": [
+              "no_grant"
+            ]
+          },
+          "then": {
+            "properties": {
+              "spdx_expression": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "spdx_expression": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "description",
+        "selectors",
+        "holder",
+        "license",
+        "distribution_status",
+        "evidence_refs",
+        "reviewer",
+        "jurisdiction_scope",
+        "expires_at",
+        "revisit_condition",
+        "notes"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "enum": [
+            "tool",
+            "substrate-source",
+            "zaero-code",
+            "media",
+            "definition",
+            "dependency"
+          ]
+        },
+        "description": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "selectors": {
+          "$ref": "#/$defs/selectors"
+        },
+        "holder": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "license": {
+          "$ref": "#/$defs/licenseDecision"
+        },
+        "distribution_status": {
+          "enum": [
+            "unknown",
+            "denied",
+            "permitted"
+          ]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "reviewer": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "jurisdiction_scope": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "expires_at": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "format": "date-time"
+            }
+          ]
+        },
+        "revisit_condition": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "notes": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "channel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "audience",
+        "distribution_root",
+        "status",
+        "covered_component_ids",
+        "prohibited_component_ids",
+        "evidence_refs",
+        "requirements",
+        "expires_at",
+        "revisit_condition",
+        "notes"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "enum": [
+            "public-git-tree",
+            "public-git-history",
+            "public-source-archives",
+            "actions-logs",
+            "actions-artifacts",
+            "actions-caches",
+            "release-assets",
+            "corresponding-source-bundles",
+            "editor-gamepacks",
+            "private-local-filesystem"
+          ]
+        },
+        "audience": {
+          "enum": [
+            "public",
+            "private"
+          ]
+        },
+        "distribution_root": {
+          "enum": [
+            "gameplay-tree",
+            "history-clean-tools",
+            "user-local-machine"
+          ]
+        },
+        "status": {
+          "enum": [
+            "unknown",
+            "denied",
+            "permitted"
+          ]
+        },
+        "covered_component_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "prohibited_component_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "requirements": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          }
+        },
+        "expires_at": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "format": "date-time"
+            }
+          ]
+        },
+        "revisit_condition": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "notes": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "fileDecision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_path",
+        "source_path",
+        "component_id",
+        "distribution_status",
+        "evidence_refs",
+        "notes"
+      ],
+      "properties": {
+        "artifact_path": {
+          "$ref": "#/$defs/repositoryPath"
+        },
+        "source_path": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/repositoryPath"
+            }
+          ]
+        },
+        "component_id": {
+          "$ref": "#/$defs/id"
+        },
+        "distribution_status": {
+          "enum": [
+            "unknown",
+            "denied",
+            "permitted"
+          ]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "notes": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "mode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "status",
+        "public_mode",
+        "publication_permitted",
+        "permanent_private",
+        "playable",
+        "playable_after_local_completion",
+        "stable_eligible",
+        "readiness_profiles",
+        "required_component_ids",
+        "prohibited_component_ids",
+        "file_allowlist",
+        "required_channel_ids",
+        "permitted_channel_ids",
+        "required_predicates",
+        "prohibited_content",
+        "unmet_requirements",
+        "notes"
+      ],
+      "properties": {
+        "id": {
+          "enum": [
+            "tools-only",
+            "importer-kit",
+            "asset-full",
+            "local-full"
+          ]
+        },
+        "status": {
+          "enum": [
+            "blocked",
+            "eligible",
+            "private-only"
+          ]
+        },
+        "public_mode": {
+          "type": "boolean"
+        },
+        "publication_permitted": {
+          "type": "boolean"
+        },
+        "permanent_private": {
+          "type": "boolean"
+        },
+        "playable": {
+          "type": "boolean"
+        },
+        "playable_after_local_completion": {
+          "type": "boolean"
+        },
+        "stable_eligible": {
+          "type": "boolean"
+        },
+        "readiness_profiles": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "tools-progress",
+              "playable-candidate",
+              "playable-stable",
+              "local-full-private"
+            ]
+          }
+        },
+        "required_component_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "prohibited_component_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "file_allowlist": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/fileDecision"
+          }
+        },
+        "required_channel_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "permitted_channel_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "required_predicates": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          }
+        },
+        "prohibited_content": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          }
+        },
+        "unmet_requirements": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          }
+        },
+        "notes": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "waiverRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "description",
+        "applies_to_profiles",
+        "waiver_allowed"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "description": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "applies_to_profiles": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "tools-progress",
+              "playable-candidate",
+              "playable-stable",
+              "local-full-private"
+            ]
+          }
+        },
+        "waiver_allowed": {
+          "const": false
+        }
+      }
+    },
+    "waiverPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "non_waivable_rules",
+        "optional_waiver_may_change_ready_false",
+        "notes"
+      ],
+      "properties": {
+        "non_waivable_rules": {
+          "type": "array",
+          "minItems": 8,
+          "items": {
+            "$ref": "#/$defs/waiverRule"
+          }
+        },
+        "optional_waiver_may_change_ready_false": {
+          "const": false
+        },
+        "notes": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1297 @@
+{
+  "$schema": "schemas/distribution-policy.schema.json",
+  "schema": "zaereo.distribution-policy/v1",
+  "policy_id": "zaereo-phase-zero-fail-closed",
+  "revision": 1,
+  "policy_status": "active-fail-closed",
+  "review": {
+    "reviewed_at": "2026-07-13T00:00:00+01:00",
+    "reviewer": "ZaeREo Phase-0 engineering review",
+    "authority": "engineering-containment-only",
+    "rights_clearance": false,
+    "valid_until": null,
+    "revisit_condition": "Replace or revise this baseline only after component-specific rights evidence, an exact channel review, and maintainer or qualified legal approval are recorded together.",
+    "notes": "This review establishes a conservative containment policy. It is not a legal opinion, copyright-holder permission, or release approval."
+  },
+  "code_distribution_permitted": false,
+  "media_distribution_permitted": false,
+  "public_gameplay_tree_permitted": false,
+  "public_distribution_enabled": false,
+  "evidence": [
+    {
+      "id": "asset-inventory",
+      "kind": "repository-audit",
+      "path": "docs/audits/assets.json",
+      "locator": "checked-in effective Zaero asset identity inventory",
+      "observed_on": "2026-07-13",
+      "supports": "Identifies runtime media without granting permission to distribute it."
+    },
+    {
+      "id": "asset-sources-policy",
+      "kind": "provenance-record",
+      "path": "docs/provenance/ASSET_SOURCES.md",
+      "locator": "Current policy and Records still required",
+      "observed_on": "2026-07-13",
+      "supports": "Records that source and media gates are independent, tools-only requires a history-clean root, and local-full is permanently private."
+    },
+    {
+      "id": "baseline-manifest",
+      "kind": "source-baseline",
+      "path": "docs/provenance/baselines.json",
+      "locator": "generated supplied-tree identities",
+      "observed_on": "2026-07-13",
+      "supports": "Provides hashes for supplied comparison trees while explicitly leaving authoritative origins unresolved."
+    },
+    {
+      "id": "roadmap-d003",
+      "kind": "roadmap-decision",
+      "path": "docs/ZAERO_PORT_ROADMAP.md",
+      "locator": "Sections 7.5 and 12, decision D-003",
+      "observed_on": "2026-07-13",
+      "supports": "Defines fail-closed component, mode, repository, CI, source-archive, and release-channel policy."
+    },
+    {
+      "id": "roadmap-readiness",
+      "kind": "roadmap-decision",
+      "path": "docs/ZAERO_PORT_ROADMAP.md",
+      "locator": "Section 13.11 Machine-readable release readiness",
+      "observed_on": "2026-07-13",
+      "supports": "Defines non-promotable readiness profiles and the non-waivable release gates."
+    },
+    {
+      "id": "root-gpl-text",
+      "kind": "license-text",
+      "path": "LICENSE",
+      "locator": "GNU General Public License version 2",
+      "observed_on": "2026-07-13",
+      "supports": "Contains the GPL-2.0 text; its presence does not establish that every repository addition was licensed by its holder."
+    },
+    {
+      "id": "third-party-notices",
+      "kind": "notice",
+      "path": "THIRD_PARTY_NOTICES.md",
+      "locator": "Zaero source additions; Zaero maps and media; dependency notices",
+      "observed_on": "2026-07-13",
+      "supports": "Records observed upstream and dependency licenses, unresolved Zaero rights, and required exact notice harvesting."
+    }
+  ],
+  "components": [
+    {
+      "id": "combined-gameplay-source",
+      "kind": "zaero-code",
+      "description": "The Rerelease gameplay DLL tree with Zaero-derived behavior and integration changes intermingled with the upstream substrate.",
+      "selectors": {
+        "exact_paths": [],
+        "narrow_globs": [
+          "src/**"
+        ],
+        "external_inputs": []
+      },
+      "holder": "Mixed upstream holders and unresolved holders of Zaero-derived additions",
+      "license": {
+        "spdx_expression": null,
+        "no_grant": true
+      },
+      "distribution_status": "unknown",
+      "evidence_refs": [
+        "baseline-manifest",
+        "root-gpl-text",
+        "third-party-notices"
+      ],
+      "reviewer": "ZaeREo Phase-0 engineering review",
+      "jurisdiction_scope": "All public source and binary distribution channels; no jurisdiction-specific grant is recorded.",
+      "expires_at": null,
+      "revisit_condition": "Record a holder-authorized license or permission for every Zaero-derived source addition and verify compatibility with the complete GPL-covered work.",
+      "notes": "GPL-2.0 coverage of the upstream substrate is not treated as a grant for unrelated or intermingled commercial additions."
+    },
+    {
+      "id": "rerelease-reference-material",
+      "kind": "substrate-source",
+      "description": "Checked-in Rerelease reference material and the unresolved provenance identity used to reconstruct the upstream baseline.",
+      "selectors": {
+        "exact_paths": [],
+        "narrow_globs": [
+          "references/rerelease/**"
+        ],
+        "external_inputs": []
+      },
+      "holder": "id Software and other upstream contributors; exact imported-origin record pending",
+      "license": {
+        "spdx_expression": null,
+        "no_grant": true
+      },
+      "distribution_status": "unknown",
+      "evidence_refs": [
+        "baseline-manifest",
+        "root-gpl-text",
+        "third-party-notices"
+      ],
+      "reviewer": "ZaeREo Phase-0 engineering review",
+      "jurisdiction_scope": "All public repository and source-archive channels.",
+      "expires_at": null,
+      "revisit_condition": "Pin the official upstream commit/archive, verify every imported file and notice, and record the applicable SPDX decision.",
+      "notes": "The observed GPL text is evidence, but the current baseline record still names a supplied local tree rather than a pinned official origin."
+    },
+    {
+      "id": "gameplay-tests-and-audits",
+      "kind": "zaero-code",
+      "description": "Compatibility tests and source-derived audit records that encode detailed Zaero behavior or supplied-source facts.",
+      "selectors": {
+        "exact_paths": [
+          "docs/audits/source-delta.json",
+          "docs/audits/source-delta.md"
+        ],
+        "narrow_globs": [
+          "tests/compatibility/**",
+          "docs/compatibility/**"
+        ],
+        "external_inputs": []
+      },
+      "holder": "ZaeREo contributors and unresolved holders of any protectable Zaero-derived expression",
+      "license": {
+        "spdx_expression": null,
+        "no_grant": true
+      },
+      "distribution_status": "unknown",
+      "evidence_refs": [
+        "roadmap-d003",
+        "third-party-notices"
+      ],
+      "reviewer": "ZaeREo Phase-0 engineering review",
+      "jurisdiction_scope": "All public repository, source-archive, CI, and release channels.",
+      "expires_at": null,
+      "revisit_condition": "Complete file-by-file authorship and protectable-expression review together with the gameplay source rights decision.",
+      "notes": "Facts and original tests may be distributable on a different basis, but no blanket conclusion is encoded here."
+    },
+    {
+      "id": "zaero-runtime-media",
+      "kind": "media",
+      "description": "Original Zaero maps, models, textures, images, sounds, sprites, cinematics, configuration, and other runtime media supplied by a user's installation.",
+      "selectors": {
+        "exact_paths": [],
+        "narrow_globs": [
+          ".install/imported/zaereo/**",
+          "dist/*-local-full-private.zip"
+        ],
+        "external_inputs": [
+          "Legitimate local Zaero installation: pak0.pak, pak1.pak, pak2.pak, and the nine documented loose runtime files"
+        ]
+      },
+      "holder": "Unresolved Zaero media copyright holders",
+      "license": {
+        "spdx_expression": null,
+        "no_grant": true
+      },
+      "distribution_status": "unknown",
+      "evidence_refs": [
+        "asset-inventory",
+        "asset-sources-policy",
+        "third-party-notices"
+      ],
+      "reviewer": "ZaeREo Phase-0 engineering review",
+      "jurisdiction_scope": "All project-operated public hosting, CI, source, editor, and release channels.",
+      "expires_at": null,
+      "revisit_condition": "Record holder identity and specific permission covering exact works, modification, hosting, sublicensing, attribution, and intended channels.",
+      "notes": "Known hashes prove identity only. The current permitted operation is local import from a legitimate user installation, not project redistribution."
+    },
+    {
+      "id": "zaero-runtime-definitions",
+      "kind": "definition",
+      "description": "Zaero episode configuration, mapdb fragment, and editor entity definitions.",
+      "selectors": {
+        "exact_paths": [],
+        "narrow_globs": [
+          "pack/**",
+          "editor/**"
+        ],
+        "external_inputs": []
+      },
+      "holder": "ZaeREo contributors; derivation and redistribution scope not yet reviewed file by file",
+      "license": {
+        "spdx_expression": null,
+        "no_grant": true
+      },
+      "distribution_status": "unknown",
+      "evidence_refs": [
+        "roadmap-d003",
+        "third-party-notices"
+      ],
+      "reviewer": "ZaeREo Phase-0 engineering review",
+      "jurisdiction_scope": "Public runtime packages and editor-gamepack channels.",
+      "expires_at": null,
+      "revisit_condition": "Complete authorship, derivation, and license review for every shipped definition and generated editor output.",
+      "notes": "Generated editor forms do not acquire a distribution grant merely because their generator is present."
+    },
+    {
+      "id": "independent-tools-candidate",
+      "kind": "tool",
+      "description": "The three standard-library acquisition, PAK, and runtime-validation scripts proposed for a future tools-only artifact.",
+      "selectors": {
+        "exact_paths": [
+          "tools/import_legacy_assets.py",
+          "tools/make_pak.py",
+          "tools/validate_runtime.py"
+        ],
+        "narrow_globs": [],
+        "external_inputs": []
+      },
+      "holder": "ZaeREo contributors; file-level authorship and outbound license approval pending",
+      "license": {
+        "spdx_expression": null,
+        "no_grant": true
+      },
+      "distribution_status": "unknown",
+      "evidence_refs": [
+        "roadmap-d003",
+        "third-party-notices"
+      ],
+      "reviewer": "ZaeREo Phase-0 engineering review",
+      "jurisdiction_scope": "History-clean tools repository, CI, source-archive, and release-asset channels only.",
+      "expires_at": null,
+      "revisit_condition": "Complete independent-authorship and outbound-license review for each exact file and record immutable hashes in the tools distribution root.",
+      "notes": "Listing these candidate files is not an allow-to-publish decision; every candidate remains unknown."
+    },
+    {
+      "id": "tools-only-package-metadata",
+      "kind": "definition",
+      "description": "Notices and generated metadata proposed for the future tools-only package.",
+      "selectors": {
+        "exact_paths": [
+          "LICENSE",
+          "LICENSE_SCOPE.md",
+          "THIRD_PARTY_NOTICES.md",
+          "VERSION"
+        ],
+        "narrow_globs": [],
+        "external_inputs": [
+          "Generated ACQUIRE_AND_BUILD.txt, BUILD-METADATA.json, MANIFEST.json, SBOM.spdx.json, VERSION.txt, and exact license copies"
+        ]
+      },
+      "holder": "Mixed license authors and ZaeREo contributors; exact package scope review pending",
+      "license": {
+        "spdx_expression": null,
+        "no_grant": true
+      },
+      "distribution_status": "unknown",
+      "evidence_refs": [
+        "roadmap-d003",
+        "root-gpl-text",
+        "third-party-notices"
+      ],
+      "reviewer": "ZaeREo Phase-0 engineering review",
+      "jurisdiction_scope": "History-clean tools release assets only.",
+      "expires_at": null,
+      "revisit_condition": "Render the exact mode-specific package, verify every byte and license scope, and record the reviewed immutable allowlist.",
+      "notes": "The GPL text itself is redistributable verbatim, but its presence does not license the proposed tools or generated package as a whole."
+    },
+    {
+      "id": "third-party-build-dependencies",
+      "kind": "dependency",
+      "description": "fmt and JsonCpp declarations and any statically linked dependency bytes in a future game DLL.",
+      "selectors": {
+        "exact_paths": [
+          "vcpkg.json"
+        ],
+        "narrow_globs": [],
+        "external_inputs": [
+          "Pinned vcpkg fmt installation",
+          "Pinned vcpkg JsonCpp installation"
+        ]
+      },
+      "holder": "fmt and JsonCpp copyright holders and contributors",
+      "license": {
+        "spdx_expression": "MIT AND (MIT OR LicenseRef-Public-Domain)",
+        "no_grant": false
+      },
+      "distribution_status": "unknown",
+      "evidence_refs": [
+        "third-party-notices"
+      ],
+      "reviewer": "ZaeREo Phase-0 engineering review",
+      "jurisdiction_scope": "Binary, source, SBOM, and notice bundles for all public DLL releases.",
+      "expires_at": null,
+      "revisit_condition": "Harvest and hash the exact pinned dependency license files and tie them to the candidate SBOM and binary build record.",
+      "notes": "Observed dependency licenses are recorded, but exact candidate notice harvesting and byte coverage are not complete."
+    },
+    {
+      "id": "unreviewed-repository-remainder",
+      "kind": "definition",
+      "description": "Repository documentation, automation, tests, and tools outside the separately enumerated candidate components.",
+      "selectors": {
+        "exact_paths": [
+          ".gitattributes",
+          ".gitignore",
+          ".zaereo.local.example.json",
+          "AGENTS.md",
+          "CHANGELOG.md",
+          "CONTRIBUTING.md",
+          "README.md",
+          "SECURITY.md"
+        ],
+        "narrow_globs": [
+          ".github/**",
+          ".vscode/**",
+          "docs/**",
+          "tests/**",
+          "tools/**"
+        ],
+        "external_inputs": []
+      },
+      "holder": "Mixed ZaeREo contributors and referenced upstream authors; file-level scope not yet reviewed",
+      "license": {
+        "spdx_expression": null,
+        "no_grant": true
+      },
+      "distribution_status": "unknown",
+      "evidence_refs": [
+        "roadmap-d003",
+        "third-party-notices"
+      ],
+      "reviewer": "ZaeREo Phase-0 engineering review",
+      "jurisdiction_scope": "All public repository, history, source-archive, CI, and release channels.",
+      "expires_at": null,
+      "revisit_condition": "Inventory exact files, resolve overlaps into independently reviewable components, and record authorship and outbound-license decisions.",
+      "notes": "This intentionally broad containment record cannot be used as a public allowlist. Exact mode records must override it only after review."
+    }
+  ],
+  "channels": [
+    {
+      "id": "gameplay-public-git-tree",
+      "kind": "public-git-tree",
+      "audience": "public",
+      "distribution_root": "gameplay-tree",
+      "status": "denied",
+      "covered_component_ids": [
+        "combined-gameplay-source",
+        "rerelease-reference-material",
+        "gameplay-tests-and-audits",
+        "zaero-runtime-definitions",
+        "independent-tools-candidate",
+        "tools-only-package-metadata",
+        "third-party-build-dependencies",
+        "unreviewed-repository-remainder"
+      ],
+      "prohibited_component_ids": [
+        "combined-gameplay-source",
+        "rerelease-reference-material",
+        "gameplay-tests-and-audits",
+        "zaero-runtime-media",
+        "zaero-runtime-definitions",
+        "independent-tools-candidate",
+        "tools-only-package-metadata",
+        "third-party-build-dependencies",
+        "unreviewed-repository-remainder"
+      ],
+      "evidence_refs": [
+        "roadmap-d003",
+        "asset-sources-policy"
+      ],
+      "requirements": [
+        "Every committed file and all transitive content must have a permitted component decision before this channel can change status."
+      ],
+      "expires_at": null,
+      "revisit_condition": "Re-evaluate only after all gameplay-tree components and the complete tree are independently reviewed.",
+      "notes": "A public gameplay tree would expose unresolved code and definitions directly."
+    },
+    {
+      "id": "gameplay-public-git-history",
+      "kind": "public-git-history",
+      "audience": "public",
+      "distribution_root": "gameplay-tree",
+      "status": "denied",
+      "covered_component_ids": [
+        "combined-gameplay-source",
+        "rerelease-reference-material",
+        "gameplay-tests-and-audits",
+        "zaero-runtime-definitions",
+        "independent-tools-candidate",
+        "tools-only-package-metadata",
+        "third-party-build-dependencies",
+        "unreviewed-repository-remainder"
+      ],
+      "prohibited_component_ids": [
+        "combined-gameplay-source",
+        "rerelease-reference-material",
+        "gameplay-tests-and-audits",
+        "zaero-runtime-media",
+        "zaero-runtime-definitions",
+        "independent-tools-candidate",
+        "tools-only-package-metadata",
+        "third-party-build-dependencies",
+        "unreviewed-repository-remainder"
+      ],
+      "evidence_refs": [
+        "roadmap-d003",
+        "asset-sources-policy"
+      ],
+      "requirements": [
+        "The complete reachable history must contain only permitted component bytes."
+      ],
+      "expires_at": null,
+      "revisit_condition": "Re-evaluate only after an immutable, history-wide provenance audit passes.",
+      "notes": "A clean current tree cannot cure gated bytes retained in history."
+    },
+    {
+      "id": "gameplay-public-source-archives",
+      "kind": "public-source-archives",
+      "audience": "public",
+      "distribution_root": "gameplay-tree",
+      "status": "denied",
+      "covered_component_ids": [
+        "combined-gameplay-source",
+        "rerelease-reference-material",
+        "gameplay-tests-and-audits",
+        "zaero-runtime-definitions",
+        "independent-tools-candidate",
+        "tools-only-package-metadata",
+        "third-party-build-dependencies",
+        "unreviewed-repository-remainder"
+      ],
+      "prohibited_component_ids": [
+        "combined-gameplay-source",
+        "rerelease-reference-material",
+        "gameplay-tests-and-audits",
+        "zaero-runtime-media",
+        "zaero-runtime-definitions",
+        "independent-tools-candidate",
+        "tools-only-package-metadata",
+        "third-party-build-dependencies",
+        "unreviewed-repository-remainder"
+      ],
+      "evidence_refs": [
+        "roadmap-d003"
+      ],
+      "requirements": [
+        "Automatic tag archives must be included in the same component and history review as the repository."
+      ],
+      "expires_at": null,
+      "revisit_condition": "Re-evaluate with the public Git tree and history channels.",
+      "notes": "Attaching a safe ZIP to a gameplay-tree tag would still publish the gated automatic source archive."
+    },
+    {
+      "id": "gameplay-actions-logs",
+      "kind": "actions-logs",
+      "audience": "public",
+      "distribution_root": "gameplay-tree",
+      "status": "denied",
+      "covered_component_ids": [
+        "combined-gameplay-source",
+        "gameplay-tests-and-audits",
+        "zaero-runtime-media",
+        "zaero-runtime-definitions",
+        "unreviewed-repository-remainder"
+      ],
+      "prohibited_component_ids": [
+        "combined-gameplay-source",
+        "gameplay-tests-and-audits",
+        "zaero-runtime-media",
+        "zaero-runtime-definitions",
+        "unreviewed-repository-remainder"
+      ],
+      "evidence_refs": [
+        "roadmap-d003"
+      ],
+      "requirements": [
+        "Logs must prove that no gated source, path, content, or secret-bearing diagnostic is emitted."
+      ],
+      "expires_at": null,
+      "revisit_condition": "Re-evaluate after workflow data-flow and retained-log review.",
+      "notes": "Actions logs are treated as a distribution channel, not harmless diagnostics."
+    },
+    {
+      "id": "gameplay-actions-artifacts",
+      "kind": "actions-artifacts",
+      "audience": "public",
+      "distribution_root": "gameplay-tree",
+      "status": "denied",
+      "covered_component_ids": [
+        "combined-gameplay-source",
+        "gameplay-tests-and-audits",
+        "zaero-runtime-media",
+        "zaero-runtime-definitions",
+        "third-party-build-dependencies",
+        "unreviewed-repository-remainder"
+      ],
+      "prohibited_component_ids": [
+        "combined-gameplay-source",
+        "gameplay-tests-and-audits",
+        "zaero-runtime-media",
+        "zaero-runtime-definitions",
+        "third-party-build-dependencies",
+        "unreviewed-repository-remainder"
+      ],
+      "evidence_refs": [
+        "roadmap-d003"
+      ],
+      "requirements": [
+        "Every retained artifact member must be hash-bound to a permitted exact allowlist."
+      ],
+      "expires_at": null,
+      "revisit_condition": "Re-evaluate after component rights, artifact inventory, and retention policy all pass.",
+      "notes": "DLLs, objects, stages, and packages may contain unresolved source-derived bytes."
+    },
+    {
+      "id": "gameplay-actions-caches",
+      "kind": "actions-caches",
+      "audience": "public",
+      "distribution_root": "gameplay-tree",
+      "status": "denied",
+      "covered_component_ids": [
+        "combined-gameplay-source",
+        "gameplay-tests-and-audits",
+        "zaero-runtime-media",
+        "third-party-build-dependencies",
+        "unreviewed-repository-remainder"
+      ],
+      "prohibited_component_ids": [
+        "combined-gameplay-source",
+        "gameplay-tests-and-audits",
+        "zaero-runtime-media",
+        "third-party-build-dependencies",
+        "unreviewed-repository-remainder"
+      ],
+      "evidence_refs": [
+        "roadmap-d003"
+      ],
+      "requirements": [
+        "Cache keys, contents, readers, retention, and restoration paths must exclude every gated byte."
+      ],
+      "expires_at": null,
+      "revisit_condition": "Re-evaluate after a workflow cache threat and content audit.",
+      "notes": "Object and dependency caches can reproduce or expose gated source-derived output."
+    },
+    {
+      "id": "gameplay-release-assets",
+      "kind": "release-assets",
+      "audience": "public",
+      "distribution_root": "gameplay-tree",
+      "status": "denied",
+      "covered_component_ids": [
+        "combined-gameplay-source",
+        "gameplay-tests-and-audits",
+        "zaero-runtime-media",
+        "zaero-runtime-definitions",
+        "independent-tools-candidate",
+        "tools-only-package-metadata",
+        "third-party-build-dependencies"
+      ],
+      "prohibited_component_ids": [
+        "combined-gameplay-source",
+        "gameplay-tests-and-audits",
+        "zaero-runtime-media",
+        "zaero-runtime-definitions",
+        "independent-tools-candidate",
+        "tools-only-package-metadata",
+        "third-party-build-dependencies"
+      ],
+      "evidence_refs": [
+        "roadmap-d003",
+        "roadmap-readiness"
+      ],
+      "requirements": [
+        "The exact artifact, source archive, repository ref, notices, SBOM, and mode policy must all be eligible together."
+      ],
+      "expires_at": null,
+      "revisit_condition": "Re-evaluate only after a mode-specific policy and readiness record passes without non-waivable exceptions.",
+      "notes": "No current gameplay-tree release asset is authorized."
+    },
+    {
+      "id": "gameplay-corresponding-source",
+      "kind": "corresponding-source-bundles",
+      "audience": "public",
+      "distribution_root": "gameplay-tree",
+      "status": "denied",
+      "covered_component_ids": [
+        "combined-gameplay-source",
+        "rerelease-reference-material",
+        "third-party-build-dependencies"
+      ],
+      "prohibited_component_ids": [
+        "combined-gameplay-source",
+        "rerelease-reference-material",
+        "third-party-build-dependencies"
+      ],
+      "evidence_refs": [
+        "root-gpl-text",
+        "third-party-notices",
+        "roadmap-d003"
+      ],
+      "requirements": [
+        "A DLL release must provide or durably link complete corresponding source and exact notices for the same commit and binary."
+      ],
+      "expires_at": null,
+      "revisit_condition": "Re-evaluate only after the DLL code gate and exact corresponding-source inventory both pass.",
+      "notes": "A corresponding-source obligation does not create a missing license grant for Zaero-derived additions."
+    },
+    {
+      "id": "gameplay-editor-gamepacks",
+      "kind": "editor-gamepacks",
+      "audience": "public",
+      "distribution_root": "gameplay-tree",
+      "status": "denied",
+      "covered_component_ids": [
+        "zaero-runtime-definitions"
+      ],
+      "prohibited_component_ids": [
+        "zaero-runtime-definitions",
+        "zaero-runtime-media"
+      ],
+      "evidence_refs": [
+        "roadmap-d003",
+        "third-party-notices"
+      ],
+      "requirements": [
+        "Every generated editor definition and bundled media reference must have an exact rights and derivation decision."
+      ],
+      "expires_at": null,
+      "revisit_condition": "Re-evaluate after the editor source and every generated output are independently reviewed.",
+      "notes": "Editor outputs are a separate distribution channel and are not implicitly cleared by a runtime mode."
+    },
+    {
+      "id": "tools-public-git-tree",
+      "kind": "public-git-tree",
+      "audience": "public",
+      "distribution_root": "history-clean-tools",
+      "status": "unknown",
+      "covered_component_ids": [
+        "independent-tools-candidate",
+        "tools-only-package-metadata"
+      ],
+      "prohibited_component_ids": [
+        "combined-gameplay-source",
+        "rerelease-reference-material",
+        "gameplay-tests-and-audits",
+        "zaero-runtime-media",
+        "zaero-runtime-definitions",
+        "third-party-build-dependencies",
+        "unreviewed-repository-remainder"
+      ],
+      "evidence_refs": [
+        "roadmap-d003",
+        "asset-sources-policy"
+      ],
+      "requirements": [
+        "The separate root must contain only exact independently reviewed tools-only files."
+      ],
+      "expires_at": null,
+      "revisit_condition": "Create and audit the history-clean root, then record its immutable identity and exact permitted tree.",
+      "notes": "The required distribution root does not yet have retained review evidence."
+    },
+    {
+      "id": "tools-public-git-history",
+      "kind": "public-git-history",
+      "audience": "public",
+      "distribution_root": "history-clean-tools",
+      "status": "unknown",
+      "covered_component_ids": [
+        "independent-tools-candidate",
+        "tools-only-package-metadata"
+      ],
+      "prohibited_component_ids": [
+        "combined-gameplay-source",
+        "rerelease-reference-material",
+        "gameplay-tests-and-audits",
+        "zaero-runtime-media",
+        "zaero-runtime-definitions",
+        "third-party-build-dependencies",
+        "unreviewed-repository-remainder"
+      ],
+      "evidence_refs": [
+        "roadmap-d003"
+      ],
+      "requirements": [
+        "Every reachable object and commit in the tools root must match the exact permitted component and file allowlist."
+      ],
+      "expires_at": null,
+      "revisit_condition": "Retain a history-wide object audit for the immutable publication ref.",
+      "notes": "An orphan ref is acceptable only if its complete reachable history is independently clean."
+    },
+    {
+      "id": "tools-public-source-archives",
+      "kind": "public-source-archives",
+      "audience": "public",
+      "distribution_root": "history-clean-tools",
+      "status": "unknown",
+      "covered_component_ids": [
+        "independent-tools-candidate",
+        "tools-only-package-metadata"
+      ],
+      "prohibited_component_ids": [
+        "combined-gameplay-source",
+        "rerelease-reference-material",
+        "gameplay-tests-and-audits",
+        "zaero-runtime-media",
+        "zaero-runtime-definitions",
+        "third-party-build-dependencies",
+        "unreviewed-repository-remainder"
+      ],
+      "evidence_refs": [
+        "roadmap-d003"
+      ],
+      "requirements": [
+        "Generated source archives must be enumerated and hash-identical to the reviewed tools tree."
+      ],
+      "expires_at": null,
+      "revisit_condition": "Retain archive hashes and member manifests for the publication ref.",
+      "notes": "No current tools source archive has been reviewed."
+    },
+    {
+      "id": "tools-actions-logs",
+      "kind": "actions-logs",
+      "audience": "public",
+      "distribution_root": "history-clean-tools",
+      "status": "unknown",
+      "covered_component_ids": [
+        "independent-tools-candidate",
+        "tools-only-package-metadata"
+      ],
+      "prohibited_component_ids": [
+        "combined-gameplay-source",
+        "rerelease-reference-material",
+        "gameplay-tests-and-audits",
+        "zaero-runtime-media",
+        "zaero-runtime-definitions",
+        "third-party-build-dependencies",
+        "unreviewed-repository-remainder"
+      ],
+      "evidence_refs": [
+        "roadmap-d003"
+      ],
+      "requirements": [
+        "Synthetic tool tests must never print user content, gated repository paths, source bytes, or credentials."
+      ],
+      "expires_at": null,
+      "revisit_condition": "Audit exact workflow commands, fixtures, redaction, and retained logs in the clean tools root.",
+      "notes": "Tools-only CI must use synthetic inputs."
+    },
+    {
+      "id": "tools-actions-artifacts",
+      "kind": "actions-artifacts",
+      "audience": "public",
+      "distribution_root": "history-clean-tools",
+      "status": "unknown",
+      "covered_component_ids": [
+        "independent-tools-candidate",
+        "tools-only-package-metadata"
+      ],
+      "prohibited_component_ids": [
+        "combined-gameplay-source",
+        "rerelease-reference-material",
+        "gameplay-tests-and-audits",
+        "zaero-runtime-media",
+        "zaero-runtime-definitions",
+        "third-party-build-dependencies",
+        "unreviewed-repository-remainder"
+      ],
+      "evidence_refs": [
+        "roadmap-d003",
+        "roadmap-readiness"
+      ],
+      "requirements": [
+        "Every artifact member must match the exact reviewed tools-only allowlist and contain no DLL, gameplay source, media, object, or private fixture."
+      ],
+      "expires_at": null,
+      "revisit_condition": "Retain a deterministic artifact manifest, SBOM, checksums, and independent content review.",
+      "notes": "No current tools-only Actions artifact is authorized."
+    },
+    {
+      "id": "tools-actions-caches",
+      "kind": "actions-caches",
+      "audience": "public",
+      "distribution_root": "history-clean-tools",
+      "status": "unknown",
+      "covered_component_ids": [
+        "independent-tools-candidate",
+        "tools-only-package-metadata"
+      ],
+      "prohibited_component_ids": [
+        "combined-gameplay-source",
+        "rerelease-reference-material",
+        "gameplay-tests-and-audits",
+        "zaero-runtime-media",
+        "zaero-runtime-definitions",
+        "third-party-build-dependencies",
+        "unreviewed-repository-remainder"
+      ],
+      "evidence_refs": [
+        "roadmap-d003"
+      ],
+      "requirements": [
+        "Cache content must be unnecessary or exactly limited to independently permitted tools inputs and synthetic outputs."
+      ],
+      "expires_at": null,
+      "revisit_condition": "Audit exact cache keys, contents, readers, and retention or disable caches in the clean tools root.",
+      "notes": "No current tools-only cache policy is authorized."
+    },
+    {
+      "id": "tools-release-assets",
+      "kind": "release-assets",
+      "audience": "public",
+      "distribution_root": "history-clean-tools",
+      "status": "unknown",
+      "covered_component_ids": [
+        "independent-tools-candidate",
+        "tools-only-package-metadata"
+      ],
+      "prohibited_component_ids": [
+        "combined-gameplay-source",
+        "rerelease-reference-material",
+        "gameplay-tests-and-audits",
+        "zaero-runtime-media",
+        "zaero-runtime-definitions",
+        "third-party-build-dependencies",
+        "unreviewed-repository-remainder"
+      ],
+      "evidence_refs": [
+        "roadmap-d003",
+        "roadmap-readiness"
+      ],
+      "requirements": [
+        "The tools-progress profile, exact file decisions, clean tree/history, source archive, artifact manifest, SBOM, checksums, and non-playable labeling must all pass."
+      ],
+      "expires_at": null,
+      "revisit_condition": "Complete the independent tools-rights review and history-clean channel audit for the exact release candidate.",
+      "notes": "The maximum possible public capability is not yet an eligible release."
+    },
+    {
+      "id": "private-local-filesystem",
+      "kind": "private-local-filesystem",
+      "audience": "private",
+      "distribution_root": "user-local-machine",
+      "status": "permitted",
+      "covered_component_ids": [
+        "combined-gameplay-source",
+        "rerelease-reference-material",
+        "gameplay-tests-and-audits",
+        "zaero-runtime-media",
+        "zaero-runtime-definitions",
+        "independent-tools-candidate",
+        "tools-only-package-metadata",
+        "third-party-build-dependencies",
+        "unreviewed-repository-remainder"
+      ],
+      "prohibited_component_ids": [],
+      "evidence_refs": [
+        "asset-sources-policy",
+        "roadmap-d003"
+      ],
+      "requirements": [
+        "Output remains on the legitimate user's machine under ignored private roots and is never uploaded, attached, shared, or promoted."
+      ],
+      "expires_at": null,
+      "revisit_condition": "This private engineering channel does not become public; later public rights evidence must use a distinct mode and distributable-input lineage.",
+      "notes": "Permission here is a project containment rule for local engineering, not a representation about the user's legal rights."
+    }
+  ],
+  "modes": [
+    {
+      "id": "tools-only",
+      "status": "blocked",
+      "public_mode": true,
+      "publication_permitted": false,
+      "permanent_private": false,
+      "playable": false,
+      "playable_after_local_completion": false,
+      "stable_eligible": false,
+      "readiness_profiles": [
+        "tools-progress"
+      ],
+      "required_component_ids": [
+        "independent-tools-candidate",
+        "tools-only-package-metadata"
+      ],
+      "prohibited_component_ids": [
+        "combined-gameplay-source",
+        "rerelease-reference-material",
+        "gameplay-tests-and-audits",
+        "zaero-runtime-media",
+        "zaero-runtime-definitions",
+        "third-party-build-dependencies",
+        "unreviewed-repository-remainder"
+      ],
+      "file_allowlist": [
+        {
+          "artifact_path": "zaereo-tools/tools/import_legacy_assets.py",
+          "source_path": "tools/import_legacy_assets.py",
+          "component_id": "independent-tools-candidate",
+          "distribution_status": "unknown",
+          "evidence_refs": [
+            "roadmap-d003",
+            "third-party-notices"
+          ],
+          "notes": "Candidate exact path; independent authorship and outbound-license approval are pending."
+        },
+        {
+          "artifact_path": "zaereo-tools/tools/make_pak.py",
+          "source_path": "tools/make_pak.py",
+          "component_id": "independent-tools-candidate",
+          "distribution_status": "unknown",
+          "evidence_refs": [
+            "roadmap-d003",
+            "third-party-notices"
+          ],
+          "notes": "Candidate exact path; independent authorship and outbound-license approval are pending."
+        },
+        {
+          "artifact_path": "zaereo-tools/tools/validate_runtime.py",
+          "source_path": "tools/validate_runtime.py",
+          "component_id": "independent-tools-candidate",
+          "distribution_status": "unknown",
+          "evidence_refs": [
+            "roadmap-d003",
+            "third-party-notices"
+          ],
+          "notes": "Candidate exact path; independent authorship and outbound-license approval are pending."
+        },
+        {
+          "artifact_path": "zaereo-tools/ACQUIRE_AND_BUILD.txt",
+          "source_path": null,
+          "component_id": "tools-only-package-metadata",
+          "distribution_status": "unknown",
+          "evidence_refs": [
+            "roadmap-d003"
+          ],
+          "notes": "Generated candidate whose exact rendered bytes and scope have not been reviewed."
+        },
+        {
+          "artifact_path": "zaereo-tools/MANIFEST.json",
+          "source_path": null,
+          "component_id": "tools-only-package-metadata",
+          "distribution_status": "unknown",
+          "evidence_refs": [
+            "roadmap-readiness"
+          ],
+          "notes": "Generated candidate whose schema and exact rendered bytes have not been reviewed."
+        },
+        {
+          "artifact_path": "zaereo-tools/BUILD-METADATA.json",
+          "source_path": null,
+          "component_id": "tools-only-package-metadata",
+          "distribution_status": "unknown",
+          "evidence_refs": [
+            "roadmap-readiness"
+          ],
+          "notes": "Generated candidate whose schema and exact rendered bytes have not been reviewed."
+        },
+        {
+          "artifact_path": "zaereo-tools/SBOM.spdx.json",
+          "source_path": null,
+          "component_id": "tools-only-package-metadata",
+          "distribution_status": "unknown",
+          "evidence_refs": [
+            "roadmap-readiness"
+          ],
+          "notes": "Generated candidate whose complete file and license coverage has not been reviewed."
+        },
+        {
+          "artifact_path": "zaereo-tools/licenses/GPL-2.0-only.txt",
+          "source_path": "LICENSE",
+          "component_id": "tools-only-package-metadata",
+          "distribution_status": "unknown",
+          "evidence_refs": [
+            "root-gpl-text",
+            "roadmap-d003"
+          ],
+          "notes": "Candidate verbatim license copy; inclusion does not assign GPL-2.0-only to unreviewed tools."
+        },
+        {
+          "artifact_path": "zaereo-tools/LICENSE.txt",
+          "source_path": "LICENSE",
+          "component_id": "tools-only-package-metadata",
+          "distribution_status": "unknown",
+          "evidence_refs": [
+            "root-gpl-text",
+            "roadmap-d003"
+          ],
+          "notes": "Candidate verbatim license copy; package-level scope remains unresolved."
+        },
+        {
+          "artifact_path": "zaereo-tools/LICENSE_SCOPE.md",
+          "source_path": "LICENSE_SCOPE.md",
+          "component_id": "tools-only-package-metadata",
+          "distribution_status": "unknown",
+          "evidence_refs": [
+            "roadmap-d003",
+            "third-party-notices"
+          ],
+          "notes": "Candidate scope notice; the final mode-specific rendering and legal review are pending."
+        },
+        {
+          "artifact_path": "zaereo-tools/THIRD_PARTY_NOTICES.md",
+          "source_path": "THIRD_PARTY_NOTICES.md",
+          "component_id": "tools-only-package-metadata",
+          "distribution_status": "unknown",
+          "evidence_refs": [
+            "third-party-notices",
+            "roadmap-d003"
+          ],
+          "notes": "Candidate notice file; exact applicability must be rendered for the actual tools-only package."
+        },
+        {
+          "artifact_path": "zaereo-tools/VERSION.txt",
+          "source_path": "VERSION",
+          "component_id": "tools-only-package-metadata",
+          "distribution_status": "unknown",
+          "evidence_refs": [
+            "roadmap-readiness"
+          ],
+          "notes": "Candidate exact version rendering; release identity checks are not implemented."
+        }
+      ],
+      "required_channel_ids": [
+        "tools-public-git-tree",
+        "tools-public-git-history",
+        "tools-public-source-archives",
+        "tools-actions-logs",
+        "tools-actions-artifacts",
+        "tools-actions-caches",
+        "tools-release-assets"
+      ],
+      "permitted_channel_ids": [],
+      "required_predicates": [
+        "Every artifact member has an exact permitted file decision and immutable release-manifest hash.",
+        "Every source component and generated byte has an applicable outbound license and evidence record.",
+        "The complete repository tree and reachable history are the separately reviewed history-clean tools root.",
+        "The tools-progress readiness profile passes deterministic, security, SBOM, checksum, and non-playable-label gates."
+      ],
+      "prohibited_content": [
+        "DLLs, executables, object files, symbols, compiler output, or dependency binaries",
+        "Gameplay or Zaero-derived source, tests, audits, definitions, or references outside the exact file list",
+        "Original or imported Zaero media and any local-full output",
+        "Files reached only through a broad glob, directory rule, or unreviewed generated archive member"
+      ],
+      "unmet_requirements": [
+        "Candidate tool and metadata files have not received independent file-level rights approval.",
+        "The history-clean tools distribution root and its complete history have not been created and audited.",
+        "No tools-only package manifest, SBOM, checksum set, or tools-progress readiness record exists.",
+        "All required public channels remain unknown rather than permitted."
+      ],
+      "notes": "This exact candidate list is review input, not an authorization. Unknown file or channel status blocks publication."
+    },
+    {
+      "id": "importer-kit",
+      "status": "blocked",
+      "public_mode": true,
+      "publication_permitted": false,
+      "permanent_private": false,
+      "playable": false,
+      "playable_after_local_completion": true,
+      "stable_eligible": false,
+      "readiness_profiles": [
+        "playable-candidate",
+        "playable-stable"
+      ],
+      "required_component_ids": [
+        "combined-gameplay-source",
+        "zaero-runtime-definitions",
+        "third-party-build-dependencies"
+      ],
+      "prohibited_component_ids": [
+        "zaero-runtime-media"
+      ],
+      "file_allowlist": [],
+      "required_channel_ids": [
+        "gameplay-public-git-tree",
+        "gameplay-public-git-history",
+        "gameplay-public-source-archives",
+        "gameplay-actions-logs",
+        "gameplay-actions-artifacts",
+        "gameplay-actions-caches",
+        "gameplay-release-assets",
+        "gameplay-corresponding-source"
+      ],
+      "permitted_channel_ids": [],
+      "required_predicates": [
+        "Code distribution is permitted for the exact DLL and corresponding source.",
+        "No Zaero media is present; completion imports a legitimate user installation locally.",
+        "The exact package, notices, SBOM, checksums, source bundle, and playable-candidate or playable-stable readiness record pass."
+      ],
+      "prohibited_content": [
+        "Original, extracted, or imported Zaero media",
+        "local-full archives or private import ownership manifests",
+        "Unreviewed source, binary, dependency, editor, or generated files"
+      ],
+      "unmet_requirements": [
+        "Code distribution summary is false.",
+        "The importer-kit exact file allowlist and corresponding-source bundle have not been reviewed.",
+        "All required gameplay-tree public channels are denied."
+      ],
+      "notes": "A buildable DLL is not permission to distribute it."
+    },
+    {
+      "id": "asset-full",
+      "status": "blocked",
+      "public_mode": true,
+      "publication_permitted": false,
+      "permanent_private": false,
+      "playable": true,
+      "playable_after_local_completion": false,
+      "stable_eligible": false,
+      "readiness_profiles": [
+        "playable-candidate",
+        "playable-stable"
+      ],
+      "required_component_ids": [
+        "combined-gameplay-source",
+        "zaero-runtime-media",
+        "zaero-runtime-definitions",
+        "third-party-build-dependencies"
+      ],
+      "prohibited_component_ids": [],
+      "file_allowlist": [],
+      "required_channel_ids": [
+        "gameplay-public-git-tree",
+        "gameplay-public-git-history",
+        "gameplay-public-source-archives",
+        "gameplay-actions-logs",
+        "gameplay-actions-artifacts",
+        "gameplay-actions-caches",
+        "gameplay-release-assets",
+        "gameplay-corresponding-source",
+        "gameplay-editor-gamepacks"
+      ],
+      "permitted_channel_ids": [],
+      "required_predicates": [
+        "Code and media distribution are independently permitted for every exact artifact member and channel.",
+        "Media comes from a reviewed distributable-input manifest rather than a user's private import.",
+        "The exact package, editor gamepack, notices, SBOM, checksums, source bundle, and playable readiness profile pass."
+      ],
+      "prohibited_content": [
+        "Bytes or manifests owned by a user's local import",
+        "Renamed or copied local-full output",
+        "Unmatched, unknown, expired, or evidence-free asset-policy entries"
+      ],
+      "unmet_requirements": [
+        "Code and media distribution summaries are false.",
+        "No reviewed asset-policy.json or distributable-input manifest exists.",
+        "The asset-full exact file allowlist has not been reviewed.",
+        "All required gameplay-tree public channels are denied."
+      ],
+      "notes": "Future rights evidence must create this distinct lineage; it can never promote a private local-full package."
+    },
+    {
+      "id": "local-full",
+      "status": "private-only",
+      "public_mode": false,
+      "publication_permitted": false,
+      "permanent_private": true,
+      "playable": true,
+      "playable_after_local_completion": false,
+      "stable_eligible": false,
+      "readiness_profiles": [
+        "local-full-private"
+      ],
+      "required_component_ids": [
+        "combined-gameplay-source",
+        "zaero-runtime-media",
+        "zaero-runtime-definitions",
+        "third-party-build-dependencies"
+      ],
+      "prohibited_component_ids": [],
+      "file_allowlist": [],
+      "required_channel_ids": [
+        "private-local-filesystem"
+      ],
+      "permitted_channel_ids": [
+        "private-local-filesystem"
+      ],
+      "required_predicates": [
+        "The user supplies a legitimate local Zaero installation and all known input hashes validate.",
+        "Generated content remains under ignored local roots and retains import and install ownership evidence.",
+        "No file, archive, manifest, log, cache, symbol, or screenshot from this lineage enters a public channel."
+      ],
+      "prohibited_content": [
+        "Any public upload, release asset, repository object, CI artifact, CI cache, editor package, or corresponding-source publication derived from this private lineage"
+      ],
+      "unmet_requirements": [],
+      "notes": "This private engineering mode is permanently non-publishable regardless of future source or media rights evidence."
+    }
+  ],
+  "waiver_policy": {
+    "non_waivable_rules": [
+      {
+        "id": "distribution-mode-provenance-channel",
+        "description": "The exact component rights, distribution mode, and every repository, CI, source, editor, and release channel must be permitted together.",
+        "applies_to_profiles": [
+          "tools-progress",
+          "playable-candidate",
+          "playable-stable",
+          "local-full-private"
+        ],
+        "waiver_allowed": false
+      },
+      {
+        "id": "local-full-permanent-private",
+        "description": "A local-full artifact or any derivative of its private import lineage can never be published or promoted.",
+        "applies_to_profiles": [
+          "tools-progress",
+          "playable-candidate",
+          "playable-stable",
+          "local-full-private"
+        ],
+        "waiver_allowed": false
+      },
+      {
+        "id": "clean-exact-source-commit",
+        "description": "The candidate must be built from the recorded clean source commit and allowed distribution root with no dirty or unreviewed bytes.",
+        "applies_to_profiles": [
+          "tools-progress",
+          "playable-candidate",
+          "playable-stable"
+        ],
+        "waiver_allowed": false
+      },
+      {
+        "id": "tag-version-identity",
+        "description": "Tag, VERSION, package metadata, manifests, source, binary, and release notes must identify the same exact release.",
+        "applies_to_profiles": [
+          "tools-progress",
+          "playable-candidate",
+          "playable-stable"
+        ],
+        "waiver_allowed": false
+      },
+      {
+        "id": "archive-checksum-file-allowlist",
+        "description": "Every archive checksum and member must match the exact reviewed per-file allowlist and internal/external manifests.",
+        "applies_to_profiles": [
+          "tools-progress",
+          "playable-candidate",
+          "playable-stable"
+        ],
+        "waiver_allowed": false
+      },
+      {
+        "id": "critical-security-results",
+        "description": "Required critical security, path-safety, archive, importer, installer, and publisher checks must pass for the exact candidate.",
+        "applies_to_profiles": [
+          "tools-progress",
+          "playable-candidate",
+          "playable-stable"
+        ],
+        "waiver_allowed": false
+      },
+      {
+        "id": "corresponding-source-license",
+        "description": "Every shipped byte must have its applicable license and notices; a DLL must have complete corresponding source for the exact binary without implying missing grants.",
+        "applies_to_profiles": [
+          "playable-candidate",
+          "playable-stable"
+        ],
+        "waiver_allowed": false
+      },
+      {
+        "id": "required-compatibility-gates",
+        "description": "Every profile-required feature, entity, quirk, map, mode, save, multiplayer, editor, package, and live evidence gate must pass without stale or missing proof.",
+        "applies_to_profiles": [
+          "playable-candidate",
+          "playable-stable"
+        ],
+        "waiver_allowed": false
+      }
+    ],
+    "optional_waiver_may_change_ready_false": false,
+    "notes": "A reviewed decision may waive only an explicitly optional or deferred gate and remains visible in readiness output. It can never change a false playable-stable result to true."
+  },
+  "notes": "This initial policy intentionally authorizes no public distribution. Unknown component or file rights, denied gameplay-tree channels, missing asset policy, and unaudited history-clean tools channels all fail closed."
+}

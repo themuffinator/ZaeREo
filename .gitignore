@@ -1,0 +1,87 @@
+# Visual Studio / compiler output
+.vs/
+build/
+x64/
+src/x64/
+src/Debug/
+src/Release/
+*.obj
+*.o
+*.lib
+*.exp
+*.ilk
+*.pdb
+*.idb
+*.ipdb
+*.iobj
+*.tlog
+*.lastbuildstate
+*.vcxproj.user
+*.suo
+*.user
+*.aps
+*.opendb
+*.VC.db
+*.VC.VC.opendb
+
+# Dependency managers
+vcpkg_installed/
+vcpkg_downloads/
+vcpkg_buildtrees/
+packages/
+
+# Generated stages and releases
+.install/
+dist/
+*.pak
+*.zip
+*.7z
+SHA256SUMS.txt
+*.manifest.generated.json
+
+# Local paths and credentials
+.zaereo.local.json
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Editors (keep shared VS Code recommendations/tasks)
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+*.swp
+*.swo
+*~
+
+# Quake/editor/runtime scratch
+*.log
+*.dmp
+*.crash
+*.prt
+*.lin
+*.autosave
+save/
+scrnshot/
+screenshots/
+
+# Audit scratch; normalized reports under docs/audits remain tracked
+.audit-work/
+tmp/
+temp/
+
+# OS metadata
+.DS_Store
+Thumbs.db
+Desktop.ini

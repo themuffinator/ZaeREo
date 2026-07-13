@@ -1,0 +1,95 @@
+name: Zaero compatibility report
+description: Report a map, gameplay, presentation, save, co-op, or deathmatch difference.
+title: "[Compatibility] "
+labels: []
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Current gameplay support may be incomplete. Reports are most useful when they identify exact map state and reproducible legacy evidence.
+        Never attach original PAKs, BSPs, cinematics, or other proprietary content.
+  - type: input
+    id: version
+    attributes:
+      label: ZaeREo version or commit
+      placeholder: VERSION value / full commit SHA
+    validations:
+      required: true
+  - type: input
+    id: map
+    attributes:
+      label: Map and inbound transition
+      description: Include a named spawnpoint or cinematic chain when relevant.
+      placeholder: zdef1 entered from zbase1 / fresh map zdef1
+    validations:
+      required: true
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Mode
+      options:
+        - Single player
+        - Network co-op
+        - Split-screen co-op
+        - Deathmatch
+        - Dedicated server
+        - Map/editor compatibility
+    validations:
+      required: true
+  - type: dropdown
+    id: skill
+    attributes:
+      label: Skill
+      options:
+        - "0"
+        - "1"
+        - "2"
+        - "3"
+        - Not applicable
+    validations:
+      required: true
+  - type: input
+    id: players
+    attributes:
+      label: Player and bot count
+      placeholder: 2 players, 0 bots
+    validations:
+      required: true
+  - type: textarea
+    id: setup
+    attributes:
+      label: State and reproduction steps
+      description: Include relevant items, cvars such as zdmflags, and whether this was before or after save/load.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Zaero behavior
+      description: Cite source, map entity data, documentation, or a controlled retail observation when available.
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed ZaeREo behavior
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Logs and safe evidence
+      description: Paste console text or describe a minimal save location. Strip personal paths; do not attach proprietary content.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Submission checks
+      options:
+        - label: I checked the feature, entity, map, and quirk ledgers for current status.
+          required: true
+        - label: I have not attached original Zaero assets or other uncleared content.
+          required: true
+        - label: This report does not disclose a security vulnerability.
+          required: true
+

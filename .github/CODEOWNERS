@@ -1,0 +1,27 @@
+# Default review owner. Ownership is derived from the repository origin.
+* @themuffinator
+
+# Engine-facing ABI, save state, and build substrate.
+/src/game.h @themuffinator
+/src/g_save*.cpp @themuffinator
+/src/g_local.h @themuffinator
+/src/g_main.cpp @themuffinator
+/src/cg_* @themuffinator
+/src/cgame/ @themuffinator
+/vcpkg.json @themuffinator
+
+# Imported-content trust boundary and release artifacts.
+/tools/import_legacy_assets.* @themuffinator
+/tools/make_pak.* @themuffinator
+/tools/install_dev.* @themuffinator
+/tools/package_windows.* @themuffinator
+/tools/publish_github_release.* @themuffinator
+/.github/workflows/ @themuffinator
+/VERSION @themuffinator
+
+# Licensing, provenance, and public compatibility promises.
+/LICENSE @themuffinator
+/THIRD_PARTY_NOTICES.md @themuffinator
+/docs/provenance/ @themuffinator
+/docs/compatibility/decisions.md @themuffinator
+/docs/compatibility/quirks.md @themuffinator
