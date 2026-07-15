@@ -71,10 +71,16 @@ class ZaeroSpawnSaveContractTests(unittest.TestCase):
             "STAT_ZAERO_ORIGIN_Z",
             "STAT_ZAERO_CAMERA_ICON",
             "STAT_ZAERO_CAMERA_TIMER",
+            "STAT_ZAERO_CAMERA_LABEL",
         ]
         positions = [BG.index(name) for name in hud_names]
         self.assertEqual(positions, sorted(positions))
-        self.assertIn("STAT_ZAERO_CAMERA_TIMER < MAX_STATS", BG)
+        self.assertIn("STAT_ZAERO_CAMERA_LABEL < MAX_STATS", BG)
+
+    def test_zboss_one_shot_target_state_is_noncolliding_and_saved(self) -> None:
+        self.assertRegex(LOCAL, r"AI_ZAERO_ONESHOT_TARGET\s*=\s*bit_v<39>")
+        self.assertIn("vec3_t zaero_shot_target;", LOCAL)
+        self.assertIn("FIELD_AUTO(monsterinfo.zaero_shot_target)", SAVE)
 
 
 if __name__ == "__main__":

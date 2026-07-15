@@ -9,6 +9,8 @@ src/Release/
 *.o
 *.lib
 *.exp
+*.dll
+*.exe
 *.ilk
 *.pdb
 *.idb
@@ -37,6 +39,11 @@ dist/
 *.zip
 *.7z
 SHA256SUMS.txt
+SHA256SUMS-*.txt
+MANIFEST.json
+BUILD-METADATA.json
+SBOM.spdx.json
+LICENSE-MANIFEST.json
 *.manifest.generated.json
 
 # Local paths and credentials

@@ -10,6 +10,7 @@ LOCAL = (ROOT / "src" / "g_local.h").read_text(encoding="utf-8")
 BG_LOCAL = (ROOT / "src" / "bg_local.h").read_text(encoding="utf-8")
 ITEMS = (ROOT / "src" / "g_items.cpp").read_text(encoding="utf-8")
 WEAPONS = (ROOT / "src" / "zaero" / "g_zaero_weapons.cpp").read_text(encoding="utf-8")
+DM_FLAGS = (ROOT / "src" / "zaero" / "g_zaero_dm.h").read_text(encoding="utf-8")
 SAVE = (ROOT / "src" / "g_save.cpp").read_text(encoding="utf-8")
 CLIENT = (ROOT / "src" / "p_client.cpp").read_text(encoding="utf-8")
 P_WEAPON = (ROOT / "src" / "p_weapon.cpp").read_text(encoding="utf-8")
@@ -217,6 +218,45 @@ class ZaeroItemRegistryTests(unittest.TestCase):
         self.assertIn("AMMO_MAX == ZAERO_AMMO_WHEEL_SLOTS", ITEMS)
         self.assertIn("itemlist[i].flags & IF_NO_WEAPON_SELECTION", ITEMS)
 
+    def test_zaero_1_1_weapon_numbers_use_the_native_switch_path(self) -> None:
+        table = COMMANDS[
+            COMMANDS.index("zaero_weapon_number_slots") : COMMANDS.index(
+                "bool Zaero_TryUseWeaponNumberChoice"
+            )
+        ]
+        expected_slots = [
+            ("IT_WEAPON_BLASTER", "IT_WEAPON_FLAREGUN"),
+            ("IT_WEAPON_SHOTGUN", "IT_NULL"),
+            ("IT_WEAPON_SSHOTGUN", "IT_NULL"),
+            ("IT_WEAPON_MACHINEGUN", "IT_NULL"),
+            ("IT_WEAPON_CHAINGUN", "IT_NULL"),
+            ("IT_WEAPON_GLAUNCHER", "IT_NULL"),
+            ("IT_WEAPON_RLAUNCHER", "IT_NULL"),
+            ("IT_WEAPON_HYPERBLASTER", "IT_NULL"),
+            ("IT_WEAPON_RAILGUN", "IT_WEAPON_SNIPERRIFLE"),
+            ("IT_WEAPON_BFG", "IT_WEAPON_SONICCANNON"),
+        ]
+        self.assertEqual(
+            re.findall(r"\{\s*(IT_[A-Z0-9_]+),\s*(IT_[A-Z0-9_]+)\s*\}", table),
+            expected_slots,
+        )
+
+        helper = COMMANDS[
+            COMMANDS.index("bool Zaero_TryUseWeaponNumberChoice") : COMMANDS.index(
+                "void Cmd_Use_f"
+            )
+        ]
+        self.assertIn("pers.inventory[item_id]", helper)
+        self.assertIn("no_weapon_chains = true", helper)
+        self.assertIn("item->use(ent, item)", helper)
+        self.assertIn("GetItemByIndex(slot[i]) == ent->client->pers.weapon", helper)
+        self.assertIn("start = (i + 1) % count", helper)
+
+        dispatch = COMMANDS[COMMANDS.index("void Cmd_Use_f") : COMMANDS.index("void Cmd_Drop_f")]
+        self.assertIn('Q_strcasecmp(gi.argv(1), "weapon")', dispatch)
+        self.assertIn("Zaero_UseWeaponNumber(ent, atoi(number))", dispatch)
+        self.assertIn("weapon index expected (1 to 10)", dispatch)
+
     def test_ammo_spawnflag_contracts_are_zaero_only(self) -> None:
         pickup = ITEMS[ITEMS.index("bool Pickup_Ammo") : ITEMS.index("void Drop_Ammo")]
         spawn = ITEMS[ITEMS.index("void SpawnItem") : ITEMS.index("void SetItemNames")]
@@ -260,28 +300,22 @@ class ZaeroItemRegistryTests(unittest.TestCase):
 
     def test_complex_items_use_dedicated_callbacks_and_never_stock_aliases(self) -> None:
         callbacks = {
-            "IT_AMMO_A2K": "Weapon_ZaeroA2KPending",
-            "IT_ITEM_VISOR": "Use_ZaeroVisorPending",
-            "IT_AMMO_PLASMASHIELD": "Use_ZaeroPlasmaShieldPending",
+            "IT_ITEM_VISOR": "Use_ZaeroVisor",
         }
         for item_id, callback in callbacks.items():
             self.assertIn(callback, item_block(item_id))
-            self.assertIn(f"void {callback}", WEAPONS)
-        self.assertGreaterEqual(WEAPONS.count("is not implemented yet"), len(callbacks))
+        self.assertNotIn("Use_ZaeroVisorPending", ITEMS + WEAPONS)
 
-        expected_flags = {
-            "IT_AMMO_A2K": {
-                "IF_AMMO",
-                "IF_POWERUP",
-                "IF_NO_WEAPON_SELECTION",
-                "IF_PENDING_IMPLEMENTATION",
-            },
-        }
+        expected_flags = {}
         for item_id, flags in expected_flags.items():
             self.assertEqual(item_flags(item_id), flags)
             self.assertNotIn("IF_TRANSIENT_WEAPON", flags)
 
         completed = {
+            "IT_AMMO_A2K": (
+                {"IF_AMMO", "IF_POWERUP", "IF_NO_WEAPON_SELECTION"},
+                "Weapon_ZaeroA2K",
+            ),
             "IT_AMMO_IRED": ({"IF_AMMO", "IF_WEAPON"}, "Weapon_ZaeroIRED"),
             "IT_WEAPON_SNIPERRIFLE": (
                 {"IF_WEAPON", "IF_STAY_COOP", "IF_NO_WEAPON_SELECTION"},
@@ -290,6 +324,10 @@ class ZaeroItemRegistryTests(unittest.TestCase):
             "IT_AMMO_EMPNUKE": (
                 {"IF_AMMO", "IF_NO_INFINITE_AMMO"},
                 "Weapon_ZaeroEMPNuke",
+            ),
+            "IT_AMMO_PLASMASHIELD": (
+                {"IF_AMMO", "IF_POWERUP_WHEEL"},
+                "Use_ZaeroPlasmaShield",
             ),
         }
         for item_id, (flags, callback) in completed.items():
@@ -405,7 +443,7 @@ class ZaeroPushAndFlareTests(unittest.TestCase):
 
         for contract in (
             '"gl_polyblend"',
-            "ZDM_NO_GL_POLYBLEND_DAMAGE = 1 << 0",
+            "ZAERO_DMFLAG_DISABLE_FLARE_POLYBLEND_DAMAGE",
             "ZAERO_FLARE_COMPENSATION_MAX_DAMAGE = 10",
             "MOD_ZAERO_GL_POLYBLEND",
             'strcmp(target->classname, "monster_zboss")',
@@ -415,6 +453,11 @@ class ZaeroPushAndFlareTests(unittest.TestCase):
             "static_cast<int32_t>(ratio * ZAERO_MONSTER_FLASH_ADD)",
         ):
             self.assertIn(contract, WEAPONS)
+
+        self.assertRegex(
+            DM_FLAGS,
+            r"ZAERO_DMFLAG_DISABLE_FLARE_POLYBLEND_DAMAGE\s*=\s*1\s*<<\s*0",
+        )
 
         self.assertIn("Zaero_AddFlareBlend(ent)", VIEW)
         self.assertIn("Zaero_UpdateMonsterFlareFlash(self)", MONSTER)

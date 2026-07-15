@@ -1,0 +1,523 @@
+{
+  "audit": "zaero-deathmatch-item-injection",
+  "disposition": {
+    "classification": "PARITY",
+    "decision": "D-045",
+    "mapper_classification_required": false,
+    "numeric_cvar_compatibility": true,
+    "source_all_or_none_is_precondition_not_transaction": true
+  },
+  "inputs": {
+    "bsp_audit": {
+      "path": "docs/audits/bsp-entities.json",
+      "sha256": "2222fc626478a529db4558642aad9baed5c778fb667d5598619f5ebdcf8416c3",
+      "size": 1292986
+    },
+    "port": [
+      {
+        "path": "zaero/g_zaero_dm.cpp",
+        "sha256": "d745af256d415f479112dcc550a13ba03256de56164fac952d21c21212115c4e",
+        "size": 6923
+      },
+      {
+        "path": "zaero/g_zaero_dm.h",
+        "sha256": "3c099ab0f207f9167f44d8fb9037c81f12473b8aab8a276d8cf6e0fe36c420ec",
+        "size": 980
+      },
+      {
+        "path": "g_spawn.cpp",
+        "sha256": "383faf9815b29c6c352c4363b61475e27f63250d389e3437133d79f876d86bfa",
+        "size": 53617
+      },
+      {
+        "path": "g_main.cpp",
+        "sha256": "96f9e534c7c0e7f07dae154970813010c98f4ee0bcb731235fd9254cd9560360",
+        "size": 28440
+      },
+      {
+        "path": "g_items.cpp",
+        "sha256": "99bda9dc0972b396afd646fbe5091b00cf51ae788247a1317bd90cf7e1eb8917",
+        "size": 129220
+      },
+      {
+        "path": "zaero/g_zaero_weapons.cpp",
+        "sha256": "9ac030c06ee8288e8ef174b1842aea4c4d93d9529f556ceee631df1ae2d59353",
+        "size": 12603
+      },
+      {
+        "path": "game.vcxproj",
+        "sha256": "c8a666daae74797f31cb05aed32d032996b2604a02deb8680852729e23d18654",
+        "size": 13490
+      }
+    ],
+    "zaero": [
+      {
+        "path": "z_spawn.c",
+        "sha256": "639ec4b2d1f05a6a78c4722f190505e3e4c3d97f3f900fe6de2b01abbadff521",
+        "size": 2377
+      },
+      {
+        "path": "g_local.h",
+        "sha256": "6934a1b6c673389018e5500b60f81d44d527beb8600f3c963872cabe5fb9c470",
+        "size": 32402
+      },
+      {
+        "path": "g_save.c",
+        "sha256": "f1e6fb25ad6cc3e9916bfc759025866fd6063830f1715542ed1d32b8ebdf88e0",
+        "size": 17312
+      }
+    ]
+  },
+  "legacy_contract": {
+    "angle_step_degrees": 15,
+    "attempts_per_item": 4,
+    "console_count": true,
+    "item_order": [
+      "weapon_soniccannon",
+      "weapon_sniperrifle",
+      "weapon_flaregun",
+      "ammo_ired",
+      "ammo_a2k",
+      "ammo_flares",
+      "ammo_empnuke",
+      "ammo_plasmashield"
+    ],
+    "placement_height": 16,
+    "placement_radius": 128,
+    "placement_trace_mask": "MASK_SHOT",
+    "pre_drop_movetype": "MOVETYPE_BOUNCE",
+    "start_ordinal_begins_at": 1,
+    "start_walk_wraps": true
+  },
+  "maps": [
+    {
+      "deathmatch_start_count": 7,
+      "injection_suppressed_by_existing_member": true,
+      "item_counts": {
+        "ammo_a2k": 1,
+        "ammo_empnuke": 1,
+        "ammo_flares": 1,
+        "ammo_ired": 2,
+        "ammo_plasmashield": 1,
+        "weapon_flaregun": 1,
+        "weapon_sniperrifle": 1,
+        "weapon_soniccannon": 1
+      },
+      "map_kind": "campaign",
+      "map_name": "zbase1",
+      "missing_items": [],
+      "present_item_classname_count": 8,
+      "present_item_entity_count": 9
+    },
+    {
+      "deathmatch_start_count": 8,
+      "injection_suppressed_by_existing_member": true,
+      "item_counts": {
+        "ammo_a2k": 0,
+        "ammo_empnuke": 1,
+        "ammo_flares": 0,
+        "ammo_ired": 2,
+        "ammo_plasmashield": 0,
+        "weapon_flaregun": 0,
+        "weapon_sniperrifle": 0,
+        "weapon_soniccannon": 1
+      },
+      "map_kind": "campaign",
+      "map_name": "zbase2",
+      "missing_items": [
+        "weapon_sniperrifle",
+        "weapon_flaregun",
+        "ammo_a2k",
+        "ammo_flares",
+        "ammo_plasmashield"
+      ],
+      "present_item_classname_count": 3,
+      "present_item_entity_count": 4
+    },
+    {
+      "deathmatch_start_count": 8,
+      "injection_suppressed_by_existing_member": true,
+      "item_counts": {
+        "ammo_a2k": 1,
+        "ammo_empnuke": 1,
+        "ammo_flares": 1,
+        "ammo_ired": 1,
+        "ammo_plasmashield": 0,
+        "weapon_flaregun": 1,
+        "weapon_sniperrifle": 0,
+        "weapon_soniccannon": 0
+      },
+      "map_kind": "campaign",
+      "map_name": "zboss",
+      "missing_items": [
+        "weapon_soniccannon",
+        "weapon_sniperrifle",
+        "ammo_plasmashield"
+      ],
+      "present_item_classname_count": 5,
+      "present_item_entity_count": 5
+    },
+    {
+      "deathmatch_start_count": 12,
+      "injection_suppressed_by_existing_member": true,
+      "item_counts": {
+        "ammo_a2k": 2,
+        "ammo_empnuke": 3,
+        "ammo_flares": 2,
+        "ammo_ired": 4,
+        "ammo_plasmashield": 2,
+        "weapon_flaregun": 1,
+        "weapon_sniperrifle": 1,
+        "weapon_soniccannon": 1
+      },
+      "map_kind": "campaign",
+      "map_name": "zdef1",
+      "missing_items": [],
+      "present_item_classname_count": 8,
+      "present_item_entity_count": 16
+    },
+    {
+      "deathmatch_start_count": 13,
+      "injection_suppressed_by_existing_member": true,
+      "item_counts": {
+        "ammo_a2k": 3,
+        "ammo_empnuke": 2,
+        "ammo_flares": 3,
+        "ammo_ired": 3,
+        "ammo_plasmashield": 1,
+        "weapon_flaregun": 1,
+        "weapon_sniperrifle": 1,
+        "weapon_soniccannon": 1
+      },
+      "map_kind": "campaign",
+      "map_name": "zdef2",
+      "missing_items": [],
+      "present_item_classname_count": 8,
+      "present_item_entity_count": 15
+    },
+    {
+      "deathmatch_start_count": 19,
+      "injection_suppressed_by_existing_member": true,
+      "item_counts": {
+        "ammo_a2k": 1,
+        "ammo_empnuke": 4,
+        "ammo_flares": 2,
+        "ammo_ired": 4,
+        "ammo_plasmashield": 2,
+        "weapon_flaregun": 2,
+        "weapon_sniperrifle": 1,
+        "weapon_soniccannon": 1
+      },
+      "map_kind": "campaign",
+      "map_name": "zdef3",
+      "missing_items": [],
+      "present_item_classname_count": 8,
+      "present_item_entity_count": 17
+    },
+    {
+      "deathmatch_start_count": 14,
+      "injection_suppressed_by_existing_member": true,
+      "item_counts": {
+        "ammo_a2k": 2,
+        "ammo_empnuke": 3,
+        "ammo_flares": 2,
+        "ammo_ired": 5,
+        "ammo_plasmashield": 2,
+        "weapon_flaregun": 3,
+        "weapon_sniperrifle": 1,
+        "weapon_soniccannon": 1
+      },
+      "map_kind": "campaign",
+      "map_name": "zdef4",
+      "missing_items": [],
+      "present_item_classname_count": 8,
+      "present_item_entity_count": 19
+    },
+    {
+      "deathmatch_start_count": 13,
+      "injection_suppressed_by_existing_member": true,
+      "item_counts": {
+        "ammo_a2k": 2,
+        "ammo_empnuke": 2,
+        "ammo_flares": 2,
+        "ammo_ired": 3,
+        "ammo_plasmashield": 2,
+        "weapon_flaregun": 2,
+        "weapon_sniperrifle": 1,
+        "weapon_soniccannon": 1
+      },
+      "map_kind": "deathmatch",
+      "map_name": "zdm1",
+      "missing_items": [],
+      "present_item_classname_count": 8,
+      "present_item_entity_count": 15
+    },
+    {
+      "deathmatch_start_count": 10,
+      "injection_suppressed_by_existing_member": true,
+      "item_counts": {
+        "ammo_a2k": 1,
+        "ammo_empnuke": 1,
+        "ammo_flares": 2,
+        "ammo_ired": 3,
+        "ammo_plasmashield": 2,
+        "weapon_flaregun": 1,
+        "weapon_sniperrifle": 1,
+        "weapon_soniccannon": 1
+      },
+      "map_kind": "deathmatch",
+      "map_name": "zdm2",
+      "missing_items": [],
+      "present_item_classname_count": 8,
+      "present_item_entity_count": 12
+    },
+    {
+      "deathmatch_start_count": 12,
+      "injection_suppressed_by_existing_member": true,
+      "item_counts": {
+        "ammo_a2k": 2,
+        "ammo_empnuke": 1,
+        "ammo_flares": 2,
+        "ammo_ired": 3,
+        "ammo_plasmashield": 2,
+        "weapon_flaregun": 1,
+        "weapon_sniperrifle": 1,
+        "weapon_soniccannon": 1
+      },
+      "map_kind": "deathmatch",
+      "map_name": "zdm3",
+      "missing_items": [],
+      "present_item_classname_count": 8,
+      "present_item_entity_count": 13
+    },
+    {
+      "deathmatch_start_count": 10,
+      "injection_suppressed_by_existing_member": true,
+      "item_counts": {
+        "ammo_a2k": 1,
+        "ammo_empnuke": 1,
+        "ammo_flares": 2,
+        "ammo_ired": 3,
+        "ammo_plasmashield": 2,
+        "weapon_flaregun": 2,
+        "weapon_sniperrifle": 1,
+        "weapon_soniccannon": 1
+      },
+      "map_kind": "deathmatch",
+      "map_name": "zdm4",
+      "missing_items": [],
+      "present_item_classname_count": 8,
+      "present_item_entity_count": 13
+    },
+    {
+      "deathmatch_start_count": 11,
+      "injection_suppressed_by_existing_member": true,
+      "item_counts": {
+        "ammo_a2k": 0,
+        "ammo_empnuke": 1,
+        "ammo_flares": 2,
+        "ammo_ired": 5,
+        "ammo_plasmashield": 1,
+        "weapon_flaregun": 1,
+        "weapon_sniperrifle": 1,
+        "weapon_soniccannon": 1
+      },
+      "map_kind": "deathmatch",
+      "map_name": "zdm5",
+      "missing_items": [
+        "ammo_a2k"
+      ],
+      "present_item_classname_count": 7,
+      "present_item_entity_count": 12
+    },
+    {
+      "deathmatch_start_count": 16,
+      "injection_suppressed_by_existing_member": true,
+      "item_counts": {
+        "ammo_a2k": 2,
+        "ammo_empnuke": 2,
+        "ammo_flares": 2,
+        "ammo_ired": 8,
+        "ammo_plasmashield": 2,
+        "weapon_flaregun": 1,
+        "weapon_sniperrifle": 1,
+        "weapon_soniccannon": 2
+      },
+      "map_kind": "deathmatch",
+      "map_name": "zdm6",
+      "missing_items": [],
+      "present_item_classname_count": 8,
+      "present_item_entity_count": 20
+    },
+    {
+      "deathmatch_start_count": 15,
+      "injection_suppressed_by_existing_member": true,
+      "item_counts": {
+        "ammo_a2k": 1,
+        "ammo_empnuke": 4,
+        "ammo_flares": 3,
+        "ammo_ired": 2,
+        "ammo_plasmashield": 2,
+        "weapon_flaregun": 1,
+        "weapon_sniperrifle": 1,
+        "weapon_soniccannon": 2
+      },
+      "map_kind": "campaign",
+      "map_name": "ztomb1",
+      "missing_items": [],
+      "present_item_classname_count": 8,
+      "present_item_entity_count": 16
+    },
+    {
+      "deathmatch_start_count": 11,
+      "injection_suppressed_by_existing_member": true,
+      "item_counts": {
+        "ammo_a2k": 2,
+        "ammo_empnuke": 4,
+        "ammo_flares": 3,
+        "ammo_ired": 7,
+        "ammo_plasmashield": 1,
+        "weapon_flaregun": 1,
+        "weapon_sniperrifle": 2,
+        "weapon_soniccannon": 1
+      },
+      "map_kind": "campaign",
+      "map_name": "ztomb2",
+      "missing_items": [],
+      "present_item_classname_count": 8,
+      "present_item_entity_count": 21
+    },
+    {
+      "deathmatch_start_count": 17,
+      "injection_suppressed_by_existing_member": true,
+      "item_counts": {
+        "ammo_a2k": 2,
+        "ammo_empnuke": 4,
+        "ammo_flares": 1,
+        "ammo_ired": 3,
+        "ammo_plasmashield": 2,
+        "weapon_flaregun": 1,
+        "weapon_sniperrifle": 0,
+        "weapon_soniccannon": 1
+      },
+      "map_kind": "campaign",
+      "map_name": "ztomb3",
+      "missing_items": [
+        "weapon_sniperrifle"
+      ],
+      "present_item_classname_count": 7,
+      "present_item_entity_count": 14
+    },
+    {
+      "deathmatch_start_count": 9,
+      "injection_suppressed_by_existing_member": true,
+      "item_counts": {
+        "ammo_a2k": 1,
+        "ammo_empnuke": 2,
+        "ammo_flares": 2,
+        "ammo_ired": 2,
+        "ammo_plasmashield": 1,
+        "weapon_flaregun": 0,
+        "weapon_sniperrifle": 0,
+        "weapon_soniccannon": 1
+      },
+      "map_kind": "campaign",
+      "map_name": "ztomb4",
+      "missing_items": [
+        "weapon_sniperrifle",
+        "weapon_flaregun"
+      ],
+      "present_item_classname_count": 6,
+      "present_item_entity_count": 9
+    },
+    {
+      "deathmatch_start_count": 8,
+      "injection_suppressed_by_existing_member": true,
+      "item_counts": {
+        "ammo_a2k": 2,
+        "ammo_empnuke": 2,
+        "ammo_flares": 1,
+        "ammo_ired": 3,
+        "ammo_plasmashield": 0,
+        "weapon_flaregun": 1,
+        "weapon_sniperrifle": 1,
+        "weapon_soniccannon": 1
+      },
+      "map_kind": "campaign",
+      "map_name": "zwaste1",
+      "missing_items": [
+        "ammo_plasmashield"
+      ],
+      "present_item_classname_count": 7,
+      "present_item_entity_count": 11
+    },
+    {
+      "deathmatch_start_count": 9,
+      "injection_suppressed_by_existing_member": true,
+      "item_counts": {
+        "ammo_a2k": 1,
+        "ammo_empnuke": 3,
+        "ammo_flares": 2,
+        "ammo_ired": 5,
+        "ammo_plasmashield": 2,
+        "weapon_flaregun": 1,
+        "weapon_sniperrifle": 1,
+        "weapon_soniccannon": 1
+      },
+      "map_kind": "campaign",
+      "map_name": "zwaste2",
+      "missing_items": [],
+      "present_item_classname_count": 8,
+      "present_item_entity_count": 16
+    },
+    {
+      "deathmatch_start_count": 8,
+      "injection_suppressed_by_existing_member": true,
+      "item_counts": {
+        "ammo_a2k": 1,
+        "ammo_empnuke": 4,
+        "ammo_flares": 5,
+        "ammo_ired": 8,
+        "ammo_plasmashield": 1,
+        "weapon_flaregun": 1,
+        "weapon_sniperrifle": 1,
+        "weapon_soniccannon": 1
+      },
+      "map_kind": "campaign",
+      "map_name": "zwaste3",
+      "missing_items": [],
+      "present_item_classname_count": 8,
+      "present_item_entity_count": 22
+    }
+  ],
+  "port_contract": {
+    "bit_1_name": "ZAERO_DMFLAG_DISABLE_FLARE_POLYBLEND_DAMAGE",
+    "bit_2_name": "ZAERO_DMFLAG_DISABLE_ITEM_INJECTION",
+    "cvar": "zdmflags",
+    "cvar_default": 0,
+    "cvar_flags": "CVAR_SERVERINFO",
+    "injection_hook": "G_FindTeams < Zaero_SpawnDeathmatchItems < CTFSpawn",
+    "item_order": [
+      "weapon_soniccannon",
+      "weapon_sniperrifle",
+      "weapon_flaregun",
+      "ammo_ired",
+      "ammo_a2k",
+      "ammo_flares",
+      "ammo_empnuke",
+      "ammo_plasmashield"
+    ],
+    "native_item_lifecycle": "ED_CallSpawn -> SpawnItem -> droptofloor/Touch_Item",
+    "rerelease_rejection_guard": "ent->inuse"
+  },
+  "schema_version": 1,
+  "scope_note": "Static/source and BSP-inventory evidence proves the compatibility surface and implementation shape. Private runtime evidence is maintained separately and now closes open stock placement, disabled/authored controls, and one deterministic real-brush partial-placement path. Eight private live controls also close every possible one-member suppression case. Item pickup/respawn, save/load, and multiplayer fixtures remain.",
+  "summary": {
+    "dedicated_deathmatch_map_count": 6,
+    "injection_item_count": 8,
+    "maps_missing_at_least_one_set_member": 6,
+    "supplied_deathmatch_start_count": 230,
+    "supplied_map_count": 20,
+    "supplied_maps_eligible_for_injection": 0
+  }
+}

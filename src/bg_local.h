@@ -70,7 +70,14 @@ enum
 
 	CONFIG_STORY,
 
-	CONFIG_LAST
+	// Mapper-authored Zaero security-camera labels. Supplied maps use at most
+	// nine distinct cameras; retain bounded headroom for community maps.
+	CONFIG_ZAERO_CAMERA_MESSAGE,
+	MAX_ZAERO_CAMERA_MESSAGES = 64,
+	CONFIG_ZAERO_CAMERA_MESSAGE_END =
+		CONFIG_ZAERO_CAMERA_MESSAGE + MAX_ZAERO_CAMERA_MESSAGES,
+
+	CONFIG_LAST = CONFIG_ZAERO_CAMERA_MESSAGE_END
 };
 
 static_assert(CONFIG_LAST <= CS_GENERAL + MAX_GENERAL);
@@ -272,10 +279,11 @@ enum player_stat_t
 	STAT_ZAERO_ORIGIN_Z,
 	STAT_ZAERO_CAMERA_ICON,
 	STAT_ZAERO_CAMERA_TIMER,
+	STAT_ZAERO_CAMERA_LABEL,
 
 	// don't use; just for verification
     STAT_LAST
 };
 
 static_assert(STAT_LAST <= MAX_STATS + 1, "stats list overflow");
-static_assert(STAT_ZAERO_CAMERA_TIMER < MAX_STATS, "Zaero HUD stats overflow player_state_t");
+static_assert(STAT_ZAERO_CAMERA_LABEL < MAX_STATS, "Zaero HUD stats overflow player_state_t");

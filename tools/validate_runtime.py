@@ -75,14 +75,48 @@ def _pak_assets(path: Path) -> dict[str, RuntimeAsset]:
         entries = read_pak_index(pak_path)
     except (OSError, PakError) as exc:
         raise ValidationError(f"Could not safely parse runtime PAK: {exc}") from exc
-    return {
-        entry.path.casefold(): RuntimeAsset(
+    result: dict[str, RuntimeAsset] = {}
+    for entry in entries:
+        folded = entry.path.casefold()
+        previous = result.get(folded)
+        if previous is not None:
+            raise ValidationError(
+                "Runtime PAK has duplicate/case-colliding members: "
+                f"{previous.path!r}, {entry.path!r}"
+            )
+        result[folded] = RuntimeAsset(
             entry.path,
             entry.size,
             lambda pak_path=pak_path, entry=entry: _pak_entry_hash(pak_path, entry),
         )
-        for entry in entries
-    }
+    return result
+
+
+def _stage_loose_asset(stage: Path, relative: str) -> RuntimeAsset:
+    try:
+        validate_pak_path(relative)
+    except PakError as exc:
+        raise ValidationError(str(exc)) from exc
+    path = stage.joinpath(*relative.split("/"))
+    if not path.is_file() or path.is_symlink():
+        raise ValidationError(f"Required staged loose runtime asset is missing or unsafe: {relative}")
+    return RuntimeAsset(relative, path.stat().st_size, lambda path=path: sha256_file(path))
+
+
+def _merge_stage_assets(
+    target: dict[str, RuntimeAsset],
+    incoming: Mapping[str, RuntimeAsset],
+    *,
+    owner: str,
+) -> None:
+    for folded, asset in incoming.items():
+        previous = target.get(folded)
+        if previous is not None:
+            raise ValidationError(
+                f"Staged runtime ownership collision between {previous.path!r} and "
+                f"{asset.path!r} while adding {owner}"
+            )
+        target[folded] = asset
 
 
 def load_manifest(
@@ -202,11 +236,72 @@ def validate_runtime(
     return {"assets": len(assets), "manifest_verified": verified}
 
 
+def validate_stage(
+    stage_root: Path,
+    *,
+    manifest: Mapping[str, object],
+) -> dict[str, int]:
+    """Verify an owned runtime stage without flattening its PAK layers.
+
+    ``pak0.pak`` is project-owned, ``pak1.pak`` is the resolved local import,
+    and the manifest's required loose files remain import-owned.  An optional
+    ``pak2.pak`` is reserved for private generated fixtures.  No layer may
+    collide with a lower layer, including by case-only spelling.
+    """
+
+    stage = Path(stage_root).resolve()
+    if not stage.is_dir():
+        raise ValidationError(f"Runtime stage does not exist: {stage}")
+
+    package_paths = {
+        path.name.casefold(): path
+        for path in stage.iterdir()
+        if path.is_file() and path.suffix.casefold() == ".pak"
+    }
+    unexpected_packages = sorted(set(package_paths) - {"pak0.pak", "pak1.pak", "pak2.pak"})
+    if unexpected_packages:
+        raise ValidationError(f"Unexpected staged PAK layer: {unexpected_packages[0]}")
+    for required in ("pak0.pak", "pak1.pak"):
+        if required not in package_paths:
+            raise ValidationError(f"Required staged PAK layer is missing: {required}")
+
+    project_assets = _pak_assets(package_paths["pak0.pak"])
+    imported_assets = _pak_assets(package_paths["pak1.pak"])
+    all_layers: dict[str, RuntimeAsset] = {}
+    _merge_stage_assets(all_layers, project_assets, owner="project pak0.pak")
+    _merge_stage_assets(all_layers, imported_assets, owner="importer pak1.pak")
+
+    imported_runtime = dict(imported_assets)
+    loose_paths = manifest.get("required_loose_paths")
+    if not isinstance(loose_paths, list) or not all(isinstance(item, str) for item in loose_paths):
+        raise ValidationError("Manifest 'required_loose_paths' must be a string list")
+    for relative in loose_paths:
+        loose_asset = _stage_loose_asset(stage, relative)
+        _merge_stage_assets(all_layers, {relative.casefold(): loose_asset}, owner="importer loose files")
+        _merge_stage_assets(imported_runtime, {relative.casefold(): loose_asset}, owner="importer loose files")
+
+    generated_assets = 0
+    generated_pak = package_paths.get("pak2.pak")
+    if generated_pak is not None:
+        generated = _pak_assets(generated_pak)
+        _merge_stage_assets(all_layers, generated, owner="generated pak2.pak")
+        generated_assets = len(generated)
+
+    result = validate_runtime(imported_runtime, manifest=manifest, strict=True)
+    return {
+        "project_assets": len(project_assets),
+        "imported_assets": result["assets"],
+        "generated_assets": generated_assets,
+        "manifest_verified": result["manifest_verified"],
+    }
+
+
 def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Validate Zaero runtime content without modifying it.")
     source = parser.add_mutually_exclusive_group(required=True)
     source.add_argument("--root", type=Path, help="Loose runtime content root")
     source.add_argument("--pak", type=Path, help="Packaged runtime PAK")
+    source.add_argument("--stage", type=Path, help="Owned runtime stage with pak0/pak1 and required loose files")
     parser.add_argument("--manifest", type=Path, help="Importer manifest to verify byte-for-byte")
     parser.add_argument(
         "--strict",
@@ -224,7 +319,6 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
 def main(argv: Sequence[str] | None = None) -> int:
     args = _parse_args(argv)
     try:
-        assets = _directory_assets(args.root) if args.root else _pak_assets(args.pak)
         manifest = (
             load_manifest(
                 args.manifest,
@@ -233,6 +327,17 @@ def main(argv: Sequence[str] | None = None) -> int:
             if args.manifest
             else None
         )
+        if args.stage:
+            if manifest is None:
+                raise ValidationError("--stage requires --manifest")
+            result = validate_stage(args.stage, manifest=manifest)
+            print(
+                f"Validated stage with {result['project_assets']} project, "
+                f"{result['imported_assets']} imported, and {result['generated_assets']} generated assets; "
+                f"{result['manifest_verified']} matched the import manifest."
+            )
+            return 0
+        assets = _directory_assets(args.root) if args.root else _pak_assets(args.pak)
         result = validate_runtime(assets, manifest=manifest, strict=args.strict)
     except (OSError, ValidationError) as exc:
         print(f"error: {exc}", file=sys.stderr)

@@ -16,6 +16,7 @@ void SP_misc_crate_medium(edict_t *self);
 void SP_misc_crate_small(edict_t *self);
 void SP_func_barrier(edict_t *self);
 void SP_misc_seat(edict_t *self);
+void SP_target_zboss_target(edict_t *self);
 
 // Used by Zaero weapon traces to distinguish a barrier obstruction from an
 // ordinary line-of-sight obstruction.

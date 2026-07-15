@@ -713,7 +713,18 @@ enum monster_ai_flags_t : uint64_t
 	AI_FORGET_ENEMY = bit_v<35>,			// forget the current enemy
 	AI_DOUBLE_TROUBLE = bit_v<36>, // JORG only
 	AI_REACHED_HOLD_COMBAT = bit_v<37>,
-	AI_THIRD_EYE = bit_v<38>
+	AI_THIRD_EYE = bit_v<38>,
+
+	// ZAERO: target_zboss_target asks the boss to aim one attack at a mapper
+	// supplied world position. Appended so native Rerelease flag values remain
+	// stable in JSON saves.
+	AI_ZAERO_ONESHOT_TARGET = bit_v<39>,
+	AI_ZAERO_SCHOOLING = bit_v<40>,
+	AI_ZAERO_REDUCED_DAMAGE = bit_v<41>,
+	AI_ZAERO_MONSTER_REDUCED_DAMAGE = bit_v<42>,
+	// Zaero's firing-time projectile-dodge throttle is distinct from the
+	// Rerelease proximity scanner and its native dodge_time field.
+	AI_ZAERO_DODGE_TIMEOUT = bit_v<43>
 };
 MAKE_ENUM_BITFLAGS(monster_ai_flags_t);
 
@@ -728,7 +739,10 @@ enum monster_attack_state_t
 	AS_SLIDING,
 	AS_MELEE,
 	AS_MISSILE,
-	AS_BLIND // PMM - used by boss code to do nasty things even if it can't see you
+	AS_BLIND, // PMM - used by boss code to do nasty things even if it can't see you
+	// Appended so existing Rerelease save values remain stable. Zaero's Hover
+	// dodge is three-dimensional and must not alias native circle strafing.
+	AS_ZAERO_FLY_STRAFE
 };
 
 // handedness values
@@ -1142,7 +1156,8 @@ enum mod_id_t : uint8_t
 	MOD_ZAERO_SONIC_CANNON,
 	MOD_ZAERO_AUTOCANNON,
 	MOD_ZAERO_TRIPBOMB,
-	MOD_ZAERO_SNIPER_RIFLE
+	MOD_ZAERO_SNIPER_RIFLE,
+	MOD_ZAERO_A2K
 };
 
 struct mod_t
@@ -1799,6 +1814,13 @@ struct monsterinfo_t
 	gtime_t checkattack_time;
 	int32_t start_frame;
 	gtime_t dodge_time;
+	// Zaero's Rocket/BFG/Flare firing-time dodge window. The paired flag above
+	// distinguishes the initial repeated-dodge window from the armed timeout.
+	gtime_t zaero_dodge_timeout;
+	// Zaero Hover's independently saved three-dimensional projectile dodge.
+	// The source calls this angle a pitch, but it rotates right around forward.
+	float zaero_fly_strafe_roll;
+	gtime_t zaero_fly_strafe_timeout;
 	int32_t move_block_counter;
 	gtime_t move_block_change_time;
 	gtime_t react_to_damage_time;
@@ -1812,6 +1834,22 @@ struct monsterinfo_t
 	// The Rerelease host decrements them by elapsed time at any server rate.
 	float zaero_flare_flash_ticks;
 	float zaero_flare_flash_base;
+
+	// ZAERO target_zboss_target. The flag above distinguishes a real marker at
+	// the zero vector from the absence of a queued one-shot target.
+	vec3_t zaero_shot_target;
+
+	// ZAERO Sentien fend and ZBoss monster-inflictor mitigation share the
+	// legacy scaling hook while retaining distinct activation flags above.
+	float zaero_damage_scale;
+
+	// ZAERO ZBoss pain-pressure and cannon-chain state.  The supplied source
+	// stored these in generic edict scratch slots; named, typed fields make the
+	// 40 Hz and JSON-save contracts explicit without leaking into other actors.
+	int32_t zaero_boss_fire_count;
+	gtime_t zaero_boss_fire_timeout;
+	gtime_t zaero_boss_emp_cooldown;
+	float zaero_boss_cannon_spread;
 
 	// NOTE: if adding new elements, make sure to add them
 	// in g_save.cpp too!
@@ -2487,7 +2525,13 @@ constexpr spawnflags_t SPAWNFLAG_CHANGELEVEL_IMMEDIATE_LEAVE = 64_spawnflag;
 void respawn(edict_t *ent);
 void BeginIntermission(edict_t *targ);
 void PutClientInServer(edict_t *ent);
-void InitClientPersistant(edict_t *ent, gclient_t *client);
+enum class init_client_persistant_mode_t
+{
+	normal,
+	zaero_boss_entry
+};
+void InitClientPersistant(edict_t *ent, gclient_t *client,
+	init_client_persistant_mode_t mode = init_client_persistant_mode_t::normal);
 void InitClientResp(gclient_t *client);
 void InitBodyQue();
 void ClientBeginServerFrame(edict_t *ent);
@@ -2837,6 +2881,7 @@ struct client_persistant_t
 	item_id_t selected_item;
 	gtime_t   selected_item_time;
 	std::array<int32_t, IT_TOTAL>	  inventory;
+	gtime_t zaero_visor_remaining;
 
 	// ammo capacities
 	std::array<int16_t, AMMO_MAX> max_ammo;
@@ -3062,6 +3107,22 @@ struct gclient_t
 	gtime_t zaero_sonic_warmup_until;
 	bool zaero_bfg_emp_misfire;
 	gtime_t zaero_sniper_charge_ready;
+	gtime_t zaero_a2k_detonate_time;
+	// Per-client production HUD toggle exposed by Zaero's showorigin command.
+	bool zaero_show_origin;
+	// Active Visor state. Entity references carry explicit generation values so
+	// camera/copy free-and-reuse cannot retarget a client after a save or frame.
+	edict_t *zaero_visor_camera;
+	int32_t zaero_visor_camera_spawn_count;
+	edict_t *zaero_visor_copy;
+	int32_t zaero_visor_copy_spawn_count;
+	gtime_t zaero_visor_last_update;
+	gtime_t zaero_visor_static_until;
+	pmtype_t zaero_visor_saved_pm_type;
+	float zaero_visor_saved_fov;
+	int32_t zaero_visor_saved_gunindex;
+	int32_t zaero_visor_saved_gunskin;
+	bool zaero_visor_saved_noclient;
 
 	// seamless level transitions
 	bool landmark_free_fall;
@@ -3271,6 +3332,13 @@ struct edict_t
 	// DelayedUse entity a stable target pointer.
 	savable_allocated_memory_t<uint8_t, TAG_LEVEL> zaero_timer_targets;
 	uint8_t zaero_timer_target_count;
+	// Generation of a long-lived Zaero child entity's current target. Owner
+	// generations use the child's existing `count`; this second value prevents
+	// a disconnected/freed target slot from being inherited after reuse.
+	int32_t zaero_child_target_spawn_count;
+	// Remaining duration carried by a dropped Visor. Active camera state uses
+	// client-owned typed time and is implemented separately.
+	gtime_t zaero_visor_remaining;
 
 	gtime_t teleport_time;
 

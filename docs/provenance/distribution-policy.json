@@ -2,16 +2,16 @@
   "$schema": "schemas/distribution-policy.schema.json",
   "schema": "zaereo.distribution-policy/v1",
   "policy_id": "zaereo-phase-zero-fail-closed",
-  "revision": 1,
+  "revision": 3,
   "policy_status": "active-fail-closed",
   "review": {
-    "reviewed_at": "2026-07-13T00:00:00+01:00",
+    "reviewed_at": "2026-07-14T00:00:00+01:00",
     "reviewer": "ZaeREo Phase-0 engineering review",
     "authority": "engineering-containment-only",
     "rights_clearance": false,
     "valid_until": null,
     "revisit_condition": "Replace or revise this baseline only after component-specific rights evidence, an exact channel review, and maintainer or qualified legal approval are recorded together.",
-    "notes": "This review establishes a conservative containment policy. It is not a legal opinion, copyright-holder permission, or release approval."
+    "notes": "This review establishes a conservative containment policy. Revision 3 records the exact official Rerelease source match and deterministic dependency/SBOM evidence without changing any rights or publication decision. It is not a legal opinion, copyright-holder permission, or release approval."
   },
   "code_distribution_permitted": false,
   "media_distribution_permitted": false,
@@ -40,7 +40,23 @@
       "path": "docs/provenance/baselines.json",
       "locator": "generated supplied-tree identities",
       "observed_on": "2026-07-13",
-      "supports": "Provides hashes for supplied comparison trees while explicitly leaving authoritative origins unresolved."
+      "supports": "Provides hashes for all supplied comparison trees and embeds the verified official Rerelease source identity; legacy and Zaero acquisition origins remain unresolved."
+    },
+    {
+      "id": "rerelease-official-match",
+      "kind": "provenance-record",
+      "path": "docs/provenance/upstream-match.json",
+      "locator": "selected_match and exact_matches",
+      "observed_on": "2026-07-14",
+      "supports": "Proves all 144 supplied Rerelease paths and blobs exactly match the selected immutable official commit/subtree; it grants no rights in Zaero additions."
+    },
+    {
+      "id": "dependency-policy",
+      "kind": "provenance-record",
+      "path": "docs/provenance/dependency-policy.json",
+      "locator": "pinned vcpkg closure, SPDX schema, license hashes, and toolchain components",
+      "observed_on": "2026-07-14",
+      "supports": "Pins and validates the exact fmt/JsonCpp/build-helper license bytes and records compiler/static-runtime scope as engineering-only NOASSERTION evidence."
     },
     {
       "id": "roadmap-d003",
@@ -95,6 +111,7 @@
       "distribution_status": "unknown",
       "evidence_refs": [
         "baseline-manifest",
+        "rerelease-official-match",
         "root-gpl-text",
         "third-party-notices"
       ],
@@ -107,7 +124,7 @@
     {
       "id": "rerelease-reference-material",
       "kind": "substrate-source",
-      "description": "Checked-in Rerelease reference material and the unresolved provenance identity used to reconstruct the upstream baseline.",
+      "description": "Checked-in Rerelease reference material reconstructed from a supplied tree whose 144 paths and blobs exactly match a pinned official commit/subtree.",
       "selectors": {
         "exact_paths": [],
         "narrow_globs": [
@@ -115,7 +132,7 @@
         ],
         "external_inputs": []
       },
-      "holder": "id Software and other upstream contributors; exact imported-origin record pending",
+      "holder": "id Software and other upstream contributors identified by the pinned official repository history",
       "license": {
         "spdx_expression": null,
         "no_grant": true
@@ -123,14 +140,15 @@
       "distribution_status": "unknown",
       "evidence_refs": [
         "baseline-manifest",
+        "rerelease-official-match",
         "root-gpl-text",
         "third-party-notices"
       ],
       "reviewer": "ZaeREo Phase-0 engineering review",
       "jurisdiction_scope": "All public repository and source-archive channels.",
       "expires_at": null,
-      "revisit_condition": "Pin the official upstream commit/archive, verify every imported file and notice, and record the applicable SPDX decision.",
-      "notes": "The observed GPL text is evidence, but the current baseline record still names a supplied local tree rather than a pinned official origin."
+      "revisit_condition": "Complete the file/scope/outbound-license review and exact notice bundle for the selected official commit before changing this component from unknown.",
+      "notes": "Official source identity is resolved. Distribution remains unknown because identity and an observed GPL text do not by themselves complete file-level scope, combined-work, channel, and notice review."
     },
     {
       "id": "gameplay-tests-and-audits",
@@ -287,7 +305,7 @@
     {
       "id": "third-party-build-dependencies",
       "kind": "dependency",
-      "description": "fmt and JsonCpp declarations and any statically linked dependency bytes in a future game DLL.",
+      "description": "fmt, JsonCpp, vcpkg build helpers, the MSVC compiler, and statically linked MSVC/runtime dependency bytes recorded for the Windows game DLL.",
       "selectors": {
         "exact_paths": [
           "vcpkg.json"
@@ -295,23 +313,26 @@
         "narrow_globs": [],
         "external_inputs": [
           "Pinned vcpkg fmt installation",
-          "Pinned vcpkg JsonCpp installation"
+          "Pinned vcpkg JsonCpp installation",
+          "Pinned vcpkg-cmake and vcpkg-cmake-config build helpers",
+          "Microsoft Visual C++ 19.44.35222 and static runtime 14.44.35207"
         ]
       },
-      "holder": "fmt and JsonCpp copyright holders and contributors",
+      "holder": "fmt and JsonCpp copyright holders/contributors and Microsoft Corporation for the recorded compiler/runtime",
       "license": {
-        "spdx_expression": "MIT AND (MIT OR LicenseRef-Public-Domain)",
-        "no_grant": false
+        "spdx_expression": null,
+        "no_grant": true
       },
       "distribution_status": "unknown",
       "evidence_refs": [
+        "dependency-policy",
         "third-party-notices"
       ],
       "reviewer": "ZaeREo Phase-0 engineering review",
       "jurisdiction_scope": "Binary, source, SBOM, and notice bundles for all public DLL releases.",
       "expires_at": null,
-      "revisit_condition": "Harvest and hash the exact pinned dependency license files and tie them to the candidate SBOM and binary build record.",
-      "notes": "Observed dependency licenses are recorded, but exact candidate notice harvesting and byte coverage are not complete."
+      "revisit_condition": "Resolve the MSVC compiler/static-runtime outbound scope and tie the deterministic dependency SBOM/license bundle to the exact mode-specific binary and artifact manifest.",
+      "notes": "Pinned vcpkg package versions, ABIs, and exact copyright bytes are validated and harvested. The generated SPDX record deliberately leaves Microsoft toolchain/runtime licensing as NOASSERTION, so publication remains blocked."
     },
     {
       "id": "unreviewed-repository-remainder",

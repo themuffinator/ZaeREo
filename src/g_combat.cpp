@@ -3,7 +3,10 @@
 // g_combat.c
 
 #include "g_local.h"
+#include "zaero/g_zaero_visor.h"
+#include "zaero/g_zaero_a2k.h"
 #include "zaero/g_zaero_emp.h"
+#include "zaero/g_zaero_plasma_shield.h"
 
 /*
 ============
@@ -179,6 +182,20 @@ static int CheckPowerArmor(edict_t *ent, const vec3_t &point, const vec3_t &norm
 	if (Zaero_EMPNukeCheck(ent, point))
 		return 0;
 
+	// PlasmaShield is neither a client nor a monster. Preserve its independent
+	// source formula before entering Rerelease's client/monster power-armor
+	// path, whose CTF, energy-damage, spark and cell-spend rules are different.
+	int zaero_plasma_shield_save = 0;
+	if (Zaero_PlasmaShieldCheckPowerArmor(ent, damage, zaero_plasma_shield_save))
+	{
+		if (zaero_plasma_shield_save > 0)
+		{
+			SpawnDamage(TE_SHIELD_SPARKS, point, normal, zaero_plasma_shield_save);
+			ent->powerarmor_time = level.time + 200_ms;
+		}
+		return zaero_plasma_shield_save;
+	}
+
 	if (client)
 	{
 		power_armor_type = PowerArmorType(ent);
@@ -325,12 +342,58 @@ static int CheckArmor(edict_t *ent, const vec3_t &point, const vec3_t &normal, i
 	return save;
 }
 
+static bool Zaero_ReactionClassnameIs(const edict_t *ent, const char *classname)
+{
+	return ent && ent->classname && !strcmp(ent->classname, classname);
+}
+
+static bool Zaero_IsAutocannonReactionAttacker(const edict_t *attacker)
+{
+	// Zaero intentionally does not mark this entity SVF_MONSTER, but admits its
+	// incidental fire to the monster reaction path by exact classname.
+	return Zaero_ReactionClassnameIs(attacker, "monster_autocannon");
+}
+
+static bool Zaero_UsesDamageReaction(const edict_t *targ,
+	const edict_t *attacker, bool autocannon)
+{
+	// Shipped maps use the positive map discriminator. The exact Zaero-only
+	// classname and mapper-owned mteam key also retain the source contract for
+	// community maps without changing ordinary native-map reactions.
+	return level.is_zaero || autocannon ||
+		(targ && targ->mteam) || (attacker && attacker->mteam);
+}
+
+static bool Zaero_ReactionMTeamMatches(const edict_t *targ,
+	const edict_t *attacker)
+{
+	return targ->mteam && attacker->mteam &&
+		!strcmp(targ->mteam, attacker->mteam);
+}
+
+static bool Zaero_IsSprayReactionExclusion(const edict_t *attacker)
+{
+	for (const char *classname : {
+		"monster_tank", "monster_supertank", "monster_makron", "monster_jorg"
+	})
+		if (Zaero_ReactionClassnameIs(attacker, classname))
+			return true;
+
+	return false;
+}
+
 void M_ReactToDamage(edict_t *targ, edict_t *attacker, edict_t *inflictor)
 {
 	// pmm
 	bool new_tesla;
 
-	if (!(attacker->client) && !(attacker->svflags & SVF_MONSTER))
+	const bool zaero_autocannon =
+		Zaero_IsAutocannonReactionAttacker(attacker);
+	const bool zaero_reaction =
+		Zaero_UsesDamageReaction(targ, attacker, zaero_autocannon);
+
+	if (!(attacker->client) && !(attacker->svflags & SVF_MONSTER) &&
+		!zaero_autocannon)
 		return;
 
 	//=======
@@ -406,7 +469,10 @@ void M_ReactToDamage(edict_t *targ, edict_t *attacker, edict_t *inflictor)
 	// if attacker is a client, get mad at them because he's good and we're not
 	if (attacker->client)
 	{
-		targ->monsterinfo.aiflags &= ~AI_SOUND_TARGET;
+		// Zaero deliberately retained AI_SOUND_TARGET here. Keep native
+		// clearing everywhere outside its positively identified semantics.
+		if (!zaero_reaction)
+			targ->monsterinfo.aiflags &= ~AI_SOUND_TARGET;
 
 		// this can only happen in coop (both new and old enemies are clients)
 		// only switch if can't see the current enemy
@@ -441,12 +507,18 @@ void M_ReactToDamage(edict_t *targ, edict_t *attacker, edict_t *inflictor)
 		return;
 	}
 
-	if (attacker->enemy == targ // if they *meant* to shoot us, then shoot back
+	const bool zaero_same_mteam =
+		zaero_reaction && Zaero_ReactionMTeamMatches(targ, attacker);
+	const bool zaero_spray_exclusion =
+		zaero_reaction && Zaero_IsSprayReactionExclusion(attacker);
+
+	if (!zaero_same_mteam && !zaero_spray_exclusion &&
+		(attacker->enemy == targ // if they *meant* to shoot us, then shoot back
 		// it's the same base (walk/swim/fly) type and both don't ignore shots,
 		// get mad at them
 		|| (((targ->flags & (FL_FLY | FL_SWIM)) == (attacker->flags & (FL_FLY | FL_SWIM))) &&
 		(strcmp(targ->classname, attacker->classname) != 0) && !(attacker->monsterinfo.aiflags & AI_IGNORE_SHOTS) &&
-		!(targ->monsterinfo.aiflags & AI_IGNORE_SHOTS)))
+		!(targ->monsterinfo.aiflags & AI_IGNORE_SHOTS))))
 	{
 		if (targ->enemy != attacker)
 		{
@@ -596,6 +668,20 @@ void T_Damage(edict_t *targ, edict_t *inflictor, edict_t *attacker, const vec3_t
 		damage *= g_damage_scale->integer;
 	} // mal: just for debugging...
 
+	// ZAERO used one per-monster scale for its active Sentien fend and for
+	// monster-inflicted damage against ZBoss. Keep the hook gated to Zaero
+	// levels and explicit flags so native Rerelease monsters are unchanged.
+	if (level.is_zaero && (targ->svflags & SVF_MONSTER) &&
+		targ->monsterinfo.zaero_damage_scale > 0.0f &&
+		((targ->monsterinfo.aiflags & AI_ZAERO_REDUCED_DAMAGE) ||
+		 ((targ->monsterinfo.aiflags & AI_ZAERO_MONSTER_REDUCED_DAMAGE) &&
+		  inflictor && (inflictor->svflags & SVF_MONSTER))))
+	{
+		damage = static_cast<int32_t>(damage * targ->monsterinfo.zaero_damage_scale);
+		if (!damage)
+			damage = 1;
+	}
+
 	client = targ->client;
 
 	// PMM - defender sphere takes half damage
@@ -661,6 +747,19 @@ void T_Damage(edict_t *targ, edict_t *inflictor, edict_t *attacker, const vec3_t
 		take = 0;
 		save = damage;
 		SpawnDamage(te_sparks, point, normal, save);
+	}
+
+	// Zaero's A2K countdown protection is absolute: unlike godmode and the
+	// ordinary invulnerability powerup it also absorbs DAMAGE_NO_PROTECTION.
+	if (Zaero_A2KProtects(targ))
+	{
+		if (targ->pain_debounce_time < level.time)
+		{
+			gi.sound(targ, CHAN_ITEM, gi.soundindex("items/protect4.wav"), 1, ATTN_NORM, 0);
+			targ->pain_debounce_time = level.time + 2_sec;
+		}
+		take = 0;
+		save = damage;
 	}
 
 	// check for invincibility
@@ -824,6 +923,12 @@ void T_Damage(edict_t *targ, edict_t *inflictor, edict_t *attacker, const vec3_t
 	// at the end of the frame
 	if (client)
 	{
+		// Zaero's player_pain callback left the Visor on any non-fatal health
+		// damage. Rerelease handles player pain here instead of assigning the
+		// legacy callback; preserve its post-armor take boundary.
+		if (take)
+			Zaero_VisorStop(targ, true);
+
 		client->damage_parmor += psave;
 		client->damage_armor += asave;
 		client->damage_blood += take;

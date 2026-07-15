@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import math
 import re
 import unittest
@@ -10,6 +11,23 @@ ROOT = Path(__file__).resolve().parents[2]
 LOCAL = (ROOT / "src" / "g_local.h").read_text(encoding="utf-8")
 PHYS = (ROOT / "src" / "g_phys.cpp").read_text(encoding="utf-8")
 SAVE = (ROOT / "src" / "g_save.cpp").read_text(encoding="utf-8")
+SOURCE_AUDIT = json.loads(
+    (ROOT / "docs" / "audits" / "source-delta.json").read_text(encoding="utf-8")
+)
+
+
+def function_body(source: str, signature: str) -> str:
+    start = source.index(signature)
+    opening = source.index("{", start)
+    depth = 0
+    for index in range(opening, len(source)):
+        if source[index] == "{":
+            depth += 1
+        elif source[index] == "}":
+            depth -= 1
+            if depth == 0:
+                return source[opening + 1 : index]
+    raise AssertionError(f"unterminated function: {signature}")
 
 
 class ZaeroPhysicsContractTests(unittest.TestCase):
@@ -91,6 +109,39 @@ class ZaeroPhysicsContractTests(unittest.TestCase):
             PHYS,
             r"every part of the pusher team succeeds[\s\S]*?SV_AdjustZaeroRiders\(moved->ent\)[\s\S]*?SV_RunThink",
         )
+
+    def test_step_and_fallfloat_stop_after_trigger_free(self) -> None:
+        records = {
+            record["path"]: record
+            for record in SOURCE_AUDIT["comparison"]["file_records"]
+        }
+        self.assertEqual(
+            records["g_phys.c"]["zaero_sha256"],
+            "21a0e0374a925c9de1ac9e5143de80a64c2f197702b4ec8cbab1ecea45d5d056",
+        )
+        self.assertEqual(records["g_phys.c"]["status"], "modified")
+
+        step = function_body(PHYS, "void SV_Physics_Step")
+        step_touch = step.index("G_TouchTriggers(ent);")
+        step_guard = step.index("if (!ent->inuse)", step_touch)
+        step_world = step.index("M_CatagorizePosition", step_touch)
+        step_think = step.index("SV_RunThink(ent);", step_touch)
+        self.assertLess(step_touch, step_guard)
+        self.assertLess(step_guard, step_world)
+        self.assertLess(step_guard, step_think)
+
+        fallfloat = function_body(PHYS, "static void SV_Physics_FallFloat")
+        projectile_touch = fallfloat.index("G_TouchProjectiles(ent, old_origin);")
+        projectile_guard = fallfloat.index("if (!ent->inuse)", projectile_touch)
+        trigger_touch = fallfloat.index("G_TouchTriggers(ent);")
+        trigger_guard = fallfloat.index("if (!ent->inuse)", trigger_touch)
+        water_transition = fallfloat.index("SV_ZaeroUpdateWaterTransition", trigger_touch)
+        final_think = fallfloat.index("SV_RunThink(ent);", trigger_touch)
+        self.assertLess(projectile_touch, projectile_guard)
+        self.assertLess(projectile_guard, trigger_touch)
+        self.assertLess(trigger_touch, trigger_guard)
+        self.assertLess(trigger_guard, water_transition)
+        self.assertLess(trigger_guard, final_think)
 
 
 if __name__ == "__main__":

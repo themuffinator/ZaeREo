@@ -1,0 +1,73 @@
+{
+  "audit": "zaero-visor-trace-order",
+  "disposition": {
+    "classification": "FIX",
+    "decision": "D-021",
+    "implementation": {
+      "real_player": "solid, damageable, hidden while active",
+      "visual_copy": "visible, generation-owned, SOLID_NOT, not damageable"
+    },
+    "rationale": "Legacy damage ownership changes with mover-driven relinking; it is not a stable combat contract."
+  },
+  "inputs": {
+    "legacy_source": {
+      "path": "server/sv_world.c",
+      "sha256": "f423eaa292289205f0a265d4a75c2bdf0085b184ce056e410820f2bb54adbfa7",
+      "size": 14297
+    },
+    "retail_binary": {
+      "path": "gamex86.dll",
+      "sha256": "9f530380d2202b03e252726478894a27f57ac7d5e54e97da106ecde199a2d786",
+      "size": 461312
+    },
+    "zaero_sources": [
+      {
+        "path": "z_camera.c",
+        "sha256": "5a4b802772d4bf6d7b1f1b80e3df9bebe12f9001f96f544f7e10c237e712c5b8",
+        "size": 2759
+      },
+      {
+        "path": "p_client.c",
+        "sha256": "f0e871b588fb4527bcafb42458bc810f4eef748c32f245646de760e9036db6a4",
+        "size": 40165
+      },
+      {
+        "path": "g_phys.c",
+        "sha256": "21a0e0374a925c9de1ac9e5143de80a64c2f197702b4ec8cbab1ecea45d5d056",
+        "size": 25085
+      }
+    ]
+  },
+  "proof": {
+    "facts": {
+      "copy_created_after_player": true,
+      "copy_is_solid_bbox": true,
+      "copy_takedamage_assignment_present": false,
+      "equal_fraction_replaces_winner": false,
+      "frozen_clientthink_relinks_player": false,
+      "initial_equal_hit_winner": "real_player",
+      "post_pusher_equal_hit_winner": "VisorCopy",
+      "pusher_can_relink_frozen_player": true,
+      "real_player_hidden_not_desolidified": true,
+      "solid_links_append_at_tail": true,
+      "solid_trace_walk_is_oldest_first": true,
+      "trace_ownership_is_link_order_dependent": true
+    },
+    "initial_order": [
+      "real_player",
+      "VisorCopy"
+    ],
+    "post_pusher_order": [
+      "VisorCopy",
+      "real_player"
+    ],
+    "reasoning": [
+      "The player is already linked before zCam_TrackEntity creates and links the overlapping copy.",
+      "Legacy solid-area insertion appends to the list and area queries preserve traversal order.",
+      "An equal-fraction entity trace does not replace the first winner.",
+      "MOVETYPE_FREEZE returns before normal client movement can relink the player.",
+      "SV_Push does not exclude MOVETYPE_FREEZE and relinks a successfully moved player."
+    ]
+  },
+  "schema_version": 1
+}

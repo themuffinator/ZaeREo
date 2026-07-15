@@ -408,7 +408,6 @@
         {"name": "delay", "type": "float", "description": "Delay before firing targets"},
         {"name": "message", "type": "string", "description": "Center-print message"},
         {"name": "target", "type": "target_destination", "description": "Target fired by the beam"},
-        {"name": "targetname", "type": "target_source", "description": "Optional toggle name"},
         {"name": "wait", "type": "float", "description": "Reactivation delay"}
       ],
       "spawnflags": [

@@ -2,6 +2,7 @@
 // Licensed under the GNU General Public License 2.0.
 
 #include "g_local.h"
+#include "zaero/g_zaero_dm.h"
 
 void Svcmd_Test_f()
 {
@@ -297,6 +298,10 @@ void ServerCommand()
 		SVCmd_WriteIP_f();
 	else if (Q_strcasecmp(cmd, "nextmap") == 0)
 		SVCmd_NextMap_f();
+#if defined(_DEBUG)
+	else if (Q_strcasecmp(cmd, "zaereo_dm_probe") == 0)
+		Zaero_DebugDumpDeathmatchItems();
+#endif
 	else
 		gi.LocClient_Print(nullptr, PRINT_HIGH, "Unknown server command \"{}\"\n", cmd);
 }

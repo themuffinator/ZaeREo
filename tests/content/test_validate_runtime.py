@@ -3,6 +3,7 @@ from __future__ import annotations
 import sys
 import tempfile
 import unittest
+import shutil
 from pathlib import Path
 
 
@@ -17,6 +18,7 @@ from validate_runtime import (  # noqa: E402
     _directory_assets,
     _pak_assets,
     load_manifest,
+    validate_stage,
     validate_runtime,
 )
 
@@ -32,6 +34,27 @@ class ValidateRuntimeTests(unittest.TestCase):
         execute_import(plan, output, manifest_path=manifest_path)
         manifest = load_manifest(manifest_path, verify_known_source_hashes=False)
         return output, manifest
+
+    def _stage_fixture(self, root: Path):
+        output, manifest = self._import_fixture(root)
+        stage = root / "stage"
+        stage.mkdir()
+
+        project = root / "project"
+        project.mkdir()
+        (project / "zaero.cfg").write_text("set game zaereo\n", encoding="ascii")
+        build_pak(project, stage / "pak0.pak")
+
+        imported = root / "imported-pak"
+        shutil.copytree(output, imported)
+        for relative in manifest["required_loose_paths"]:
+            source = imported.joinpath(*relative.split("/"))
+            source.unlink()
+            destination = stage.joinpath(*relative.split("/"))
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(output.joinpath(*relative.split("/")), destination)
+        build_pak(imported, stage / "pak1.pak")
+        return stage, manifest
 
     def test_directory_matches_manifest_byte_for_byte(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -69,6 +92,53 @@ class ValidateRuntimeTests(unittest.TestCase):
             (output / "extra.txt").write_text("extra", encoding="ascii")
             with self.assertRaisesRegex(ValidationError, "absent from strict manifest"):
                 validate_runtime(_directory_assets(output), manifest=manifest, strict=True)
+
+    def test_stage_preserves_project_import_and_loose_ownership(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            stage, manifest = self._stage_fixture(Path(temporary))
+            self.assertEqual(
+                validate_stage(stage, manifest=manifest),
+                {
+                    "project_assets": 1,
+                    "imported_assets": 12,
+                    "generated_assets": 0,
+                    "manifest_verified": 12,
+                },
+            )
+
+    def test_stage_rejects_project_import_path_collision(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            stage, manifest = self._stage_fixture(root)
+            project = root / "colliding-project"
+            project.mkdir()
+            (project / "base.dat").write_bytes(b"project override")
+            build_pak(project, stage / "pak0.pak")
+            with self.assertRaisesRegex(ValidationError, "ownership collision"):
+                validate_stage(stage, manifest=manifest)
+
+    def test_stage_rejects_imported_loose_member_collision(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            stage, manifest = self._stage_fixture(root)
+            imported = root / "colliding-import"
+            imported.mkdir()
+            loose_path = manifest["required_loose_paths"][0]
+            imported.joinpath(*loose_path.split("/")).parent.mkdir(parents=True, exist_ok=True)
+            imported.joinpath(*loose_path.split("/")).write_bytes(b"wrong place")
+            build_pak(imported, stage / "pak1.pak")
+            with self.assertRaisesRegex(ValidationError, "ownership collision"):
+                validate_stage(stage, manifest=manifest)
+
+    def test_stage_allows_noncolliding_private_generated_fixture_layer(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            stage, manifest = self._stage_fixture(root)
+            fixture = root / "fixture"
+            (fixture / "maps").mkdir(parents=True)
+            (fixture / "maps" / "zaereo_fixture_dm_partial.bsp").write_bytes(b"fixture")
+            build_pak(fixture, stage / "pak2.pak")
+            self.assertEqual(validate_stage(stage, manifest=manifest)["generated_assets"], 1)
 
 
 if __name__ == "__main__":

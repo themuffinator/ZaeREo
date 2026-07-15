@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-only
 
 #include "../g_local.h"
+#include "g_zaero_dm.h"
 #include "g_zaero_weapons.h"
 
 namespace
@@ -15,6 +16,8 @@ constexpr int32_t ZAERO_FLARE_SPEED = 600;
 // The supplied expression divides two integers. At the player speed of 600,
 // the active lifetime is therefore 13 seconds, not 13 1/3 seconds.
 constexpr int32_t ZAERO_FLARE_LIFETIME_DISTANCE = 8000;
+constexpr gtime_t ZAERO_PLAYER_FLARE_LIFETIME =
+	gtime_t::from_sec(ZAERO_FLARE_LIFETIME_DISTANCE / ZAERO_FLARE_SPEED);
 constexpr float ZAERO_FLARE_FLASH_RANGE = 256.0f;
 constexpr gtime_t ZAERO_FLARE_TICK = 100_ms;
 constexpr gtime_t ZAERO_FLARE_IGNITION_DELAY = 1_sec;
@@ -26,8 +29,6 @@ constexpr float ZAERO_PLAYER_FLASH_BASE = 30.0f;
 constexpr float ZAERO_MONSTER_FLASH_ADD = 150.0f;
 constexpr float ZAERO_MONSTER_FLASH_BASE = 50.0f;
 constexpr int32_t ZAERO_FLARE_COMPENSATION_MAX_DAMAGE = 10;
-constexpr int32_t ZDM_NO_GL_POLYBLEND_DAMAGE = 1 << 0;
-
 constexpr const char *ZAERO_FLARE_MODEL = "models/objects/flare/tris.md2";
 constexpr const char *ZAERO_FLARE_FIRE_SOUND = "weapons/flare/shoot.wav";
 constexpr const char *ZAERO_FLARE_HISS_SOUND = "weapons/flare/flarehis.wav";
@@ -47,6 +48,8 @@ bool Zaero_ClientUsesPolyblend(const edict_t *target)
 
 void Zaero_ApplyFlareFlash(edict_t *flare)
 {
+	edict_t *owner = flare->owner && flare->owner->inuse &&
+		flare->owner->spawn_count == flare->count ? flare->owner : nullptr;
 	edict_t *target = nullptr;
 
 	while ((target = findradius(target, flare->s.origin, ZAERO_FLARE_FLASH_RANGE)) != nullptr)
@@ -76,12 +79,12 @@ void Zaero_ApplyFlareFlash(edict_t *flare)
 
 			if (deathmatch->integer &&
 				!Zaero_ClientUsesPolyblend(target) &&
-				!(zdmflags->integer & ZDM_NO_GL_POLYBLEND_DAMAGE))
+				!(zdmflags->integer & ZAERO_DMFLAG_DISABLE_FLARE_POLYBLEND_DAMAGE))
 			{
 				const int32_t damage = static_cast<int32_t>(ZAERO_FLARE_COMPENSATION_MAX_DAMAGE * ratio);
 				if (damage > 0)
 				{
-					edict_t *attacker = (flare->owner && flare->owner->inuse) ? flare->owner : flare;
+					edict_t *attacker = owner ? owner : flare;
 					T_Damage(target, flare, attacker, vec3_origin, target->s.origin, vec3_origin,
 						damage, 0, DAMAGE_NONE, MOD_ZAERO_GL_POLYBLEND);
 				}
@@ -95,9 +98,9 @@ void Zaero_ApplyFlareFlash(edict_t *flare)
 				flash_ticks);
 			target->monsterinfo.zaero_flare_flash_base = ZAERO_MONSTER_FLASH_BASE;
 
-			if (!target->enemy && flare->owner && flare->owner->inuse)
+			if (!target->enemy && owner)
 			{
-				target->enemy = flare->owner;
+				target->enemy = owner;
 				FoundTarget(target);
 			}
 		}
@@ -124,7 +127,8 @@ THINK(Zaero_FlareThink) (edict_t *self) -> void
 	self->nextthink = level.time + ZAERO_FLARE_TICK;
 }
 
-edict_t *Zaero_FireFlare(edict_t *self, const vec3_t &start, const vec3_t &dir)
+edict_t *Zaero_SpawnFlare(edict_t *self, const vec3_t &start, const vec3_t &dir,
+	int damage, int speed, float damage_radius, int radius_damage)
 {
 	vec3_t up;
 	AngleVectors(vectoangles(dir), nullptr, nullptr, up);
@@ -136,7 +140,7 @@ edict_t *Zaero_FireFlare(edict_t *self, const vec3_t &start, const vec3_t &dir)
 	flare->s.old_origin = start;
 	flare->movedir = dir;
 	flare->s.angles = vectoangles(dir);
-	flare->velocity = (dir * ZAERO_FLARE_SPEED) + (up * (200.0f + crandom_open() * 10.0f));
+	flare->velocity = (dir * speed) + (up * (200.0f + crandom_open() * 10.0f));
 	flare->movetype = MOVETYPE_BOUNCE;
 	flare->clipmask = MASK_PROJECTILE;
 	if (self->client && !G_ShouldPlayersCollide(true))
@@ -147,13 +151,19 @@ edict_t *Zaero_FireFlare(edict_t *self, const vec3_t &start, const vec3_t &dir)
 	flare->s.effects = EF_ROCKET;
 	flare->s.modelindex = gi.modelindex(ZAERO_FLARE_MODEL);
 	flare->owner = self;
-	flare->timestamp = level.time + gtime_t::from_sec(ZAERO_FLARE_LIFETIME_DISTANCE / ZAERO_FLARE_SPEED);
+	flare->count = self->spawn_count;
+	// Preserve the supplied integer quotient (8000 / speed) before converting
+	// to typed time: 13 seconds for the player flare and 8 for ZBoss.
+	flare->timestamp = level.time + (speed == ZAERO_FLARE_SPEED
+		? ZAERO_PLAYER_FLARE_LIFETIME
+		: gtime_t::from_sec(ZAERO_FLARE_LIFETIME_DISTANCE / speed));
 	flare->think = Zaero_FlareThink;
 	flare->nextthink = level.time + ZAERO_FLARE_IGNITION_DELAY;
-	flare->dmg = 1;
-	flare->radius_dmg = 1;
-	flare->dmg_radius = 1.0f;
+	flare->dmg = damage;
+	flare->radius_dmg = radius_damage;
+	flare->dmg_radius = damage_radius;
 	flare->classname = "flare";
+	Zaero_CheckProjectileDodge(self, flare->s.origin, dir, speed);
 	gi.linkentity(flare);
 	return flare;
 }
@@ -162,7 +172,7 @@ void Zaero_FlareGunFire(edict_t *ent)
 {
 	vec3_t start, forward;
 	P_ProjectSource(ent, ent->client->v_angle, {8, 8, -8}, start, forward);
-	Zaero_FireFlare(ent, start, forward);
+	Zaero_SpawnFlare(ent, start, forward, 1, ZAERO_FLARE_SPEED, 1.0f, 1);
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 
 	G_RemoveAmmo(ent);
@@ -226,6 +236,63 @@ void Zaero_PendingWeapon(edict_t *ent, const char *message)
 	Zaero_ReturnFromTransientWeapon(ent);
 }
 } // namespace
+
+void Zaero_CheckProjectileDodge(edict_t *self, const vec3_t &start,
+	const vec3_t &dir, int speed)
+{
+	if (!level.is_zaero || !self || !self->client || speed <= 0)
+		return;
+
+	// Easy performs this gate before the source trace, once per authoritative
+	// projectile firing call. Preserve the strict greater-than comparison.
+	if (skill->value == 0.0f && frandom() > 0.25f)
+		return;
+
+	const vec3_t end = start + (dir * 8192.0f);
+	trace_t tr = gi.traceline(start, end, self, MASK_SHOT);
+	edict_t *target = tr.ent;
+
+	if (!target || !(target->svflags & SVF_MONSTER) || target->health <= 0 ||
+		!target->monsterinfo.dodge || !infront(target, self) ||
+		((target->monsterinfo.aiflags & AI_ZAERO_DODGE_TIMEOUT) &&
+		 level.time <= target->monsterinfo.zaero_dodge_timeout))
+		return;
+
+	const vec3_t travel = tr.endpos - start;
+	const gtime_t eta = gtime_t::from_sec(
+		(travel.length() - target->maxs[0]) / static_cast<float>(speed));
+	target->monsterinfo.dodge(target, self, eta, &tr, false);
+
+	// The supplied code clears an expired armed timeout before installing the
+	// next initial window. That ordering is observable, especially on skill 0.
+	if (target->monsterinfo.aiflags & AI_ZAERO_DODGE_TIMEOUT)
+	{
+		target->monsterinfo.aiflags &= ~AI_ZAERO_DODGE_TIMEOUT;
+		target->monsterinfo.zaero_dodge_timeout = 0_ms;
+	}
+
+	const int32_t skill_level = std::min(skill->integer, 3);
+
+	if (target->monsterinfo.zaero_dodge_timeout == 0_ms)
+	{
+		target->monsterinfo.zaero_dodge_timeout = level.time +
+			gtime_t::from_sec((4 - skill_level) * 1.1f);
+	}
+
+	if (level.time > target->monsterinfo.zaero_dodge_timeout)
+	{
+		target->monsterinfo.zaero_dodge_timeout = level.time +
+			gtime_t::from_sec(skill_level * 4.0f);
+		target->monsterinfo.aiflags |= AI_ZAERO_DODGE_TIMEOUT;
+	}
+}
+
+edict_t *Zaero_FireFlare(edict_t *self, const vec3_t &start, const vec3_t &dir,
+	int damage, int speed, float damage_radius, int radius_damage)
+{
+	return Zaero_SpawnFlare(self, start, dir, damage, speed,
+		damage_radius, radius_damage);
+}
 
 void Weapon_ZaeroPush(edict_t *ent)
 {
@@ -304,19 +371,4 @@ bool Zaero_MonsterMoveAwayFromFlare(edict_t *ent, float distance)
 		SV_NewChaseDir(ent, goal, distance);
 
 	return true;
-}
-
-void Weapon_ZaeroA2KPending(edict_t *ent)
-{
-	Zaero_PendingWeapon(ent, "Zaero A2K behavior is not implemented yet.\n");
-}
-
-void Use_ZaeroVisorPending(edict_t *ent, gitem_t *)
-{
-	gi.Client_Print(ent, PRINT_HIGH, "Zaero Visor behavior is not implemented yet.\n");
-}
-
-void Use_ZaeroPlasmaShieldPending(edict_t *ent, gitem_t *)
-{
-	gi.Client_Print(ent, PRINT_HIGH, "Zaero Plasma Shield behavior is not implemented yet.\n");
 }

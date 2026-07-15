@@ -1,0 +1,548 @@
+{
+  "audit": "zaero-release-surfaces",
+  "disposition": {
+    "classification": "ADAPT",
+    "decision": "D-015",
+    "live_release_smoke_remaining": true,
+    "result": "Legacy debug/test tools and compiled-out experiments remain source evidence only and are absent from the current production surface."
+  },
+  "legacy": {
+    "identity_locked_files": [
+      {
+        "path": "g_cmds.c",
+        "sha256": "ea6fd0c0e44bbc4c3849dda0e0002167a54fa835e31fa89489a44e16ac6a3500",
+        "size": 20561
+      },
+      {
+        "path": "g_items.c",
+        "sha256": "a02f4cfda2944ad36cf51eb928c82f13f4317d4198389ef63fac361795b0bf46",
+        "size": 57428
+      },
+      {
+        "path": "g_local.h",
+        "sha256": "6934a1b6c673389018e5500b60f81d44d527beb8600f3c963872cabe5fb9c470",
+        "size": 32402
+      },
+      {
+        "path": "g_save.c",
+        "sha256": "f1e6fb25ad6cc3e9916bfc759025866fd6063830f1715542ed1d32b8ebdf88e0",
+        "size": 17312
+      },
+      {
+        "path": "g_weapon.c",
+        "sha256": "e3b24b2a959d8db4be77ad084b22a587109a3d643aebd9c84e13d0105dd1203b",
+        "size": 24627
+      },
+      {
+        "path": "p_client.c",
+        "sha256": "f0e871b588fb4527bcafb42458bc810f4eef748c32f245646de760e9036db6a4",
+        "size": 40165
+      },
+      {
+        "path": "z_anim.c",
+        "sha256": "39dfdd07dcfe0affc294b4790734a2c2b12335ab72f42d7b1c8b83ce94b6905d",
+        "size": 18946
+      },
+      {
+        "path": "z_anim.h",
+        "sha256": "a9640d85554de01a7b265ac65931a55ec5d19bbac8c56f6f3ba09deddcea628b",
+        "size": 1464
+      },
+      {
+        "path": "z_boss.c",
+        "sha256": "b13b1f40b018ceab03f603ea047f2082b4469d1f129c0c1f2681d58684d15e3e",
+        "size": 41164
+      },
+      {
+        "path": "z_debug.c",
+        "sha256": "df8d9775e7e2e462d712fbdf06e43237bb8d281470895ce0f9154554f27fc17c",
+        "size": 137
+      },
+      {
+        "path": "z_debug.h",
+        "sha256": "0de6e42164ab7d0301657d5dd3dced0f361c63c197e974fae3b15ad1c1474cd2",
+        "size": 274
+      },
+      {
+        "path": "z_frames.c",
+        "sha256": "b3b34be6fe58f0c0f6de1ae8abd7630a28bde7e0302773ed3b4700284531138f",
+        "size": 12455
+      },
+      {
+        "path": "z_frames.h",
+        "sha256": "798f43d03076f1eb2c94e8b82a4076f9dad9704d2d0fc76428557ce249f0c02a",
+        "size": 340
+      },
+      {
+        "path": "z_mtest.c",
+        "sha256": "3020d448a70045262bceb2f37e35ed2389eada638af907408d960c79d32fc6e7",
+        "size": 11223
+      },
+      {
+        "path": "zaero.dsp",
+        "sha256": "ba0122518b87183e7c1fd5c155a236b7e075dcf22427dada54909bb3f7cccb0e",
+        "size": 9531
+      }
+    ],
+    "project": {
+      "configurations": {
+        "Debug": {
+          "definitions": [
+            "WIN32",
+            "_DEBUG",
+            "_WINDOWS",
+            "_Z_TESTMODE"
+          ]
+        },
+        "Release": {
+          "definitions": [
+            "WIN32",
+            "NDEBUG",
+            "_WINDOWS"
+          ]
+        }
+      },
+      "included_debug_modules": [
+        "z_anim.c",
+        "z_anim.h",
+        "z_debug.c",
+        "z_debug.h",
+        "z_frames.c",
+        "z_frames.h",
+        "z_mtest.c"
+      ],
+      "never_defined": [
+        "_SHANETEST",
+        "USE_GRAPPLE_CABLE"
+      ]
+    },
+    "source_probes": [
+      {
+        "count": 2,
+        "lines": [
+          1099,
+          1124
+        ],
+        "path": "g_cmds.c",
+        "surface": "debug-test",
+        "token": "#if defined(_DEBUG) && defined(_Z_TESTMODE)"
+      },
+      {
+        "count": 1,
+        "lines": [
+          1100
+        ],
+        "path": "g_cmds.c",
+        "surface": "debug-command",
+        "token": "Q_stricmp (cmd, \"linesize\")"
+      },
+      {
+        "count": 1,
+        "lines": [
+          1113
+        ],
+        "path": "g_cmds.c",
+        "surface": "debug-command",
+        "token": "Q_stricmp (cmd, \"testitem\")"
+      },
+      {
+        "count": 1,
+        "lines": [
+          1125
+        ],
+        "path": "g_cmds.c",
+        "surface": "debug-command",
+        "token": "Q_stricmp (cmd, \"anim\")"
+      },
+      {
+        "count": 2,
+        "lines": [
+          49,
+          2605
+        ],
+        "path": "g_items.c",
+        "surface": "debug-test",
+        "token": "#if defined(_DEBUG) && defined(_Z_TESTMODE)"
+      },
+      {
+        "count": 1,
+        "lines": [
+          2611
+        ],
+        "path": "g_items.c",
+        "surface": "debug-classname",
+        "token": "\"weapon_linedraw\""
+      },
+      {
+        "count": 1,
+        "lines": [
+          2635
+        ],
+        "path": "g_items.c",
+        "surface": "debug-classname",
+        "token": "\"weapon_test\""
+      },
+      {
+        "count": 1,
+        "lines": [
+          2659
+        ],
+        "path": "g_items.c",
+        "surface": "debug-classname",
+        "token": "\"item_test\""
+      },
+      {
+        "count": 3,
+        "lines": [
+          865,
+          1051,
+          1240
+        ],
+        "path": "g_local.h",
+        "surface": "debug-test",
+        "token": "#if defined(_DEBUG) && defined(_Z_TESTMODE)"
+      },
+      {
+        "count": 2,
+        "lines": [
+          4,
+          214
+        ],
+        "path": "g_save.c",
+        "surface": "debug-test",
+        "token": "#if defined(_DEBUG) && defined(_Z_TESTMODE)"
+      },
+      {
+        "count": 3,
+        "lines": [
+          6,
+          216,
+          217
+        ],
+        "path": "g_save.c",
+        "surface": "debug-symbol",
+        "token": "InitTestWeapon"
+      },
+      {
+        "count": 3,
+        "lines": [
+          7,
+          219,
+          220
+        ],
+        "path": "g_save.c",
+        "surface": "debug-symbol",
+        "token": "InitTestItem"
+      },
+      {
+        "count": 2,
+        "lines": [
+          586,
+          661
+        ],
+        "path": "g_weapon.c",
+        "surface": "animated-rocket",
+        "token": "#ifdef _SHANETEST"
+      },
+      {
+        "count": 2,
+        "lines": [
+          588,
+          673
+        ],
+        "path": "g_weapon.c",
+        "surface": "animated-rocket",
+        "token": "animrocket"
+      },
+      {
+        "count": 1,
+        "lines": [
+          670
+        ],
+        "path": "g_weapon.c",
+        "surface": "animated-rocket",
+        "token": "models/objects/r_explode/tris.md2"
+      },
+      {
+        "count": 4,
+        "lines": [
+          481,
+          665,
+          1514,
+          1537
+        ],
+        "path": "p_client.c",
+        "surface": "debug-test",
+        "token": "#if defined(_DEBUG) && defined(_Z_TESTMODE)"
+      },
+      {
+        "count": 1,
+        "lines": [
+          1
+        ],
+        "path": "z_anim.c",
+        "surface": "debug-test",
+        "token": "#if defined(_DEBUG) && defined(_Z_TESTMODE)"
+      },
+      {
+        "count": 1,
+        "lines": [
+          650
+        ],
+        "path": "z_anim.c",
+        "surface": "debug-symbol",
+        "token": "anim_player_cmd"
+      },
+      {
+        "count": 1,
+        "lines": [
+          697
+        ],
+        "path": "z_anim.c",
+        "surface": "debug-diagnostic",
+        "token": "unknown anim command"
+      },
+      {
+        "count": 1,
+        "lines": [
+          4
+        ],
+        "path": "z_anim.h",
+        "surface": "debug-test",
+        "token": "#if defined(_DEBUG) && defined(_Z_TESTMODE)"
+      },
+      {
+        "count": 2,
+        "lines": [
+          808,
+          871
+        ],
+        "path": "z_boss.c",
+        "surface": "disabled-grapple",
+        "token": "#if 0 //def USE_GRAPPLE_CABLE"
+      },
+      {
+        "count": 2,
+        "lines": [
+          809,
+          872
+        ],
+        "path": "z_boss.c",
+        "surface": "disabled-grapple",
+        "token": "TE_GRAPPLE_CABLE"
+      },
+      {
+        "count": 2,
+        "lines": [
+          815,
+          878
+        ],
+        "path": "z_boss.c",
+        "surface": "selected-grapple-fallback",
+        "token": "TE_MEDIC_CABLE_ATTACK"
+      },
+      {
+        "count": 1,
+        "lines": [
+          3
+        ],
+        "path": "z_debug.c",
+        "surface": "debug-symbol",
+        "token": "assertMsg"
+      },
+      {
+        "count": 1,
+        "lines": [
+          4
+        ],
+        "path": "z_debug.h",
+        "surface": "debug-test",
+        "token": "#if defined(_DEBUG) && defined(_Z_TESTMODE)"
+      },
+      {
+        "count": 1,
+        "lines": [
+          1
+        ],
+        "path": "z_frames.c",
+        "surface": "debug-test",
+        "token": "#if defined(_DEBUG) && defined(_Z_TESTMODE)"
+      },
+      {
+        "count": 1,
+        "lines": [
+          4
+        ],
+        "path": "z_frames.h",
+        "surface": "debug-test",
+        "token": "#if defined(_DEBUG) && defined(_Z_TESTMODE)"
+      },
+      {
+        "count": 1,
+        "lines": [
+          1
+        ],
+        "path": "z_mtest.c",
+        "surface": "debug-test",
+        "token": "#if defined(_DEBUG) && defined(_Z_TESTMODE)"
+      },
+      {
+        "count": 1,
+        "lines": [
+          61
+        ],
+        "path": "z_mtest.c",
+        "surface": "debug-classname",
+        "token": "DrawLine"
+      },
+      {
+        "count": 1,
+        "lines": [
+          216
+        ],
+        "path": "z_mtest.c",
+        "surface": "debug-config",
+        "token": "testweapon.cfg"
+      },
+      {
+        "count": 1,
+        "lines": [
+          407
+        ],
+        "path": "z_mtest.c",
+        "surface": "debug-diagnostic",
+        "token": "Bad testitem command"
+      },
+      {
+        "count": 1,
+        "lines": [
+          424
+        ],
+        "path": "z_mtest.c",
+        "surface": "debug-config",
+        "token": "testitem.cfg"
+      }
+    ],
+    "surfaces_by_probe_count": {
+      "animated-rocket": 3,
+      "debug-classname": 4,
+      "debug-command": 3,
+      "debug-config": 2,
+      "debug-diagnostic": 2,
+      "debug-symbol": 4,
+      "debug-test": 11,
+      "disabled-grapple": 2,
+      "selected-grapple-fallback": 1
+    }
+  },
+  "policy": {
+    "decision": "D-015",
+    "path": "release-surface-policy.json",
+    "policy_id": "zaereo-d015-release-surfaces",
+    "revision": 2,
+    "sha256": "5c499339a9de0685962ee0201c3b232878d1d8811735514040d9e886a6997e3c"
+  },
+  "port": {
+    "forbidden_source_basenames_present": [],
+    "forbidden_source_token_hits": [],
+    "native_unscoped_exact_identifier_counts": {
+      "TE_GRAPPLE_CABLE": 1,
+      "USE_GRAPPLE_CABLE": 0
+    },
+    "project": {
+      "configurations": {
+        "Debug|x64": {
+          "definitions": [
+            "KEX_Q2_GAME",
+            "KEX_Q2GAME_EXPORTS",
+            "NO_FMT_SOURCE",
+            "KEX_Q2GAME_DYNAMIC",
+            "_CRT_SECURE_NO_WARNINGS",
+            "_DEBUG",
+            "_CONSOLE"
+          ],
+          "forbidden_definitions_present": [],
+          "required_definitions": [
+            "_DEBUG"
+          ]
+        },
+        "Release|x64": {
+          "definitions": [
+            "KEX_Q2_GAME",
+            "KEX_Q2GAME_EXPORTS",
+            "NO_FMT_SOURCE",
+            "KEX_Q2GAME_DYNAMIC",
+            "_CRT_SECURE_NO_WARNINGS",
+            "NDEBUG",
+            "_CONSOLE"
+          ],
+          "forbidden_definitions_present": [],
+          "required_definitions": [
+            "NDEBUG"
+          ]
+        }
+      },
+      "path": "game.vcxproj",
+      "sha256": "c8a666daae74797f31cb05aed32d032996b2604a02deb8680852729e23d18654"
+    },
+    "scoped_forbidden_source_tokens": [
+      {
+        "forbidden_tokens_present": [],
+        "path": "zaero/g_zaero_zboss.cpp",
+        "tokens": [
+          "USE_GRAPPLE_CABLE",
+          "TE_GRAPPLE_CABLE"
+        ]
+      }
+    ],
+    "source_file_count": 174
+  },
+  "release_contract": {
+    "archive_binary_member_suffixes": [
+      ".dll"
+    ],
+    "archive_forbidden_member_basenames": [
+      "testweapon.cfg",
+      "testitem.cfg",
+      "z_anim.c",
+      "z_anim.cpp",
+      "z_anim.h",
+      "z_debug.c",
+      "z_debug.cpp",
+      "z_debug.h",
+      "z_frames.c",
+      "z_frames.cpp",
+      "z_frames.h",
+      "z_mtest.c",
+      "z_mtest.cpp",
+      "z_mtest.h"
+    ],
+    "archive_pak_member_suffixes": [
+      ".pak"
+    ],
+    "binary_forbidden_ascii_strings": [
+      "weapon_linedraw",
+      "weapon_test",
+      "item_test",
+      "testweapon.cfg",
+      "testitem.cfg",
+      "Bad testitem command",
+      "unknown anim command",
+      "linesize",
+      "models/objects/r_explode/tris.md2",
+      "zaereo_dm_probe",
+      "ZAEREO_DM_PROBE_"
+    ],
+    "binary_validation_is_local": true
+  },
+  "schema_version": 1,
+  "summary": {
+    "animated_rocket_guard_count": 2,
+    "disabled_grapple_block_count": 2,
+    "legacy_debug_command_count": 3,
+    "legacy_debug_module_count": 7,
+    "legacy_identity_file_count": 15,
+    "legacy_probe_count": 32,
+    "port_forbidden_source_hit_count": 0
+  }
+}

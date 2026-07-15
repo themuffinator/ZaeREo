@@ -3,6 +3,7 @@
 // g_ai.c
 
 #include "g_local.h"
+#include "zaero/g_zaero_ai.h"
 #include "zaero/g_zaero_weapons.h"
 
 bool FindTarget(edict_t *self);
@@ -1561,6 +1562,9 @@ void ai_run(edict_t *self, float dist)
         if (!FindTarget(self))
             return;
     }
+
+    if (Zaero_RunFlyStrafe(self, dist))
+        return;
 
     // PMM -- moved ai_checkattack up here so the monsters can attack while strafing or charging
 

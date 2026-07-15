@@ -10,9 +10,12 @@ replace the license text shipped with a component.
 - Upstream: https://github.com/id-Software/quake2-rerelease-dll
 - License observed in the supplied baseline: GNU General Public License,
   version 2.0
-- Current repository use: target implementation baseline imported under src
-  with a pristine comparison snapshot; upstream commit/origin pinning remains
-  unresolved
+- Pinned source identity: official commit
+  `8dc1fc9794c01ece06881e703851b768fb3994de`, `rerelease/` subtree
+  `7c3a380c5114dab4e7b7511a5c9c96390b72a1cd`, exactly matching the supplied
+  per-file baseline
+- Current repository use: target implementation baseline imported under `src`
+  with immutable per-file and official-match records
 
 Any imported upstream files must retain their applicable copyright and GPL-2.0
 notices. GPL coverage of this code does not grant rights to Zaero media or
@@ -43,6 +46,21 @@ summary does not replace that text.
 The release process must harvest the exact `share/jsoncpp/copyright` file from
 the pinned dependency installation into the release notice bundle and SBOM.
 Dependency baseline changes require regenerated notices and license review.
+
+## SPDX 2.3 JSON Schema
+
+- Project: SPDX Specification
+- Upstream: https://github.com/spdx/spdx-spec
+- Pinned tag/commit: `v2.3` / `aadf3b0b8dbbabdb4d880b0fc714255fea436ff7`
+- Imported file: `schemas/spdx-schema.json`, stored as
+  `docs/provenance/schemas/spdx-schema-2.3.json`
+- SHA-256: `239208b7ac287b3cf5d9a9af23f9d69863971102a5e1587a27a398b43490b89b`
+- License: Creative Commons Attribution 3.0 Unported; exact text retained at
+  `references/licenses/SPDX-spec-CC-BY-3.0.txt`
+
+The schema is retained unmodified to validate deterministic SBOM output. SPDX
+is a registered trademark of the Linux Foundation; use here does not imply
+endorsement.
 
 ## Legacy Quake II game source
 

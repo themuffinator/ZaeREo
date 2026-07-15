@@ -5,6 +5,7 @@
 #include "m_player.h"
 #include "bots/bot_includes.h"
 #include "zaero/g_zaero_sniper.h"
+#include "zaero/g_zaero_visor.h"
 #include "zaero/g_zaero_weapons.h"
 
 static edict_t   *current_player;
@@ -1360,6 +1361,7 @@ void ClientEndServerFrame(edict_t *ent)
 
 	current_player = ent;
 	current_client = ent->client;
+	Zaero_VisorRunFrame(ent);
 
 	// check fog changes
 	P_ForceFogTransition(ent, false);
@@ -1467,6 +1469,7 @@ void ClientEndServerFrame(edict_t *ent)
 
 	// determine the view offsets
 	SV_CalcViewOffset(ent);
+	Zaero_VisorApplyView(ent);
 
 	// determine the gun offsets
 	SV_CalcGunOffset(ent);
@@ -1475,6 +1478,7 @@ void ClientEndServerFrame(edict_t *ent)
 	// must be after viewoffset, so eye contents can be
 	// accurately determined
 	SV_CalcBlend(ent);
+	Zaero_VisorApplyStatic(ent);
 
 	// chase cam stuff
 	if (ent->client->resp.spectator)
@@ -1532,6 +1536,7 @@ void ClientEndServerFrame(edict_t *ent)
 	}
 
 	P_AssignClientSkinnum(ent);
+	Zaero_VisorUpdateCopy(ent);
 
 	if (deathmatch->integer)
 		G_SaveLagCompensation(ent);

@@ -92,6 +92,15 @@
           "removed_count": 0,
           "unchanged_count": 14
         },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 5
+        },
         "legacy_sha256": "6b00d707b108203acde3e6927494231b45f991d0ee1599886127d0d3226c8aff",
         "path": "g_ai.c",
         "status": "modified",
@@ -100,6 +109,53 @@
       {
         "additions": 0,
         "deletions": 175,
+        "functions": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [
+            {
+              "legacy_lines": [
+                111,
+                133
+              ],
+              "name": "ChaseNext"
+            },
+            {
+              "legacy_lines": [
+                135,
+                157
+              ],
+              "name": "ChasePrev"
+            },
+            {
+              "legacy_lines": [
+                159,
+                174
+              ],
+              "name": "GetChaseTarget"
+            },
+            {
+              "legacy_lines": [
+                22,
+                109
+              ],
+              "name": "UpdateChaseCam"
+            }
+          ],
+          "removed_count": 4,
+          "unchanged_count": 0
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": "25648f0ce1bd11454faf8e43e75f55f17376495d532da7df16d8ee04fa8dc3dc",
         "path": "g_chase.c",
         "status": "legacy_only",
@@ -280,6 +336,15 @@
           "removed_count": 1,
           "unchanged_count": 12
         },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": "dc0e265097f463728c70c2cbf60325db9b92931503027cd6048deeafda640da0",
         "path": "g_cmds.c",
         "status": "modified",
@@ -360,6 +425,15 @@
           "removed": [],
           "removed_count": 0,
           "unchanged_count": 4
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
         },
         "legacy_sha256": "ee8badcf891215ae3e627a987dadde2e4bf11eb19095e3fca9e1b60c0c658f38",
         "path": "g_combat.c",
@@ -727,6 +801,15 @@
           "removed_count": 0,
           "unchanged_count": 46
         },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": "aa12e2ef06f30bba957adb46cc9caecf843c575041ca5287abec5ecaad2c7873",
         "path": "g_func.c",
         "status": "modified",
@@ -891,6 +974,15 @@
           "removed_count": 0,
           "unchanged_count": 32
         },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 6
+        },
         "legacy_sha256": "4d55d1d1c83ff7552326efabc520ca07b1107ef37cd7a877af409eddcd6cdc77",
         "path": "g_items.c",
         "status": "modified",
@@ -969,6 +1061,99 @@
           "removed_count": 1,
           "unchanged_count": 5
         },
+        "globals": {
+          "added": [
+            {
+              "name": "gamedir",
+              "zaero_lines": [
+                42,
+                44
+              ]
+            },
+            {
+              "name": "printSoundRejects",
+              "zaero_lines": [
+                46,
+                49
+              ]
+            },
+            {
+              "name": "zdmflags",
+              "zaero_lines": [
+                18,
+                19
+              ]
+            }
+          ],
+          "added_count": 3,
+          "changed": [
+            {
+              "legacy_lines": [
+                1,
+                23
+              ],
+              "name": "game",
+              "zaero_lines": [
+                1,
+                4
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [
+            {
+              "legacy_lines": [
+                47,
+                49
+              ],
+              "name": "filterban"
+            },
+            {
+              "legacy_lines": [
+                66,
+                68
+              ],
+              "name": "flood_msgs"
+            },
+            {
+              "legacy_lines": [
+                68,
+                69
+              ],
+              "name": "flood_persecond"
+            },
+            {
+              "legacy_lines": [
+                69,
+                70
+              ],
+              "name": "flood_waitdelay"
+            },
+            {
+              "legacy_lines": [
+                43,
+                44
+              ],
+              "name": "maxspectators"
+            },
+            {
+              "legacy_lines": [
+                41,
+                42
+              ],
+              "name": "spectator_password"
+            },
+            {
+              "legacy_lines": [
+                70,
+                72
+              ],
+              "name": "sv_maplist"
+            }
+          ],
+          "removed_count": 7,
+          "unchanged_count": 32
+        },
         "legacy_sha256": "558f05adc5adac93bdc6151f5157b009ac87c255f788240a2a9f41755e3c8fd4",
         "path": "g_main.c",
         "status": "modified",
@@ -1041,6 +1226,15 @@
           "removed": [],
           "removed_count": 0,
           "unchanged_count": 78
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
         },
         "legacy_sha256": "d39e96f6e8793ea768c56df820edcd987d90c9f43b7c3c7037e6ed7cd92413ee",
         "path": "g_misc.c",
@@ -1181,6 +1375,15 @@
           "removed_count": 0,
           "unchanged_count": 20
         },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": "6baf247deec1f53040f4b38302f918e255096f43de262ed7b95d739eec125cab",
         "path": "g_monster.c",
         "status": "modified",
@@ -1275,6 +1478,15 @@
           "removed": [],
           "removed_count": 0,
           "unchanged_count": 11
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 4
         },
         "legacy_sha256": "31e3b813814c249734550d262d2b4766184849563960c0d9715005a6e5743481",
         "path": "g_phys.c",
@@ -1393,6 +1605,23 @@
           "removed_count": 0,
           "unchanged_count": 5
         },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [
+            {
+              "legacy_lines": [
+                1,
+                25
+              ],
+              "name": "mmove_reloc"
+            }
+          ],
+          "removed_count": 1,
+          "unchanged_count": 0
+        },
         "legacy_sha256": "2e5904205be8aa92c564b20aaf0d31bdb73d7f2e0c4f15ab0934a1e3361cd62d",
         "path": "g_save.c",
         "status": "modified",
@@ -1443,6 +1672,38 @@
           "removed": [],
           "removed_count": 0,
           "unchanged_count": 4
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                704,
+                783
+              ],
+              "name": "dm_statusbar",
+              "zaero_lines": [
+                748,
+                822
+              ]
+            },
+            {
+              "legacy_lines": [
+                620,
+                704
+              ],
+              "name": "single_statusbar",
+              "zaero_lines": [
+                652,
+                748
+              ]
+            }
+          ],
+          "changed_count": 2,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 1
         },
         "legacy_sha256": "4c401dfb37076aa1186bf1b321d4606a997a1324fd4c2c3afb933d0a045a0eff",
         "path": "g_spawn.c",
@@ -1516,6 +1777,37 @@
           "removed_count": 6,
           "unchanged_count": 1
         },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [
+            {
+              "legacy_lines": [
+                64,
+                68
+              ],
+              "name": "MAX_IPFILTERS"
+            },
+            {
+              "legacy_lines": [
+                64,
+                64
+              ],
+              "name": "ipfilter_t"
+            },
+            {
+              "legacy_lines": [
+                68,
+                69
+              ],
+              "name": "numipfilters"
+            }
+          ],
+          "removed_count": 3,
+          "unchanged_count": 0
+        },
         "legacy_sha256": "6646afb330cc83ef3de98146243e48eb0029917426c5c85e5a9e9c0b847dda04",
         "path": "g_svcmds.c",
         "status": "modified",
@@ -1586,6 +1878,15 @@
           "removed_count": 0,
           "unchanged_count": 33
         },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": "e66801c5ec863fb280c5df31bbeb2d388815b33feb9a769bd6b91f9f92e8494f",
         "path": "g_target.c",
         "status": "modified",
@@ -1634,6 +1935,27 @@
           "removed_count": 0,
           "unchanged_count": 22
         },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                379,
+                392
+              ],
+              "name": "windsound",
+              "zaero_lines": [
+                360,
+                375
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": "8b68089f68cbd686b4fb13e6f37497c62c23554054ce801d8b4046849acdad9c",
         "path": "g_trigger.c",
         "status": "modified",
@@ -1673,6 +1995,15 @@
           "removed": [],
           "removed_count": 0,
           "unchanged_count": 10
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
         },
         "legacy_sha256": "776f68766acce51a1f75f1b72cf71d82e8ef30425abedd2ab26bf9c8ca0c08e1",
         "path": "g_turret.c",
@@ -1750,6 +2081,15 @@
           "removed": [],
           "removed_count": 0,
           "unchanged_count": 14
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
         },
         "legacy_sha256": "441b5eeb751763171e507e262cf4a8d525db72c5d98a271edd591f0a6dbb6f22",
         "path": "g_utils.c",
@@ -1865,6 +2205,15 @@
           "removed_count": 0,
           "unchanged_count": 10
         },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": "ef25ff12da0e65ffb77623101530362e866b03e80cc922e30c461a47b1e8aa1f",
         "path": "g_weapon.c",
         "status": "modified",
@@ -1922,6 +2271,15 @@
           "removed_count": 0,
           "unchanged_count": 13
         },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": "d614e9d027bb6ca9e09694461aab731416f2442de235e1f32f7f4ff46471593d",
         "path": "m_actor.c",
         "status": "modified",
@@ -1966,6 +2324,27 @@
           "removed": [],
           "removed_count": 0,
           "unchanged_count": 14
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                1,
+                32
+              ],
+              "name": "sound_pain",
+              "zaero_lines": [
+                1,
+                13
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 5
         },
         "legacy_sha256": "b2865145a1a22b6047805c7704ab1212e90a21616b3d21b08eecaee214f88361",
         "path": "m_berserk.c",
@@ -2034,6 +2413,15 @@
           "removed_count": 0,
           "unchanged_count": 13
         },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 5
+        },
         "legacy_sha256": "c9348d358ae949952e61650a099fdbc57084defb78dfc3ef45e4d26636683ee8",
         "path": "m_boss2.c",
         "status": "modified",
@@ -2058,6 +2446,15 @@
           "removed": [],
           "removed_count": 0,
           "unchanged_count": 3
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
         },
         "legacy_sha256": "da05cb04906c0f85a5a87be494de319334ba942cae37322c4f5912ee04e15c57",
         "path": "m_boss3.c",
@@ -2118,6 +2515,15 @@
           "removed_count": 0,
           "unchanged_count": 17
         },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 14
+        },
         "legacy_sha256": "c620232f2e28c6c8e5a32a43885fe82ba9ae405cd24858c770aa91c33da4f27c",
         "path": "m_boss31.c",
         "status": "modified",
@@ -2154,6 +2560,15 @@
           "removed": [],
           "removed_count": 0,
           "unchanged_count": 25
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 14
         },
         "legacy_sha256": "a1a1da79940480231ea00584b65042fc1b454fd01fc74f55b550a7b1c91303ad",
         "path": "m_boss32.c",
@@ -2199,6 +2614,27 @@
           "removed": [],
           "removed_count": 0,
           "unchanged_count": 22
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                1,
+                32
+              ],
+              "name": "sound_chest_open",
+              "zaero_lines": [
+                1,
+                13
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 13
         },
         "legacy_sha256": "a641c8e79735ef803bfacfcb7cedd07976e1c70fd3c3bf4449210e1b018fbe52",
         "path": "m_brain.c",
@@ -2256,6 +2692,23 @@
           "removed_count": 0,
           "unchanged_count": 22
         },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [
+            {
+              "legacy_lines": [
+                50,
+                51
+              ],
+              "name": "sound_pain3"
+            }
+          ],
+          "removed_count": 1,
+          "unchanged_count": 14
+        },
         "legacy_sha256": "bfab2d7c065a0d724690cb870bf6d7795246ca68bdf361fe579caaf0a389df36",
         "path": "m_chick.c",
         "status": "modified",
@@ -2273,6 +2726,15 @@
         "additions": 12,
         "deletions": 188,
         "functions": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
+        "globals": {
           "added": [],
           "added_count": 0,
           "changed": [],
@@ -2317,6 +2779,27 @@
           "removed": [],
           "removed_count": 0,
           "unchanged_count": 12
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                1,
+                32
+              ],
+              "name": "sound_chomp",
+              "zaero_lines": [
+                1,
+                13
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 7
         },
         "legacy_sha256": "1f2df0ce2c4da49f2c4885d2d3b0e7eee4db0e8b961b582a8c6e068c26573e7c",
         "path": "m_flipper.c",
@@ -2363,6 +2846,27 @@
           "removed_count": 0,
           "unchanged_count": 13
         },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                1,
+                32
+              ],
+              "name": "sound_attack2",
+              "zaero_lines": [
+                1,
+                13
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 6
+        },
         "legacy_sha256": "641a7547f68a71aa0d18119ddef3445781768d48578cb8de0114b399b1fde000",
         "path": "m_float.c",
         "status": "modified",
@@ -2407,6 +2911,15 @@
           "removed": [],
           "removed_count": 0,
           "unchanged_count": 21
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 8
         },
         "legacy_sha256": "3e66271bc9da5b1fdad27d588d7f38d7d33c13ce8548c7ce028b36a8a34686a4",
         "path": "m_flyer.c",
@@ -2453,6 +2966,27 @@
           "removed_count": 0,
           "unchanged_count": 14
         },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                1,
+                32
+              ],
+              "name": "sound_pain1",
+              "zaero_lines": [
+                1,
+                13
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 9
+        },
         "legacy_sha256": "a174ad502c17473a891898de0a7e80b2e2a01587276b23f11019054e3fbf5cd8",
         "path": "m_gladiator.c",
         "status": "modified",
@@ -2497,6 +3031,27 @@
           "removed": [],
           "removed_count": 0,
           "unchanged_count": 21
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                1,
+                32
+              ],
+              "name": "sound_pain",
+              "zaero_lines": [
+                1,
+                13
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 6
         },
         "legacy_sha256": "72c295b49f7518f766423ebea18849c5b4686cd97d42fb38eed34474e0143080",
         "path": "m_gunner.c",
@@ -2549,6 +3104,15 @@
           "removed": [],
           "removed_count": 0,
           "unchanged_count": 13
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 7
         },
         "legacy_sha256": "e3a6ca713a655b7b9ac1a533d10a971d5d0498d01c5737956086de5378fadbaa",
         "path": "m_hover.c",
@@ -2613,6 +3177,15 @@
           "removed_count": 0,
           "unchanged_count": 17
         },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 11
+        },
         "legacy_sha256": "acf0c4684c0def6422134b290b68fd7415ab7878b2ae8225b69f97339d97d3ab",
         "path": "m_infantry.c",
         "status": "modified",
@@ -2658,6 +3231,27 @@
           "removed_count": 0,
           "unchanged_count": 14
         },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                1,
+                32
+              ],
+              "name": "sound_fist",
+              "zaero_lines": [
+                1,
+                13
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 3
+        },
         "legacy_sha256": "40442dfb2e78f40d3f781648cbfa3b6b0a0aab1f44948e414bc6584c2a5d7737",
         "path": "m_insane.c",
         "status": "modified",
@@ -2702,6 +3296,15 @@
           "removed": [],
           "removed_count": 0,
           "unchanged_count": 21
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 10
         },
         "legacy_sha256": "356cc8d5850d177b77670ab8d8d1ad20f180d82afa0e7650c3bb284d66888872",
         "path": "m_medic.c",
@@ -2770,6 +3373,38 @@
           "removed_count": 0,
           "unchanged_count": 6
         },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                1,
+                35
+              ],
+              "name": "c_no",
+              "zaero_lines": [
+                1,
+                16
+              ]
+            },
+            {
+              "legacy_lines": [
+                1,
+                35
+              ],
+              "name": "c_yes",
+              "zaero_lines": [
+                1,
+                16
+              ]
+            }
+          ],
+          "changed_count": 2,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": "d0e5858e385db1d6397581b2f79f31c401b807717769a30be4d99d21ebc27081",
         "path": "m_move.c",
         "status": "modified",
@@ -2806,6 +3441,27 @@
           "removed": [],
           "removed_count": 0,
           "unchanged_count": 24
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                1,
+                32
+              ],
+              "name": "sound_swing",
+              "zaero_lines": [
+                1,
+                13
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 12
         },
         "legacy_sha256": "91317ed8b8febb578325a8c85102f1ed5d817e4ae52f5f3c9b673afac2506a69",
         "path": "m_mutant.c",
@@ -2851,6 +3507,27 @@
           "removed": [],
           "removed_count": 0,
           "unchanged_count": 21
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                1,
+                32
+              ],
+              "name": "sound_pain1",
+              "zaero_lines": [
+                1,
+                13
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 10
         },
         "legacy_sha256": "c6c3691a0a72acf93ac889e81312642bac62c3b8118fc965e67922223772a05a",
         "path": "m_parasite.c",
@@ -2967,6 +3644,27 @@
           "removed_count": 0,
           "unchanged_count": 31
         },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                1,
+                32
+              ],
+              "name": "sound_idle",
+              "zaero_lines": [
+                1,
+                13
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 9
+        },
         "legacy_sha256": "4c2f258311095e79c04124c3177b21be45083a20cb3d98713dd844d9e756a1ff",
         "path": "m_soldier.c",
         "status": "modified",
@@ -3023,6 +3721,15 @@
           "removed_count": 0,
           "unchanged_count": 13
         },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 7
+        },
         "legacy_sha256": "7af4bc417199d7c8c26f9c35d59f4dd7df9d5d0008ba76c99eb8d5af7be3b627",
         "path": "m_supertank.c",
         "status": "modified",
@@ -3078,6 +3785,15 @@
           "removed": [],
           "removed_count": 0,
           "unchanged_count": 19
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 8
         },
         "legacy_sha256": "d2c039e121cd9fcf71b2c98f07ad7781ebd90f8d0370f353a3843b0224768d25",
         "path": "m_tank.c",
@@ -3296,6 +4012,30 @@
           "removed_count": 2,
           "unchanged_count": 21
         },
+        "globals": {
+          "added": [
+            {
+              "name": "testItemDroped",
+              "zaero_lines": [
+                1511,
+                1516
+              ]
+            },
+            {
+              "name": "testitemOriginMove",
+              "zaero_lines": [
+                1516,
+                1517
+              ]
+            }
+          ],
+          "added_count": 2,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 1
+        },
         "legacy_sha256": "d4bad9aa34ec3d2c667eaf64c0d84c7a555e8162b8252c245fde4a54e343ae3f",
         "path": "p_client.c",
         "status": "modified",
@@ -3373,6 +4113,15 @@
           "removed_count": 2,
           "unchanged_count": 4
         },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": "df67a4c0246e2c34f4127c9b2b985bf87aefb190dae455e84e1a18fc6b3ecf83",
         "path": "p_hud.c",
         "status": "modified",
@@ -3389,6 +4138,27 @@
           "removed": [],
           "removed_count": 0,
           "unchanged_count": 6
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                1,
+                41
+              ],
+              "name": "TRAIL_LENGTH",
+              "zaero_lines": [
+                1,
+                22
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 2
         },
         "legacy_sha256": "1c51498fb7697d89e3da397989460808a9f43503c951fe698a50dfc449d51885",
         "path": "p_trail.c",
@@ -3484,6 +4254,27 @@
           "removed": [],
           "removed_count": 0,
           "unchanged_count": 6
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                1,
+                26
+              ],
+              "name": "current_player",
+              "zaero_lines": [
+                1,
+                7
+              ]
+            }
+          ],
+          "changed_count": 1,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 8
         },
         "legacy_sha256": "915358415b8088552f7ace5d0a822f122d99b4fe2b9fdb553b9aca460712efcf",
         "path": "p_view.c",
@@ -3694,6 +4485,38 @@
           "removed_count": 0,
           "unchanged_count": 16
         },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [
+            {
+              "legacy_lines": [
+                1,
+                26
+              ],
+              "name": "is_quad",
+              "zaero_lines": [
+                1,
+                7
+              ]
+            },
+            {
+              "legacy_lines": [
+                26,
+                27
+              ],
+              "name": "is_silenced",
+              "zaero_lines": [
+                7,
+                8
+              ]
+            }
+          ],
+          "changed_count": 2,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": "6ea1fe950206e780da1b746cc33e01e953bdb39a8c934da3fc92bfe483ffa3a1",
         "path": "p_weapon.c",
         "status": "modified",
@@ -3756,6 +4579,15 @@
           "removed_count": 0,
           "unchanged_count": 54
         },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 5
+        },
         "legacy_sha256": "ebdbc0a79a2eae288630647cc3f5542f0d5bc2aa6f2d8c04781c6aaebfbe0e60",
         "path": "q_shared.c",
         "status": "modified",
@@ -3780,6 +4612,222 @@
       {
         "additions": 919,
         "deletions": 0,
+        "functions": {
+          "added": [
+            {
+              "name": "SP_monster_autocannon",
+              "zaero_lines": [
+                783,
+                903
+              ]
+            },
+            {
+              "name": "SP_monster_autocannon_floor",
+              "zaero_lines": [
+                905,
+                919
+              ]
+            },
+            {
+              "name": "angleBetween",
+              "zaero_lines": [
+                244,
+                262
+              ]
+            },
+            {
+              "name": "autocannonInfront",
+              "zaero_lines": [
+                300,
+                316
+              ]
+            },
+            {
+              "name": "canShoot",
+              "zaero_lines": [
+                273,
+                298
+              ]
+            },
+            {
+              "name": "mod180",
+              "zaero_lines": [
+                264,
+                271
+              ]
+            },
+            {
+              "name": "monster_autocannon_act",
+              "zaero_lines": [
+                727,
+                761
+              ]
+            },
+            {
+              "name": "monster_autocannon_activate",
+              "zaero_lines": [
+                647,
+                676
+              ]
+            },
+            {
+              "name": "monster_autocannon_deactivate",
+              "zaero_lines": [
+                678,
+                725
+              ]
+            },
+            {
+              "name": "monster_autocannon_die",
+              "zaero_lines": [
+                632,
+                638
+              ]
+            },
+            {
+              "name": "monster_autocannon_explode",
+              "zaero_lines": [
+                598,
+                629
+              ]
+            },
+            {
+              "name": "monster_autocannon_findenemy",
+              "zaero_lines": [
+                318,
+                404
+              ]
+            },
+            {
+              "name": "monster_autocannon_fire",
+              "zaero_lines": [
+                198,
+                242
+              ]
+            },
+            {
+              "name": "monster_autocannon_pain",
+              "zaero_lines": [
+                640,
+                645
+              ]
+            },
+            {
+              "name": "monster_autocannon_think",
+              "zaero_lines": [
+                514,
+                596
+              ]
+            },
+            {
+              "name": "monster_autocannon_turn",
+              "zaero_lines": [
+                406,
+                512
+              ]
+            },
+            {
+              "name": "monster_autocannon_use",
+              "zaero_lines": [
+                763,
+                775
+              ]
+            },
+            {
+              "name": "monster_autocannon_usestub",
+              "zaero_lines": [
+                777,
+                781
+              ]
+            }
+          ],
+          "added_count": 18,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
+        "globals": {
+          "added": [
+            {
+              "name": "ac_anim_frame_t",
+              "zaero_lines": [
+                52,
+                52
+              ]
+            },
+            {
+              "name": "ac_anim_t",
+              "zaero_lines": [
+                58,
+                58
+              ]
+            },
+            {
+              "name": "turretActEnd",
+              "zaero_lines": [
+                179,
+                180
+              ]
+            },
+            {
+              "name": "turretActStart",
+              "zaero_lines": [
+                178,
+                179
+              ]
+            },
+            {
+              "name": "turretActiveEnd",
+              "zaero_lines": [
+                181,
+                182
+              ]
+            },
+            {
+              "name": "turretActiveStart",
+              "zaero_lines": [
+                180,
+                181
+              ]
+            },
+            {
+              "name": "turretDeactEnd",
+              "zaero_lines": [
+                183,
+                184
+              ]
+            },
+            {
+              "name": "turretDeactStart",
+              "zaero_lines": [
+                182,
+                183
+              ]
+            },
+            {
+              "name": "turretIdleEnd",
+              "zaero_lines": [
+                177,
+                178
+              ]
+            },
+            {
+              "name": "turretIdleStart",
+              "zaero_lines": [
+                174,
+                177
+              ]
+            }
+          ],
+          "added_count": 10,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": null,
         "path": "z_acannon.c",
         "status": "zaero_only",
@@ -3788,6 +4836,88 @@
       {
         "additions": 491,
         "deletions": 0,
+        "functions": {
+          "added": [
+            {
+              "name": "ai_schoolCharge",
+              "zaero_lines": [
+                478,
+                488
+              ]
+            },
+            {
+              "name": "ai_schoolRun",
+              "zaero_lines": [
+                383,
+                419
+              ]
+            },
+            {
+              "name": "ai_schoolStand",
+              "zaero_lines": [
+                333,
+                370
+              ]
+            },
+            {
+              "name": "ai_schoolWalk",
+              "zaero_lines": [
+                430,
+                466
+              ]
+            },
+            {
+              "name": "zCreateRaduisList",
+              "zaero_lines": [
+                35,
+                64
+              ]
+            },
+            {
+              "name": "zFindRoamYaw",
+              "zaero_lines": [
+                113,
+                166
+              ]
+            },
+            {
+              "name": "zSchoolAllVisiable",
+              "zaero_lines": [
+                75,
+                101
+              ]
+            },
+            {
+              "name": "zSchoolMonsters",
+              "zaero_lines": [
+                177,
+                321
+              ]
+            },
+            {
+              "name": "z_aiMoveTo",
+              "zaero_lines": [
+                13,
+                24
+              ]
+            }
+          ],
+          "added_count": 9,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": null,
         "path": "z_ai.c",
         "status": "zaero_only",
@@ -3796,6 +4926,243 @@
       {
         "additions": 705,
         "deletions": 0,
+        "functions": {
+          "added": [
+            {
+              "name": "advance_anim_frame",
+              "zaero_lines": [
+                236,
+                249
+              ]
+            },
+            {
+              "name": "ai_animator",
+              "zaero_lines": [
+                307,
+                313
+              ]
+            },
+            {
+              "name": "anim_data_create",
+              "zaero_lines": [
+                165,
+                202
+              ]
+            },
+            {
+              "name": "anim_player_advance_frame",
+              "zaero_lines": [
+                431,
+                444
+              ]
+            },
+            {
+              "name": "anim_player_advance_sequence",
+              "zaero_lines": [
+                449,
+                483
+              ]
+            },
+            {
+              "name": "anim_player_capture",
+              "zaero_lines": [
+                587,
+                626
+              ]
+            },
+            {
+              "name": "anim_player_cmd",
+              "zaero_lines": [
+                650,
+                703
+              ]
+            },
+            {
+              "name": "anim_player_correct_aim",
+              "zaero_lines": [
+                122,
+                136
+              ]
+            },
+            {
+              "name": "anim_player_create",
+              "zaero_lines": [
+                204,
+                231
+              ]
+            },
+            {
+              "name": "anim_player_events",
+              "zaero_lines": [
+                524,
+                540
+              ]
+            },
+            {
+              "name": "anim_player_pause",
+              "zaero_lines": [
+                566,
+                582
+              ]
+            },
+            {
+              "name": "anim_player_report",
+              "zaero_lines": [
+                419,
+                426
+              ]
+            },
+            {
+              "name": "anim_player_set_active",
+              "zaero_lines": [
+                631,
+                644
+              ]
+            },
+            {
+              "name": "anim_player_set_aim",
+              "zaero_lines": [
+                506,
+                519
+              ]
+            },
+            {
+              "name": "anim_player_set_facing",
+              "zaero_lines": [
+                488,
+                501
+              ]
+            },
+            {
+              "name": "anim_player_still",
+              "zaero_lines": [
+                545,
+                561
+              ]
+            },
+            {
+              "name": "anim_player_think",
+              "zaero_lines": [
+                251,
+                265
+              ]
+            },
+            {
+              "name": "calculate_buffer_actuals",
+              "zaero_lines": [
+                381,
+                413
+              ]
+            },
+            {
+              "name": "cut_up_string",
+              "zaero_lines": [
+                26,
+                57
+              ]
+            },
+            {
+              "name": "find_client",
+              "zaero_lines": [
+                78,
+                101
+              ]
+            },
+            {
+              "name": "find_monster_animator",
+              "zaero_lines": [
+                106,
+                120
+              ]
+            },
+            {
+              "name": "find_targetname",
+              "zaero_lines": [
+                59,
+                74
+              ]
+            },
+            {
+              "name": "get_total_frame_count",
+              "zaero_lines": [
+                357,
+                370
+              ]
+            },
+            {
+              "name": "no_die",
+              "zaero_lines": [
+                152,
+                155
+              ]
+            },
+            {
+              "name": "no_happen",
+              "zaero_lines": [
+                157,
+                160
+              ]
+            },
+            {
+              "name": "no_pain",
+              "zaero_lines": [
+                147,
+                150
+              ]
+            },
+            {
+              "name": "update_directions",
+              "zaero_lines": [
+                272,
+                302
+              ]
+            },
+            {
+              "name": "update_frame_buffer",
+              "zaero_lines": [
+                318,
+                352
+              ]
+            }
+          ],
+          "added_count": 28,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
+        "globals": {
+          "added": [
+            {
+              "name": "MAX_ANIMATIONS",
+              "zaero_lines": [
+                13,
+                20
+              ]
+            },
+            {
+              "name": "animations_count",
+              "zaero_lines": [
+                20,
+                21
+              ]
+            },
+            {
+              "name": "the_client",
+              "zaero_lines": [
+                74,
+                76
+              ]
+            }
+          ],
+          "added_count": 3,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": null,
         "path": "z_anim.c",
         "status": "zaero_only",
@@ -3812,6 +5179,544 @@
       {
         "additions": 1897,
         "deletions": 0,
+        "functions": {
+          "added": [
+            {
+              "name": "DeadHookTouch",
+              "zaero_lines": [
+                1600,
+                1612
+              ]
+            },
+            {
+              "name": "FireCannon",
+              "zaero_lines": [
+                1136,
+                1194
+              ]
+            },
+            {
+              "name": "FireDeadCannon1",
+              "zaero_lines": [
+                1542,
+                1558
+              ]
+            },
+            {
+              "name": "FireDeadCannon2",
+              "zaero_lines": [
+                1561,
+                1577
+              ]
+            },
+            {
+              "name": "FireDeadCannon3",
+              "zaero_lines": [
+                1580,
+                1596
+              ]
+            },
+            {
+              "name": "FireDeadGrapple",
+              "zaero_lines": [
+                1614,
+                1655
+              ]
+            },
+            {
+              "name": "FireDeadRocket1",
+              "zaero_lines": [
+                1404,
+                1420
+              ]
+            },
+            {
+              "name": "FireDeadRocket2",
+              "zaero_lines": [
+                1423,
+                1440
+              ]
+            },
+            {
+              "name": "FireDeadRocket3",
+              "zaero_lines": [
+                1443,
+                1459
+              ]
+            },
+            {
+              "name": "FireDeadRocket4",
+              "zaero_lines": [
+                1463,
+                1479
+              ]
+            },
+            {
+              "name": "FireDeadRocket5",
+              "zaero_lines": [
+                1482,
+                1499
+              ]
+            },
+            {
+              "name": "FireDeadRocket6",
+              "zaero_lines": [
+                1501,
+                1519
+              ]
+            },
+            {
+              "name": "FireDeadRocket7",
+              "zaero_lines": [
+                1522,
+                1540
+              ]
+            },
+            {
+              "name": "FireFlare",
+              "zaero_lines": [
+                605,
+                639
+              ]
+            },
+            {
+              "name": "FireHook",
+              "zaero_lines": [
+                889,
+                936
+              ]
+            },
+            {
+              "name": "FireRocket",
+              "zaero_lines": [
+                643,
+                680
+              ]
+            },
+            {
+              "name": "HookDragThink",
+              "zaero_lines": [
+                766,
+                823
+              ]
+            },
+            {
+              "name": "HookThink",
+              "zaero_lines": [
+                850,
+                886
+              ]
+            },
+            {
+              "name": "HookTouch",
+              "zaero_lines": [
+                826,
+                847
+              ]
+            },
+            {
+              "name": "PlasmaballBlastAnim",
+              "zaero_lines": [
+                1017,
+                1031
+              ]
+            },
+            {
+              "name": "Plasmaball_Explode",
+              "zaero_lines": [
+                1034,
+                1068
+              ]
+            },
+            {
+              "name": "Plasmaball_Touch",
+              "zaero_lines": [
+                1071,
+                1084
+              ]
+            },
+            {
+              "name": "SP_monster_zboss",
+              "zaero_lines": [
+                1796,
+                1858
+              ]
+            },
+            {
+              "name": "SP_monster_zboss_precache",
+              "zaero_lines": [
+                1767,
+                1791
+              ]
+            },
+            {
+              "name": "SP_target_zboss_target",
+              "zaero_lines": [
+                1881,
+                1897
+              ]
+            },
+            {
+              "name": "fire_plasmaCannon",
+              "zaero_lines": [
+                1087,
+                1120
+              ]
+            },
+            {
+              "name": "possibleBossTaunt",
+              "zaero_lines": [
+                58,
+                77
+              ]
+            },
+            {
+              "name": "trigger_zboss",
+              "zaero_lines": [
+                1865,
+                1878
+              ]
+            },
+            {
+              "name": "zboss_attack",
+              "zaero_lines": [
+                1339,
+                1354
+              ]
+            },
+            {
+              "name": "zboss_chooseHookRocket",
+              "zaero_lines": [
+                982,
+                992
+              ]
+            },
+            {
+              "name": "zboss_chooseNextAttack",
+              "zaero_lines": [
+                1287,
+                1334
+              ]
+            },
+            {
+              "name": "zboss_dead",
+              "zaero_lines": [
+                1366,
+                1374
+              ]
+            },
+            {
+              "name": "zboss_die",
+              "zaero_lines": [
+                1714,
+                1758
+              ]
+            },
+            {
+              "name": "zboss_fireCannons",
+              "zaero_lines": [
+                1218,
+                1225
+              ]
+            },
+            {
+              "name": "zboss_melee",
+              "zaero_lines": [
+                551,
+                555
+              ]
+            },
+            {
+              "name": "zboss_melee2",
+              "zaero_lines": [
+                526,
+                530
+              ]
+            },
+            {
+              "name": "zboss_pain",
+              "zaero_lines": [
+                395,
+                495
+              ]
+            },
+            {
+              "name": "zboss_postWalkRun",
+              "zaero_lines": [
+                193,
+                196
+              ]
+            },
+            {
+              "name": "zboss_postcannon",
+              "zaero_lines": [
+                1250,
+                1253
+              ]
+            },
+            {
+              "name": "zboss_posthook",
+              "zaero_lines": [
+                974,
+                977
+              ]
+            },
+            {
+              "name": "zboss_reelInGraaple",
+              "zaero_lines": [
+                939,
+                942
+              ]
+            },
+            {
+              "name": "zboss_reelInGraaple2",
+              "zaero_lines": [
+                720,
+                754
+              ]
+            },
+            {
+              "name": "zboss_reloadRockets",
+              "zaero_lines": [
+                585,
+                589
+              ]
+            },
+            {
+              "name": "zboss_run",
+              "zaero_lines": [
+                293,
+                299
+              ]
+            },
+            {
+              "name": "zboss_run2",
+              "zaero_lines": [
+                302,
+                308
+              ]
+            },
+            {
+              "name": "zboss_sight",
+              "zaero_lines": [
+                52,
+                55
+              ]
+            },
+            {
+              "name": "zboss_stand",
+              "zaero_lines": [
+                314,
+                327
+              ]
+            },
+            {
+              "name": "zboss_standidle",
+              "zaero_lines": [
+                160,
+                172
+              ]
+            },
+            {
+              "name": "zboss_swing",
+              "zaero_lines": [
+                502,
+                506
+              ]
+            },
+            {
+              "name": "zboss_walk",
+              "zaero_lines": [
+                241,
+                244
+              ]
+            },
+            {
+              "name": "zboss_walk2",
+              "zaero_lines": [
+                246,
+                249
+              ]
+            },
+            {
+              "name": "zboss_walksound",
+              "zaero_lines": [
+                46,
+                49
+              ]
+            }
+          ],
+          "added_count": 52,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
+        "globals": {
+          "added": [
+            {
+              "name": "sound_die1",
+              "zaero_lines": [
+                8,
+                9
+              ]
+            },
+            {
+              "name": "sound_die2",
+              "zaero_lines": [
+                9,
+                10
+              ]
+            },
+            {
+              "name": "sound_hookfly",
+              "zaero_lines": [
+                13,
+                14
+              ]
+            },
+            {
+              "name": "sound_hookimpact",
+              "zaero_lines": [
+                10,
+                11
+              ]
+            },
+            {
+              "name": "sound_hooklaunch",
+              "zaero_lines": [
+                12,
+                13
+              ]
+            },
+            {
+              "name": "sound_idle1",
+              "zaero_lines": [
+                15,
+                16
+              ]
+            },
+            {
+              "name": "sound_idle2",
+              "zaero_lines": [
+                16,
+                17
+              ]
+            },
+            {
+              "name": "sound_lowergun",
+              "zaero_lines": [
+                19,
+                20
+              ]
+            },
+            {
+              "name": "sound_pain1",
+              "zaero_lines": [
+                1,
+                6
+              ]
+            },
+            {
+              "name": "sound_pain2",
+              "zaero_lines": [
+                6,
+                7
+              ]
+            },
+            {
+              "name": "sound_pain3",
+              "zaero_lines": [
+                7,
+                8
+              ]
+            },
+            {
+              "name": "sound_plamsaballexplode",
+              "zaero_lines": [
+                22,
+                23
+              ]
+            },
+            {
+              "name": "sound_plamsaballfire",
+              "zaero_lines": [
+                23,
+                24
+              ]
+            },
+            {
+              "name": "sound_plamsaballfly",
+              "zaero_lines": [
+                21,
+                22
+              ]
+            },
+            {
+              "name": "sound_raisegun",
+              "zaero_lines": [
+                18,
+                19
+              ]
+            },
+            {
+              "name": "sound_sight",
+              "zaero_lines": [
+                11,
+                12
+              ]
+            },
+            {
+              "name": "sound_swing",
+              "zaero_lines": [
+                14,
+                15
+              ]
+            },
+            {
+              "name": "sound_switchattacks",
+              "zaero_lines": [
+                20,
+                21
+              ]
+            },
+            {
+              "name": "sound_taunt1",
+              "zaero_lines": [
+                24,
+                25
+              ]
+            },
+            {
+              "name": "sound_taunt2",
+              "zaero_lines": [
+                25,
+                26
+              ]
+            },
+            {
+              "name": "sound_taunt3",
+              "zaero_lines": [
+                26,
+                27
+              ]
+            },
+            {
+              "name": "sound_walk",
+              "zaero_lines": [
+                17,
+                18
+              ]
+            }
+          ],
+          "added_count": 22,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": null,
         "path": "z_boss.c",
         "status": "zaero_only",
@@ -3828,6 +5733,60 @@
       {
         "additions": 124,
         "deletions": 0,
+        "functions": {
+          "added": [
+            {
+              "name": "getSkinModel",
+              "zaero_lines": [
+                82,
+                100
+              ]
+            },
+            {
+              "name": "getSkinName",
+              "zaero_lines": [
+                102,
+                109
+              ]
+            },
+            {
+              "name": "zCam_SetLocalCopy",
+              "zaero_lines": [
+                111,
+                124
+              ]
+            },
+            {
+              "name": "zCam_Stop",
+              "zaero_lines": [
+                55,
+                79
+              ]
+            },
+            {
+              "name": "zCam_TrackEntity",
+              "zaero_lines": [
+                10,
+                52
+              ]
+            }
+          ],
+          "added_count": 5,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": null,
         "path": "z_camera.c",
         "status": "zaero_only",
@@ -3836,6 +5795,32 @@
       {
         "additions": 6,
         "deletions": 0,
+        "functions": {
+          "added": [
+            {
+              "name": "assertMsg",
+              "zaero_lines": [
+                3,
+                6
+              ]
+            }
+          ],
+          "added_count": 1,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": null,
         "path": "z_debug.c",
         "status": "zaero_only",
@@ -3852,6 +5837,1083 @@
       {
         "additions": 319,
         "deletions": 0,
+        "functions": {
+          "added": [
+            {
+              "name": "z_frame_get_sequence",
+              "zaero_lines": [
+                285,
+                317
+              ]
+            }
+          ],
+          "added_count": 1,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
+        "globals": {
+          "added": [
+            {
+              "name": "chick_move_attack1",
+              "zaero_lines": [
+                135,
+                136
+              ]
+            },
+            {
+              "name": "chick_move_death1",
+              "zaero_lines": [
+                132,
+                133
+              ]
+            },
+            {
+              "name": "chick_move_death2",
+              "zaero_lines": [
+                131,
+                132
+              ]
+            },
+            {
+              "name": "chick_move_duck",
+              "zaero_lines": [
+                133,
+                134
+              ]
+            },
+            {
+              "name": "chick_move_end_attack1",
+              "zaero_lines": [
+                136,
+                137
+              ]
+            },
+            {
+              "name": "chick_move_end_slash",
+              "zaero_lines": [
+                138,
+                139
+              ]
+            },
+            {
+              "name": "chick_move_fidget",
+              "zaero_lines": [
+                119,
+                124
+              ]
+            },
+            {
+              "name": "chick_move_pain1",
+              "zaero_lines": [
+                128,
+                129
+              ]
+            },
+            {
+              "name": "chick_move_pain2",
+              "zaero_lines": [
+                129,
+                130
+              ]
+            },
+            {
+              "name": "chick_move_pain3",
+              "zaero_lines": [
+                130,
+                131
+              ]
+            },
+            {
+              "name": "chick_move_run",
+              "zaero_lines": [
+                126,
+                127
+              ]
+            },
+            {
+              "name": "chick_move_slash",
+              "zaero_lines": [
+                137,
+                138
+              ]
+            },
+            {
+              "name": "chick_move_stand",
+              "zaero_lines": [
+                124,
+                125
+              ]
+            },
+            {
+              "name": "chick_move_start_attack1",
+              "zaero_lines": [
+                134,
+                135
+              ]
+            },
+            {
+              "name": "chick_move_start_run",
+              "zaero_lines": [
+                125,
+                126
+              ]
+            },
+            {
+              "name": "chick_move_start_slash",
+              "zaero_lines": [
+                139,
+                140
+              ]
+            },
+            {
+              "name": "chick_move_walk",
+              "zaero_lines": [
+                127,
+                128
+              ]
+            },
+            {
+              "name": "gladiator_move_attack_gun",
+              "zaero_lines": [
+                157,
+                158
+              ]
+            },
+            {
+              "name": "gladiator_move_attack_melee",
+              "zaero_lines": [
+                156,
+                157
+              ]
+            },
+            {
+              "name": "gladiator_move_death",
+              "zaero_lines": [
+                160,
+                161
+              ]
+            },
+            {
+              "name": "gladiator_move_death",
+              "zaero_lines": [
+                161,
+                162
+              ]
+            },
+            {
+              "name": "gladiator_move_death",
+              "zaero_lines": [
+                162,
+                163
+              ]
+            },
+            {
+              "name": "gladiator_move_death",
+              "zaero_lines": [
+                163,
+                164
+              ]
+            },
+            {
+              "name": "gladiator_move_pain",
+              "zaero_lines": [
+                158,
+                159
+              ]
+            },
+            {
+              "name": "gladiator_move_pain_air",
+              "zaero_lines": [
+                159,
+                160
+              ]
+            },
+            {
+              "name": "gladiator_move_run",
+              "zaero_lines": [
+                155,
+                156
+              ]
+            },
+            {
+              "name": "gladiator_move_stand",
+              "zaero_lines": [
+                149,
+                154
+              ]
+            },
+            {
+              "name": "gladiator_move_walk",
+              "zaero_lines": [
+                154,
+                155
+              ]
+            },
+            {
+              "name": "gunner_move_attack_chain",
+              "zaero_lines": [
+                81,
+                82
+              ]
+            },
+            {
+              "name": "gunner_move_attack_grenade",
+              "zaero_lines": [
+                84,
+                85
+              ]
+            },
+            {
+              "name": "gunner_move_death",
+              "zaero_lines": [
+                79,
+                80
+              ]
+            },
+            {
+              "name": "gunner_move_duck",
+              "zaero_lines": [
+                80,
+                81
+              ]
+            },
+            {
+              "name": "gunner_move_endfire_chain",
+              "zaero_lines": [
+                83,
+                84
+              ]
+            },
+            {
+              "name": "gunner_move_fidget",
+              "zaero_lines": [
+                67,
+                72
+              ]
+            },
+            {
+              "name": "gunner_move_fire_chain",
+              "zaero_lines": [
+                82,
+                83
+              ]
+            },
+            {
+              "name": "gunner_move_pain1",
+              "zaero_lines": [
+                78,
+                79
+              ]
+            },
+            {
+              "name": "gunner_move_pain2",
+              "zaero_lines": [
+                77,
+                78
+              ]
+            },
+            {
+              "name": "gunner_move_pain3",
+              "zaero_lines": [
+                76,
+                77
+              ]
+            },
+            {
+              "name": "gunner_move_run",
+              "zaero_lines": [
+                74,
+                75
+              ]
+            },
+            {
+              "name": "gunner_move_runandshoot",
+              "zaero_lines": [
+                75,
+                76
+              ]
+            },
+            {
+              "name": "gunner_move_stand",
+              "zaero_lines": [
+                72,
+                73
+              ]
+            },
+            {
+              "name": "gunner_move_walk",
+              "zaero_lines": [
+                73,
+                74
+              ]
+            },
+            {
+              "name": "hound_move_attack1",
+              "zaero_lines": [
+                20,
+                21
+              ]
+            },
+            {
+              "name": "hound_move_attack2",
+              "zaero_lines": [
+                21,
+                22
+              ]
+            },
+            {
+              "name": "hound_move_death",
+              "zaero_lines": [
+                23,
+                24
+              ]
+            },
+            {
+              "name": "hound_move_jump",
+              "zaero_lines": [
+                22,
+                23
+              ]
+            },
+            {
+              "name": "hound_move_pain1",
+              "zaero_lines": [
+                18,
+                19
+              ]
+            },
+            {
+              "name": "hound_move_pain2",
+              "zaero_lines": [
+                19,
+                20
+              ]
+            },
+            {
+              "name": "hound_move_run",
+              "zaero_lines": [
+                16,
+                17
+              ]
+            },
+            {
+              "name": "hound_move_walk",
+              "zaero_lines": [
+                17,
+                18
+              ]
+            },
+            {
+              "name": "hound_stand1",
+              "zaero_lines": [
+                1,
+                15
+              ]
+            },
+            {
+              "name": "hound_stand2",
+              "zaero_lines": [
+                15,
+                16
+              ]
+            },
+            {
+              "name": "infantry_move_attack1",
+              "zaero_lines": [
+                108,
+                109
+              ]
+            },
+            {
+              "name": "infantry_move_attack2",
+              "zaero_lines": [
+                109,
+                110
+              ]
+            },
+            {
+              "name": "infantry_move_attack2",
+              "zaero_lines": [
+                110,
+                111
+              ]
+            },
+            {
+              "name": "infantry_move_attack2",
+              "zaero_lines": [
+                111,
+                112
+              ]
+            },
+            {
+              "name": "infantry_move_death1",
+              "zaero_lines": [
+                104,
+                105
+              ]
+            },
+            {
+              "name": "infantry_move_death2",
+              "zaero_lines": [
+                105,
+                106
+              ]
+            },
+            {
+              "name": "infantry_move_death3",
+              "zaero_lines": [
+                106,
+                107
+              ]
+            },
+            {
+              "name": "infantry_move_duck",
+              "zaero_lines": [
+                107,
+                108
+              ]
+            },
+            {
+              "name": "infantry_move_fidget",
+              "zaero_lines": [
+                99,
+                100
+              ]
+            },
+            {
+              "name": "infantry_move_pain1",
+              "zaero_lines": [
+                102,
+                103
+              ]
+            },
+            {
+              "name": "infantry_move_pain2",
+              "zaero_lines": [
+                103,
+                104
+              ]
+            },
+            {
+              "name": "infantry_move_run",
+              "zaero_lines": [
+                101,
+                102
+              ]
+            },
+            {
+              "name": "infantry_move_stand",
+              "zaero_lines": [
+                94,
+                99
+              ]
+            },
+            {
+              "name": "infantry_move_walk",
+              "zaero_lines": [
+                100,
+                101
+              ]
+            },
+            {
+              "name": "sentien_move_blast_attack",
+              "zaero_lines": [
+                46,
+                47
+              ]
+            },
+            {
+              "name": "sentien_move_death1",
+              "zaero_lines": [
+                54,
+                55
+              ]
+            },
+            {
+              "name": "sentien_move_death2",
+              "zaero_lines": [
+                55,
+                56
+              ]
+            },
+            {
+              "name": "sentien_move_laser_attack",
+              "zaero_lines": [
+                49,
+                50
+              ]
+            },
+            {
+              "name": "sentien_move_pain1",
+              "zaero_lines": [
+                51,
+                52
+              ]
+            },
+            {
+              "name": "sentien_move_pain2",
+              "zaero_lines": [
+                52,
+                53
+              ]
+            },
+            {
+              "name": "sentien_move_pain3",
+              "zaero_lines": [
+                53,
+                54
+              ]
+            },
+            {
+              "name": "sentien_move_post_blast_attack",
+              "zaero_lines": [
+                47,
+                48
+              ]
+            },
+            {
+              "name": "sentien_move_post_laser_attack",
+              "zaero_lines": [
+                50,
+                51
+              ]
+            },
+            {
+              "name": "sentien_move_pre_blast_attack",
+              "zaero_lines": [
+                45,
+                46
+              ]
+            },
+            {
+              "name": "sentien_move_pre_laser_attack",
+              "zaero_lines": [
+                48,
+                49
+              ]
+            },
+            {
+              "name": "sentien_move_run",
+              "zaero_lines": [
+                43,
+                44
+              ]
+            },
+            {
+              "name": "sentien_move_run_end",
+              "zaero_lines": [
+                44,
+                45
+              ]
+            },
+            {
+              "name": "sentien_move_run_start",
+              "zaero_lines": [
+                42,
+                43
+              ]
+            },
+            {
+              "name": "sentien_move_stand1",
+              "zaero_lines": [
+                31,
+                37
+              ]
+            },
+            {
+              "name": "sentien_move_stand2",
+              "zaero_lines": [
+                37,
+                38
+              ]
+            },
+            {
+              "name": "sentien_move_stand3",
+              "zaero_lines": [
+                38,
+                39
+              ]
+            },
+            {
+              "name": "sentien_move_walk",
+              "zaero_lines": [
+                40,
+                41
+              ]
+            },
+            {
+              "name": "sentien_move_walk_end",
+              "zaero_lines": [
+                41,
+                42
+              ]
+            },
+            {
+              "name": "sentien_move_walk_start",
+              "zaero_lines": [
+                39,
+                40
+              ]
+            },
+            {
+              "name": "soldier_move_attack1",
+              "zaero_lines": [
+                184,
+                185
+              ]
+            },
+            {
+              "name": "soldier_move_attack2",
+              "zaero_lines": [
+                185,
+                186
+              ]
+            },
+            {
+              "name": "soldier_move_attack3",
+              "zaero_lines": [
+                186,
+                187
+              ]
+            },
+            {
+              "name": "soldier_move_attack4",
+              "zaero_lines": [
+                187,
+                188
+              ]
+            },
+            {
+              "name": "soldier_move_attack6",
+              "zaero_lines": [
+                188,
+                189
+              ]
+            },
+            {
+              "name": "soldier_move_death1",
+              "zaero_lines": [
+                190,
+                191
+              ]
+            },
+            {
+              "name": "soldier_move_death2",
+              "zaero_lines": [
+                191,
+                192
+              ]
+            },
+            {
+              "name": "soldier_move_death3",
+              "zaero_lines": [
+                192,
+                193
+              ]
+            },
+            {
+              "name": "soldier_move_death4",
+              "zaero_lines": [
+                193,
+                194
+              ]
+            },
+            {
+              "name": "soldier_move_death5",
+              "zaero_lines": [
+                194,
+                195
+              ]
+            },
+            {
+              "name": "soldier_move_death6",
+              "zaero_lines": [
+                195,
+                196
+              ]
+            },
+            {
+              "name": "soldier_move_death6",
+              "zaero_lines": [
+                196,
+                197
+              ]
+            },
+            {
+              "name": "soldier_move_death6",
+              "zaero_lines": [
+                197,
+                198
+              ]
+            },
+            {
+              "name": "soldier_move_death6",
+              "zaero_lines": [
+                198,
+                199
+              ]
+            },
+            {
+              "name": "soldier_move_duck",
+              "zaero_lines": [
+                189,
+                190
+              ]
+            },
+            {
+              "name": "soldier_move_pain1",
+              "zaero_lines": [
+                180,
+                181
+              ]
+            },
+            {
+              "name": "soldier_move_pain2",
+              "zaero_lines": [
+                181,
+                182
+              ]
+            },
+            {
+              "name": "soldier_move_pain3",
+              "zaero_lines": [
+                182,
+                183
+              ]
+            },
+            {
+              "name": "soldier_move_pain4",
+              "zaero_lines": [
+                183,
+                184
+              ]
+            },
+            {
+              "name": "soldier_move_run",
+              "zaero_lines": [
+                179,
+                180
+              ]
+            },
+            {
+              "name": "soldier_move_stand1",
+              "zaero_lines": [
+                170,
+                175
+              ]
+            },
+            {
+              "name": "soldier_move_stand3",
+              "zaero_lines": [
+                175,
+                176
+              ]
+            },
+            {
+              "name": "soldier_move_start_run",
+              "zaero_lines": [
+                178,
+                179
+              ]
+            },
+            {
+              "name": "soldier_move_walk1",
+              "zaero_lines": [
+                176,
+                177
+              ]
+            },
+            {
+              "name": "soldier_move_walk2",
+              "zaero_lines": [
+                177,
+                178
+              ]
+            },
+            {
+              "name": "supertank_move_attack1",
+              "zaero_lines": [
+                229,
+                230
+              ]
+            },
+            {
+              "name": "supertank_move_attack2",
+              "zaero_lines": [
+                228,
+                229
+              ]
+            },
+            {
+              "name": "supertank_move_attack3",
+              "zaero_lines": [
+                227,
+                228
+              ]
+            },
+            {
+              "name": "supertank_move_attack4",
+              "zaero_lines": [
+                226,
+                227
+              ]
+            },
+            {
+              "name": "supertank_move_backward",
+              "zaero_lines": [
+                225,
+                226
+              ]
+            },
+            {
+              "name": "supertank_move_death",
+              "zaero_lines": [
+                224,
+                225
+              ]
+            },
+            {
+              "name": "supertank_move_end_attack1",
+              "zaero_lines": [
+                230,
+                231
+              ]
+            },
+            {
+              "name": "supertank_move_end_attack1",
+              "zaero_lines": [
+                231,
+                232
+              ]
+            },
+            {
+              "name": "supertank_move_end_attack1",
+              "zaero_lines": [
+                232,
+                233
+              ]
+            },
+            {
+              "name": "supertank_move_end_attack1",
+              "zaero_lines": [
+                233,
+                234
+              ]
+            },
+            {
+              "name": "supertank_move_end_attack1",
+              "zaero_lines": [
+                234,
+                235
+              ]
+            },
+            {
+              "name": "supertank_move_forward",
+              "zaero_lines": [
+                218,
+                219
+              ]
+            },
+            {
+              "name": "supertank_move_pain1",
+              "zaero_lines": [
+                223,
+                224
+              ]
+            },
+            {
+              "name": "supertank_move_pain2",
+              "zaero_lines": [
+                222,
+                223
+              ]
+            },
+            {
+              "name": "supertank_move_pain3",
+              "zaero_lines": [
+                221,
+                222
+              ]
+            },
+            {
+              "name": "supertank_move_run",
+              "zaero_lines": [
+                217,
+                218
+              ]
+            },
+            {
+              "name": "supertank_move_stand",
+              "zaero_lines": [
+                212,
+                217
+              ]
+            },
+            {
+              "name": "supertank_move_turn_left",
+              "zaero_lines": [
+                220,
+                221
+              ]
+            },
+            {
+              "name": "supertank_move_turn_right",
+              "zaero_lines": [
+                219,
+                220
+              ]
+            },
+            {
+              "name": "tank_move_attack_blast",
+              "zaero_lines": [
+                259,
+                260
+              ]
+            },
+            {
+              "name": "tank_move_attack_chain",
+              "zaero_lines": [
+                266,
+                267
+              ]
+            },
+            {
+              "name": "tank_move_attack_fire_rocket",
+              "zaero_lines": [
+                264,
+                265
+              ]
+            },
+            {
+              "name": "tank_move_attack_post_blast",
+              "zaero_lines": [
+                261,
+                262
+              ]
+            },
+            {
+              "name": "tank_move_attack_post_rocket",
+              "zaero_lines": [
+                265,
+                266
+              ]
+            },
+            {
+              "name": "tank_move_attack_pre_rocket",
+              "zaero_lines": [
+                263,
+                264
+              ]
+            },
+            {
+              "name": "tank_move_attack_strike",
+              "zaero_lines": [
+                262,
+                263
+              ]
+            },
+            {
+              "name": "tank_move_death",
+              "zaero_lines": [
+                267,
+                268
+              ]
+            },
+            {
+              "name": "tank_move_death",
+              "zaero_lines": [
+                268,
+                269
+              ]
+            },
+            {
+              "name": "tank_move_pain1",
+              "zaero_lines": [
+                256,
+                257
+              ]
+            },
+            {
+              "name": "tank_move_pain2",
+              "zaero_lines": [
+                257,
+                258
+              ]
+            },
+            {
+              "name": "tank_move_pain3",
+              "zaero_lines": [
+                258,
+                259
+              ]
+            },
+            {
+              "name": "tank_move_reattack_blast",
+              "zaero_lines": [
+                260,
+                261
+              ]
+            },
+            {
+              "name": "tank_move_run",
+              "zaero_lines": [
+                254,
+                255
+              ]
+            },
+            {
+              "name": "tank_move_stand",
+              "zaero_lines": [
+                245,
+                250
+              ]
+            },
+            {
+              "name": "tank_move_start_run",
+              "zaero_lines": [
+                253,
+                254
+              ]
+            },
+            {
+              "name": "tank_move_start_walk",
+              "zaero_lines": [
+                250,
+                251
+              ]
+            },
+            {
+              "name": "tank_move_stop_run",
+              "zaero_lines": [
+                255,
+                256
+              ]
+            },
+            {
+              "name": "tank_move_stop_walk",
+              "zaero_lines": [
+                252,
+                253
+              ]
+            },
+            {
+              "name": "tank_move_walk",
+              "zaero_lines": [
+                251,
+                252
+              ]
+            }
+          ],
+          "added_count": 150,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": null,
         "path": "z_frames.c",
         "status": "zaero_only",
@@ -3868,6 +6930,173 @@
       {
         "additions": 474,
         "deletions": 0,
+        "functions": {
+          "added": [
+            {
+              "name": "CheckForEnemy",
+              "zaero_lines": [
+                308,
+                324
+              ]
+            },
+            {
+              "name": "CheckIdleLoop",
+              "zaero_lines": [
+                295,
+                306
+              ]
+            },
+            {
+              "name": "SP_monster_handler",
+              "zaero_lines": [
+                418,
+                474
+              ]
+            },
+            {
+              "name": "SP_monster_handler_precache",
+              "zaero_lines": [
+                402,
+                413
+              ]
+            },
+            {
+              "name": "StartCount",
+              "zaero_lines": [
+                326,
+                329
+              ]
+            },
+            {
+              "name": "handler_attack",
+              "zaero_lines": [
+                357,
+                364
+              ]
+            },
+            {
+              "name": "handler_createHound",
+              "zaero_lines": [
+                288,
+                292
+              ]
+            },
+            {
+              "name": "handler_dead",
+              "zaero_lines": [
+                376,
+                384
+              ]
+            },
+            {
+              "name": "handler_die",
+              "zaero_lines": [
+                387,
+                390
+              ]
+            },
+            {
+              "name": "handler_pain",
+              "zaero_lines": [
+                277,
+                281
+              ]
+            },
+            {
+              "name": "handler_scratch",
+              "zaero_lines": [
+                83,
+                86
+              ]
+            },
+            {
+              "name": "handler_sight",
+              "zaero_lines": [
+                31,
+                35
+              ]
+            },
+            {
+              "name": "handler_sitdown",
+              "zaero_lines": [
+                192,
+                195
+              ]
+            },
+            {
+              "name": "handler_stand",
+              "zaero_lines": [
+                256,
+                268
+              ]
+            },
+            {
+              "name": "handler_standSitWhatNext",
+              "zaero_lines": [
+                237,
+                253
+              ]
+            },
+            {
+              "name": "handler_standWhatNext",
+              "zaero_lines": [
+                222,
+                234
+              ]
+            },
+            {
+              "name": "handler_standup",
+              "zaero_lines": [
+                167,
+                170
+              ]
+            }
+          ],
+          "added_count": 17,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
+        "globals": {
+          "added": [
+            {
+              "name": "sound_attack",
+              "zaero_lines": [
+                23,
+                25
+              ]
+            },
+            {
+              "name": "sound_scratch",
+              "zaero_lines": [
+                25,
+                26
+              ]
+            },
+            {
+              "name": "sound_sitdown",
+              "zaero_lines": [
+                26,
+                27
+              ]
+            },
+            {
+              "name": "sound_standup",
+              "zaero_lines": [
+                27,
+                28
+              ]
+            }
+          ],
+          "added_count": 4,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": null,
         "path": "z_handler.c",
         "status": "zaero_only",
@@ -3884,6 +7113,243 @@
       {
         "additions": 674,
         "deletions": 0,
+        "functions": {
+          "added": [
+            {
+              "name": "SP_monster_hound",
+              "zaero_lines": [
+                560,
+                612
+              ]
+            },
+            {
+              "name": "SP_monster_hound_precache",
+              "zaero_lines": [
+                544,
+                555
+              ]
+            },
+            {
+              "name": "hound_attack",
+              "zaero_lines": [
+                271,
+                281
+              ]
+            },
+            {
+              "name": "hound_bite",
+              "zaero_lines": [
+                221,
+                230
+              ]
+            },
+            {
+              "name": "hound_bite2",
+              "zaero_lines": [
+                232,
+                238
+              ]
+            },
+            {
+              "name": "hound_check_jump",
+              "zaero_lines": [
+                427,
+                452
+              ]
+            },
+            {
+              "name": "hound_check_landing",
+              "zaero_lines": [
+                342,
+                356
+              ]
+            },
+            {
+              "name": "hound_check_landing2",
+              "zaero_lines": [
+                358,
+                374
+              ]
+            },
+            {
+              "name": "hound_check_melee",
+              "zaero_lines": [
+                419,
+                424
+              ]
+            },
+            {
+              "name": "hound_checkattack",
+              "zaero_lines": [
+                455,
+                474
+              ]
+            },
+            {
+              "name": "hound_createHound",
+              "zaero_lines": [
+                617,
+                672
+              ]
+            },
+            {
+              "name": "hound_dead",
+              "zaero_lines": [
+                483,
+                491
+              ]
+            },
+            {
+              "name": "hound_die",
+              "zaero_lines": [
+                510,
+                535
+              ]
+            },
+            {
+              "name": "hound_jump",
+              "zaero_lines": [
+                405,
+                408
+              ]
+            },
+            {
+              "name": "hound_jump_takeoff",
+              "zaero_lines": [
+                327,
+                340
+              ]
+            },
+            {
+              "name": "hound_jump_touch",
+              "zaero_lines": [
+                290,
+                325
+              ]
+            },
+            {
+              "name": "hound_launch",
+              "zaero_lines": [
+                29,
+                32
+              ]
+            },
+            {
+              "name": "hound_pain",
+              "zaero_lines": [
+                192,
+                214
+              ]
+            },
+            {
+              "name": "hound_run",
+              "zaero_lines": [
+                131,
+                137
+              ]
+            },
+            {
+              "name": "hound_sight",
+              "zaero_lines": [
+                34,
+                37
+              ]
+            },
+            {
+              "name": "hound_stand",
+              "zaero_lines": [
+                101,
+                111
+              ]
+            },
+            {
+              "name": "hound_walk",
+              "zaero_lines": [
+                158,
+                161
+              ]
+            }
+          ],
+          "added_count": 22,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
+        "globals": {
+          "added": [
+            {
+              "name": "sound_bite",
+              "zaero_lines": [
+                18,
+                19
+              ]
+            },
+            {
+              "name": "sound_bitemiss",
+              "zaero_lines": [
+                19,
+                20
+              ]
+            },
+            {
+              "name": "sound_die",
+              "zaero_lines": [
+                14,
+                15
+              ]
+            },
+            {
+              "name": "sound_impact",
+              "zaero_lines": [
+                16,
+                17
+              ]
+            },
+            {
+              "name": "sound_jump",
+              "zaero_lines": [
+                20,
+                21
+              ]
+            },
+            {
+              "name": "sound_launch",
+              "zaero_lines": [
+                15,
+                16
+              ]
+            },
+            {
+              "name": "sound_pain1",
+              "zaero_lines": [
+                1,
+                13
+              ]
+            },
+            {
+              "name": "sound_pain2",
+              "zaero_lines": [
+                13,
+                14
+              ]
+            },
+            {
+              "name": "sound_sight",
+              "zaero_lines": [
+                17,
+                18
+              ]
+            }
+          ],
+          "added_count": 9,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": null,
         "path": "z_hound.c",
         "status": "zaero_only",
@@ -3900,6 +7366,250 @@
       {
         "additions": 606,
         "deletions": 0,
+        "functions": {
+          "added": [
+            {
+              "name": "EMPNukeCheck",
+              "zaero_lines": [
+                349,
+                368
+              ]
+            },
+            {
+              "name": "PlasmaShield_die",
+              "zaero_lines": [
+                380,
+                387
+              ]
+            },
+            {
+              "name": "PlasmaShield_killed",
+              "zaero_lines": [
+                390,
+                393
+              ]
+            },
+            {
+              "name": "SP_func_barrier",
+              "zaero_lines": [
+                577,
+                593
+              ]
+            },
+            {
+              "name": "SP_misc_crate",
+              "zaero_lines": [
+                479,
+                488
+              ]
+            },
+            {
+              "name": "SP_misc_crate_medium",
+              "zaero_lines": [
+                490,
+                499
+              ]
+            },
+            {
+              "name": "SP_misc_crate_small",
+              "zaero_lines": [
+                501,
+                510
+              ]
+            },
+            {
+              "name": "SP_misc_seat",
+              "zaero_lines": [
+                598,
+                606
+              ]
+            },
+            {
+              "name": "SP_misc_securitycamera",
+              "zaero_lines": [
+                68,
+                116
+              ]
+            },
+            {
+              "name": "Use_PlasmaShield",
+              "zaero_lines": [
+                396,
+                457
+              ]
+            },
+            {
+              "name": "Use_Visor",
+              "zaero_lines": [
+                202,
+                229
+              ]
+            },
+            {
+              "name": "Weapon_EMPNuke",
+              "zaero_lines": [
+                263,
+                285
+              ]
+            },
+            {
+              "name": "barrier_pain",
+              "zaero_lines": [
+                554,
+                562
+              ]
+            },
+            {
+              "name": "barrier_think",
+              "zaero_lines": [
+                540,
+                552
+              ]
+            },
+            {
+              "name": "barrier_touch",
+              "zaero_lines": [
+                563,
+                575
+              ]
+            },
+            {
+              "name": "camera_pain",
+              "zaero_lines": [
+                63,
+                66
+              ]
+            },
+            {
+              "name": "empBlastAnim",
+              "zaero_lines": [
+                295,
+                316
+              ]
+            },
+            {
+              "name": "empnukeFinish",
+              "zaero_lines": [
+                288,
+                292
+              ]
+            },
+            {
+              "name": "findNextCamera",
+              "zaero_lines": [
+                174,
+                200
+              ]
+            },
+            {
+              "name": "fire_empnuke",
+              "zaero_lines": [
+                319,
+                346
+              ]
+            },
+            {
+              "name": "securitycamera_think",
+              "zaero_lines": [
+                40,
+                61
+              ]
+            },
+            {
+              "name": "setupCrate",
+              "zaero_lines": [
+                464,
+                477
+              ]
+            },
+            {
+              "name": "startVisor",
+              "zaero_lines": [
+                142,
+                165
+              ]
+            },
+            {
+              "name": "startVisorStatic",
+              "zaero_lines": [
+                137,
+                140
+              ]
+            },
+            {
+              "name": "stopCamera",
+              "zaero_lines": [
+                167,
+                172
+              ]
+            },
+            {
+              "name": "thruBarrier",
+              "zaero_lines": [
+                516,
+                537
+              ]
+            },
+            {
+              "name": "updateVisorHud",
+              "zaero_lines": [
+                129,
+                135
+              ]
+            },
+            {
+              "name": "use_securitycamera",
+              "zaero_lines": [
+                33,
+                36
+              ]
+            },
+            {
+              "name": "weapon_EMPNuke_fire",
+              "zaero_lines": [
+                244,
+                260
+              ]
+            }
+          ],
+          "added_count": 29,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
+        "globals": {
+          "added": [
+            {
+              "name": "camera_statusbar",
+              "zaero_lines": [
+                116,
+                127
+              ]
+            },
+            {
+              "name": "is_quad",
+              "zaero_lines": [
+                1,
+                4
+              ]
+            },
+            {
+              "name": "is_silenced",
+              "zaero_lines": [
+                4,
+                5
+              ]
+            }
+          ],
+          "added_count": 3,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": null,
         "path": "z_item.c",
         "status": "zaero_only",
@@ -3908,6 +7618,103 @@
       {
         "additions": 216,
         "deletions": 0,
+        "functions": {
+          "added": [
+            {
+              "name": "addHead",
+              "zaero_lines": [
+                42,
+                60
+              ]
+            },
+            {
+              "name": "addTail",
+              "zaero_lines": [
+                62,
+                82
+              ]
+            },
+            {
+              "name": "copyList",
+              "zaero_lines": [
+                174,
+                186
+              ]
+            },
+            {
+              "name": "emptyList",
+              "zaero_lines": [
+                23,
+                35
+              ]
+            },
+            {
+              "name": "findIndex",
+              "zaero_lines": [
+                201,
+                216
+              ]
+            },
+            {
+              "name": "getItem",
+              "zaero_lines": [
+                84,
+                139
+              ]
+            },
+            {
+              "name": "initializeList",
+              "zaero_lines": [
+                12,
+                21
+              ]
+            },
+            {
+              "name": "listLength",
+              "zaero_lines": [
+                37,
+                40
+              ]
+            },
+            {
+              "name": "removeItem",
+              "zaero_lines": [
+                141,
+                172
+              ]
+            },
+            {
+              "name": "stealList",
+              "zaero_lines": [
+                188,
+                199
+              ]
+            }
+          ],
+          "added_count": 10,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
+        "globals": {
+          "added": [
+            {
+              "name": "listNode_t",
+              "zaero_lines": [
+                10,
+                10
+              ]
+            }
+          ],
+          "added_count": 1,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": null,
         "path": "z_list.c",
         "status": "zaero_only",
@@ -3924,6 +7731,313 @@
       {
         "additions": 561,
         "deletions": 0,
+        "functions": {
+          "added": [
+            {
+              "name": "Cmd_TestItem",
+              "zaero_lines": [
+                337,
+                409
+              ]
+            },
+            {
+              "name": "Drop_TestItem",
+              "zaero_lines": [
+                508,
+                558
+              ]
+            },
+            {
+              "name": "InitTestItem",
+              "zaero_lines": [
+                412,
+                494
+              ]
+            },
+            {
+              "name": "InitTestWeapon",
+              "zaero_lines": [
+                204,
+                295
+              ]
+            },
+            {
+              "name": "Pickup_TestItem",
+              "zaero_lines": [
+                499,
+                504
+              ]
+            },
+            {
+              "name": "Weapon_LineDraw",
+              "zaero_lines": [
+                95,
+                101
+              ]
+            },
+            {
+              "name": "Weapon_LineDraw_Fire",
+              "zaero_lines": [
+                45,
+                91
+              ]
+            },
+            {
+              "name": "Weapon_LineDraw_Think",
+              "zaero_lines": [
+                38,
+                42
+              ]
+            },
+            {
+              "name": "Weapon_Test",
+              "zaero_lines": [
+                306,
+                312
+              ]
+            },
+            {
+              "name": "Weapon_Test_Fire",
+              "zaero_lines": [
+                298,
+                302
+              ]
+            },
+            {
+              "name": "convertToNumbers",
+              "zaero_lines": [
+                124,
+                158
+              ]
+            },
+            {
+              "name": "convertToVector",
+              "zaero_lines": [
+                163,
+                200
+              ]
+            },
+            {
+              "name": "testitem_think",
+              "zaero_lines": [
+                315,
+                334
+              ]
+            }
+          ],
+          "added_count": 13,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
+        "globals": {
+          "added": [
+            {
+              "name": "animSpeed",
+              "zaero_lines": [
+                28,
+                29
+              ]
+            },
+            {
+              "name": "animUpto",
+              "zaero_lines": [
+                26,
+                27
+              ]
+            },
+            {
+              "name": "lineSize",
+              "zaero_lines": [
+                29,
+                34
+              ]
+            },
+            {
+              "name": "testItem",
+              "zaero_lines": [
+                22,
+                25
+              ]
+            },
+            {
+              "name": "testItemDroped",
+              "zaero_lines": [
+                25,
+                26
+              ]
+            },
+            {
+              "name": "testItem_Size",
+              "zaero_lines": [
+                21,
+                22
+              ]
+            },
+            {
+              "name": "testItem_aminationFrames",
+              "zaero_lines": [
+                20,
+                21
+              ]
+            },
+            {
+              "name": "testItem_aminationFramesStr",
+              "zaero_lines": [
+                19,
+                20
+              ]
+            },
+            {
+              "name": "testItem_className",
+              "zaero_lines": [
+                13,
+                16
+              ]
+            },
+            {
+              "name": "testItem_gModel",
+              "zaero_lines": [
+                16,
+                17
+              ]
+            },
+            {
+              "name": "testItem_icon",
+              "zaero_lines": [
+                17,
+                18
+              ]
+            },
+            {
+              "name": "testItem_name",
+              "zaero_lines": [
+                18,
+                19
+              ]
+            },
+            {
+              "name": "testWeap_FRAME_ACTIVATE_LAST",
+              "zaero_lines": [
+                112,
+                113
+              ]
+            },
+            {
+              "name": "testWeap_FRAME_DEACTIVATE_LAST",
+              "zaero_lines": [
+                115,
+                116
+              ]
+            },
+            {
+              "name": "testWeap_FRAME_FIRE_LAST",
+              "zaero_lines": [
+                113,
+                114
+              ]
+            },
+            {
+              "name": "testWeap_FRAME_IDLE_LAST",
+              "zaero_lines": [
+                114,
+                115
+              ]
+            },
+            {
+              "name": "testWeap_aminationFrames",
+              "zaero_lines": [
+                109,
+                110
+              ]
+            },
+            {
+              "name": "testWeap_className",
+              "zaero_lines": [
+                101,
+                105
+              ]
+            },
+            {
+              "name": "testWeap_fireFrames",
+              "zaero_lines": [
+                111,
+                112
+              ]
+            },
+            {
+              "name": "testWeap_fire_frames",
+              "zaero_lines": [
+                117,
+                118
+              ]
+            },
+            {
+              "name": "testWeap_gModel",
+              "zaero_lines": [
+                105,
+                106
+              ]
+            },
+            {
+              "name": "testWeap_icon",
+              "zaero_lines": [
+                107,
+                108
+              ]
+            },
+            {
+              "name": "testWeap_idleFrames",
+              "zaero_lines": [
+                110,
+                111
+              ]
+            },
+            {
+              "name": "testWeap_name",
+              "zaero_lines": [
+                108,
+                109
+              ]
+            },
+            {
+              "name": "testWeap_pause_frames",
+              "zaero_lines": [
+                116,
+                117
+              ]
+            },
+            {
+              "name": "testWeap_vModel",
+              "zaero_lines": [
+                106,
+                107
+              ]
+            },
+            {
+              "name": "testWeapon",
+              "zaero_lines": [
+                118,
+                121
+              ]
+            },
+            {
+              "name": "testitemOriginMove",
+              "zaero_lines": [
+                27,
+                28
+              ]
+            }
+          ],
+          "added_count": 28,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": null,
         "path": "z_mtest.c",
         "status": "zaero_only",
@@ -3932,6 +8046,362 @@
       {
         "additions": 1173,
         "deletions": 0,
+        "functions": {
+          "added": [
+            {
+              "name": "SP_monster_sentien",
+              "zaero_lines": [
+                1120,
+                1171
+              ]
+            },
+            {
+              "name": "SP_monster_sentien_precache",
+              "zaero_lines": [
+                1101,
+                1117
+              ]
+            },
+            {
+              "name": "create_sentien_laser",
+              "zaero_lines": [
+                1069,
+                1098
+              ]
+            },
+            {
+              "name": "sentian_sound_att1",
+              "zaero_lines": [
+                48,
+                51
+              ]
+            },
+            {
+              "name": "sentian_sound_att2",
+              "zaero_lines": [
+                53,
+                56
+              ]
+            },
+            {
+              "name": "sentian_sound_att3",
+              "zaero_lines": [
+                58,
+                61
+              ]
+            },
+            {
+              "name": "sentian_sound_die1",
+              "zaero_lines": [
+                83,
+                86
+              ]
+            },
+            {
+              "name": "sentian_sound_die2",
+              "zaero_lines": [
+                88,
+                91
+              ]
+            },
+            {
+              "name": "sentian_sound_fend",
+              "zaero_lines": [
+                63,
+                66
+              ]
+            },
+            {
+              "name": "sentian_sound_pain1",
+              "zaero_lines": [
+                68,
+                71
+              ]
+            },
+            {
+              "name": "sentian_sound_pain2",
+              "zaero_lines": [
+                73,
+                76
+              ]
+            },
+            {
+              "name": "sentian_sound_pain3",
+              "zaero_lines": [
+                78,
+                81
+              ]
+            },
+            {
+              "name": "sentien_attack",
+              "zaero_lines": [
+                701,
+                734
+              ]
+            },
+            {
+              "name": "sentien_blast_attack",
+              "zaero_lines": [
+                460,
+                474
+              ]
+            },
+            {
+              "name": "sentien_dead",
+              "zaero_lines": [
+                1009,
+                1030
+              ]
+            },
+            {
+              "name": "sentien_die",
+              "zaero_lines": [
+                1032,
+                1063
+              ]
+            },
+            {
+              "name": "sentien_do_blast",
+              "zaero_lines": [
+                525,
+                560
+              ]
+            },
+            {
+              "name": "sentien_do_laser",
+              "zaero_lines": [
+                650,
+                698
+              ]
+            },
+            {
+              "name": "sentien_fend",
+              "zaero_lines": [
+                782,
+                809
+              ]
+            },
+            {
+              "name": "sentien_fend_hold",
+              "zaero_lines": [
+                748,
+                759
+              ]
+            },
+            {
+              "name": "sentien_fend_ready",
+              "zaero_lines": [
+                741,
+                746
+              ]
+            },
+            {
+              "name": "sentien_fire_bullet",
+              "zaero_lines": [
+                497,
+                511
+              ]
+            },
+            {
+              "name": "sentien_laser_attack",
+              "zaero_lines": [
+                612,
+                625
+              ]
+            },
+            {
+              "name": "sentien_pain",
+              "zaero_lines": [
+                865,
+                920
+              ]
+            },
+            {
+              "name": "sentien_post_blast_attack",
+              "zaero_lines": [
+                476,
+                495
+              ]
+            },
+            {
+              "name": "sentien_post_laser_attack",
+              "zaero_lines": [
+                627,
+                631
+              ]
+            },
+            {
+              "name": "sentien_run",
+              "zaero_lines": [
+                390,
+                412
+              ]
+            },
+            {
+              "name": "sentien_sound_footstep",
+              "zaero_lines": [
+                28,
+                31
+              ]
+            },
+            {
+              "name": "sentien_sound_idle1",
+              "zaero_lines": [
+                33,
+                36
+              ]
+            },
+            {
+              "name": "sentien_sound_idle2",
+              "zaero_lines": [
+                38,
+                41
+              ]
+            },
+            {
+              "name": "sentien_sound_idle3",
+              "zaero_lines": [
+                43,
+                46
+              ]
+            },
+            {
+              "name": "sentien_stand",
+              "zaero_lines": [
+                203,
+                208
+              ]
+            },
+            {
+              "name": "sentien_stand_earwax",
+              "zaero_lines": [
+                232,
+                242
+              ]
+            },
+            {
+              "name": "sentien_stand_whatnow",
+              "zaero_lines": [
+                210,
+                230
+              ]
+            },
+            {
+              "name": "sentien_walk",
+              "zaero_lines": [
+                307,
+                324
+              ]
+            }
+          ],
+          "added_count": 35,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
+        "globals": {
+          "added": [
+            {
+              "name": "sound_att1",
+              "zaero_lines": [
+                22,
+                23
+              ]
+            },
+            {
+              "name": "sound_att2",
+              "zaero_lines": [
+                23,
+                24
+              ]
+            },
+            {
+              "name": "sound_att3",
+              "zaero_lines": [
+                24,
+                25
+              ]
+            },
+            {
+              "name": "sound_die1",
+              "zaero_lines": [
+                20,
+                21
+              ]
+            },
+            {
+              "name": "sound_die2",
+              "zaero_lines": [
+                21,
+                22
+              ]
+            },
+            {
+              "name": "sound_fend",
+              "zaero_lines": [
+                16,
+                17
+              ]
+            },
+            {
+              "name": "sound_idle1",
+              "zaero_lines": [
+                8,
+                13
+              ]
+            },
+            {
+              "name": "sound_idle2",
+              "zaero_lines": [
+                13,
+                14
+              ]
+            },
+            {
+              "name": "sound_idle3",
+              "zaero_lines": [
+                14,
+                15
+              ]
+            },
+            {
+              "name": "sound_pain1",
+              "zaero_lines": [
+                17,
+                18
+              ]
+            },
+            {
+              "name": "sound_pain2",
+              "zaero_lines": [
+                18,
+                19
+              ]
+            },
+            {
+              "name": "sound_pain3",
+              "zaero_lines": [
+                19,
+                20
+              ]
+            },
+            {
+              "name": "sound_walk",
+              "zaero_lines": [
+                15,
+                16
+              ]
+            }
+          ],
+          "added_count": 13,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": null,
         "path": "z_sentien.c",
         "status": "zaero_only",
@@ -3948,6 +8418,46 @@
       {
         "additions": 142,
         "deletions": 0,
+        "functions": {
+          "added": [
+            {
+              "name": "FindZSpawn",
+              "zaero_lines": [
+                5,
+                30
+              ]
+            },
+            {
+              "name": "SpawnZ",
+              "zaero_lines": [
+                32,
+                75
+              ]
+            },
+            {
+              "name": "Z_SpawnDMItems",
+              "zaero_lines": [
+                90,
+                142
+              ]
+            }
+          ],
+          "added_count": 3,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
+        "globals": {
+          "added": [],
+          "added_count": 0,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": null,
         "path": "z_spawn.c",
         "status": "zaero_only",
@@ -3956,6 +8466,124 @@
       {
         "additions": 256,
         "deletions": 0,
+        "functions": {
+          "added": [
+            {
+              "name": "Anim_CommDish",
+              "zaero_lines": [
+                211,
+                223
+              ]
+            },
+            {
+              "name": "SP_load_mirrorlevel",
+              "zaero_lines": [
+                20,
+                23
+              ]
+            },
+            {
+              "name": "SP_misc_commdish",
+              "zaero_lines": [
+                233,
+                256
+              ]
+            },
+            {
+              "name": "SP_sound_echo",
+              "zaero_lines": [
+                11,
+                14
+              ]
+            },
+            {
+              "name": "SP_trigger_laser",
+              "zaero_lines": [
+                173,
+                201
+              ]
+            },
+            {
+              "name": "Use_CommDish",
+              "zaero_lines": [
+                225,
+                231
+              ]
+            },
+            {
+              "name": "initSoundList",
+              "zaero_lines": [
+                37,
+                42
+              ]
+            },
+            {
+              "name": "internalSoundIndex",
+              "zaero_lines": [
+                44,
+                87
+              ]
+            },
+            {
+              "name": "printSoundNum",
+              "zaero_lines": [
+                89,
+                95
+              ]
+            },
+            {
+              "name": "trigger_laser_on",
+              "zaero_lines": [
+                166,
+                171
+              ]
+            },
+            {
+              "name": "trigger_laser_think",
+              "zaero_lines": [
+                113,
+                164
+              ]
+            }
+          ],
+          "added_count": 11,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
+        "globals": {
+          "added": [
+            {
+              "name": "modelsound",
+              "zaero_lines": [
+                35,
+                35
+              ]
+            },
+            {
+              "name": "soundList",
+              "zaero_lines": [
+                26,
+                28
+              ]
+            },
+            {
+              "name": "soundNumRejected",
+              "zaero_lines": [
+                28,
+                29
+              ]
+            }
+          ],
+          "added_count": 3,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": null,
         "path": "z_trigger.c",
         "status": "zaero_only",
@@ -3964,6 +8592,327 @@
       {
         "additions": 1534,
         "deletions": 0,
+        "functions": {
+          "added": [
+            {
+              "name": "Action_Push",
+              "zaero_lines": [
+                1504,
+                1533
+              ]
+            },
+            {
+              "name": "SP_misc_lasertripbomb",
+              "zaero_lines": [
+                592,
+                628
+              ]
+            },
+            {
+              "name": "TripBomb_Explode",
+              "zaero_lines": [
+                99,
+                150
+              ]
+            },
+            {
+              "name": "VectorLengthSquared",
+              "zaero_lines": [
+                32,
+                42
+              ]
+            },
+            {
+              "name": "Weapon_A2k",
+              "zaero_lines": [
+                1431,
+                1445
+              ]
+            },
+            {
+              "name": "Weapon_FlareGun",
+              "zaero_lines": [
+                1071,
+                1077
+              ]
+            },
+            {
+              "name": "Weapon_FlareLauncher_Fire",
+              "zaero_lines": [
+                1043,
+                1069
+              ]
+            },
+            {
+              "name": "Weapon_LaserTripBomb",
+              "zaero_lines": [
+                467,
+                590
+              ]
+            },
+            {
+              "name": "Weapon_SniperRifle",
+              "zaero_lines": [
+                1174,
+                1316
+              ]
+            },
+            {
+              "name": "Weapon_SonicCannon",
+              "zaero_lines": [
+                751,
+                790
+              ]
+            },
+            {
+              "name": "Z_RadiusDamageVisible",
+              "zaero_lines": [
+                1335,
+                1366
+              ]
+            },
+            {
+              "name": "angleToward",
+              "zaero_lines": [
+                44,
+                65
+              ]
+            },
+            {
+              "name": "create_tripbomb_laser",
+              "zaero_lines": [
+                231,
+                255
+              ]
+            },
+            {
+              "name": "fire_flare",
+              "zaero_lines": [
+                1006,
+                1041
+              ]
+            },
+            {
+              "name": "fire_lasertripbomb",
+              "zaero_lines": [
+                369,
+                416
+              ]
+            },
+            {
+              "name": "fire_sconnan",
+              "zaero_lines": [
+                834,
+                897
+              ]
+            },
+            {
+              "name": "fire_sconnanEffects",
+              "zaero_lines": [
+                796,
+                819
+              ]
+            },
+            {
+              "name": "fire_sniper_bullet",
+              "zaero_lines": [
+                1082,
+                1126
+              ]
+            },
+            {
+              "name": "flare_flash",
+              "zaero_lines": [
+                908,
+                972
+              ]
+            },
+            {
+              "name": "flare_think",
+              "zaero_lines": [
+                974,
+                1004
+              ]
+            },
+            {
+              "name": "push_hit",
+              "zaero_lines": [
+                1455,
+                1502
+              ]
+            },
+            {
+              "name": "removeOldest",
+              "zaero_lines": [
+                338,
+                367
+              ]
+            },
+            {
+              "name": "scexplode_think",
+              "zaero_lines": [
+                823,
+                831
+              ]
+            },
+            {
+              "name": "setupBomb",
+              "zaero_lines": [
+                322,
+                336
+              ]
+            },
+            {
+              "name": "shrapnel_touch",
+              "zaero_lines": [
+                85,
+                97
+              ]
+            },
+            {
+              "name": "tripbomb_laser_on",
+              "zaero_lines": [
+                220,
+                229
+              ]
+            },
+            {
+              "name": "tripbomb_laser_think",
+              "zaero_lines": [
+                152,
+                218
+              ]
+            },
+            {
+              "name": "tripbomb_pain",
+              "zaero_lines": [
+                278,
+                294
+              ]
+            },
+            {
+              "name": "tripbomb_think",
+              "zaero_lines": [
+                296,
+                320
+              ]
+            },
+            {
+              "name": "turnOffGlow",
+              "zaero_lines": [
+                270,
+                276
+              ]
+            },
+            {
+              "name": "use_tripbomb",
+              "zaero_lines": [
+                257,
+                268
+              ]
+            },
+            {
+              "name": "weapon_a2k_exp_think",
+              "zaero_lines": [
+                1322,
+                1333
+              ]
+            },
+            {
+              "name": "weapon_a2k_fire",
+              "zaero_lines": [
+                1370,
+                1429
+              ]
+            },
+            {
+              "name": "weapon_lasertripbomb_fire",
+              "zaero_lines": [
+                418,
+                465
+              ]
+            },
+            {
+              "name": "weapon_sc_fire",
+              "zaero_lines": [
+                639,
+                746
+              ]
+            },
+            {
+              "name": "weapon_sniperrifle_fire",
+              "zaero_lines": [
+                1128,
+                1171
+              ]
+            }
+          ],
+          "added_count": 36,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
+        "globals": {
+          "added": [
+            {
+              "name": "SC_BASEDAMAGE",
+              "zaero_lines": [
+                26,
+                27
+              ]
+            },
+            {
+              "name": "SC_DAMGERANGE",
+              "zaero_lines": [
+                27,
+                28
+              ]
+            },
+            {
+              "name": "SC_MAXCELLS",
+              "zaero_lines": [
+                29,
+                30
+              ]
+            },
+            {
+              "name": "SC_MAXFIRETIME",
+              "zaero_lines": [
+                24,
+                26
+              ]
+            },
+            {
+              "name": "SC_MAXRADIUS",
+              "zaero_lines": [
+                28,
+                29
+              ]
+            },
+            {
+              "name": "is_quad",
+              "zaero_lines": [
+                1,
+                4
+              ]
+            },
+            {
+              "name": "is_silenced",
+              "zaero_lines": [
+                4,
+                5
+              ]
+            }
+          ],
+          "added_count": 7,
+          "changed": [],
+          "changed_count": 0,
+          "removed": [],
+          "removed_count": 0,
+          "unchanged_count": 0
+        },
         "legacy_sha256": null,
         "path": "z_weapon.c",
         "status": "zaero_only",
@@ -3992,10 +8941,16 @@
     "compared_path_count": 102,
     "deletions": 6981,
     "function_delta": {
-      "added": 50,
+      "added": 340,
       "changed": 200,
-      "removed": 12,
+      "removed": 16,
       "unchanged": 817
+    },
+    "global_delta": {
+      "added": 258,
+      "changed": 20,
+      "removed": 12,
+      "unchanged": 242
     },
     "legacy_extension_counts": {
       ".001": 1,

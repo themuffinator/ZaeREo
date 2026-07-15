@@ -151,13 +151,23 @@
     <ClInclude Include="rogue\m_rogue_widow.h" />
     <ClInclude Include="rogue\m_rogue_widow2.h" />
     <ClInclude Include="xatrix\m_xatrix_fixbot.h" />
-    <ClInclude Include="xatrix\m_xatrix_gekk.h" />
+	<ClInclude Include="xatrix\m_xatrix_gekk.h" />
+	<ClInclude Include="zaero\g_zaero_a2k.h" />
+	<ClInclude Include="zaero\g_zaero_ai.h" />
+	<ClInclude Include="zaero\g_zaero_dm.h" />
 	<ClInclude Include="zaero\g_zaero_entities.h" />
+	<ClInclude Include="zaero\g_zaero_finale.h" />
+	<ClInclude Include="zaero\g_zaero_handler.h" />
+	<ClInclude Include="zaero\g_zaero_hound.h" />
+	<ClInclude Include="zaero\g_zaero_sentien.h" />
+	<ClInclude Include="zaero\g_zaero_zboss.h" />
 	<ClInclude Include="zaero\g_zaero_autocannon.h" />
 	<ClInclude Include="zaero\g_zaero_emp.h" />
 	<ClInclude Include="zaero\g_zaero_ired.h" />
+	<ClInclude Include="zaero\g_zaero_plasma_shield.h" />
 	<ClInclude Include="zaero\g_zaero_sniper.h" />
 	<ClInclude Include="zaero\g_zaero_sonic.h" />
+	<ClInclude Include="zaero\g_zaero_visor.h" />
 	<ClInclude Include="zaero\g_zaero_weapons.h" />
   </ItemGroup>
   <ItemGroup>
@@ -252,13 +262,23 @@
     <ClCompile Include="xatrix\g_xatrix_weapon.cpp" />
     <ClCompile Include="xatrix\m_xatrix_fixbot.cpp" />
     <ClCompile Include="xatrix\m_xatrix_gekk.cpp" />
-    <ClCompile Include="xatrix\p_xatrix_weapon.cpp" />
+	<ClCompile Include="xatrix\p_xatrix_weapon.cpp" />
+	<ClCompile Include="zaero\g_zaero_a2k.cpp" />
+	<ClCompile Include="zaero\g_zaero_ai.cpp" />
+	<ClCompile Include="zaero\g_zaero_dm.cpp" />
 	<ClCompile Include="zaero\g_zaero_entities.cpp" />
+	<ClCompile Include="zaero\g_zaero_finale.cpp" />
+	<ClCompile Include="zaero\g_zaero_handler.cpp" />
+	<ClCompile Include="zaero\g_zaero_hound.cpp" />
+	<ClCompile Include="zaero\g_zaero_sentien.cpp" />
+	<ClCompile Include="zaero\g_zaero_zboss.cpp" />
 	<ClCompile Include="zaero\g_zaero_autocannon.cpp" />
 	<ClCompile Include="zaero\g_zaero_emp.cpp" />
 	<ClCompile Include="zaero\g_zaero_ired.cpp" />
+	<ClCompile Include="zaero\g_zaero_plasma_shield.cpp" />
 	<ClCompile Include="zaero\g_zaero_sniper.cpp" />
 	<ClCompile Include="zaero\g_zaero_sonic.cpp" />
+	<ClCompile Include="zaero\g_zaero_visor.cpp" />
 	<ClCompile Include="zaero\g_zaero_weapons.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

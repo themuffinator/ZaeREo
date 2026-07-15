@@ -287,10 +287,13 @@ void BecomeExplosion2(edict_t *self)
 	G_FreeEdict(self);
 }
 
-/*QUAKED path_corner (.5 .3 0) (-8 -8 -8) (8 8 8) TELEPORT
+/*QUAKED path_corner (.5 .3 0) (-8 -8 -8) (8 8 8) TELEPORT ZAERO_AUTO_SMOOTH ZAERO_CUSTOM_SMOOTH
 Target: next path corner
 Pathtarget: gets used when an entity that has
 	this path_corner targeted touches it
+
+On Zaero maps, bit 2 smoothly reaches this corner's speed over the segment and
+bit 4 uses its accel/decel rate. These bits retain native meanings elsewhere.
 */
 
 TOUCH(path_corner_touch) (edict_t *self, edict_t *other, const trace_t &tr, bool other_touching_self) -> void
@@ -322,21 +325,29 @@ TOUCH(path_corner_touch) (edict_t *self, edict_t *other, const trace_t &tr, bool
 	else
 		next = nullptr;
 
-	// [Paril-KEX] don't teleport to a point_combat, it means HOLD for them.
-	if ((next) && !strcmp(next->classname, "path_corner") && next->spawnflags.has(SPAWNFLAG_PATH_CORNER_TELEPORT))
+	// Zaero accepts any flagged next node, while native Rerelease retains its
+	// point_combat HOLD safeguard.
+	if (next && next->spawnflags.has(SPAWNFLAG_PATH_CORNER_TELEPORT) &&
+		(level.is_zaero || !strcmp(next->classname, "path_corner")))
 	{
 		v = next->s.origin;
 		v[2] += next->mins[2];
 		v[2] -= other->mins[2];
 		other->s.origin = v;
 		next = G_PickTarget(next->target);
-		other->s.event = EV_OTHER_TELEPORT;
+		if (!level.is_zaero)
+			other->s.event = EV_OTHER_TELEPORT;
 	}
 
 	other->goalentity = other->movetarget = next;
 
 	if (self->wait)
 	{
+		if (level.is_zaero && other->goalentity)
+		{
+			v = other->goalentity->s.origin - other->s.origin;
+			other->ideal_yaw = vectoyaw(v);
+		}
 		other->monsterinfo.pausetime = level.time + gtime_t::from_sec(self->wait);
 		other->monsterinfo.stand(other);
 		return;
@@ -1101,8 +1112,22 @@ Large exploding box.  You can override its mass (100),
 health (80), and dmg (150).
 */
 
+bool SV_movestep(edict_t *ent, vec3_t move, bool relink);
+
 TOUCH(barrel_touch) (edict_t *self, edict_t *other, const trace_t &tr, bool other_touching_self) -> void
 {
+	if (level.is_zaero)
+	{
+		if (other->groundentity == self || !other->client)
+			return;
+
+		const float ratio = static_cast<float>(other->mass) / static_cast<float>(self->mass);
+		const float yaw = vectoyaw(self->s.origin - other->s.origin);
+		const vec3_t direction = AngleVectors({ 0.0f, yaw, 0.0f }).forward;
+		SV_movestep(self, direction * (20.0f * ratio * gi.frame_time_s), true);
+		return;
+	}
+
 	float  ratio;
 	vec3_t v;
 
@@ -1182,6 +1207,13 @@ THINK(barrel_think) (edict_t *self) -> void
 THINK(barrel_start) (edict_t *self) -> void
 {
 	M_droptofloor(self);
+	if (level.is_zaero)
+	{
+		self->think = nullptr;
+		self->nextthink = 0_ms;
+		return;
+	}
+
 	self->think = barrel_think;
 	self->nextthink = level.time + FRAME_TIME_S;
 }
@@ -1202,7 +1234,7 @@ void SP_misc_explobox(edict_t *self)
 	gi.soundindex("weapons/bfg__l1a.wav");
 
 	self->solid = SOLID_BBOX;
-	self->movetype = MOVETYPE_STEP;
+	self->movetype = level.is_zaero ? MOVETYPE_FALLFLOAT : MOVETYPE_STEP;
 
 	self->model = "models/objects/barrels/tris.md2";
 	self->s.modelindex = gi.modelindex(self->model);
@@ -1210,7 +1242,7 @@ void SP_misc_explobox(edict_t *self)
 	self->maxs = { 16, 16, 40 };
 
 	if (!self->mass)
-		self->mass = 50;
+		self->mass = level.is_zaero ? 400 : 50;
 	if (!self->health)
 		self->health = 10;
 	if (!self->dmg)
@@ -1218,13 +1250,16 @@ void SP_misc_explobox(edict_t *self)
 
 	self->die = barrel_delay;
 	self->takedamage = true;
-	self->flags |= FL_TRAP;
+	if (level.is_zaero)
+		self->monsterinfo.aiflags = AI_NOSTEP;
+	else
+		self->flags |= FL_TRAP;
 
 	self->touch = barrel_touch;
 
 	// PGM - change so barrels will think and hence, blow up
 	self->think = barrel_start;
-	self->nextthink = level.time + 20_hz;
+	self->nextthink = level.time + (level.is_zaero ? 200_ms : 20_hz);
 	// PGM
 
 	gi.linkentity(self);

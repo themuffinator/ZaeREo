@@ -242,7 +242,6 @@
     delay(float) : "Delay before firing targets"
     message(string) : "Center-print message"
     target(target_destination) : "Target fired by the beam"
-    targetname(target_source) : "Optional toggle name"
     wait(float) : "Reactivation delay"
     spawnflags(flags) =
     [

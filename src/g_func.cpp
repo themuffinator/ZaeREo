@@ -84,6 +84,8 @@ void G_SetMoveinfoSounds(edict_t *self, const char *default_start, const char *d
 THINK(Move_Done) (edict_t *ent) -> void
 {
 	ent->velocity = {};
+	if (level.is_zaero)
+		ent->avelocity = {};
 	ent->moveinfo.endfunc(ent);
 }
 
@@ -116,6 +118,12 @@ THINK(Move_Begin) (edict_t *ent) -> void
 	ent->moveinfo.remaining_distance -= frames * ent->moveinfo.speed * gi.frame_time_s;
 	ent->nextthink = level.time + (FRAME_TIME_S * frames);
 	ent->think = Move_Final;
+
+	// Zaero lets trains rotate while following an ordinary linear segment.
+	// Its aspeed is angular units per second; physics still integrates it at
+	// the native 40 Hz tick.
+	if (level.is_zaero)
+		ent->avelocity = ent->movedir * ent->aspeed;
 }
 
 void Think_AccelMove_New(edict_t *ent);
@@ -150,6 +158,10 @@ void Move_Calc(edict_t *ent, const vec3_t &dest, void(*endfunc)(edict_t *self))
 
 	if (ent->moveinfo.speed == ent->moveinfo.accel && ent->moveinfo.speed == ent->moveinfo.decel)
 	{
+		// The Zaero smooth-corner extension carries this value into a later
+		// segment, even when the current segment itself is not smooth.
+		if (level.is_zaero)
+			ent->moveinfo.current_speed = ent->moveinfo.speed;
 		Move_Regular(ent, dest, endfunc);
 	}
 	else
@@ -612,13 +624,16 @@ MOVEINFO_BLOCKED(plat_blocked) (edict_t *self, edict_t *other) -> void
 
 constexpr spawnflags_t SPAWNFLAG_PLAT_LOW_TRIGGER = 1_spawnflag;
 constexpr spawnflags_t SPAWNFLAG_PLAT_NO_MONSTER = 2_spawnflag;
+// Zaero assigned the same bit to its lowered-platform touch-height check.
+constexpr spawnflags_t SPAWNFLAG_PLAT_ZAERO_LOW_TRIGGER_2 = 2_spawnflag;
 
 USE(Use_Plat) (edict_t *ent, edict_t *other, edict_t *activator) -> void
 {
 	//======
 	// ROGUE
 	// if a monster is using us, then allow the activity when stopped.
-	if ((other->svflags & SVF_MONSTER) && !(ent->spawnflags & SPAWNFLAG_PLAT_NO_MONSTER))
+	const bool native_no_monster = !level.is_zaero && ent->spawnflags.has(SPAWNFLAG_PLAT_NO_MONSTER);
+	if ((other->svflags & SVF_MONSTER) && !native_no_monster)
 	{
 		if (ent->moveinfo.state == STATE_TOP)
 			plat_go_down(ent);
@@ -645,7 +660,13 @@ TOUCH(Touch_Plat_Center) (edict_t *ent, edict_t *other, const trace_t &tr, bool 
 
 	ent = ent->enemy; // now point at the plat, not the trigger
 	if (ent->moveinfo.state == STATE_BOTTOM)
+	{
+		if (level.is_zaero && ent->spawnflags.has(SPAWNFLAG_PLAT_ZAERO_LOW_TRIGGER_2) &&
+			other->s.origin[2] + other->mins[2] > ent->moveinfo.end_origin[2] + ent->maxs[2] + 8.0f)
+			return;
+
 		plat_go_up(ent);
+	}
 	else if (ent->moveinfo.state == STATE_TOP)
 		ent->nextthink = level.time + 1_sec; // the player is still on the plat, so delay going down
 }
@@ -697,7 +718,7 @@ edict_t *plat_spawn_inside_trigger(edict_t *ent)
 	return trigger; // PGM 11/17/97
 }
 
-/*QUAKED func_plat (0 .5 .8) ? PLAT_LOW_TRIGGER
+/*QUAKED func_plat (0 .5 .8) ? PLAT_LOW_TRIGGER PLAT_LOW_TRIGGER_2
 speed	default 150
 
 Plats are always drawn in the extended position, so they will light correctly.
@@ -709,6 +730,10 @@ If the plat is the target of another trigger or button, it will start out disabl
 "lip"	overrides default 8 pixel lip
 
 If the "height" key is set, that will determine the amount the plat moves, instead of being implicitly determined by the model's height.
+
+On positively classified Zaero maps, PLAT_LOW_TRIGGER_2 accepts a player touch
+only when the player's feet are within eight units of the lowered platform top.
+On other maps, bit 2 retains the Rerelease NO_MONSTER meaning.
 
 Set "sounds" to one of the following:
 1) base fast
@@ -2030,6 +2055,9 @@ SAFE_OPEN will cause the door to open in reverse if you are on the `angles` side
 "speed"		movement speed (100 default)
 "wait"		wait before returning (3 default, -1 = never return)
 "dmg"		damage to inflict when blocked (2 default)
+
+On Zaero maps, missing or zero dmg remains non-damaging. Other maps retain the
+Rerelease default of 2.
 "sounds"
 1)	silent
 2)	light
@@ -2085,7 +2113,7 @@ void SP_func_door_rotating(edict_t *ent)
 
 	if (!ent->wait)
 		ent->wait = 3;
-	if (!ent->dmg)
+	if (!ent->dmg && !level.is_zaero)
 		ent->dmg = 2;
 
 	if (ent->sounds != 1)
@@ -2289,7 +2317,127 @@ constexpr spawnflags_t SPAWNFLAG_TRAIN_BLOCK_STOPS = 4_spawnflag;
 constexpr spawnflags_t SPAWNFLAG_TRAIN_FIX_OFFSET = 16_spawnflag;
 constexpr spawnflags_t SPAWNFLAG_TRAIN_USE_ORIGIN = 32_spawnflag;
 
-/*QUAKED func_train (0 .5 .8) ? START_ON TOGGLE BLOCK_STOPS MOVE_TEAMCHAIN FIX_OFFSET USE_ORIGIN
+// Zaero reuses native/Rogue train bits.  These meanings are mapper ABI only
+// on a positively classified Zaero map.
+constexpr spawnflags_t SPAWNFLAG_TRAIN_ZAERO_REVERSE = 8_spawnflag;
+constexpr spawnflags_t SPAWNFLAG_TRAIN_ZAERO_X_AXIS = 16_spawnflag;
+constexpr spawnflags_t SPAWNFLAG_TRAIN_ZAERO_Y_AXIS = 32_spawnflag;
+constexpr spawnflags_t SPAWNFLAG_TRAIN_ZAERO_Z_AXIS = 64_spawnflag;
+constexpr spawnflags_t SPAWNFLAG_PATH_CORNER_ZAERO_AUTO_SMOOTH = 2_spawnflag;
+constexpr spawnflags_t SPAWNFLAG_PATH_CORNER_ZAERO_CUSTOM_SMOOTH = 4_spawnflag;
+
+static vec3_t train_destination(edict_t *self, edict_t *corner, bool allow_zaero_viper_origin)
+{
+	if (level.is_zaero)
+	{
+		// Zaero's train_next alone gives misc_viper a raw path origin.  Initial
+		// placement, teleport corners, and train_resume retain origin-minus-mins.
+		if (allow_zaero_viper_origin && self->classname && Q_strcasecmp(self->classname, "misc_viper") == 0)
+			return corner->s.origin;
+
+		return corner->s.origin - self->mins;
+	}
+
+	if (self->spawnflags.has(SPAWNFLAG_TRAIN_USE_ORIGIN))
+		return corner->s.origin;
+
+	vec3_t destination = corner->s.origin - self->mins;
+	if (self->spawnflags.has(SPAWNFLAG_TRAIN_FIX_OFFSET))
+		destination -= vec3_t { 1.f, 1.f, 1.f };
+	return destination;
+}
+
+static void zaero_train_smooth_final(edict_t *ent)
+{
+	if (ent->moveinfo.remaining_distance == 0)
+	{
+		Move_Done(ent);
+		return;
+	}
+
+	// Preserve the supplied DLL's 10 Hz final segment while Rerelease physics
+	// integrates the resulting velocity over four 40 Hz ticks.
+	ent->velocity = ent->moveinfo.dir * (ent->moveinfo.remaining_distance * 10.0f);
+	ent->think = Move_Done;
+	ent->nextthink = level.time + 10_hz;
+}
+
+THINK(zaero_train_smooth_think) (edict_t *ent) -> void
+{
+	if (ent->moveinfo.remaining_distance >= ent->moveinfo.current_speed)
+		ent->moveinfo.remaining_distance -= ent->moveinfo.current_speed;
+
+	ent->moveinfo.current_speed += ent->moveinfo.decel;
+
+	if (ent->moveinfo.accel)
+	{
+		if (ent->moveinfo.current_speed > ent->moveinfo.speed)
+			ent->moveinfo.current_speed = ent->moveinfo.speed;
+	}
+	else if (ent->moveinfo.current_speed < ent->moveinfo.speed)
+	{
+		ent->moveinfo.current_speed = ent->moveinfo.speed;
+	}
+
+	if (ent->moveinfo.remaining_distance <= ent->moveinfo.current_speed)
+	{
+		zaero_train_smooth_final(ent);
+		return;
+	}
+
+	ent->velocity = ent->moveinfo.dir * (ent->moveinfo.current_speed * 10.0f);
+	ent->nextthink = level.time + 10_hz;
+	ent->think = zaero_train_smooth_think;
+}
+
+static void zaero_train_move_calc(edict_t *ent, const vec3_t &dest,
+	void (*endfunc)(edict_t *self), spawnflags_t corner_flags)
+{
+	const bool smooth =
+		corner_flags.has(SPAWNFLAG_PATH_CORNER_ZAERO_AUTO_SMOOTH) ||
+		corner_flags.has(SPAWNFLAG_PATH_CORNER_ZAERO_CUSTOM_SMOOTH);
+	if (!level.is_zaero || !smooth)
+	{
+		Move_Calc(ent, dest, endfunc);
+		return;
+	}
+
+	ent->velocity = {};
+	ent->moveinfo.dest = dest;
+	ent->moveinfo.dir = dest - ent->s.origin;
+	ent->moveinfo.remaining_distance = ent->moveinfo.dir.normalize();
+	ent->moveinfo.endfunc = endfunc;
+
+	if (!ent->moveinfo.current_speed)
+		ent->moveinfo.current_speed = ent->moveinfo.speed;
+
+	if (ent->moveinfo.speed > ent->moveinfo.remaining_distance)
+	{
+		ent->moveinfo.current_speed = ent->moveinfo.speed;
+		ent->moveinfo.decel = 0;
+	}
+	else if (corner_flags.has(SPAWNFLAG_PATH_CORNER_ZAERO_AUTO_SMOOTH))
+	{
+		const float steps = ent->moveinfo.remaining_distance /
+			((ent->moveinfo.speed + ent->moveinfo.current_speed) * 0.5f);
+		ent->moveinfo.decel =
+			(ent->moveinfo.speed - ent->moveinfo.current_speed) / steps;
+		ent->moveinfo.accel = ent->moveinfo.speed > ent->moveinfo.current_speed;
+	}
+	else
+	{
+		// Preserve the supplied custom-rate sign rule, including its check of
+		// the train's authored decel field rather than the corner field.
+		if (ent->decel < 0)
+			ent->moveinfo.decel = -ent->moveinfo.decel;
+		if (!(ent->moveinfo.accel = ent->moveinfo.speed > ent->moveinfo.current_speed))
+			ent->moveinfo.decel = -ent->moveinfo.decel;
+	}
+
+	zaero_train_smooth_think(ent);
+}
+
+/*QUAKED func_train (0 .5 .8) ? START_ON TOGGLE BLOCK_STOPS MOVE_TEAMCHAIN FIX_OFFSET USE_ORIGIN ZAERO_Z_AXIS
 Trains are moving platforms that players can ride.
 The targets origin specifies the min point of the train at each corner.
 The train spawns at the first target it is pointing at.
@@ -2299,6 +2447,10 @@ dmg		default	2
 noise	looping sound to play when the train is in motion
 
 To have other entities move with the train, set all the piece's team value to the same thing. They will move in unison.
+
+On Zaero maps, bits 8/16/32/64 mean REVERSE/X_AXIS/Y_AXIS/Z_AXIS for
+aspeed rotation. They retain MOVE_TEAMCHAIN/FIX_OFFSET/USE_ORIGIN/native
+meanings on every other map.
 */
 void train_next(edict_t *self);
 
@@ -2411,18 +2563,11 @@ again:
 		}
 		first = false;
 
-		if (self->spawnflags.has(SPAWNFLAG_TRAIN_USE_ORIGIN))
-			self->s.origin = ent->s.origin;
-		else
-		{
-			self->s.origin = ent->s.origin - self->mins;
-
-			if (self->spawnflags.has(SPAWNFLAG_TRAIN_FIX_OFFSET))
-				self->s.origin -= vec3_t{1.f, 1.f, 1.f};
-		}
+		self->s.origin = train_destination(self, ent, false);
 
 		self->s.old_origin = self->s.origin;
-		self->s.event = EV_OTHER_TELEPORT;
+		if (!level.is_zaero)
+			self->s.event = EV_OTHER_TELEPORT;
 		gi.linkentity(self);
 		goto again;
 	}
@@ -2430,7 +2575,6 @@ again:
 	// PGM
 	if (ent->speed)
 	{
-		self->speed = ent->speed;
 		self->moveinfo.speed = ent->speed;
 		if (ent->accel)
 			self->moveinfo.accel = ent->accel;
@@ -2440,7 +2584,11 @@ again:
 			self->moveinfo.decel = ent->decel;
 		else
 			self->moveinfo.decel = ent->speed;
-		self->moveinfo.current_speed = 0;
+		if (!level.is_zaero)
+		{
+			self->speed = ent->speed;
+			self->moveinfo.current_speed = 0;
+		}
 	}
 	// PGM
 
@@ -2455,24 +2603,16 @@ again:
 
 	self->s.sound = self->moveinfo.sound_middle;
 	
-	if (self->spawnflags.has(SPAWNFLAG_TRAIN_USE_ORIGIN))
-		dest = ent->s.origin;
-	else
-	{
-		dest = ent->s.origin - self->mins;
-
-		if (self->spawnflags.has(SPAWNFLAG_TRAIN_FIX_OFFSET))
-			dest -= vec3_t{1.f, 1.f, 1.f};
-	}
+	dest = train_destination(self, ent, true);
 
 	self->moveinfo.state = STATE_TOP;
 	self->moveinfo.start_origin = self->s.origin;
 	self->moveinfo.end_origin = dest;
-	Move_Calc(self, dest, train_wait);
+	zaero_train_move_calc(self, dest, train_wait, ent->spawnflags);
 	self->spawnflags |= SPAWNFLAG_TRAIN_START_ON;
 
 	// PGM
-	if (self->spawnflags.has(SPAWNFLAG_TRAIN_MOVE_TEAMCHAIN))
+	if (!level.is_zaero && self->spawnflags.has(SPAWNFLAG_TRAIN_MOVE_TEAMCHAIN))
 	{
 		edict_t *e;
 		vec3_t	 dir, dst;
@@ -2503,15 +2643,7 @@ void train_resume(edict_t *self)
 
 	ent = self->target_ent;
 	
-	if (self->spawnflags.has(SPAWNFLAG_TRAIN_USE_ORIGIN))
-		dest = ent->s.origin;
-	else
-	{
-		dest = ent->s.origin - self->mins;
-
-		if (self->spawnflags.has(SPAWNFLAG_TRAIN_FIX_OFFSET))
-			dest -= vec3_t{1.f, 1.f, 1.f};
-	}
+	dest = train_destination(self, ent, false);
 
 	self->s.sound = self->moveinfo.sound_middle;
 
@@ -2539,15 +2671,7 @@ THINK(func_train_find) (edict_t *self) -> void
 	}
 	self->target = ent->target;
 
-	if (self->spawnflags.has(SPAWNFLAG_TRAIN_USE_ORIGIN))
-		self->s.origin = ent->s.origin;
-	else
-	{
-		self->s.origin = ent->s.origin - self->mins;
-
-		if (self->spawnflags.has(SPAWNFLAG_TRAIN_FIX_OFFSET))
-			self->s.origin -= vec3_t{1.f, 1.f, 1.f};
-	}
+	self->s.origin = train_destination(self, ent, false);
 
 	gi.linkentity(self);
 
@@ -2626,6 +2750,20 @@ void SP_func_train(edict_t *self)
 
 	self->moveinfo.speed = self->speed;
 	self->moveinfo.accel = self->moveinfo.decel = self->moveinfo.speed;
+
+	if (level.is_zaero)
+	{
+		self->movedir = {};
+		if (self->spawnflags.has(SPAWNFLAG_TRAIN_ZAERO_X_AXIS))
+			self->movedir[2] = 1.0f;
+		else if (self->spawnflags.has(SPAWNFLAG_TRAIN_ZAERO_Y_AXIS))
+			self->movedir[0] = 1.0f;
+		else if (self->spawnflags.has(SPAWNFLAG_TRAIN_ZAERO_Z_AXIS))
+			self->movedir[1] = 1.0f;
+
+		if (self->spawnflags.has(SPAWNFLAG_TRAIN_ZAERO_REVERSE))
+			self->movedir = -self->movedir;
+	}
 
 	self->use = train_use;
 

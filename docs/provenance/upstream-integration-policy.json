@@ -1,0 +1,204 @@
+{
+  "schema": "zaereo.upstream-integration-policy/v1",
+  "policy_id": "zaereo-rerelease-integration-seams",
+  "revision": 14,
+  "baseline": {
+    "key": "quake2_rerelease",
+    "tree_sha256": "74b79d4f853fb521a866aaa5b1510c1c46afb63a73370b907b10143146629bf5",
+    "official_commit": "8dc1fc9794c01ece06881e703851b768fb3994de",
+    "official_subtree": "rerelease"
+  },
+  "categories": [
+    {
+      "id": "build-layout",
+      "description": "Solution/project relocation, deterministic output, static vcpkg integration, and Zaero source enumeration.",
+      "evidence": [
+        "docs/UPSTREAM.md#relationship-between-the-baseline-and-src",
+        "docs/ZAERO_PORT_ROADMAP.md#phase-1--establish-the-clean-rerelease-substrate"
+      ],
+      "modified": [
+        "game.vcxproj",
+        "game.vcxproj.filters"
+      ],
+      "added": [],
+      "removed": [
+        "vcpkg.json"
+      ]
+    },
+    {
+      "id": "shared-contracts",
+      "description": "Shared Zaero declarations, state, identifiers, and vector compatibility helpers used by reviewed integration hooks.",
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/entity-matrix.md"
+      ],
+      "modified": [
+        "bg_local.h",
+        "g_local.h",
+        "q_vec3.h"
+      ],
+      "added": [],
+      "removed": []
+    },
+    {
+      "id": "save-export-version",
+      "description": "Game initialization/version hooks and native JSON save registration for implemented Zaero state, including per-client presentation state.",
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "tests/compatibility/test_spawn_save_contract.py"
+      ],
+      "modified": [
+        "g_main.cpp",
+        "g_save.cpp"
+      ],
+      "added": [],
+      "removed": []
+    },
+    {
+      "id": "mapper-entity-physics",
+      "description": "Zaero mapper contracts, movers, triggers, targets, turrets, entity lifecycle, and physics behavior.",
+      "evidence": [
+        "docs/compatibility/entity-matrix.md",
+        "tests/compatibility/test_stock_map_behaviors.py",
+        "tests/compatibility/test_stock_world_extensions.py",
+        "tests/compatibility/test_zaero_physics_contract.py",
+        "tests/compatibility/test_zaero_world_entities.py"
+      ],
+      "modified": [
+        "g_func.cpp",
+        "g_misc.cpp",
+        "g_phys.cpp",
+        "g_spawn.cpp",
+        "g_target.cpp",
+        "g_trigger.cpp",
+        "g_turret.cpp",
+        "g_utils.cpp"
+      ],
+      "added": [],
+      "removed": []
+    },
+    {
+      "id": "items-weapons-client",
+      "description": "Zaero item/weapon damage and projectile-dodge hooks plus per-client lifecycle, HUD, view, wheel, command, and obituary integration.",
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "tests/compatibility/test_zaero_a2k.py",
+        "tests/compatibility/test_zaero_ai_reaction.py",
+        "tests/compatibility/test_zaero_items_weapons.py",
+        "tests/compatibility/test_zaero_emp.py",
+        "tests/compatibility/test_zaero_ired.py",
+        "tests/compatibility/test_zaero_plasma_shield.py",
+        "tests/compatibility/test_zaero_player_presentation.py",
+        "tests/compatibility/test_zaero_projectile_dodge.py",
+        "tests/compatibility/test_zaero_sentien.py",
+        "tests/compatibility/test_zaero_zboss.py",
+        "tests/compatibility/test_zaero_sniper.py",
+        "tests/compatibility/test_zaero_sonic.py",
+        "tests/compatibility/test_zaero_visor.py"
+      ],
+      "modified": [
+        "g_cmds.cpp",
+        "g_combat.cpp",
+        "g_items.cpp",
+        "g_weapon.cpp",
+        "p_client.cpp",
+        "p_hud.cpp",
+        "p_view.cpp",
+        "p_weapon.cpp"
+      ],
+      "added": [],
+      "removed": []
+    },
+    {
+      "id": "ai-monsters",
+      "description": "Shared AI/monster hooks, stock-monster interactions, and Zaero/native projectile-dodge mode isolation required by the implemented feature slices.",
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "tests/compatibility/test_zaero_monster_spawn.py",
+        "tests/compatibility/test_zaero_autocannon.py",
+        "tests/compatibility/test_zaero_handler.py",
+        "tests/compatibility/test_zaero_hover_strafe.py",
+        "tests/compatibility/test_zaero_projectile_dodge.py",
+        "tests/compatibility/test_zaero_sentien.py",
+        "tests/compatibility/test_zaero_stock_precaches.py",
+        "tests/compatibility/test_zaero_zboss.py"
+      ],
+      "modified": [
+        "g_ai.cpp",
+        "g_monster.cpp",
+        "m_boss2.cpp",
+        "m_boss31.cpp",
+        "m_boss32.cpp",
+        "m_hover.cpp",
+        "m_infantry.cpp",
+        "m_supertank.cpp",
+        "m_tank.cpp"
+      ],
+      "added": [],
+      "removed": []
+    },
+    {
+      "id": "developer-runtime-evidence",
+      "description": "Debug-only, read-only server-command hook for structured private runtime evidence; the command and signatures are excluded from Release by D-015 policy.",
+      "evidence": [
+        "docs/compatibility/decisions.md#d-015--debug-and-test-tools",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility/test_zaero_dm_injection.py",
+        "tests/release/test_release_surfaces.py",
+        "tests/runtime/test_run_game.py"
+      ],
+      "modified": [
+        "g_svcmds.cpp"
+      ],
+      "added": [],
+      "removed": []
+    },
+    {
+      "id": "zaero-owned-modules",
+      "description": "Zaero-owned C++17 implementations kept outside the upstream substrate for reviewable integration.",
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "modified": [],
+      "added": [
+        "zaero/g_zaero_a2k.cpp",
+        "zaero/g_zaero_a2k.h",
+        "zaero/g_zaero_ai.cpp",
+        "zaero/g_zaero_ai.h",
+        "zaero/g_zaero_dm.cpp",
+        "zaero/g_zaero_dm.h",
+        "zaero/g_zaero_autocannon.cpp",
+        "zaero/g_zaero_autocannon.h",
+        "zaero/g_zaero_emp.cpp",
+        "zaero/g_zaero_emp.h",
+        "zaero/g_zaero_entities.cpp",
+        "zaero/g_zaero_entities.h",
+        "zaero/g_zaero_finale.cpp",
+        "zaero/g_zaero_finale.h",
+        "zaero/g_zaero_handler.cpp",
+        "zaero/g_zaero_handler.h",
+        "zaero/g_zaero_hound.cpp",
+        "zaero/g_zaero_hound.h",
+        "zaero/g_zaero_sentien.cpp",
+        "zaero/g_zaero_sentien.h",
+        "zaero/g_zaero_zboss.cpp",
+        "zaero/g_zaero_zboss.h",
+        "zaero/g_zaero_ired.cpp",
+        "zaero/g_zaero_ired.h",
+        "zaero/g_zaero_plasma_shield.cpp",
+        "zaero/g_zaero_plasma_shield.h",
+        "zaero/g_zaero_sniper.cpp",
+        "zaero/g_zaero_sniper.h",
+        "zaero/g_zaero_sonic.cpp",
+        "zaero/g_zaero_sonic.h",
+        "zaero/g_zaero_visor.cpp",
+        "zaero/g_zaero_visor.h",
+        "zaero/g_zaero_weapons.cpp",
+        "zaero/g_zaero_weapons.h"
+      ],
+      "removed": []
+    }
+  ]
+}

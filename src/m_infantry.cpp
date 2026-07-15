@@ -870,6 +870,63 @@ void InfantryPrecache()
 	sound_idle.assign("infantry/infidle1.wav");
 }
 
+static void InfantryConfigureNativeBehavior(edict_t *self, bool can_jump)
+{
+	self->monsterinfo.aiflags |= AI_STINKY;
+	self->movetype = MOVETYPE_STEP;
+	self->solid = SOLID_BBOX;
+	self->s.modelindex = gi.modelindex("models/monsters/infantry/tris.md2");
+
+	gi.modelindex("models/monsters/infantry/gibs/head.md2");
+	gi.modelindex("models/monsters/infantry/gibs/chest.md2");
+	gi.modelindex("models/monsters/infantry/gibs/gun.md2");
+	gi.modelindex("models/monsters/infantry/gibs/arm.md2");
+	gi.modelindex("models/monsters/infantry/gibs/foot.md2");
+
+	self->mins = { -16, -16, -24 };
+	self->maxs = { 16, 16, 32 };
+	self->pain = infantry_pain;
+	self->die = infantry_die;
+	self->monsterinfo.combat_style = COMBAT_MIXED;
+	self->monsterinfo.stand = infantry_stand;
+	self->monsterinfo.walk = infantry_walk;
+	self->monsterinfo.run = infantry_run;
+	self->monsterinfo.dodge = M_MonsterDodge;
+	self->monsterinfo.duck = infantry_duck;
+	self->monsterinfo.unduck = monster_duck_up;
+	self->monsterinfo.sidestep = infantry_sidestep;
+	self->monsterinfo.blocked = infantry_blocked;
+	self->monsterinfo.attack = infantry_attack;
+	self->monsterinfo.melee = nullptr;
+	self->monsterinfo.sight = infantry_sight;
+	self->monsterinfo.idle = infantry_fidget;
+	self->monsterinfo.setskin = infantry_setskin;
+	self->monsterinfo.scale = MODEL_SCALE;
+	self->monsterinfo.can_jump = can_jump;
+	self->monsterinfo.drop_height = 192;
+	self->monsterinfo.jump_height = 40;
+}
+
+// ZAERO: Handler retains its entity identity and remaining health when the
+// combined creature separates, but thereafter uses the current native Infantry
+// behavior. This hook deliberately does not call monster_start or change count,
+// health, gib threshold, mass, targets, enemy, or save identity.
+void InfantryConvertFromZaeroHandler(edict_t *self)
+{
+	InfantryPrecache();
+	InfantryConfigureNativeBehavior(self, true);
+	self->s.modelindex2 = 0;
+	self->s.origin[0] -= 18.0f;
+	self->s.origin[1] -= 9.0f;
+	self->flags &= ~FL_IMMORTAL;
+	self->powerarmor_time = 0_ms;
+	self->monsterinfo.nextframe = 0;
+	self->monsterinfo.next_move = nullptr;
+	self->s.frame = FRAME_run01;
+	infantry_run(self);
+	gi.linkentity(self);
+}
+
 constexpr spawnflags_t SPAWNFLAG_INFANTRY_NOJUMPING = 8_spawnflag;
 
 /*QUAKED monster_infantry (1 .5 0) (-16 -16 -24) (16 16 32) Ambush Trigger_Spawn Sight NoJumping
@@ -882,54 +939,16 @@ void SP_monster_infantry(edict_t *self)
 	}
 
 	InfantryPrecache();
-
-	self->monsterinfo.aiflags |= AI_STINKY;
-
-	self->movetype = MOVETYPE_STEP;
-	self->solid = SOLID_BBOX;
-	self->s.modelindex = gi.modelindex("models/monsters/infantry/tris.md2");
-	
-	gi.modelindex("models/monsters/infantry/gibs/head.md2");
-	gi.modelindex("models/monsters/infantry/gibs/chest.md2");
-	gi.modelindex("models/monsters/infantry/gibs/gun.md2");
-	gi.modelindex("models/monsters/infantry/gibs/arm.md2");
-	gi.modelindex("models/monsters/infantry/gibs/foot.md2");
-
-	self->mins = { -16, -16, -24 };
-	self->maxs = { 16, 16, 32 };
+	InfantryConfigureNativeBehavior(self,
+		!self->spawnflags.has(SPAWNFLAG_INFANTRY_NOJUMPING));
 
 	self->health = 100 * st.health_multiplier;
 	self->gib_health = -65;
 	self->mass = 200;
 
-	self->pain = infantry_pain;
-	self->die = infantry_die;
-
-	self->monsterinfo.combat_style = COMBAT_MIXED;
-
-	self->monsterinfo.stand = infantry_stand;
-	self->monsterinfo.walk = infantry_walk;
-	self->monsterinfo.run = infantry_run;
-	// pmm
-	self->monsterinfo.dodge = M_MonsterDodge;
-	self->monsterinfo.duck = infantry_duck;
-	self->monsterinfo.unduck = monster_duck_up;
-	self->monsterinfo.sidestep = infantry_sidestep;
-	self->monsterinfo.blocked = infantry_blocked;
-	// pmm
-	self->monsterinfo.attack = infantry_attack;
-	self->monsterinfo.melee = nullptr;
-	self->monsterinfo.sight = infantry_sight;
-	self->monsterinfo.idle = infantry_fidget;
-	self->monsterinfo.setskin = infantry_setskin;
-
 	gi.linkentity(self);
 
 	M_SetAnimation(self, &infantry_move_stand);
-	self->monsterinfo.scale = MODEL_SCALE;
-	self->monsterinfo.can_jump = !self->spawnflags.has(SPAWNFLAG_INFANTRY_NOJUMPING);
-	self->monsterinfo.drop_height = 192;
-	self->monsterinfo.jump_height = 40;
 
 	walkmonster_start(self);
 }

@@ -15,10 +15,10 @@ configuration.
 
 ## Evidence location
 
-The audited installation was available at:
+The audited installation was selected through:
 
 ~~~text
-E:\_SOURCE\_ASSETS\Zaero
+ZAERO_LEGACY_ROOT (or an explicit importer/audit argument)
 ~~~
 
 Future contributors may keep a legitimate installation elsewhere. The importer
@@ -49,6 +49,10 @@ found by the planning audit.
 
 The effective runtime view includes 20 BSPs: 14 campaign maps from pak0 and six
 deathmatch maps from pak2. pak0 also contains elogo.cin and zlogo.cin.
+Under [D-011](../compatibility/decisions.md#d-011--ztomb1-target-for-absent-tomb1-bsp),
+the importer preserves ztomb1's unreferenced changelevel string `tomb1` but
+must not synthesize, alias, or copy a `maps/tomb1.bsp`; no such BSP is present
+in the audited layers and the generated target graph proves the record inert.
 
 ## Required loose runtime files
 
@@ -91,6 +95,17 @@ The canonical runtime import must exclude:
 
 Old demos and saves remain provenance evidence only. No playback or load
 compatibility is promised.
+
+### Soundtrack boundary
+
+The audited Zaero PAKs and required loose files contain no `.ogg`, `.mp3`,
+`.flac`, MIDI, or `music/` asset. Their BSP worldspawns instead author classic
+numeric CD-track values. Under [D-010](../compatibility/decisions.md#d-010--music-values-111),
+ZaeREo passes values 2–11 to the soundtrack already supplied by a legitimate
+Quake II Rerelease installation and preserves value 1 as logged silence. The
+importer, package stages, manifests, and future release modes must never copy
+Rerelease soundtrack files into ZaeREo output. Rerelease installation ownership
+is a runtime prerequisite, not permission to redistribute its media.
 
 ## Rights and publication gate
 
@@ -177,12 +192,15 @@ Git LFS.
 ## Records still required
 
 This initial file does not close Phase 0. A generated
-docs/provenance/baselines.json now records per-file and aggregate hashes for the
-four supplied trees, but its origins still identify supplied local trees rather
-than pinned upstream commits or archives. The following evidence must still be
-generated or reviewed:
+`docs/provenance/baselines.json` records per-file and aggregate hashes for all
+four supplied trees. The Rerelease input now has an exact official Git match in
+`docs/provenance/upstream-match.json`; the legacy Quake II, Zaero source, and
+Zaero installation inputs still identify supplied local trees rather than
+pinned upstream/archive or rightsholder acquisition records. The following
+evidence must still be generated or reviewed:
 
-- baseline upstream/archive origins and review of the generated hash manifest;
+- remaining legacy/Zaero baseline upstream/archive/acquisition origins and
+  review of the generated hash manifest;
 - review of the 969 effective PAK paths plus nine loose paths in
   `docs/audits/assets.json`, and the canonical `asset-policy.json` overlay;
 - the independently reviewed/versioned `distribution-policy.json` component,

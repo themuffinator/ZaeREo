@@ -1,0 +1,1416 @@
+{
+  "baseline": {
+    "file_count": 144,
+    "key": "quake2_rerelease",
+    "official_commit": "8dc1fc9794c01ece06881e703851b768fb3994de",
+    "official_subtree": "rerelease",
+    "tree_sha256": "74b79d4f853fb521a866aaa5b1510c1c46afb63a73370b907b10143146629bf5"
+  },
+  "current": {
+    "file_count": 177,
+    "total_size": 2965498,
+    "tree_sha256": "2ef6442ae792d76e98b4e9cfc550884bcbdf1ea05155387e9bfbb54ae779a4a1"
+  },
+  "differences": [
+    {
+      "baseline": {
+        "path": "bg_local.h",
+        "sha256": "0a66fff4539f15603a8563c150b56b4be64bdd36144053730a3eb1301feaad79",
+        "size": 7150
+      },
+      "category": "shared-contracts",
+      "current": {
+        "path": "bg_local.h",
+        "sha256": "5d522fadbc79cefdcb78e8825407202dc7e03649c8eb0b6771c0babb3dd5d2a1",
+        "size": 8069
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/entity-matrix.md"
+      ],
+      "path": "bg_local.h",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "g_ai.cpp",
+        "sha256": "6c2cc226fd9abd092ca09fb5fc01e55fe53a2ab0c84bcd1c491c3293bcba4a2f",
+        "size": 56652
+      },
+      "category": "ai-monsters",
+      "current": {
+        "path": "g_ai.cpp",
+        "sha256": "5a3bd6d04a50345fc36ff8286f41ccfc09be37e6507b9c4a54bfe4206007ae82",
+        "size": 57177
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "tests/compatibility/test_zaero_monster_spawn.py",
+        "tests/compatibility/test_zaero_autocannon.py",
+        "tests/compatibility/test_zaero_handler.py",
+        "tests/compatibility/test_zaero_hover_strafe.py",
+        "tests/compatibility/test_zaero_projectile_dodge.py",
+        "tests/compatibility/test_zaero_sentien.py",
+        "tests/compatibility/test_zaero_stock_precaches.py",
+        "tests/compatibility/test_zaero_zboss.py"
+      ],
+      "path": "g_ai.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "g_cmds.cpp",
+        "sha256": "9e179e651226ed074464b405fac3862c1a33aad6bed668c048a3ee71a644e0ab",
+        "size": 36137
+      },
+      "category": "items-weapons-client",
+      "current": {
+        "path": "g_cmds.cpp",
+        "sha256": "eeb12b7fc433a91001b7384c6ab7a1b1feda5bd8b1a57a6e5fe867a1aa2ecc9f",
+        "size": 40131
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "tests/compatibility/test_zaero_a2k.py",
+        "tests/compatibility/test_zaero_ai_reaction.py",
+        "tests/compatibility/test_zaero_items_weapons.py",
+        "tests/compatibility/test_zaero_emp.py",
+        "tests/compatibility/test_zaero_ired.py",
+        "tests/compatibility/test_zaero_plasma_shield.py",
+        "tests/compatibility/test_zaero_player_presentation.py",
+        "tests/compatibility/test_zaero_projectile_dodge.py",
+        "tests/compatibility/test_zaero_sentien.py",
+        "tests/compatibility/test_zaero_zboss.py",
+        "tests/compatibility/test_zaero_sniper.py",
+        "tests/compatibility/test_zaero_sonic.py",
+        "tests/compatibility/test_zaero_visor.py"
+      ],
+      "path": "g_cmds.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "g_combat.cpp",
+        "sha256": "fc12f0e56aeef6e88f0785152aa33b76122b6c3593debe6bc356d1921afb41a8",
+        "size": 23120
+      },
+      "category": "items-weapons-client",
+      "current": {
+        "path": "g_combat.cpp",
+        "sha256": "1cc7a0961df671ddf6ba5820d18b2fc9909dcfbb4e7c3939033a8c52ed51aabf",
+        "size": 27189
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "tests/compatibility/test_zaero_a2k.py",
+        "tests/compatibility/test_zaero_ai_reaction.py",
+        "tests/compatibility/test_zaero_items_weapons.py",
+        "tests/compatibility/test_zaero_emp.py",
+        "tests/compatibility/test_zaero_ired.py",
+        "tests/compatibility/test_zaero_plasma_shield.py",
+        "tests/compatibility/test_zaero_player_presentation.py",
+        "tests/compatibility/test_zaero_projectile_dodge.py",
+        "tests/compatibility/test_zaero_sentien.py",
+        "tests/compatibility/test_zaero_zboss.py",
+        "tests/compatibility/test_zaero_sniper.py",
+        "tests/compatibility/test_zaero_sonic.py",
+        "tests/compatibility/test_zaero_visor.py"
+      ],
+      "path": "g_combat.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "g_func.cpp",
+        "sha256": "4c8016f18389980918cf04ac89cd42875bb2f9ccd727684416d2272d56956854",
+        "size": 76338
+      },
+      "category": "mapper-entity-physics",
+      "current": {
+        "path": "g_func.cpp",
+        "sha256": "20c8a5b463c66930158fad3c295f1efd6ca1cc8873825b592078da5ae90c4595",
+        "size": 89590
+      },
+      "evidence": [
+        "docs/compatibility/entity-matrix.md",
+        "tests/compatibility/test_stock_map_behaviors.py",
+        "tests/compatibility/test_stock_world_extensions.py",
+        "tests/compatibility/test_zaero_physics_contract.py",
+        "tests/compatibility/test_zaero_world_entities.py"
+      ],
+      "path": "g_func.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "g_items.cpp",
+        "sha256": "f62f6e3b7552a2f3baa8abd667dbf18e7ca5a95cbd3c2e2a22ba908586963ac8",
+        "size": 113166
+      },
+      "category": "items-weapons-client",
+      "current": {
+        "path": "g_items.cpp",
+        "sha256": "99bda9dc0972b396afd646fbe5091b00cf51ae788247a1317bd90cf7e1eb8917",
+        "size": 129220
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "tests/compatibility/test_zaero_a2k.py",
+        "tests/compatibility/test_zaero_ai_reaction.py",
+        "tests/compatibility/test_zaero_items_weapons.py",
+        "tests/compatibility/test_zaero_emp.py",
+        "tests/compatibility/test_zaero_ired.py",
+        "tests/compatibility/test_zaero_plasma_shield.py",
+        "tests/compatibility/test_zaero_player_presentation.py",
+        "tests/compatibility/test_zaero_projectile_dodge.py",
+        "tests/compatibility/test_zaero_sentien.py",
+        "tests/compatibility/test_zaero_zboss.py",
+        "tests/compatibility/test_zaero_sniper.py",
+        "tests/compatibility/test_zaero_sonic.py",
+        "tests/compatibility/test_zaero_visor.py"
+      ],
+      "path": "g_items.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "g_local.h",
+        "sha256": "3257c79f07d9e8ef333342b9a0be0bde7dd514d9de1b9b36173aad157601aecf",
+        "size": 110951
+      },
+      "category": "shared-contracts",
+      "current": {
+        "path": "g_local.h",
+        "sha256": "f048144341e35a386e810d6fe769aeb27534bf735187a0640ae54675fe71f4ae",
+        "size": 119297
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/entity-matrix.md"
+      ],
+      "path": "g_local.h",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "g_main.cpp",
+        "sha256": "438e2dcb631b94ff4501e74230237ea739e210da331dfce6e456c6154338d1b5",
+        "size": 27683
+      },
+      "category": "save-export-version",
+      "current": {
+        "path": "g_main.cpp",
+        "sha256": "96f9e534c7c0e7f07dae154970813010c98f4ee0bcb731235fd9254cd9560360",
+        "size": 28440
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "tests/compatibility/test_spawn_save_contract.py"
+      ],
+      "path": "g_main.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "g_misc.cpp",
+        "sha256": "0f49030c276b67926af307a293cb7c6f575e6be2ef184b6c75bf0037df382378",
+        "size": 64655
+      },
+      "category": "mapper-entity-physics",
+      "current": {
+        "path": "g_misc.cpp",
+        "sha256": "4b6ed6dade97e0e84df9128f5ce7ad0005dda551252f4ac955e4fe372f8b85b3",
+        "size": 67196
+      },
+      "evidence": [
+        "docs/compatibility/entity-matrix.md",
+        "tests/compatibility/test_stock_map_behaviors.py",
+        "tests/compatibility/test_stock_world_extensions.py",
+        "tests/compatibility/test_zaero_physics_contract.py",
+        "tests/compatibility/test_zaero_world_entities.py"
+      ],
+      "path": "g_misc.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "g_monster.cpp",
+        "sha256": "8f9f4eeb2c979fa6e429902729263678300d1f4d3c858bd71e8664ab1720d9fb",
+        "size": 43917
+      },
+      "category": "ai-monsters",
+      "current": {
+        "path": "g_monster.cpp",
+        "sha256": "cf0e4bcc4ff3b506e21a5668f0fe882391798717710f81d6798252f5e80885ac",
+        "size": 44802
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "tests/compatibility/test_zaero_monster_spawn.py",
+        "tests/compatibility/test_zaero_autocannon.py",
+        "tests/compatibility/test_zaero_handler.py",
+        "tests/compatibility/test_zaero_hover_strafe.py",
+        "tests/compatibility/test_zaero_projectile_dodge.py",
+        "tests/compatibility/test_zaero_sentien.py",
+        "tests/compatibility/test_zaero_stock_precaches.py",
+        "tests/compatibility/test_zaero_zboss.py"
+      ],
+      "path": "g_monster.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "g_phys.cpp",
+        "sha256": "c09d96106cee08d30bfca282159a487d91a93c852870b3f1ed6b21a4df6b4737",
+        "size": 24280
+      },
+      "category": "mapper-entity-physics",
+      "current": {
+        "path": "g_phys.cpp",
+        "sha256": "16ae78b84c0e5bc81a5ccf8d7f17184242cc456d50980330ec8516ec7240f78d",
+        "size": 31757
+      },
+      "evidence": [
+        "docs/compatibility/entity-matrix.md",
+        "tests/compatibility/test_stock_map_behaviors.py",
+        "tests/compatibility/test_stock_world_extensions.py",
+        "tests/compatibility/test_zaero_physics_contract.py",
+        "tests/compatibility/test_zaero_world_entities.py"
+      ],
+      "path": "g_phys.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "g_save.cpp",
+        "sha256": "ec2a980c3dd9412a31754e478b33b400b08e30f7cbdfcd964ec516cdda3597c4",
+        "size": 70657
+      },
+      "category": "save-export-version",
+      "current": {
+        "path": "g_save.cpp",
+        "sha256": "940d5f41e52669b1e4cbb5cfb3f3ff722d13367139745d4600eb8aed2e909160",
+        "size": 72485
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "tests/compatibility/test_spawn_save_contract.py"
+      ],
+      "path": "g_save.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "g_spawn.cpp",
+        "sha256": "9b78e2a1c8e2a739a450add01006e4cf39f0aabc1441b55c30be2f425fcb3742",
+        "size": 48879
+      },
+      "category": "mapper-entity-physics",
+      "current": {
+        "path": "g_spawn.cpp",
+        "sha256": "383faf9815b29c6c352c4363b61475e27f63250d389e3437133d79f876d86bfa",
+        "size": 53617
+      },
+      "evidence": [
+        "docs/compatibility/entity-matrix.md",
+        "tests/compatibility/test_stock_map_behaviors.py",
+        "tests/compatibility/test_stock_world_extensions.py",
+        "tests/compatibility/test_zaero_physics_contract.py",
+        "tests/compatibility/test_zaero_world_entities.py"
+      ],
+      "path": "g_spawn.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "g_svcmds.cpp",
+        "sha256": "d77b9d6c821ca232b3e01dc5cc4dbdf0ac4566056bedcc9e8bdca8fc5f44cad4",
+        "size": 5912
+      },
+      "category": "developer-runtime-evidence",
+      "current": {
+        "path": "g_svcmds.cpp",
+        "sha256": "b6b27fd1822f66743d2ab92fa03b3b46c51a1911818b26b422ad69ba85ff5770",
+        "size": 6058
+      },
+      "evidence": [
+        "docs/compatibility/decisions.md#d-015--debug-and-test-tools",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility/test_zaero_dm_injection.py",
+        "tests/release/test_release_surfaces.py",
+        "tests/runtime/test_run_game.py"
+      ],
+      "path": "g_svcmds.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "g_target.cpp",
+        "sha256": "7a620d794956f4dc1bef050cc621984ab51bd7cd4f7a4ce5a0693777e3be4cd9",
+        "size": 56017
+      },
+      "category": "mapper-entity-physics",
+      "current": {
+        "path": "g_target.cpp",
+        "sha256": "90f0d51bc90e5e102ca62e54b8ee5329d18cc7ed6d2294609d7b014c2551418d",
+        "size": 57375
+      },
+      "evidence": [
+        "docs/compatibility/entity-matrix.md",
+        "tests/compatibility/test_stock_map_behaviors.py",
+        "tests/compatibility/test_stock_world_extensions.py",
+        "tests/compatibility/test_zaero_physics_contract.py",
+        "tests/compatibility/test_zaero_world_entities.py"
+      ],
+      "path": "g_target.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "g_trigger.cpp",
+        "sha256": "c982a9ede2390f18e2b26da7c7e643501ca278dcb351eca49e91cae97fc5e95b",
+        "size": 36415
+      },
+      "category": "mapper-entity-physics",
+      "current": {
+        "path": "g_trigger.cpp",
+        "sha256": "a10babb1df0b9e94ed0597facbd7753b58e8188ba7f609b6352c38a3fa8dbc56",
+        "size": 37622
+      },
+      "evidence": [
+        "docs/compatibility/entity-matrix.md",
+        "tests/compatibility/test_stock_map_behaviors.py",
+        "tests/compatibility/test_stock_world_extensions.py",
+        "tests/compatibility/test_zaero_physics_contract.py",
+        "tests/compatibility/test_zaero_world_entities.py"
+      ],
+      "path": "g_trigger.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "g_turret.cpp",
+        "sha256": "178074430644e72181b5549c0e06dd135c4c2f4c71497598e31f043da2855ca5",
+        "size": 17358
+      },
+      "category": "mapper-entity-physics",
+      "current": {
+        "path": "g_turret.cpp",
+        "sha256": "b46c0719fd2e879d5ba494a7b89b3d0c9165df04b5ce69c0c8375131f848c358",
+        "size": 17474
+      },
+      "evidence": [
+        "docs/compatibility/entity-matrix.md",
+        "tests/compatibility/test_stock_map_behaviors.py",
+        "tests/compatibility/test_stock_world_extensions.py",
+        "tests/compatibility/test_zaero_physics_contract.py",
+        "tests/compatibility/test_zaero_world_entities.py"
+      ],
+      "path": "g_turret.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "g_utils.cpp",
+        "sha256": "3c1aad5639585e19c8385559ea1e2a05880245fd30eec8fa6b90369ef20a7b0c",
+        "size": 12840
+      },
+      "category": "mapper-entity-physics",
+      "current": {
+        "path": "g_utils.cpp",
+        "sha256": "0e93e385bd0fccd6b8cc84f77ef3c806e58ddc7dcc007cf67b230855187b1bbe",
+        "size": 14178
+      },
+      "evidence": [
+        "docs/compatibility/entity-matrix.md",
+        "tests/compatibility/test_stock_map_behaviors.py",
+        "tests/compatibility/test_stock_world_extensions.py",
+        "tests/compatibility/test_zaero_physics_contract.py",
+        "tests/compatibility/test_zaero_world_entities.py"
+      ],
+      "path": "g_utils.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "g_weapon.cpp",
+        "sha256": "b9532c2ffa31a91f541912d146b10b60c99c51a9f6160e11063841b0e6fa921e",
+        "size": 31952
+      },
+      "category": "items-weapons-client",
+      "current": {
+        "path": "g_weapon.cpp",
+        "sha256": "4bcdac05f97bc6b42bc759acbed3cd7ab7ebd74377b1c915aea4c5ad6528768c",
+        "size": 32115
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "tests/compatibility/test_zaero_a2k.py",
+        "tests/compatibility/test_zaero_ai_reaction.py",
+        "tests/compatibility/test_zaero_items_weapons.py",
+        "tests/compatibility/test_zaero_emp.py",
+        "tests/compatibility/test_zaero_ired.py",
+        "tests/compatibility/test_zaero_plasma_shield.py",
+        "tests/compatibility/test_zaero_player_presentation.py",
+        "tests/compatibility/test_zaero_projectile_dodge.py",
+        "tests/compatibility/test_zaero_sentien.py",
+        "tests/compatibility/test_zaero_zboss.py",
+        "tests/compatibility/test_zaero_sniper.py",
+        "tests/compatibility/test_zaero_sonic.py",
+        "tests/compatibility/test_zaero_visor.py"
+      ],
+      "path": "g_weapon.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "game.vcxproj",
+        "sha256": "009e343c1590913f7506a2a07659ecf1ae8dbdca26f2a194137a3af035d52e40",
+        "size": 11273
+      },
+      "category": "build-layout",
+      "current": {
+        "path": "game.vcxproj",
+        "sha256": "c8a666daae74797f31cb05aed32d032996b2604a02deb8680852729e23d18654",
+        "size": 13490
+      },
+      "evidence": [
+        "docs/UPSTREAM.md#relationship-between-the-baseline-and-src",
+        "docs/ZAERO_PORT_ROADMAP.md#phase-1--establish-the-clean-rerelease-substrate"
+      ],
+      "path": "game.vcxproj",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "game.vcxproj.filters",
+        "sha256": "98b198c2267b1ea519297f3ef926f67a6fbdd08b587e28b9ca79363cc86440fa",
+        "size": 9179
+      },
+      "category": "build-layout",
+      "current": {
+        "path": "game.vcxproj.filters",
+        "sha256": "4da73ec0f3552247628ef3269a2654ab3f0667cfc8d1df9e17eab6ee72b01737",
+        "size": 12255
+      },
+      "evidence": [
+        "docs/UPSTREAM.md#relationship-between-the-baseline-and-src",
+        "docs/ZAERO_PORT_ROADMAP.md#phase-1--establish-the-clean-rerelease-substrate"
+      ],
+      "path": "game.vcxproj.filters",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "m_boss2.cpp",
+        "sha256": "983a0e18e1e5feb390b5c22b03e5cf7bd8ec36801fe069b769dccb5e6a6cc3d2",
+        "size": 18222
+      },
+      "category": "ai-monsters",
+      "current": {
+        "path": "m_boss2.cpp",
+        "sha256": "c36b0a6387be7892bc8a909586ab0edfee05f3cba7f222b05e25b82de387e09a",
+        "size": 18421
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "tests/compatibility/test_zaero_monster_spawn.py",
+        "tests/compatibility/test_zaero_autocannon.py",
+        "tests/compatibility/test_zaero_handler.py",
+        "tests/compatibility/test_zaero_hover_strafe.py",
+        "tests/compatibility/test_zaero_projectile_dodge.py",
+        "tests/compatibility/test_zaero_sentien.py",
+        "tests/compatibility/test_zaero_stock_precaches.py",
+        "tests/compatibility/test_zaero_zboss.py"
+      ],
+      "path": "m_boss2.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "m_boss31.cpp",
+        "sha256": "a1de677858d7f3d217cedf342f2afb60d52f1854353d4b352ed5b2cb0c520cba",
+        "size": 16008
+      },
+      "category": "ai-monsters",
+      "current": {
+        "path": "m_boss31.cpp",
+        "sha256": "fece80f469113ea0862e6084bef50738906de2c58fcb5bd4e9200905b4d7a385",
+        "size": 16207
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "tests/compatibility/test_zaero_monster_spawn.py",
+        "tests/compatibility/test_zaero_autocannon.py",
+        "tests/compatibility/test_zaero_handler.py",
+        "tests/compatibility/test_zaero_hover_strafe.py",
+        "tests/compatibility/test_zaero_projectile_dodge.py",
+        "tests/compatibility/test_zaero_sentien.py",
+        "tests/compatibility/test_zaero_stock_precaches.py",
+        "tests/compatibility/test_zaero_zboss.py"
+      ],
+      "path": "m_boss31.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "m_boss32.cpp",
+        "sha256": "9dfb2723bec023e360b0787d47589e030ea2115c929a83f60bcad6dba964f52f",
+        "size": 18804
+      },
+      "category": "ai-monsters",
+      "current": {
+        "path": "m_boss32.cpp",
+        "sha256": "536c28e2cdf8583fb555cf71ba04096351a436ca297fe01537e002d6a0fb692a",
+        "size": 18919
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "tests/compatibility/test_zaero_monster_spawn.py",
+        "tests/compatibility/test_zaero_autocannon.py",
+        "tests/compatibility/test_zaero_handler.py",
+        "tests/compatibility/test_zaero_hover_strafe.py",
+        "tests/compatibility/test_zaero_projectile_dodge.py",
+        "tests/compatibility/test_zaero_sentien.py",
+        "tests/compatibility/test_zaero_stock_precaches.py",
+        "tests/compatibility/test_zaero_zboss.py"
+      ],
+      "path": "m_boss32.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "m_hover.cpp",
+        "sha256": "7406b1fda69f994327946dc13884dde61f51703fb9bff99fd31a52e59ad18350",
+        "size": 16146
+      },
+      "category": "ai-monsters",
+      "current": {
+        "path": "m_hover.cpp",
+        "sha256": "51d0b0578830af21ddd49e93f95ad4abfba003c99cda42d852a98211b1ebf2cd",
+        "size": 16750
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "tests/compatibility/test_zaero_monster_spawn.py",
+        "tests/compatibility/test_zaero_autocannon.py",
+        "tests/compatibility/test_zaero_handler.py",
+        "tests/compatibility/test_zaero_hover_strafe.py",
+        "tests/compatibility/test_zaero_projectile_dodge.py",
+        "tests/compatibility/test_zaero_sentien.py",
+        "tests/compatibility/test_zaero_stock_precaches.py",
+        "tests/compatibility/test_zaero_zboss.py"
+      ],
+      "path": "m_hover.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "m_infantry.cpp",
+        "sha256": "d745a3d27f0988cec9204babe89bc0cadce2ac199ddd4a9b118e14bcf4dfe518",
+        "size": 25271
+      },
+      "category": "ai-monsters",
+      "current": {
+        "path": "m_infantry.cpp",
+        "sha256": "d89f5dac0872a3b197b7b0d92222c3235df842a85a4fe47369ca102f5e6f73db",
+        "size": 26214
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "tests/compatibility/test_zaero_monster_spawn.py",
+        "tests/compatibility/test_zaero_autocannon.py",
+        "tests/compatibility/test_zaero_handler.py",
+        "tests/compatibility/test_zaero_hover_strafe.py",
+        "tests/compatibility/test_zaero_projectile_dodge.py",
+        "tests/compatibility/test_zaero_sentien.py",
+        "tests/compatibility/test_zaero_stock_precaches.py",
+        "tests/compatibility/test_zaero_zboss.py"
+      ],
+      "path": "m_infantry.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "m_supertank.cpp",
+        "sha256": "1d2f16ba5d8ce988fca6860569ee603e75705539c15d15dabe8442a9f7b198e8",
+        "size": 17783
+      },
+      "category": "ai-monsters",
+      "current": {
+        "path": "m_supertank.cpp",
+        "sha256": "79a8112282b2a21dd5f20230031f713c1f93e550bf8755060f78a8440660e572",
+        "size": 17899
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "tests/compatibility/test_zaero_monster_spawn.py",
+        "tests/compatibility/test_zaero_autocannon.py",
+        "tests/compatibility/test_zaero_handler.py",
+        "tests/compatibility/test_zaero_hover_strafe.py",
+        "tests/compatibility/test_zaero_projectile_dodge.py",
+        "tests/compatibility/test_zaero_sentien.py",
+        "tests/compatibility/test_zaero_stock_precaches.py",
+        "tests/compatibility/test_zaero_zboss.py"
+      ],
+      "path": "m_supertank.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "m_tank.cpp",
+        "sha256": "41fa8252edfc875955913bba98be5e3943c98397102322a4f218d176bf1e3e39",
+        "size": 28266
+      },
+      "category": "ai-monsters",
+      "current": {
+        "path": "m_tank.cpp",
+        "sha256": "5c37da3d58cafd4216d86135f24b06371f9b2bd423fc1a367ae1de1d367211cf",
+        "size": 28383
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "tests/compatibility/test_zaero_monster_spawn.py",
+        "tests/compatibility/test_zaero_autocannon.py",
+        "tests/compatibility/test_zaero_handler.py",
+        "tests/compatibility/test_zaero_hover_strafe.py",
+        "tests/compatibility/test_zaero_projectile_dodge.py",
+        "tests/compatibility/test_zaero_sentien.py",
+        "tests/compatibility/test_zaero_stock_precaches.py",
+        "tests/compatibility/test_zaero_zboss.py"
+      ],
+      "path": "m_tank.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "p_client.cpp",
+        "sha256": "b47a44e43573c1e471ae29b392cd9f603d16310eedecdc84ac09b927aa3cbacf",
+        "size": 96663
+      },
+      "category": "items-weapons-client",
+      "current": {
+        "path": "p_client.cpp",
+        "sha256": "8db292b5722c97ba3cd893f1276874281b2db81ae98d5b7ef69d00a674bb24ee",
+        "size": 103272
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "tests/compatibility/test_zaero_a2k.py",
+        "tests/compatibility/test_zaero_ai_reaction.py",
+        "tests/compatibility/test_zaero_items_weapons.py",
+        "tests/compatibility/test_zaero_emp.py",
+        "tests/compatibility/test_zaero_ired.py",
+        "tests/compatibility/test_zaero_plasma_shield.py",
+        "tests/compatibility/test_zaero_player_presentation.py",
+        "tests/compatibility/test_zaero_projectile_dodge.py",
+        "tests/compatibility/test_zaero_sentien.py",
+        "tests/compatibility/test_zaero_zboss.py",
+        "tests/compatibility/test_zaero_sniper.py",
+        "tests/compatibility/test_zaero_sonic.py",
+        "tests/compatibility/test_zaero_visor.py"
+      ],
+      "path": "p_client.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "p_hud.cpp",
+        "sha256": "0ecc77d97b735f9d22e908c9385d409461b618ec34a12b5c8e57455505b3729a",
+        "size": 29597
+      },
+      "category": "items-weapons-client",
+      "current": {
+        "path": "p_hud.cpp",
+        "sha256": "ccd1c59b012f038754942e811c8328b8477cef5f52321873a666f40ce0b23831",
+        "size": 30954
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "tests/compatibility/test_zaero_a2k.py",
+        "tests/compatibility/test_zaero_ai_reaction.py",
+        "tests/compatibility/test_zaero_items_weapons.py",
+        "tests/compatibility/test_zaero_emp.py",
+        "tests/compatibility/test_zaero_ired.py",
+        "tests/compatibility/test_zaero_plasma_shield.py",
+        "tests/compatibility/test_zaero_player_presentation.py",
+        "tests/compatibility/test_zaero_projectile_dodge.py",
+        "tests/compatibility/test_zaero_sentien.py",
+        "tests/compatibility/test_zaero_zboss.py",
+        "tests/compatibility/test_zaero_sniper.py",
+        "tests/compatibility/test_zaero_sonic.py",
+        "tests/compatibility/test_zaero_visor.py"
+      ],
+      "path": "p_hud.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "p_view.cpp",
+        "sha256": "2a7ba4a253fa6c7d029aa64329190ac75da42c695667ada475b3d000212d6d6a",
+        "size": 40427
+      },
+      "category": "items-weapons-client",
+      "current": {
+        "path": "p_view.cpp",
+        "sha256": "26acc36f2ba112953feb9412ffc1a063f9ffb0a16eb4627d61d6bf78c1ed44de",
+        "size": 40995
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "tests/compatibility/test_zaero_a2k.py",
+        "tests/compatibility/test_zaero_ai_reaction.py",
+        "tests/compatibility/test_zaero_items_weapons.py",
+        "tests/compatibility/test_zaero_emp.py",
+        "tests/compatibility/test_zaero_ired.py",
+        "tests/compatibility/test_zaero_plasma_shield.py",
+        "tests/compatibility/test_zaero_player_presentation.py",
+        "tests/compatibility/test_zaero_projectile_dodge.py",
+        "tests/compatibility/test_zaero_sentien.py",
+        "tests/compatibility/test_zaero_zboss.py",
+        "tests/compatibility/test_zaero_sniper.py",
+        "tests/compatibility/test_zaero_sonic.py",
+        "tests/compatibility/test_zaero_visor.py"
+      ],
+      "path": "p_view.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "p_weapon.cpp",
+        "sha256": "7d79c4633af254211ee52c89b5ac6c06de498e387065b7336ef7ece014890853",
+        "size": 49964
+      },
+      "category": "items-weapons-client",
+      "current": {
+        "path": "p_weapon.cpp",
+        "sha256": "dbb90588d8aa14ae1b8c96ec2f7b348acd0fb6357c49d7c27b0122e4c559b468",
+        "size": 51967
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "tests/compatibility/test_zaero_a2k.py",
+        "tests/compatibility/test_zaero_ai_reaction.py",
+        "tests/compatibility/test_zaero_items_weapons.py",
+        "tests/compatibility/test_zaero_emp.py",
+        "tests/compatibility/test_zaero_ired.py",
+        "tests/compatibility/test_zaero_plasma_shield.py",
+        "tests/compatibility/test_zaero_player_presentation.py",
+        "tests/compatibility/test_zaero_projectile_dodge.py",
+        "tests/compatibility/test_zaero_sentien.py",
+        "tests/compatibility/test_zaero_zboss.py",
+        "tests/compatibility/test_zaero_sniper.py",
+        "tests/compatibility/test_zaero_sonic.py",
+        "tests/compatibility/test_zaero_visor.py"
+      ],
+      "path": "p_weapon.cpp",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "q_vec3.h",
+        "sha256": "f7939807b3cd8b246bd74ecf4aaf4f1bc50ed4a8c0031481fc671838ae4d0463",
+        "size": 13217
+      },
+      "category": "shared-contracts",
+      "current": {
+        "path": "q_vec3.h",
+        "sha256": "2ffbf339b2e7602ea90f80812b3d1fcaa96c272405c7eb4efc976be430795cb5",
+        "size": 13224
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/entity-matrix.md"
+      ],
+      "path": "q_vec3.h",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "vcpkg.json",
+        "sha256": "70ceb509b42231d0c452d6664df9b62dbb0e9c159fa1eb8a573116d34738a41e",
+        "size": 197
+      },
+      "category": "build-layout",
+      "current": null,
+      "evidence": [
+        "docs/UPSTREAM.md#relationship-between-the-baseline-and-src",
+        "docs/ZAERO_PORT_ROADMAP.md#phase-1--establish-the-clean-rerelease-substrate"
+      ],
+      "path": "vcpkg.json",
+      "status": "removed"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_a2k.cpp",
+        "sha256": "ae20093fa5c4708b2b82a64c8e962263070810037f51bdcd268b0352a78fe13b",
+        "size": 6641
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_a2k.cpp",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_a2k.h",
+        "sha256": "0dc5612aec4ab1acc7ad5f51ba785059cd05452f42d093ffabe1cc0ab5f1acab",
+        "size": 424
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_a2k.h",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_ai.cpp",
+        "sha256": "f00d73e1de10321fd8e29617826378c642057762cdd5dcd5e66ee2fd99378de9",
+        "size": 3337
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_ai.cpp",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_ai.h",
+        "sha256": "e243496b8956138ed1e323cb9383f306cce36d7fc0bb25ff800bd6bcb8327cdf",
+        "size": 363
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_ai.h",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_autocannon.cpp",
+        "sha256": "15175058fb8bb21022f65a1027f60201dd3ce9bdbbc0a78c8686680e211fecff",
+        "size": 23340
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_autocannon.cpp",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_autocannon.h",
+        "sha256": "e9f333863190e94f325ae1b0f2fd76837506ac410a5a42ed5d1a7925cf99db3e",
+        "size": 312
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_autocannon.h",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_dm.cpp",
+        "sha256": "d745af256d415f479112dcc550a13ba03256de56164fac952d21c21212115c4e",
+        "size": 6923
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_dm.cpp",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_dm.h",
+        "sha256": "3c099ab0f207f9167f44d8fb9037c81f12473b8aab8a276d8cf6e0fe36c420ec",
+        "size": 980
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_dm.h",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_emp.cpp",
+        "sha256": "25bc9abbf330522a182fda993d9c121ce9a1321d8ace924acb02da44829273ff",
+        "size": 6018
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_emp.cpp",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_emp.h",
+        "sha256": "6f8f623f6ca6c456b86aab81d38f2324e5805af5d782ae359e23c10dbc18a082",
+        "size": 825
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_emp.h",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_entities.cpp",
+        "sha256": "9c3f995309a6090db2abc9dd01eb562ecb94213d3dba1d2f1ab3b0557546e985",
+        "size": 11279
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_entities.cpp",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_entities.h",
+        "sha256": "5382a972aeebbcb73ef5199298d5adc741c28da2aabc3445d7006ea17de59316",
+        "size": 764
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_entities.h",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_finale.cpp",
+        "sha256": "8ca9701bc63b2ee25f08d1c710d77965001c9cbc059b23673f971fd8c30e3a8a",
+        "size": 1379
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_finale.cpp",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_finale.h",
+        "sha256": "c67e35094c85c574d54d03e262da50227f780f5b6dceb5e64c64d22fb4efcb31",
+        "size": 211
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_finale.h",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_handler.cpp",
+        "sha256": "51235a5c65b75c8c50185bd87086bdafe2abfad3522e031b92d5bf95d2d3d2ea",
+        "size": 9005
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_handler.cpp",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_handler.h",
+        "sha256": "6a8d78692ef2ea93316424384a21db7d0237b957dccbe56696a5610cbbc38ca8",
+        "size": 112
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_handler.h",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_hound.cpp",
+        "sha256": "172f62d0f52de3097e42872c5874a80d16962b532e8868d988c646e66a3813ca",
+        "size": 19914
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_hound.cpp",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_hound.h",
+        "sha256": "8882724f7cd80a10d4958262f83468c974ae1a445e0cf79ce0aa3d81f4496c06",
+        "size": 189
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_hound.h",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_ired.cpp",
+        "sha256": "05b382df90a8d09b1491fe5cb923202750f5590bf6b3456d603bbc2261115e82",
+        "size": 19593
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_ired.cpp",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_ired.h",
+        "sha256": "48b3b88c9b0ff5e17e2147919f9185da9b217c396f55746593750aa48b2b2c1f",
+        "size": 906
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_ired.h",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_plasma_shield.cpp",
+        "sha256": "0568e610a5d329f30130f7dd69bd490317d1a988e05478657b21f01181bd2c78",
+        "size": 4728
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_plasma_shield.cpp",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_plasma_shield.h",
+        "sha256": "eab850796510c9d0308aa37586966a61615698fac38c47c304dc89f4ac82fb95",
+        "size": 596
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_plasma_shield.h",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_sentien.cpp",
+        "sha256": "4fea9395aab14aad4ba95e58a00d099acfb70e30d0e0d5b72c2774389e8f8fa0",
+        "size": 27896
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_sentien.cpp",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_sentien.h",
+        "sha256": "6514b1d24bf1d16e9548cb4bc3519213da23d32f9e5fab1b2567ab6015e13c94",
+        "size": 112
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_sentien.h",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_sniper.cpp",
+        "sha256": "04b2432d961cf27d933cc89fff92e8f64425cdcffc3a0143b78444c313f3f1c0",
+        "size": 12599
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_sniper.cpp",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_sniper.h",
+        "sha256": "a911283866fdb2c24cd45edba8b4cb05764ec23b97ee11ff2fdad4182dfd96ce",
+        "size": 2099
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_sniper.h",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_sonic.cpp",
+        "sha256": "10feadcd8c132e62b4b304826ede4242a788df759b3814876161f8a36a1f2064",
+        "size": 12322
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_sonic.cpp",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_sonic.h",
+        "sha256": "91a66b4021b4b884710be312c19976572ea6e904c4ddba57240c6961727f3e26",
+        "size": 500
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_sonic.h",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_visor.cpp",
+        "sha256": "e895cb17eb33d506ef23f8ed14bba0342d69fc956af69d378c1d91251dd53b91",
+        "size": 11518
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_visor.cpp",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_visor.h",
+        "sha256": "49cd3f13e9ebcbeae666e3e9271f367ea62517eef5abb1df0963df30cfa57baa",
+        "size": 1092
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_visor.h",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_weapons.cpp",
+        "sha256": "9ac030c06ee8288e8ef174b1842aea4c4d93d9529f556ceee631df1ae2d59353",
+        "size": 12603
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_weapons.cpp",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_weapons.h",
+        "sha256": "b699d2564d8cb2c6024d0046f56c2aa0abf6da077c2bd76aab9793a919e5c13e",
+        "size": 1350
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_weapons.h",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_zboss.cpp",
+        "sha256": "f44c7372fc95a097808d1716cfcfc294d49457e9fe9a5ee6a758c68abd9bf429",
+        "size": 42530
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_zboss.cpp",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_zboss.h",
+        "sha256": "2257fd483c22067c47c9566cd07fe5ad3cc3b11e6898e785176cbcc60dce969a",
+        "size": 110
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_zboss.h",
+      "status": "added"
+    }
+  ],
+  "format": "ZaeREo upstream integration audit",
+  "policy": {
+    "id": "zaereo-rerelease-integration-seams",
+    "revision": 14
+  },
+  "schema_version": 1,
+  "stale_policy": [],
+  "summary": {
+    "added": 34,
+    "category_counts": {
+      "ai-monsters": 9,
+      "build-layout": 3,
+      "developer-runtime-evidence": 1,
+      "items-weapons-client": 8,
+      "mapper-entity-physics": 8,
+      "save-export-version": 2,
+      "shared-contracts": 3,
+      "zaero-owned-modules": 34
+    },
+    "difference_count": 68,
+    "modified": 33,
+    "policy_complete": true,
+    "removed": 1,
+    "stale_policy_count": 0,
+    "unchanged": 110,
+    "unclassified_count": 0
+  },
+  "unclassified": []
+}

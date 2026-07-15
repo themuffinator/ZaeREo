@@ -4,6 +4,7 @@
 #include "g_local.h"
 #include "bots/bot_includes.h"
 #include "zaero/g_zaero_emp.h"
+#include "zaero/g_zaero_finale.h"
 #include "zaero/g_zaero_ired.h"
 #include "zaero/g_zaero_sonic.h"
 
@@ -839,7 +840,16 @@ inline void G_RunFrame_(bool main_loop)
 
 	level.time += FRAME_TIME_MS;
 
-	if (level.intermission_fading)
+	const zaero_finale_fade_state_t zaero_finale_fade = Zaero_UpdateFinaleFade();
+	if (zaero_finale_fade == zaero_finale_fade_state_t::complete)
+	{
+		ExitLevel();
+		level.in_frame = false;
+		return;
+	}
+
+	if (zaero_finale_fade == zaero_finale_fade_state_t::inactive &&
+		level.intermission_fading)
 	{
 		if (level.intermission_fade_time > level.time)
 		{
@@ -863,7 +873,8 @@ inline void G_RunFrame_(bool main_loop)
 
 	// exit intermissions
 
-	if (level.exitintermission)
+	if (level.exitintermission &&
+		zaero_finale_fade != zaero_finale_fade_state_t::running)
 	{
 		ExitLevel();
 		level.in_frame = false;

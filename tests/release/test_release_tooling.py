@@ -111,14 +111,35 @@ if ($failed) {{ exit 2 }}
         self.assertIn('. (Join-Path $PSScriptRoot "zaereo_paths.ps1")', install)
         self.assertIn("Assert-StrictChildPath", install)
         self.assertIn(".zaereo-managed-files.json", install)
+        self.assertIn("ownership = [ordered]@", install)
+        self.assertIn('"pak0.pak"', install)
+        self.assertIn('"pak1.pak"', install)
+        self.assertIn('"pak2.pak"', install)
+        self.assertIn("Assert-NoTreeCollisions", install)
+        self.assertIn('"--stage", $stagePath', install)
         self.assertIn("Never target baseq2", resolver)
         self.assertIn("Test-ZaeREoProgramRoot", resolver)
+        self.assertIn('. (Join-Path $PSScriptRoot "zaereo_paths.ps1")', package)
+        self.assertIn("Get-ZaeREoLocalConfiguration", package)
+        self.assertIn("Resolve-ZaeREoPath", package)
 
         self.assertNotIn("Compress-Archive", package)
         self.assertIn("make_release_zip.py", package)
         self.assertIn("release_manifest.py", package)
+        self.assertIn("collect_licenses.py", package)
+        self.assertIn("generate_sbom.py", package)
+        self.assertIn("SBOM.spdx.json", package)
+        self.assertIn("LICENSE-MANIFEST.json", package)
+        self.assertIn("LICENSE_SCOPE.md", package)
+        self.assertIn("source_date_epoch", package)
         self.assertIn("ZIP determinism check failed", package)
         self.assertIn('ValidateSet("importer-kit", "local-full")', package)
+        self.assertIn("Assert-NoTreeCollisions", package)
+        self.assertNotIn("$contentWork", package)
+        self.assertIn('New-DeterministicPak $projectWork "pak0.pak"', package)
+        self.assertIn('New-DeterministicPak $importWork "pak1.pak" $loosePaths', package)
+        self.assertIn("RUNTIME-OWNERSHIP.json", package)
+        self.assertIn('"--stage", $stagePath', package)
 
         self.assertIn("publication_eligible = $false", package)
         self.assertIn("Local verification output only", package)
@@ -127,6 +148,13 @@ if ($failed) {{ exit 2 }}
         self.assertNotIn("& git", publish)
         self.assertNotIn("release create", publish.lower())
         self.assertNotIn("--clobber", publish)
+
+        release_readme = (ROOT / "docs" / "release-readme.html").read_text(
+            encoding="utf-8"
+        )
+        self.assertNotIn("-EngineRoot \"D:\\Games\\Quake II Rerelease\"", release_readme)
+        self.assertNotIn(".zaereo-install/import-ownership.json", release_readme)
+        self.assertIn("tools/run_game.ps1", release_readme)
 
     def test_manual_publisher_fails_before_git_or_github_access(self) -> None:
         pwsh = shutil.which("pwsh")
@@ -229,18 +257,24 @@ class ReleaseSurfaceTests(unittest.TestCase):
             "git push",
             "git tag",
         )
-        allowed_actions = {"actions/checkout@v4", "actions/setup-python@v5"}
+        allowed_actions = {
+            "actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        }
         for name, workflow in workflows.items():
             self.assertIn("contents: read", workflow, name)
             self.assertIn("persist-credentials: false", workflow, name)
             for token in forbidden:
                 self.assertNotIn(token.lower(), workflow.lower(), f"{name}: {token}")
             used_actions = {
-                line.split("uses:", 1)[1].strip()
+                line.split("uses:", 1)[1].split("#", 1)[0].strip()
                 for line in workflow.splitlines()
                 if line.strip().startswith("uses:")
             }
             self.assertLessEqual(used_actions, allowed_actions, name)
+            self.assertTrue(used_actions, name)
+            for action in used_actions:
+                self.assertRegex(action, r"^[^@]+@[0-9a-f]{40}$", name)
 
         package = workflows["package-windows.yml"]
         nightly = workflows["nightly-windows.yml"]
@@ -252,6 +286,15 @@ class ReleaseSurfaceTests(unittest.TestCase):
             self.assertIn("lfs: false", workflow)
         self.assertNotIn("publish_release", nightly)
         self.assertNotIn("push:", stable)
+
+        for path in (
+            "CHANGELOG.md",
+            "LICENSE*",
+            "THIRD_PARTY_NOTICES.md",
+            "docs/provenance/**",
+            ".github/workflows/**",
+        ):
+            self.assertIn(f'      - "{path}"', package)
         self.assertNotIn("publish_release", stable)
 
     def test_release_readme_is_standalone_and_honest(self) -> None:

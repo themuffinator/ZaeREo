@@ -2,28 +2,35 @@
 
 ## Current identity status
 
-The implementation base is a **hash-recorded supplied substrate, not a pinned
-upstream commit**. The project used a locally supplied copy of the Quake II
-Rerelease game-DLL source. Its bytes are identified reproducibly, but the copy
-did not retain Git metadata or a downloaded archive checksum that proves which
-official commit produced it.
+The implementation base is a **hash-recorded supplied substrate with an exact
+official Git content match**. The supplied directory did not retain Git
+metadata, so its historical acquisition commit is unknowable; however, every
+one of its 144 paths and blobs is byte-identical to the `rerelease/` subtree of
+the immutable official commit selected below. That commit is the pinned
+reconstruction baseline for builds and diffs.
 
 | Field | Recorded value |
 | --- | --- |
 | Official project | <https://github.com/id-Software/quake2-rerelease-dll> |
-| Official commit | **Unresolved**; no commit ID has been verified for the supplied tree |
-| Supplied reference location | `E:\_SOURCE\_CODE\quake2-rerelease-dll-main\rerelease` on the audit workstation; evidence only, never a build constant |
-| Acquisition/import date | Not recorded |
+| Selected official commit | `8dc1fc9794c01ece06881e703851b768fb3994de` (`Update 1 changes`, 2023-10-03) |
+| Official `rerelease/` tree | `7c3a380c5114dab4e7b7511a5c9c96390b72a1cd` |
+| Supplied reference location | Private audit-workstation evidence only; resolve a current source input through `Q2_RERELEASE_SOURCE_ROOT` or an explicit audit argument, never a build constant |
+| Original supplied-copy acquisition date | Not recorded; no date is inferred |
+| Official mirror verification date | 2026-07-14 |
 | First ZaeREo identity audit | 2026-07-13 |
-| Normalized identity record | `docs/provenance/baselines.json`, entry `quake2_rerelease` |
+| Normalized identity records | `docs/provenance/baselines.json` entry `quake2_rerelease` and `docs/provenance/upstream-match.json` |
 | Files / bytes | 144 files / 2,635,282 bytes |
 | Aggregate SHA-256 | `74b79d4f853fb521a866aaa5b1510c1c46afb63a73370b907b10143146629bf5` |
 | Aggregate algorithm | SHA-256 of each UTF-8 path, NUL, decimal size, NUL, per-file SHA-256, and LF, ordered by UTF-8 path bytes |
 | License observed | GNU General Public License, version 2.0; retain upstream notices and see `LICENSE` and `THIRD_PARTY_NOTICES.md` |
 
-The directory name ending in `-main`, file timestamps, API version numbers, and
-similarity to the official repository are not commit evidence. Do not describe
-this baseline as pinned until D-002 is closed with a verified official identity.
+`tools/identify_upstream.py` scanned all 191 commits in the acquired official
+mirror. Those commits contain nine distinct `rerelease/` trees; only one tree
+matches the supplied aggregate and it occurs in three commits. The selected
+commit is the exact match at official `refs/heads/main`. The other two are merge
+commits with the same subtree and remain recorded in the normalized report.
+The directory name ending in `-main`, timestamps, API numbers, or similarity
+were not used as evidence.
 
 ## API and data-build compatibility
 
@@ -37,19 +44,22 @@ declares:
 
 The supplied tree includes the base game, CTF, Xatrix, Rogue, and bot sources,
 plus the original Visual Studio project and its `fmt`/`jsoncpp` vcpkg manifest.
-Those facts identify the source interface; they do not identify a particular
-Quake II Rerelease executable or data build. No engine/data-build compatibility
-range is certified yet. Runtime DLL load, stock/expansion smoke tests, and the
-rights-safe base `mapdb.json` merge remain separate roadmap gates.
+Those facts identify the source interface and official DLL source commit; they
+do not identify a particular Quake II Rerelease executable or data build. No
+engine/data-build compatibility range is certified yet. Runtime DLL load,
+stock/expansion smoke tests, and the rights-safe base `mapdb.json` merge remain
+separate roadmap gates.
 
 ## Relationship between the baseline and `src/`
 
 `docs/provenance/baselines.json` describes the untouched supplied reference,
-not the evolving `src/` directory. At this record's initial audit, a mechanical
-comparison found 113 unchanged paths, 30 modified paths, 14 added Zaero-owned
-paths, and the supplied in-tree `vcpkg.json` relocated/replaced by the pinned
-root manifest. This is already an early gameplay integration; it is not the
-minimal Phase-1 substrate diff.
+not the evolving `src/` directory. The current mechanical comparison finds 110
+unchanged paths, 33 modified paths, 34 added Zaero-owned paths, and one removed
+in-tree `vcpkg.json` (replaced by the pinned root manifest). This is already an
+early gameplay integration; it is not the minimal Phase-1 substrate diff. The
+reproducible current comparison and all 68 classified differences are retained in
+`docs/audits/upstream-integration.json`/`.md`; CI rejects an unclassified path or
+a stale classification.
 
 The current patch inventory is organized by integration seam:
 
@@ -65,14 +75,14 @@ The current patch inventory is organized by integration seam:
   monster modules, and shared declarations in `bg_local.h`/`g_local.h`;
 - save/export/version hooks: `g_main.cpp`, `g_save.cpp`, and the project export
   configuration; and
-- Zaero-owned implementations: the fourteen current files under `src/zaero/`.
+- Zaero-owned implementations: the current 34 files under `src/zaero/`.
 
 This inventory is descriptive, not a waiver for broad upstream edits. Regenerate
 and review the exact comparison whenever a hook or baseline changes. The
 roadmap's compatibility ledgers remain authoritative for the behavior and test
 status of each integration.
 
-## Reproducing the supplied-tree identity
+## Reproducing the supplied-tree and official identity
 
 Set the four evidence roots explicitly and regenerate into scratch files first:
 
@@ -84,33 +94,45 @@ python ./tools/audit_source_delta.py `
   --assets-root $env:ZAERO_LEGACY_ROOT `
   --json-output .audit-work/source-delta.json `
   --markdown-output .audit-work/source-delta.md `
-  --baselines-output .audit-work/baselines.json
+  --baselines-output .audit-work/baselines.json `
+  --rerelease-upstream-match docs/provenance/upstream-match.json
+
+git clone --mirror https://github.com/id-Software/quake2-rerelease-dll.git .audit-work/quake2-rerelease-dll.git
+python ./tools/identify_upstream.py `
+  --repository .audit-work/quake2-rerelease-dll.git `
+  --verified-on 2026-07-14 `
+  --json-output .audit-work/upstream-match.json
 ~~~
 
 The `quake2_rerelease` aggregate in the scratch manifest must equal the value
-above before the supplied reference is considered the same input. Review the
-full per-file manifest and case-collision list before replacing a checked-in
-normalized report. A matching aggregate proves byte identity only; it still
-does not prove an official commit.
+above before the supplied reference is considered the same input. The upstream
+matcher then requires every ordered per-file record to match, not merely the
+aggregate. Review both reports and the case-collision list before replacing a
+checked-in normalized record. If the local baseline changes, the baseline
+generator rejects this upstream-match record instead of carrying the old commit
+forward.
 
-## Closing D-002 and refreshing upstream
+## D-002 closure and future upstream refreshes
 
-To close the unresolved identity gate:
+D-002 is closed for identity: the supplied bytes have an exact official
+reconstruction commit and immutable tree. The deterministic substrate
+dependency/SBOM/license evidence is also implemented separately. This does not
+close the remaining Phase 1 clean-clone build, engine-load, stock/expansion
+smoke, or clean-integration-diff gates.
 
-1. acquire the official repository or a publisher-provided archive in an
-   isolated worktree and retain its URL, commit/tag, acquisition date, and
-   archive checksum where applicable;
-2. find and verify the exact official commit corresponding to the supplied
-   144-file tree, or record that no exact official match exists;
-3. record the verified commit/archive identity and pristine comparison location
-   in this file and the machine-readable baseline record;
-4. generate an exact diff from that immutable baseline, classify every existing
-   integration seam, and reconstruct the minimal Phase-1 substrate separately
-   from later gameplay work; and
+For a future upstream refresh:
+
+1. acquire/fetch the official repository in an isolated ignored mirror and
+   retain its URL, selected commit/tag, and verification date;
+2. generate a new per-file baseline and upstream-match report; never overwrite
+   the current pin merely because a branch moved;
+3. generate an exact diff from the immutable old and proposed new baselines and
+   classify every integration seam;
+4. update this record, `baselines.json`, `upstream-match.json`, D-002's migration
+   note, notices, and changelog together; and
 5. run Debug/Release builds, both API export/load checks, stock and expansion
    smoke tests, save checks, dependency/SBOM checks, and the complete applicable
-   repository test suite before accepting a refresh.
+   repository test suite before accepting the refresh.
 
-Update this record, the baseline manifest, D-002, notices, and the changelog as
-one reviewed change. Never overwrite `src/` from a moving branch or infer a pin
-from an archive directory name.
+Never overwrite `src/` from a moving branch or infer a pin from an archive
+directory name.

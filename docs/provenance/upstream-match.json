@@ -1,0 +1,64 @@
+{
+  "baseline": {
+    "file_count": 144,
+    "key": "quake2_rerelease",
+    "total_size": 2635282,
+    "tree_sha256": "74b79d4f853fb521a866aaa5b1510c1c46afb63a73370b907b10143146629bf5"
+  },
+  "exact_matches": [
+    {
+      "author_date": "2023-10-03T22:02:00+03:00",
+      "commit": "0e36c0463f445542f0b2290c85d57e1d386d86b8",
+      "committer_date": "2023-10-03T22:02:00+03:00",
+      "preferred_ref_match": false,
+      "subject": "Merge 38e807223dd11e1b83dd27e7ca28a0f0df9a4fd6 into 8dc1fc9794c01ece06881e703851b768fb3994de",
+      "subtree_tree_oid": "7c3a380c5114dab4e7b7511a5c9c96390b72a1cd"
+    },
+    {
+      "author_date": "2023-10-03T22:01:49+03:00",
+      "commit": "c73948d4d8fb18a2a49dcfb07a702a930a1d5002",
+      "committer_date": "2023-10-03T22:01:49+03:00",
+      "preferred_ref_match": false,
+      "subject": "Merge d5c20c670f8ae070b7815ee8c252f08e16f8dc70 into 8dc1fc9794c01ece06881e703851b768fb3994de",
+      "subtree_tree_oid": "7c3a380c5114dab4e7b7511a5c9c96390b72a1cd"
+    },
+    {
+      "author_date": "2023-10-03T14:43:06-04:00",
+      "commit": "8dc1fc9794c01ece06881e703851b768fb3994de",
+      "committer_date": "2023-10-03T14:43:06-04:00",
+      "preferred_ref_match": true,
+      "subject": "Update 1 changes",
+      "subtree_tree_oid": "7c3a380c5114dab4e7b7511a5c9c96390b72a1cd"
+    }
+  ],
+  "format": "ZaeREo official upstream identity match",
+  "repository": {
+    "origin_url": "https://github.com/id-Software/quake2-rerelease-dll.git",
+    "preferred_commit": "8dc1fc9794c01ece06881e703851b768fb3994de",
+    "preferred_ref": "refs/heads/main",
+    "subtree": "rerelease"
+  },
+  "scan": {
+    "commit_count": 191,
+    "commit_count_with_subtree": 191,
+    "distinct_subtree_tree_count": 9,
+    "exact_commit_count": 3,
+    "exact_tree_count": 1,
+    "size_candidate_tree_count": 1
+  },
+  "schema_version": 1,
+  "selected_match": {
+    "author_date": "2023-10-03T14:43:06-04:00",
+    "commit": "8dc1fc9794c01ece06881e703851b768fb3994de",
+    "committer_date": "2023-10-03T14:43:06-04:00",
+    "preferred_ref_match": true,
+    "selection_rule": "preferred-ref-exact-match",
+    "subject": "Update 1 changes",
+    "subtree_tree_oid": "7c3a380c5114dab4e7b7511a5c9c96390b72a1cd"
+  },
+  "verification": {
+    "match_status": "verified-exact-content-match",
+    "method": "SHA-256 comparison of every baseline path and blob plus the canonical aggregate",
+    "verified_on": "2026-07-14"
+  }
+}

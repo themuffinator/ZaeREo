@@ -36,6 +36,14 @@ SPAWN_ENTRY_RE = re.compile(
 ITEM_CLASSNAME_RE = re.compile(
     r'/\*\s*classname\s*\*/\s*"([^"\r\n]+)"', re.IGNORECASE
 )
+TARGET_REFERENCE_KEYS = (
+    "target",
+    "pathtarget",
+    "deathtarget",
+    "killtarget",
+    "combattarget",
+)
+ACTIVATION_TARGET_KEYS = frozenset(("target", "pathtarget", "deathtarget"))
 
 
 def _resolve_paks(root: Path, arguments: Sequence[str] | None) -> list[Path]:
@@ -173,17 +181,74 @@ def _entity_classname(values: dict[str, list[str]]) -> str:
     return classnames[-1] if classnames else "[missing classname]"
 
 
+def _target_references(
+    entities: Sequence[tuple[str, dict[str, list[str]]]], targetname: str | None
+) -> list[dict[str, Any]]:
+    if not targetname:
+        return []
+    references: list[dict[str, Any]] = []
+    for entity_index, (classname, values) in enumerate(entities):
+        for key in TARGET_REFERENCE_KEYS:
+            for raw_value in values.get(key, []):
+                names = (
+                    raw_value.split(";")
+                    if key == "target" and classname == "func_timer"
+                    else [raw_value]
+                )
+                if targetname not in names:
+                    continue
+                references.append(
+                    {
+                        "activates": key in ACTIVATION_TARGET_KEYS,
+                        "classname": classname,
+                        "entity_index": entity_index,
+                        "key": key,
+                        "value": raw_value,
+                    }
+                )
+    return references
+
+
+def _changelevel_destination(
+    raw_value: str | None, available_maps: set[str]
+) -> dict[str, Any]:
+    if not raw_value:
+        return {
+            "destination_bsp": None,
+            "destination_kind": "missing-value",
+            "destination_present": False,
+        }
+    if "+" in raw_value or raw_value.casefold().endswith((".cin", ".pcx")):
+        return {
+            "destination_bsp": None,
+            "destination_kind": "presentation-chain",
+            "destination_present": None,
+        }
+    map_name = raw_value.lstrip("*").split("$", 1)[0]
+    return {
+        "destination_bsp": f"maps/{map_name}.bsp",
+        "destination_kind": "bsp",
+        "destination_present": map_name.casefold() in available_maps,
+    }
+
+
 def _audit_one_map(source: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
     parsed = parse_bsp_entity_lump(source["data"])
     classname_counts: Counter[str] = Counter()
     key_counts: Counter[str] = Counter()
     value_counts: dict[str, Counter[str]] = defaultdict(Counter)
+    classname_key_counts: dict[str, Counter[str]] = defaultdict(Counter)
+    classname_value_counts: dict[str, dict[str, Counter[str]]] = defaultdict(
+        lambda: defaultdict(Counter)
+    )
     duplicate_keys: list[dict[str, Any]] = []
     semicolon_timers: list[dict[str, Any]] = []
     changelevels: list[dict[str, Any]] = []
+    entity_values: list[tuple[str, dict[str, list[str]]]] = []
     for entity_index, pairs in enumerate(parsed.entities):
         values = pairs_to_multimap(pairs)
         classname = _entity_classname(values)
+        entity_values.append((classname, values))
         classname_counts[classname] += 1
         duplicates = sorted(key for key, items in values.items() if len(items) > 1)
         if duplicates:
@@ -191,6 +256,8 @@ def _audit_one_map(source: dict[str, Any]) -> tuple[dict[str, Any], dict[str, An
         for key, value in pairs:
             key_counts[key] += 1
             value_counts[key][value] += 1
+            classname_key_counts[classname][key] += 1
+            classname_value_counts[classname][key][value] += 1
         if classname == "func_timer":
             for target in values.get("target", []):
                 if ";" in target:
@@ -198,14 +265,31 @@ def _audit_one_map(source: dict[str, Any]) -> tuple[dict[str, Any], dict[str, An
                         {"entity_index": entity_index, "target": target}
                     )
         if classname == "target_changelevel":
+            targetname = values.get("targetname", [None])[-1]
             changelevels.append(
                 {
+                    "activation_reference_count": 0,
                     "entity_index": entity_index,
                     "map": values.get("map", [None])[-1],
+                    "other_reference_count": 0,
                     "spawnpoint": values.get("spawnpoint", [None])[-1],
-                    "targetname": values.get("targetname", [None])[-1],
+                    "target_references": [],
+                    "targetname": targetname,
                 }
             )
+
+    # A target can be defined after its changelevel, so repeat reference
+    # resolution against the complete entity list rather than retaining the
+    # partial result collected during the single-pass inventory.
+    for changelevel in changelevels:
+        references = _target_references(entity_values, changelevel["targetname"])
+        changelevel["activation_reference_count"] = sum(
+            reference["activates"] for reference in references
+        )
+        changelevel["other_reference_count"] = sum(
+            not reference["activates"] for reference in references
+        )
+        changelevel["target_references"] = references
     coop_starts = classname_counts["info_player_coop"]
     deathmatch_starts = classname_counts["info_player_deathmatch"]
     path = source["path"]
@@ -230,6 +314,8 @@ def _audit_one_map(source: dict[str, Any]) -> tuple[dict[str, Any], dict[str, An
     aggregate = {
         "changelevels": changelevels,
         "classnames": classname_counts,
+        "classname_key_counts": classname_key_counts,
+        "classname_value_counts": classname_value_counts,
         "coop_starts": coop_starts,
         "deathmatch_starts": deathmatch_starts,
         "entity_count": len(parsed.entities),
@@ -258,19 +344,35 @@ def build_bsp_report(
     classname_maps: dict[str, set[str]] = defaultdict(set)
     global_keys: Counter[str] = Counter()
     global_values: dict[str, Counter[str]] = defaultdict(Counter)
+    global_classname_keys: dict[str, Counter[str]] = defaultdict(Counter)
+    global_classname_values: dict[str, dict[str, Counter[str]]] = defaultdict(
+        lambda: defaultdict(Counter)
+    )
     all_changelevels: list[dict[str, Any]] = []
     all_timers: list[dict[str, Any]] = []
     total_entities = 0
     total_coop = 0
     total_deathmatch = 0
+    available_maps = {
+        Path(source["path"]).stem.casefold() for source in bsp_sources
+    }
     for source in bsp_sources:
         record, aggregate = _audit_one_map(source)
+        for changelevel in record["changelevels"]:
+            changelevel.update(
+                _changelevel_destination(changelevel["map"], available_maps)
+            )
         map_records.append(record)
         total_entities += aggregate["entity_count"]
         total_coop += aggregate["coop_starts"]
         total_deathmatch += aggregate["deathmatch_starts"]
         global_classnames.update(aggregate["classnames"])
         global_keys.update(aggregate["key_counts"])
+        for classname, keys in aggregate["classname_key_counts"].items():
+            global_classname_keys[classname].update(keys)
+        for classname, keys in aggregate["classname_value_counts"].items():
+            for key, values in keys.items():
+                global_classname_values[classname][key].update(values)
         for key, values in aggregate["value_counts"].items():
             global_values[key].update(values)
         for classname in aggregate["classnames"]:
@@ -291,6 +393,15 @@ def build_bsp_report(
     campaign_count = sum(record["map_kind"] == "campaign" for record in map_records)
     deathmatch_count = len(map_records) - campaign_count
     spawnflags2_counts = _ordered_counts(global_values.get("spawnflags2", Counter()))
+    orphan_changelevels = sum(
+        changelevel["activation_reference_count"] == 0
+        for changelevel in all_changelevels
+    )
+    missing_changelevel_bsps = sum(
+        changelevel["destination_kind"] == "bsp"
+        and not changelevel["destination_present"]
+        for changelevel in all_changelevels
+    )
 
     return {
         "format": "ZaeREo BSP entity audit",
@@ -301,6 +412,18 @@ def build_bsp_report(
                 name: sorted(maps)
                 for name, maps in sorted(
                     classname_maps.items(), key=lambda item: item[0].encode("utf-8")
+                )
+            },
+            "classname_key_counts": {
+                classname: _ordered_counts(keys)
+                for classname, keys in sorted(
+                    global_classname_keys.items(), key=lambda item: item[0].encode("utf-8")
+                )
+            },
+            "classname_value_counts": {
+                classname: _ordered_value_counts(keys)
+                for classname, keys in sorted(
+                    global_classname_values.items(), key=lambda item: item[0].encode("utf-8")
                 )
             },
             "key_counts": _ordered_counts(global_keys),
@@ -329,6 +452,9 @@ def build_bsp_report(
             "deathmatch_start_count": total_deathmatch,
             "entity_count": total_entities,
             "map_count": len(map_records),
+            "missing_changelevel_bsp_count": missing_changelevel_bsps,
+            "orphan_changelevel_count": orphan_changelevels,
+            "target_changelevel_count": len(all_changelevels),
             "target_help_count": global_classnames["target_help"],
             "unique_classname_count": len(global_classnames),
         },
@@ -354,6 +480,9 @@ def bsp_markdown(report: dict[str, Any]) -> str:
         f"| Distinct classnames | {summary['unique_classname_count']} |",
         f"| Co-op starts | {summary['coop_start_count']} |",
         f"| Deathmatch starts | {summary['deathmatch_start_count']} |",
+        f"| Changelevel entities | {summary['target_changelevel_count']} |",
+        f"| Changelevels without activation references | {summary['orphan_changelevel_count']} |",
+        f"| Missing changelevel BSP destinations | {summary['missing_changelevel_bsp_count']} |",
         f"| Rerelease-recognized map classnames | {registry['map_classnames_recognized_count']} |",
         f"| Missing map-facing classnames | {registry['map_classnames_missing_count']} |",
         "",
@@ -382,6 +511,24 @@ def bsp_markdown(report: dict[str, Any]) -> str:
             )
     else:
         lines.append("None.")
+    lines.extend(["", "## Changelevel target closure", ""])
+    lines.extend(
+        [
+            "| Map | Entity | Destination | BSP present | Targetname | Activation references | Other references |",
+            "| --- | ---: | --- | --- | --- | ---: | ---: |",
+        ]
+    )
+    for changelevel in report["global"]["changelevels"]:
+        present = changelevel["destination_present"]
+        present_text = "n/a" if present is None else ("yes" if present else "no")
+        lines.append(
+            f"| `{markdown_cell(changelevel['map_name'])}` | "
+            f"{changelevel['entity_index']} | "
+            f"`{markdown_cell(changelevel['map'])}` | {present_text} | "
+            f"`{markdown_cell(changelevel['targetname'])}` | "
+            f"{changelevel['activation_reference_count']} | "
+            f"{changelevel['other_reference_count']} |"
+        )
     lines.extend(["", "## `spawnflags2` values", ""])
     lines.extend(["| Value | Count |", "| --- | ---: |"]) 
     for value, count in report["global"]["spawnflags2_value_counts"].items():

@@ -11,6 +11,7 @@ hover
 #include "g_local.h"
 #include "m_hover.h"
 #include "m_flash.h"
+#include "zaero/g_zaero_ai.h"
 
 static cached_soundindex sound_pain1;
 static cached_soundindex sound_pain2;
@@ -64,6 +65,25 @@ void hover_dead(edict_t *self);
 void hover_attack(edict_t *self);
 void hover_reattack(edict_t *self);
 void hover_fire_blaster(edict_t *self);
+extern const mmove_t hover_move_attack1;
+
+MONSTERINFO_DODGE(hover_zaero_dodge) (edict_t *self, edict_t *attacker,
+	gtime_t eta, trace_t *tr, bool gravity) -> void
+{
+	(void) attacker;
+	(void) eta;
+	(void) tr;
+	(void) gravity;
+
+	if (!level.is_zaero || !self->classname ||
+		strcmp(self->classname, "monster_hover") != 0)
+		return;
+
+	if (self->monsterinfo.active_move == &hover_move_attack1 && frandom() < 0.75f)
+		return;
+
+	Zaero_BeginHoverFlyStrafe(self);
+}
 
 mframe_t hover_frames_stand[] = {
 	{ ai_stand },
@@ -602,6 +622,8 @@ void SP_monster_hover(edict_t *self)
 	self->monsterinfo.stand = hover_stand;
 	self->monsterinfo.walk = hover_walk;
 	self->monsterinfo.run = hover_run;
+	if (level.is_zaero && strcmp(self->classname, "monster_hover") == 0)
+		self->monsterinfo.dodge = hover_zaero_dodge;
 	self->monsterinfo.attack = hover_start_attack;
 	self->monsterinfo.sight = hover_sight;
 	self->monsterinfo.search = hover_search;

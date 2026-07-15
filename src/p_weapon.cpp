@@ -4,6 +4,7 @@
 
 #include "g_local.h"
 #include "m_player.h"
+#include "zaero/g_zaero_a2k.h"
 #include "zaero/g_zaero_emp.h"
 #include "zaero/g_zaero_sniper.h"
 
@@ -334,6 +335,13 @@ void ChangeWeapon(edict_t *ent)
 		ent->client->newweapon != ent->client->pers.weapon)
 	{
 		Zaero_SniperClearClientState(ent);
+	}
+
+	if (ent->client->pers.weapon &&
+		ent->client->pers.weapon->id == IT_AMMO_A2K &&
+		ent->client->newweapon != ent->client->pers.weapon)
+	{
+		Zaero_A2KClearClientState(ent);
 	}
 
 	if (ent->client->pers.weapon)

@@ -8,6 +8,7 @@ param(
     [string]$ZaeroLegacyRoot = "",
     [string]$ImportedContentRoot = "",
     [string]$AssetManifest = "",
+    [string]$VcpkgInstalledRoot = "",
     [string]$DistRoot = "",
     [string]$ArtifactLabel = "",
     [switch]$SkipBuild,
@@ -18,6 +19,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
+. (Join-Path $PSScriptRoot "zaereo_paths.ps1")
 
 function Get-FullPath {
     param([Parameter(Mandatory = $true)][string]$Path, [string]$Base = "")
@@ -72,22 +74,12 @@ function Invoke-PythonTool {
 
 function Get-LocalConfiguration {
     param([string]$WorkspacePath)
-    $path = Join-Path $WorkspacePath ".zaereo.local.json"
-    if (-not (Test-Path -LiteralPath $path -PathType Leaf)) { return $null }
-    try { return (Get-Content -LiteralPath $path -Raw | ConvertFrom-Json) }
-    catch { throw "Could not parse '$path': $($_.Exception.Message)" }
+    return Get-ZaeREoLocalConfiguration $WorkspacePath
 }
 
 function Get-ConfigString {
     param([object]$Configuration, [string[]]$Names)
-    if ($null -eq $Configuration) { return "" }
-    foreach ($name in $Names) {
-        $property = $Configuration.PSObject.Properties[$name]
-        if ($null -ne $property -and $property.Value -is [string] -and $property.Value.Trim()) {
-            return $property.Value.Trim()
-        }
-    }
-    return ""
+    return Get-ZaeREoConfigurationValue $Configuration $Names
 }
 
 function Resolve-PathByPrecedence {
@@ -100,23 +92,22 @@ function Resolve-PathByPrecedence {
         [string]$Discovery,
         [string]$Description
     )
-    if ($Explicit.Trim()) {
-        $value = $Explicit; $source = "explicit parameter"
+    $safeDiscovery = $null
+    if ($Discovery) {
+        $discoveryPath = $Discovery
+        $safeDiscovery = {
+            if (Test-Path -LiteralPath $discoveryPath) { $discoveryPath } else { "" }
+        }.GetNewClosure()
     }
-    elseif ([Environment]::GetEnvironmentVariable($EnvironmentName)) {
-        $value = [Environment]::GetEnvironmentVariable($EnvironmentName); $source = $EnvironmentName
-    }
-    else {
-        $value = Get-ConfigString $Configuration $ConfigNames
-        $source = ".zaereo.local.json"
-        if (-not $value -and $Discovery -and (Test-Path -LiteralPath $Discovery)) {
-            $value = $Discovery; $source = "safe read-only discovery"
-        }
-    }
-    if (-not $value) { return "" }
-    $resolved = Get-FullPath $value $WorkspacePath
-    Write-Host "$Description resolved from ${source}: $resolved"
-    return $resolved
+    $environmentNames = if ($EnvironmentName) { @($EnvironmentName) } else { @() }
+    return Resolve-ZaeREoPath `
+        -ExplicitValue $Explicit `
+        -EnvironmentNames $environmentNames `
+        -Configuration $Configuration `
+        -ConfigurationNames $ConfigNames `
+        -WorkspacePath $WorkspacePath `
+        -Discovery $safeDiscovery `
+        -Description $Description
 }
 
 function Get-SafeDestination {
@@ -153,6 +144,23 @@ function Copy-TreeFiles {
     }
 }
 
+function Assert-NoTreeCollisions {
+    param([string]$FirstRoot, [string]$SecondRoot, [string]$Description)
+
+    $first = Get-FullPath $FirstRoot
+    $second = Get-FullPath $SecondRoot
+    foreach ($file in Get-ChildItem -LiteralPath $second -File -Recurse -Force) {
+        if ($file.Attributes -band [IO.FileAttributes]::ReparsePoint) {
+            throw "Refusing to inspect a reparse point: $($file.FullName)"
+        }
+        $relative = [IO.Path]::GetRelativePath($second, $file.FullName)
+        $candidate = Get-SafeDestination $first $relative
+        if (Test-Path -LiteralPath $candidate -PathType Leaf) {
+            throw "$Description has an ownership collision at $relative"
+        }
+    }
+}
+
 function Write-Utf8NoBom {
     param([string]$Path, [string]$Content)
     [IO.File]::WriteAllText($Path, $Content.Replace("`r`n", "`n"), [Text.UTF8Encoding]::new($false))
@@ -185,6 +193,11 @@ if ($version -notmatch '^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(?:-[0
     throw "VERSION is not a supported semantic version: '$version'"
 }
 $commit = Get-GitOutput $workspacePath @("rev-parse", "HEAD")
+$sourceDateEpochText = Get-GitOutput $workspacePath @("show", "-s", "--format=%ct", $commit)
+[long]$sourceDateEpoch = 0
+if (-not [long]::TryParse($sourceDateEpochText, [ref]$sourceDateEpoch) -or $sourceDateEpoch -lt 0) {
+    throw "Git commit has an invalid source date epoch: '$sourceDateEpochText'"
+}
 $status = Get-GitOutput $workspacePath @("status", "--porcelain=v1", "--untracked-files=all")
 $isDirty = [bool]$status
 if ($isDirty -and -not $AllowDirty) {
@@ -217,15 +230,20 @@ $validateTool = Join-Path $workspacePath "tools\validate_runtime.py"
 $pakTool = Join-Path $workspacePath "tools\make_pak.py"
 $zipTool = Join-Path $workspacePath "tools\make_release_zip.py"
 $manifestTool = Join-Path $workspacePath "tools\release_manifest.py"
+$collectLicensesTool = Join-Path $workspacePath "tools\collect_licenses.py"
+$generateSbomTool = Join-Path $workspacePath "tools\generate_sbom.py"
+$dependencyPolicy = Join-Path $workspacePath "docs\provenance\dependency-policy.json"
 $completeImporterTool = Join-Path $workspacePath "tools\complete_importer_kit.ps1"
 $packSource = Join-Path $workspacePath "pack"
 $readmeSource = Join-Path $workspacePath "docs\release-readme.html"
 $noticesSource = Join-Path $workspacePath "THIRD_PARTY_NOTICES.md"
 $licenseSource = Join-Path $workspacePath "LICENSE"
+$licenseScopeSource = Join-Path $workspacePath "LICENSE_SCOPE.md"
 foreach ($required in @(
     $buildTool, $verifyBinaryTool, $checkProjectTool, $importTool, $validateTool,
     $pakTool, $zipTool, $manifestTool, $completeImporterTool, $packSource,
-    $readmeSource, $noticesSource, $licenseSource
+    $readmeSource, $noticesSource, $licenseSource, $licenseScopeSource,
+    $collectLicensesTool, $generateSbomTool, $dependencyPolicy
 )) {
     if (-not (Test-Path -LiteralPath $required)) { throw "Required packaging input is missing: $required" }
 }
@@ -233,9 +251,10 @@ foreach ($required in @(
 $stageContainer = Join-Path $distPath "stage\windows-x64\$ArtifactLabel\$DistributionMode"
 $stagePath = Join-Path $stageContainer "zaereo"
 $workContainer = Join-Path $distPath "work\windows-x64\$ArtifactLabel\$DistributionMode"
-$contentWork = Join-Path $workContainer "content"
+$projectWork = Join-Path $workContainer "project"
 $importWork = Join-Path $workContainer "verified-import"
 $importManifest = Join-Path $workContainer "verified-import-asset-manifest.json"
+$licenseWork = Join-Path $workContainer "dependency-evidence"
 $binaryPath = Join-Path $workspacePath "build\Release\game_x64.dll"
 $pdbPath = Join-Path $workspacePath "build\Release\game_x64.pdb"
 
@@ -333,6 +352,15 @@ if (-not $SkipBuild) {
 if (-not (Test-Path -LiteralPath $binaryPath -PathType Leaf)) {
     throw "Release game DLL was not found: $binaryPath"
 }
+$vcpkgInstalledPath = if ($VcpkgInstalledRoot.Trim()) {
+    Get-FullPath $VcpkgInstalledRoot $workspacePath
+}
+else {
+    Join-Path $workspacePath "vcpkg_installed"
+}
+if (-not (Test-Path -LiteralPath $vcpkgInstalledPath -PathType Container)) {
+    throw "Pinned vcpkg installed tree was not found: $vcpkgInstalledPath"
+}
 
 if (-not $SkipTests) {
     Invoke-PythonTool $python $checkProjectTool @()
@@ -346,7 +374,22 @@ if (-not $SkipTests) {
 
 New-Item -ItemType Directory -Path $distPath -Force | Out-Null
 Reset-OwnedDirectory $distPath $workContainer
-New-Item -ItemType Directory -Path $contentWork -Force | Out-Null
+New-Item -ItemType Directory -Path $projectWork -Force | Out-Null
+Invoke-PythonTool $python $collectLicensesTool @(
+    "--policy", $dependencyPolicy,
+    "--installed-root", $vcpkgInstalledPath,
+    "--output", $licenseWork,
+    "--source-date-epoch", [string]$sourceDateEpoch
+)
+$sbomWork = Join-Path $licenseWork "SBOM.spdx.json"
+$sbomNamespace = "https://zaereo.invalid/sbom/$version/$commit/$DistributionMode/$sourceDateEpoch"
+Invoke-PythonTool $python $generateSbomTool @(
+    "--policy", $dependencyPolicy,
+    "--license-manifest", (Join-Path $licenseWork "LICENSE-MANIFEST.json"),
+    "--output", $sbomWork,
+    "--document-name", "ZaeREo $version $DistributionMode Windows x64 SBOM",
+    "--document-namespace", $sbomNamespace
+)
 if ($DistributionMode -eq "local-full") {
     if ($resolvedLegacy) {
         Invoke-PythonTool $python $importTool @(
@@ -362,9 +405,14 @@ if ($DistributionMode -eq "local-full") {
             "--strict"
         )
     }
-    Copy-TreeFiles $resolvedContent $contentWork
+    if (-not $resolvedLegacy) {
+        Copy-TreeFiles $resolvedContent $importWork
+    }
 }
-Copy-TreeFiles $packSource $contentWork @("README.md")
+Copy-TreeFiles $packSource $projectWork @("README.md")
+if ($DistributionMode -eq "local-full") {
+    Assert-NoTreeCollisions $projectWork $importWork "Project/import runtime content"
+}
 
 $loosePaths = @()
 if ($DistributionMode -eq "local-full") {
@@ -381,6 +429,8 @@ Copy-Item -LiteralPath $binaryPath -Destination (Join-Path $stagePath "game_x64.
 Copy-Item -LiteralPath $readmeSource -Destination (Join-Path $stagePath "README.html") -Force
 Copy-Item -LiteralPath $noticesSource -Destination (Join-Path $stagePath "THIRD_PARTY_NOTICES.md") -Force
 Copy-Item -LiteralPath $licenseSource -Destination (Join-Path $stagePath "LICENSE.txt") -Force
+Copy-Item -LiteralPath $licenseScopeSource -Destination (Join-Path $stagePath "LICENSE_SCOPE.md") -Force
+Copy-TreeFiles $licenseWork $stagePath
 
 $metadata = [ordered]@{
     schema_version = 1
@@ -394,6 +444,10 @@ $metadata = [ordered]@{
     platform = "windows-x64"
     distribution_mode = $DistributionMode
     artifact_label = $ArtifactLabel
+    source_date_epoch = $sourceDateEpoch
+    dependency_policy = "zaereo-windows-x64-substrate-dependencies@1"
+    sbom = "SBOM.spdx.json"
+    license_manifest = "LICENSE-MANIFEST.json"
     publication_eligible = $false
     publication_block_reason = "Gameplay-tree remote publication is disabled until the machine-readable distribution policy and readiness gate are implemented and verified."
 }
@@ -408,29 +462,83 @@ $versionText = @(
 ) -join "`n"
 Write-Utf8NoBom (Join-Path $stagePath "VERSION.txt") ($versionText + "`n")
 
-$firstPak = Join-Path $workContainer "pak0-first.pak"
-$secondPak = Join-Path $stagePath "pak0.pak"
-$pakArguments = @($contentWork, $firstPak)
-foreach ($relative in $loosePaths) { $pakArguments += @("--exclude", [string]$relative) }
-Invoke-PythonTool $python $pakTool $pakArguments
-$pakArguments[1] = $secondPak
-Invoke-PythonTool $python $pakTool $pakArguments
-$firstPakHash = (Get-FileHash -LiteralPath $firstPak -Algorithm SHA256).Hash.ToLowerInvariant()
-$secondPakHash = (Get-FileHash -LiteralPath $secondPak -Algorithm SHA256).Hash.ToLowerInvariant()
-if ($firstPakHash -ne $secondPakHash) {
-    throw "PAK determinism check failed: $firstPakHash != $secondPakHash"
-}
-Invoke-PythonTool $python $validateTool @("--pak", $secondPak)
+function New-DeterministicPak {
+    param(
+        [string]$SourceRoot,
+        [string]$PakName,
+        [string[]]$ExcludeRelative = @()
+    )
 
-foreach ($relative in $loosePaths) {
-    $source = Get-SafeDestination $contentWork ([string]$relative).Replace("/", "\")
-    if (-not (Test-Path -LiteralPath $source -PathType Leaf)) {
-        throw "Required loose runtime asset is missing: $relative"
+    $firstPak = Join-Path $workContainer "$PakName-first.pak"
+    $secondPak = Join-Path $stagePath $PakName
+    $pakArguments = @($SourceRoot, $firstPak)
+    foreach ($relative in $ExcludeRelative) { $pakArguments += @("--exclude", [string]$relative) }
+    Invoke-PythonTool $python $pakTool $pakArguments
+    $pakArguments[1] = $secondPak
+    Invoke-PythonTool $python $pakTool $pakArguments
+    $firstPakHash = (Get-FileHash -LiteralPath $firstPak -Algorithm SHA256).Hash.ToLowerInvariant()
+    $secondPakHash = (Get-FileHash -LiteralPath $secondPak -Algorithm SHA256).Hash.ToLowerInvariant()
+    if ($firstPakHash -ne $secondPakHash) {
+        throw "$PakName determinism check failed: $firstPakHash != $secondPakHash"
     }
-    $target = Get-SafeDestination $stagePath ([string]$relative).Replace("/", "\")
-    New-Item -ItemType Directory -Path (Split-Path -Parent $target) -Force | Out-Null
-    Copy-Item -LiteralPath $source -Destination $target -Force
+    Invoke-PythonTool $python $validateTool @("--pak", $secondPak)
 }
+
+New-DeterministicPak $projectWork "pak0.pak"
+if ($DistributionMode -eq "local-full") {
+    New-DeterministicPak $importWork "pak1.pak" $loosePaths
+    foreach ($relative in $loosePaths) {
+        $source = Get-SafeDestination $importWork ([string]$relative).Replace("/", "\")
+        if (-not (Test-Path -LiteralPath $source -PathType Leaf)) {
+            throw "Required loose runtime asset is missing: $relative"
+        }
+        $target = Get-SafeDestination $stagePath ([string]$relative).Replace("/", "\")
+        New-Item -ItemType Directory -Path (Split-Path -Parent $target) -Force | Out-Null
+        Copy-Item -LiteralPath $source -Destination $target -Force
+    }
+    Invoke-PythonTool $python $validateTool @(
+        "--stage", $stagePath,
+        "--manifest", $resolvedAssetManifest
+    )
+}
+
+$runtimeOwnership = [ordered]@{
+    schema_version = 1
+    product = "ZaeREo runtime ownership"
+    distribution_mode = $DistributionMode
+    layers = @(
+        [ordered]@{
+            path = "pak0.pak"
+            owner = "project"
+            sha256 = (Get-FileHash -LiteralPath (Join-Path $stagePath "pak0.pak") -Algorithm SHA256).Hash.ToLowerInvariant()
+        }
+    )
+    generated_files = @(
+        [ordered]@{
+            path = "game_x64.dll"
+            sha256 = (Get-FileHash -LiteralPath (Join-Path $stagePath "game_x64.dll") -Algorithm SHA256).Hash.ToLowerInvariant()
+        }
+    )
+}
+if ($DistributionMode -eq "local-full") {
+    $importedFiles = [Collections.Generic.List[object]]::new()
+    $importedFiles.Add([ordered]@{
+        path = "pak1.pak"
+        owner = "imported"
+        sha256 = (Get-FileHash -LiteralPath (Join-Path $stagePath "pak1.pak") -Algorithm SHA256).Hash.ToLowerInvariant()
+    })
+    foreach ($relative in $loosePaths) {
+        $stagedLoose = Get-SafeDestination $stagePath ([string]$relative).Replace("/", "\\")
+        $importedFiles.Add([ordered]@{
+            path = ([string]$relative).Replace("\\", "/")
+            owner = "imported-loose"
+            sha256 = (Get-FileHash -LiteralPath $stagedLoose -Algorithm SHA256).Hash.ToLowerInvariant()
+        })
+    }
+    $runtimeOwnership.layers += @($importedFiles)
+    $runtimeOwnership.import_manifest_sha256 = (Get-FileHash -LiteralPath $resolvedAssetManifest -Algorithm SHA256).Hash.ToLowerInvariant()
+}
+Write-Utf8NoBom (Join-Path $stagePath "RUNTIME-OWNERSHIP.json") (($runtimeOwnership | ConvertTo-Json -Depth 6) + "`n")
 
 if ($DistributionMode -eq "importer-kit") {
     $toolStage = Join-Path $stagePath "tools"

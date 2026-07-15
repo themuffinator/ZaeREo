@@ -3,8 +3,13 @@
 
 #include "g_local.h"
 #include "zaero/g_zaero_autocannon.h"
+#include "zaero/g_zaero_dm.h"
 #include "zaero/g_zaero_entities.h"
+#include "zaero/g_zaero_handler.h"
 #include "zaero/g_zaero_ired.h"
+#include "zaero/g_zaero_hound.h"
+#include "zaero/g_zaero_sentien.h"
+#include "zaero/g_zaero_zboss.h"
 
 struct spawn_t
 {
@@ -349,6 +354,11 @@ static const std::initializer_list<spawn_t> spawns = {
 	{ "misc_ired", SP_misc_ired },
 	{ "monster_autocannon", SP_monster_autocannon },
 	{ "monster_autocannon_floor", SP_monster_autocannon_floor },
+	{ "monster_handler", SP_monster_handler },
+	{ "monster_hound", SP_monster_hound },
+	{ "monster_sentien", SP_monster_sentien },
+	{ "monster_zboss", SP_monster_zboss },
+	{ "target_zboss_target", SP_target_zboss_target },
 
 	{ "monster_berserk", SP_monster_berserk },
 	{ "monster_gladiator", SP_monster_gladiator },
@@ -1009,7 +1019,8 @@ void G_FixTeams()
 			continue;
 		if (!e->team)
 			continue;
-		if (!strcmp(e->classname, "func_train") && e->spawnflags.has(SPAWNFLAG_TRAIN_MOVE_TEAMCHAIN))
+		if (!level.is_zaero && !strcmp(e->classname, "func_train") &&
+			e->spawnflags.has(SPAWNFLAG_TRAIN_MOVE_TEAMCHAIN))
 		{
 			if (e->flags & FL_TEAMSLAVE)
 			{
@@ -1310,6 +1321,7 @@ void SpawnEntities(const char *mapname, const char *entities, const char *spawnp
 	G_PrecacheInventoryItems();
 
 	G_FindTeams();
+	Zaero_SpawnDeathmatchItems();
 
 	// ZOID
 	CTFSpawn();
@@ -1377,6 +1389,24 @@ static void G_InitStatusbar()
 
 	// help / weapon icon
 	sb.ifstat(STAT_HELPICON).xv(150).pic(STAT_HELPICON).endifstat();
+
+	// Zaero production coordinate display. Use private non-colliding stats but
+	// retain the source's left alignment, vertical positions and five columns.
+	sb.ifstat(STAT_ZAERO_SHOW_ORIGIN)
+		.xl(0).yb(-120).num(5, STAT_ZAERO_ORIGIN_X)
+		.yb(-96).num(5, STAT_ZAERO_ORIGIN_Y)
+		.yb(-72).num(5, STAT_ZAERO_ORIGIN_Z)
+		.endifstat();
+
+	// Zaero Visor tracking overlay. Private per-client stats keep simultaneous
+	// local/split-screen views isolated without commandeering scoreboard state.
+	sb.ifstat(STAT_ZAERO_CAMERA_ICON)
+		.ifstat(STAT_ZAERO_CAMERA_LABEL)
+			.xv(26).yb(-75).string("Tracking ").stat_string(STAT_ZAERO_CAMERA_LABEL)
+		.endifstat()
+		.xv(246).num(3, STAT_ZAERO_CAMERA_TIMER)
+		.xv(296).pic(STAT_ZAERO_CAMERA_ICON)
+		.endifstat();
 
 	// ---- gamemode-specific stuff ----
 	if (!deathmatch->integer)
@@ -1470,6 +1500,46 @@ static void G_InitStatusbar()
 	gi.configstring(CS_STATUSBAR, sb.sb.str().c_str());
 }
 
+static const char *G_ZaeroWorldMusic(const int32_t track)
+{
+	// Zaero authored classic CD track numbers. Rerelease's own maps use the
+	// same numeric CS_CDTRACK contract and its licensed soundtrack begins at
+	// track02. Preserve track 1 as the silence it produced on the data track;
+	// never require or redistribute a Zaero soundtrack.
+	switch (track)
+	{
+	case 0:
+		return "0";
+	case 1:
+		gi.Com_PrintFmt("Zaero map {} requests unavailable CD track 1; using silence.\n", level.mapname);
+		return "0";
+	case 2:
+		return "2";
+	case 3:
+		return "3";
+	case 4:
+		return "4";
+	case 5:
+		return "5";
+	case 6:
+		return "6";
+	case 7:
+		return "7";
+	case 8:
+		return "8";
+	case 9:
+		return "9";
+	case 10:
+		return "10";
+	case 11:
+		return "11";
+	default:
+		gi.Com_PrintFmt("Zaero map {} requests unsupported CD track {}; expected 1-11, using silence.\n",
+			level.mapname, track);
+		return "0";
+	}
+}
+
 
 /*QUAKED worldspawn (0 0 0) ?
 
@@ -1537,6 +1607,10 @@ void SP_worldspawn(edict_t *ent)
 	if (st.music && st.music[0])
 	{
 		gi.configstring(CS_CDTRACK, st.music);
+	}
+	else if (level.is_zaero)
+	{
+		gi.configstring(CS_CDTRACK, G_ZaeroWorldMusic(ent->sounds));
 	}
 	else
 	{

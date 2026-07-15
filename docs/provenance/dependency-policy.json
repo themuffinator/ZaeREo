@@ -1,0 +1,106 @@
+{
+  "$schema": "schemas/dependency-policy.schema.json",
+  "schema": "zaereo.dependency-policy/v1",
+  "policy_id": "zaereo-windows-x64-substrate-dependencies",
+  "revision": 1,
+  "vcpkg": {
+    "manifest": "vcpkg.json",
+    "builtin_baseline": "4334d8b4c8916018600212ab4dd4bbdc343065d1",
+    "status_file": "vcpkg/status"
+  },
+  "spdx": {
+    "version": "SPDX-2.3",
+    "data_license": "CC0-1.0",
+    "schema_path": "docs/provenance/schemas/spdx-schema-2.3.json",
+    "schema_sha256": "239208b7ac287b3cf5d9a9af23f9d69863971102a5e1587a27a398b43490b89b",
+    "generator": "ZaeREo generate_sbom.py",
+    "generator_version": "1.0.0"
+  },
+  "project": {
+    "name": "Quake II Rerelease game DLL substrate",
+    "spdx_id": "SPDXRef-QuakeIIRereleaseSubstrate",
+    "official_repository": "https://github.com/id-Software/quake2-rerelease-dll",
+    "official_commit": "8dc1fc9794c01ece06881e703851b768fb3994de",
+    "license_concluded": "GPL-2.0-only",
+    "license_declared": "GPL-2.0-only",
+    "copyright_text": "NOASSERTION"
+  },
+  "packages": [
+    {
+      "name": "fmt",
+      "version": "11.2.0",
+      "architecture": "x64-windows-static",
+      "spdx_id": "SPDXRef-Package-fmt",
+      "role": "runtime-static",
+      "direct": true,
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "copyright_path": "x64-windows-static/share/fmt/copyright",
+      "copyright_sha256": "07580f2a3b35709ce703d523f447b242f6dfec7582a8c0df102c7fa2849375f8",
+      "license_filename": "fmt-11.2.0.txt"
+    },
+    {
+      "name": "jsoncpp",
+      "version": "1.9.6",
+      "architecture": "x64-windows-static",
+      "spdx_id": "SPDXRef-Package-jsoncpp",
+      "role": "runtime-static",
+      "direct": true,
+      "license_concluded": "MIT",
+      "license_declared": "MIT OR LicenseRef-Public-Domain",
+      "copyright_path": "x64-windows-static/share/jsoncpp/copyright",
+      "copyright_sha256": "cec0db5f6d7ed6b3a72647bd50aed02e13c3377fd44382b96dc2915534c042ad",
+      "license_filename": "jsoncpp-1.9.6.txt"
+    },
+    {
+      "name": "vcpkg-cmake",
+      "version": "2024-04-23",
+      "architecture": "x64-windows",
+      "spdx_id": "SPDXRef-Package-vcpkg-cmake",
+      "role": "build-only",
+      "direct": false,
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "copyright_path": "x64-windows/share/vcpkg-cmake/copyright",
+      "copyright_sha256": "1ee376fc340e0aa6ad6a3581c94126e741468705096ac92263048a21daa86460",
+      "license_filename": "vcpkg-cmake-2024-04-23.txt"
+    },
+    {
+      "name": "vcpkg-cmake-config",
+      "version": "2024-05-23",
+      "architecture": "x64-windows",
+      "spdx_id": "SPDXRef-Package-vcpkg-cmake-config",
+      "role": "build-only",
+      "direct": false,
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "copyright_path": "x64-windows/share/vcpkg-cmake-config/copyright",
+      "copyright_sha256": "04b60f99a43bfd7fefdc8364b24aac704a2160cef969b75ba6a38b62dc4c4b70",
+      "license_filename": "vcpkg-cmake-config-2024-05-23.txt"
+    }
+  ],
+  "toolchain_components": [
+    {
+      "name": "Microsoft Visual C++ compiler",
+      "version": "19.44.35222",
+      "spdx_id": "SPDXRef-Toolchain-MSVC",
+      "supplier": "Organization: Microsoft Corporation",
+      "role": "compiler",
+      "linkage": "build-tool",
+      "license_concluded": "NOASSERTION",
+      "license_declared": "NOASSERTION",
+      "scope_status": "engineering-record-only"
+    },
+    {
+      "name": "Microsoft Visual C++ static runtime",
+      "version": "14.44.35207",
+      "spdx_id": "SPDXRef-Toolchain-MSVC-Static-Runtime",
+      "supplier": "Organization: Microsoft Corporation",
+      "role": "runtime-library",
+      "linkage": "static",
+      "license_concluded": "NOASSERTION",
+      "license_declared": "NOASSERTION",
+      "scope_status": "engineering-record-only"
+    }
+  ]
+}

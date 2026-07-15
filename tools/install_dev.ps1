@@ -6,6 +6,7 @@ param(
     [string]$GameRoot = "",
     [string]$ContentRoot = "",
     [string]$AssetManifest = "",
+    [string]$RuntimeFixtureRoot = "",
     [ValidateSet("Debug", "Release")]
     [string]$Configuration = "Debug",
     [switch]$SkipBuild,
@@ -109,6 +110,23 @@ function Copy-TreeFiles {
         $target = Get-SafeRelativePath $relative $destinationPath
         New-Item -ItemType Directory -Path (Split-Path -Parent $target) -Force | Out-Null
         Copy-Item -LiteralPath $file.FullName -Destination $target -Force
+    }
+}
+
+function Assert-NoTreeCollisions {
+    param([string]$FirstRoot, [string]$SecondRoot, [string]$Description)
+
+    $first = Get-ZaeREoFullPath $FirstRoot
+    $second = Get-ZaeREoFullPath $SecondRoot
+    foreach ($file in Get-ChildItem -LiteralPath $second -File -Recurse -Force) {
+        if ($file.Attributes -band [IO.FileAttributes]::ReparsePoint) {
+            throw "Refusing to inspect a reparse point: $($file.FullName)"
+        }
+        $relative = [IO.Path]::GetRelativePath($second, $file.FullName)
+        $candidate = Get-SafeRelativePath $relative $first
+        if (Test-Path -LiteralPath $candidate -PathType Leaf) {
+            throw "$Description has an ownership collision at $relative"
+        }
     }
 }
 
@@ -239,6 +257,44 @@ foreach ($required in @($validateTool, $pakTool, $buildTool, $packSource)) {
     }
 }
 
+$runtimeFixturePath = ""
+$runtimeFixtureFiles = @()
+if ($RuntimeFixtureRoot.Trim()) {
+    $ownedFixtureRoot = Join-Path $workspacePath ".install\runtime-fixtures"
+    $runtimeFixturePath = Get-ZaeREoFullPath $RuntimeFixtureRoot $workspacePath
+    [void](Assert-StrictChildPath $ownedFixtureRoot $runtimeFixturePath "runtime fixture root")
+    if (-not (Test-Path -LiteralPath $runtimeFixturePath -PathType Container)) {
+        throw "Runtime fixture root does not exist: $runtimeFixturePath"
+    }
+    $fixtureRootItem = Get-Item -LiteralPath $runtimeFixturePath -Force
+    if ($fixtureRootItem.Attributes -band [IO.FileAttributes]::ReparsePoint) {
+        throw "Runtime fixture root cannot be a reparse point: $runtimeFixturePath"
+    }
+    foreach ($directory in Get-ChildItem -LiteralPath $runtimeFixturePath -Directory -Recurse -Force) {
+        if ($directory.Attributes -band [IO.FileAttributes]::ReparsePoint) {
+            throw "Runtime fixture contains a reparse-point directory: $($directory.FullName)"
+        }
+    }
+    $runtimeFixtureFiles = @(Get-ChildItem -LiteralPath $runtimeFixturePath -File -Recurse -Force)
+    if (-not $runtimeFixtureFiles.Count) {
+        throw "Runtime fixture root contains no files: $runtimeFixturePath"
+    }
+    foreach ($file in $runtimeFixtureFiles) {
+        if ($file.Attributes -band [IO.FileAttributes]::ReparsePoint) {
+            throw "Runtime fixture contains a reparse point: $($file.FullName)"
+        }
+        $relative = [IO.Path]::GetRelativePath($runtimeFixturePath, $file.FullName).Replace("\", "/")
+        if ($relative -cnotmatch '^maps/zaereo_fixture_[a-z0-9_]+\.bsp$') {
+            throw "Runtime fixtures may contain only maps/zaereo_fixture_[a-z0-9_]+.bsp: $relative"
+        }
+        foreach ($baseRoot in @($contentPath, $packSource)) {
+            if (Test-Path -LiteralPath (Join-Path $baseRoot $relative) -PathType Leaf) {
+                throw "Runtime fixture refuses to replace existing content: $relative"
+            }
+        }
+    }
+}
+
 Write-Host "Validating imported content and retail provenance manifest..."
 Invoke-PythonTool $python $validateTool @(
     "--root", $contentPath,
@@ -260,13 +316,18 @@ if (-not $WhatIfPreference -and -not (Test-Path -LiteralPath $binaryPath -PathTy
 
 $installRoot = Join-Path $workspacePath ".install"
 $workRoot = Join-Path $installRoot "dev-work"
-$contentWork = Join-Path $workRoot "content"
+$importWork = Join-Path $workRoot "imported"
+$projectWork = Join-Path $workRoot "project"
+$fixtureWork = Join-Path $workRoot "fixtures"
 $stagePath = Join-Path $installRoot "zaereo"
 $targetPath = $installRoots.TargetPath
 [void](Assert-StrictChildPath $userRootPath $targetPath "mod install target")
 
 if ($WhatIfPreference) {
-    Write-Host "WhatIf plan: merge verified imported content with repository pack content."
+    Write-Host "WhatIf plan: stage project-owned pak0.pak beside importer-owned pak1.pak."
+    if ($runtimeFixturePath) {
+        Write-Host "WhatIf plan: add $($runtimeFixtureFiles.Count) private generated runtime fixture BSP(s) in pak2.pak from $runtimeFixturePath."
+    }
     Write-Host "WhatIf plan: stage $binaryPath and runtime content at $stagePath."
     Write-Host "WhatIf plan: install only managed files into $targetPath."
     return
@@ -275,9 +336,19 @@ if ($WhatIfPreference) {
 if ($PSCmdlet.ShouldProcess($workRoot, "Recreate owned developer work directory")) {
     New-Item -ItemType Directory -Path $installRoot -Force | Out-Null
     Reset-OwnedDirectory $installRoot $workRoot
-    New-Item -ItemType Directory -Path $contentWork -Force | Out-Null
-    Copy-TreeFiles $contentPath $contentWork
-    Copy-TreeFiles $packSource $contentWork @("README.md")
+    New-Item -ItemType Directory -Path $importWork -Force | Out-Null
+    New-Item -ItemType Directory -Path $projectWork -Force | Out-Null
+    Copy-TreeFiles $contentPath $importWork
+    Copy-TreeFiles $packSource $projectWork @("README.md")
+    if ($runtimeFixturePath) {
+        New-Item -ItemType Directory -Path $fixtureWork -Force | Out-Null
+        Copy-TreeFiles $runtimeFixturePath $fixtureWork
+    }
+    Assert-NoTreeCollisions $projectWork $importWork "Project/import runtime content"
+    if ($runtimeFixturePath) {
+        Assert-NoTreeCollisions $projectWork $fixtureWork "Project/runtime fixture content"
+        Assert-NoTreeCollisions $importWork $fixtureWork "Import/runtime fixture content"
+    }
 }
 
 $assetData = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
@@ -290,16 +361,21 @@ if ($PSCmdlet.ShouldProcess($stagePath, "Recreate owned developer stage")) {
     Reset-OwnedDirectory $installRoot $stagePath
     Copy-Item -LiteralPath $binaryPath -Destination (Join-Path $stagePath "game_x64.dll") -Force
     if ($NoPak) {
-        Copy-TreeFiles $contentWork $stagePath
+        Copy-TreeFiles $projectWork $stagePath
+        Copy-TreeFiles $importWork $stagePath
+        if ($runtimeFixturePath) {
+            Copy-TreeFiles $fixtureWork $stagePath
+        }
     }
     else {
-        $pakArguments = @($contentWork, (Join-Path $stagePath "pak0.pak"))
+        Invoke-PythonTool $python $pakTool @($projectWork, (Join-Path $stagePath "pak0.pak"))
+        $pakArguments = @($importWork, (Join-Path $stagePath "pak1.pak"))
         foreach ($relative in $loosePaths) {
             $pakArguments += @("--exclude", ([string]$relative))
         }
         Invoke-PythonTool $python $pakTool $pakArguments
         foreach ($relative in $loosePaths) {
-            $source = Get-SafeRelativePath ([string]$relative) $contentWork
+            $source = Get-SafeRelativePath ([string]$relative) $importWork
             if (-not (Test-Path -LiteralPath $source -PathType Leaf)) {
                 throw "Required loose runtime file is missing: $relative"
             }
@@ -307,6 +383,13 @@ if ($PSCmdlet.ShouldProcess($stagePath, "Recreate owned developer stage")) {
             New-Item -ItemType Directory -Path (Split-Path -Parent $target) -Force | Out-Null
             Copy-Item -LiteralPath $source -Destination $target -Force
         }
+        if ($runtimeFixturePath) {
+            Invoke-PythonTool $python $pakTool @($fixtureWork, (Join-Path $stagePath "pak2.pak"))
+        }
+        Invoke-PythonTool $python $validateTool @(
+            "--stage", $stagePath,
+            "--manifest", $manifestPath
+        )
     }
 
     $commit = (& git -C $workspacePath rev-parse HEAD 2>$null | Out-String).Trim()
@@ -318,14 +401,31 @@ if ($PSCmdlet.ShouldProcess($stagePath, "Recreate owned developer stage")) {
         "Configuration: $Configuration",
         "Source commit: $commit",
         "Content provenance: known Zaero retail PAK hashes verified",
+        $(if ($runtimeFixturePath) { "Private runtime fixtures: $($runtimeFixtureFiles.Count) managed BSP(s)" } else { "Private runtime fixtures: none" }),
         "Generated UTC: $([DateTime]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ssZ'))"
     ) | Set-Content -LiteralPath (Join-Path $stagePath "DEVELOPMENT.txt") -Encoding utf8
 
+    $projectFiles = if ($NoPak) { Get-ManagedFiles $projectWork } else { @("pak0.pak") }
+    $importedFiles = if ($NoPak) { Get-ManagedFiles $importWork } else { @("pak1.pak") + $loosePaths }
+    $generatedFiles = @("game_x64.dll", "DEVELOPMENT.txt")
+    if ($runtimeFixturePath) {
+        if ($NoPak) {
+            $generatedFiles += Get-ManagedFiles $fixtureWork
+        }
+        else {
+            $generatedFiles += "pak2.pak"
+        }
+    }
     $managedFiles = @(Get-ManagedFiles $stagePath) + ".zaereo-managed-files.json"
     $managedManifest = [ordered]@{
-        schema_version = 1
+        schema_version = 2
         product = "ZaeREo developer install"
         files = @($managedFiles | Sort-Object -Unique)
+        ownership = [ordered]@{
+            project = @($projectFiles | Sort-Object -Unique)
+            imported = @($importedFiles | Sort-Object -Unique)
+            generated = @($generatedFiles | Sort-Object -Unique)
+        }
     }
     $managedManifest | ConvertTo-Json -Depth 4 | Set-Content `
         -LiteralPath (Join-Path $stagePath ".zaereo-managed-files.json") -Encoding utf8
@@ -355,4 +455,4 @@ Write-Host "Developer stage: $stagePath"
 Write-Host "Engine/data root: $enginePath (read-only)"
 Write-Host "User-data root:   $userRootPath"
 Write-Host "Installed mod:    $targetPath"
-Write-Host "Launch with:      +set game zaereo +exec zaerostart.cfg"
+Write-Host "For any verified development/debug/validation launch, run tools/run_game.ps1; do not bypass its window-before-mod/map safety check."

@@ -3,7 +3,9 @@
 #include "g_local.h"
 #include "m_player.h"
 #include "bots/bot_includes.h"
+#include "zaero/g_zaero_a2k.h"
 #include "zaero/g_zaero_sniper.h"
+#include "zaero/g_zaero_visor.h"
 
 void SP_misc_teleporter_dest(edict_t *ent);
 
@@ -97,12 +99,80 @@ bool P_UseCoopInstancedItems()
 
 //=======================================================================
 
+namespace
+{
+struct zaero_monster_obituary_t
+{
+	const char *classname;
+	const char *message;
+	bool zaero_owned;
+};
+
+constexpr std::array<zaero_monster_obituary_t, 25> zaero_monster_obituaries = {{
+	{ "monster_soldier", "{} was slaughtered by a Shotgun Guard.\n", false },
+	{ "monster_soldier_light", "{} was exterminated by a Light Guard.\n", false },
+	{ "monster_soldier_ss", "{} was eradicated by a Machinegun Guard.\n", false },
+	{ "monster_tank", "{} felt the pain of a Tank.\n", false },
+	{ "monster_tank_commander", "{} was annihilated by a Tank Commander.\n", false },
+	{ "monster_hound", "{} was leg humped to death by a Hound.\n", true },
+	{ "monster_handler", "{} was ravished by an Enforcer.\n", true },
+	{ "monster_infantry", "{} was obliterated by an Enforcer.\n", false },
+	{ "monster_sentien", "{} was lobotomized by a badass Sentien.\n", true },
+	{ "monster_zboss", "{} was killed by a big, bad MOFO.\n", true },
+	{ "monster_gunner", "A Gunner went medievil on {}'s ass.\n", false },
+	{ "monster_berserk", "{} was shattered by a Berserker.  TRESPASSA!\n", false },
+	{ "monster_chick", "{} was bitch slapped by an Iron Maiden.\n", false },
+	{ "monster_parasite", "{} was sucked by a Parasite.\n", false },
+	{ "monster_mutant", "{} was demolished by a Mutant.\n", false },
+	{ "monster_flyer", "{} was killed by a Flyer.\n", false },
+	{ "monster_hover", "{} was waxed out by an Icarus.\n", false },
+	{ "monster_medic", "{} overdosed on Medics\n", false },
+	{ "monster_floater", "{} was tweaked by a Technician.\n", false },
+	{ "monster_flipper", "{} was killed by a Barracuda Shark.\n", false },
+	{ "monster_gladiator", "{} was made into swiss cheese by a Gladiator.\n", false },
+	{ "monster_brain", "{} was scanned by a Brain.\n", false },
+	{ "monster_supertank", "{} was stomped by a Super Tank.\n", false },
+	{ "monster_boss2", "{} was killed by some flying boss thingy.\n", false },
+	{ "monster_jorg", "{} was assassinated by a Jorg.\n", false }
+}};
+
+const char *Zaero_GetMonsterObituary(const edict_t *attacker)
+{
+	if (!attacker || !(attacker->svflags & SVF_MONSTER) || !attacker->classname)
+		return nullptr;
+
+	for (const auto &obituary : zaero_monster_obituaries)
+	{
+		if (!Q_strcasecmp(attacker->classname, obituary.classname))
+			return (level.is_zaero || obituary.zaero_owned) ? obituary.message : nullptr;
+	}
+
+	return nullptr;
+}
+
+bool Zaero_IsFemaleBySkin(const edict_t *ent)
+{
+	if (!ent || !ent->client)
+		return false;
+
+	char skin[MAX_INFO_VALUE] = {};
+	gi.Info_ValueForKey(ent->client->pers.userinfo, "skin", skin, sizeof(skin));
+	return skin[0] == 'f' || skin[0] == 'F';
+}
+}
+
 void ClientObituary(edict_t *self, edict_t *inflictor, edict_t *attacker, mod_t mod)
 {
 	const char *base = nullptr;
 
 	if (coop->integer && attacker->client)
 		mod.friendly_fire = true;
+
+	if (const char *monster_obituary = Zaero_GetMonsterObituary(attacker))
+	{
+		gi.LocBroadcast_Print(PRINT_MEDIUM, monster_obituary, self->client->pers.netname);
+		return;
+	}
 
 	switch (mod.id)
 	{
@@ -165,16 +235,25 @@ void ClientObituary(edict_t *self, edict_t *inflictor, edict_t *attacker, mod_t 
 			break;
 		case MOD_HG_SPLASH:
 		case MOD_G_SPLASH:
-			base = "$g_mod_self_grenade_splash";
+			if (level.is_zaero)
+				base = Zaero_IsFemaleBySkin(self) ? "{} tripped on her own grenade.\n" : "{} tripped on his own grenade.\n";
+			else
+				base = "$g_mod_self_grenade_splash";
 			break;
 		case MOD_R_SPLASH:
-			base = "$g_mod_self_rocket_splash";
+			if (level.is_zaero)
+				base = Zaero_IsFemaleBySkin(self) ? "{} blew herself up.\n" : "{} blew himself up.\n";
+			else
+				base = "$g_mod_self_rocket_splash";
 			break;
 		case MOD_BFG_BLAST:
 			base = "$g_mod_self_bfg_blast";
 			break;
 		case MOD_ZAERO_SONIC_CANNON:
 			base = "{} got carried away\n";
+			break;
+		case MOD_ZAERO_A2K:
+			base = "{} realized he was expendable\n";
 			break;
 		// RAFAEL 03-MAY-98
 		case MOD_TRAP:
@@ -187,7 +266,10 @@ void ClientObituary(edict_t *self, edict_t *inflictor, edict_t *attacker, mod_t 
 			break;
 			// ROGUE
 		default:
-			base = "$g_mod_self_default";
+			if (level.is_zaero)
+				base = Zaero_IsFemaleBySkin(self) ? "{} killed herself.\n" : "{} killed himself.\n";
+			else
+				base = "$g_mod_self_default";
 			break;
 		}
 	}
@@ -344,6 +426,9 @@ void ClientObituary(edict_t *self, edict_t *inflictor, edict_t *attacker, mod_t 
 			break;
 		case MOD_ZAERO_SNIPER_RIFLE:
 			base = "{} was ventilated by {}'s bullet\n";
+			break;
+		case MOD_ZAERO_A2K:
+			base = "{} got dissassembled by {}\n";
 			break;
 		default:
 			base = "$g_mod_kill_generic";
@@ -555,6 +640,7 @@ player_die
 */
 DIE(player_die) (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, const vec3_t &point, const mod_t &mod) -> void
 {
+	Zaero_VisorStop(self, true);
 	PlayerTrail_Destroy(self);
 
 	self->avelocity = {};
@@ -625,11 +711,13 @@ DIE(player_die) (edict_t *self, edict_t *inflictor, edict_t *attacker, int damag
 	self->client->breather_time = 0_ms;
 	self->client->enviro_time = 0_ms;
 	self->client->invisible_time = 0_ms;
+	Zaero_A2KClearClientState(self);
 	self->flags &= ~FL_POWER_ARMOR;
 
 	// clear inventory
 	if (G_TeamplayEnabled())
 		self->client->pers.inventory.fill(0);
+	Zaero_VisorClearDurationIfUnowned(self);
 
 	// RAFAEL
 	self->client->quadfire_time = 0_ms;
@@ -806,6 +894,8 @@ static void Player_GiveStartItems(edict_t *ent, const char *ptr)
 		if (count == 0)
 		{
 			ent->client->pers.inventory[item->id] = 0;
+			if (item->id == IT_ITEM_VISOR)
+				Zaero_VisorClearDurationIfUnowned(ent);
 			continue;
 		}
 
@@ -814,6 +904,8 @@ static void Player_GiveStartItems(edict_t *ent, const char *ptr)
 		dummy->count = count;
 		dummy->spawnflags |= SPAWNFLAG_ITEM_DROPPED;
 		item->pickup(dummy, ent);
+		if (item->id == IT_ITEM_VISOR)
+			Zaero_VisorSetDefaultDuration(ent);
 		G_FreeEdict(dummy);
 	}
 }
@@ -826,8 +918,10 @@ This is only called when the game first initializes in single player,
 but is called after each death and level change in deathmatch
 ==============
 */
-void InitClientPersistant(edict_t *ent, gclient_t *client)
+void InitClientPersistant(edict_t *ent, gclient_t *client, init_client_persistant_mode_t mode)
 {
+	const bool zaero_boss_entry = mode == init_client_persistant_mode_t::zaero_boss_entry;
+
 	// backup & restore userinfo
 	char userinfo[MAX_INFO_STRING];
 	Q_strlcpy(userinfo, client->pers.userinfo, sizeof(userinfo));
@@ -847,7 +941,7 @@ void InitClientPersistant(edict_t *ent, gclient_t *client)
 		// player may not have weapons at all.
 		bool taken_loadout = false;
 
-		if (coop->integer)
+		if (coop->integer && !zaero_boss_entry)
 		{
 			for (auto player : active_players())
 			{
@@ -858,6 +952,8 @@ void InitClientPersistant(edict_t *ent, gclient_t *client)
 				client->pers.inventory = player->client->pers.inventory;
 				client->pers.max_ammo = player->client->pers.max_ammo;
 				client->pers.power_cubes = player->client->pers.power_cubes;
+				client->pers.zaero_visor_remaining =
+					player->client->pers.zaero_visor_remaining;
 				taken_loadout = true;
 				break;
 			}
@@ -891,26 +987,29 @@ void InitClientPersistant(edict_t *ent, gclient_t *client)
 
 			// [Kex]
 			// start items!
-			if (*g_start_items->string)
-				Player_GiveStartItems(ent, g_start_items->string);
-			else if (deathmatch->integer && g_instagib->integer)
+			if (!zaero_boss_entry)
 			{
-				client->pers.inventory[IT_WEAPON_RAILGUN] = 1;
-				client->pers.inventory[IT_AMMO_SLUGS] = 99;
+				if (*g_start_items->string)
+					Player_GiveStartItems(ent, g_start_items->string);
+				else if (deathmatch->integer && g_instagib->integer)
+				{
+					client->pers.inventory[IT_WEAPON_RAILGUN] = 1;
+					client->pers.inventory[IT_AMMO_SLUGS] = 99;
+				}
+
+				if (level.start_items && *level.start_items)
+					Player_GiveStartItems(ent, level.start_items);
+
+				if (!deathmatch->integer)
+					client->pers.inventory[IT_ITEM_COMPASS] = 1;
 			}
-
-			if (level.start_items && *level.start_items)
-				Player_GiveStartItems(ent, level.start_items);
-
-			if (!deathmatch->integer)
-				client->pers.inventory[IT_ITEM_COMPASS] = 1;
 
 			// ZOID
 			bool give_grapple = (!strcmp(g_allow_grapple->string, "auto")) ?
 				(ctf->integer ? !level.no_grapple : 0) :
 				g_allow_grapple->integer;
 
-			if (give_grapple)
+			if (give_grapple && !zaero_boss_entry)
 				client->pers.inventory[IT_WEAPON_GRAPPLE] = 1;
 			// ZOID
 		}
@@ -2029,6 +2128,7 @@ void PutClientInServer(edict_t *ent)
 
 	index = ent - g_edicts - 1;
 	client = ent->client;
+	Zaero_VisorStop(ent, false);
 
 	// clear velocity now, since landmark may change it
 	ent->velocity = {};
@@ -2178,11 +2278,30 @@ void PutClientInServer(edict_t *ent)
 
 	// on a new, fresh spawn (always in DM, clear inventory
 	// or new spawns in SP/coop)
+	bool zaero_boss_entry_reset = false;
 	if (client->pers.health <= 0)
 		InitClientPersistant(ent, client);
+	else if (spawn_from_begin && level.is_zaero &&
+		Q_strcasecmp(level.mapname, "zboss") == 0)
+	{
+		// The supplied DLL discarded all carried persistence on entry to the
+		// finale while retaining current health. Restrict that reset to a fresh
+		// ClientBegin body: loaded saves reuse their serialized body, and death
+		// respawns call PutClientInServer without spawn_from_begin.
+		const int32_t health = client->pers.health;
+		InitClientPersistant(ent, client, init_client_persistant_mode_t::zaero_boss_entry);
+		client->pers.health = health;
+		zaero_boss_entry_reset = true;
+	}
 
 	// restore social ID
 	Q_strlcpy(ent->client->pers.social_id, social_id, sizeof(social_id));
+
+	// Rerelease co-op respawns restore this per-client map-entry snapshot. Keep
+	// it aligned with the finale reset so one player cannot reacquire another
+	// player's carried inventory after dying.
+	if (zaero_boss_entry_reset && coop->integer)
+		client->resp.coop_respawn = client->pers;
 
 	// fix level switch issue
 	ent->client->pers.connected = true;
@@ -2975,6 +3094,9 @@ void ClientDisconnect(edict_t *ent)
 	if (!ent->client)
 		return;
 
+	Zaero_VisorStop(ent, false);
+	Zaero_A2KClearClientState(ent);
+
 	// ZOID
 	CTFDeadDropFlag(ent);
 	CTFDeadDropTech(ent);
@@ -3239,6 +3361,9 @@ void ClientThink(edict_t *ent, usercmd_t *ucmd)
 		ent->movetype = MOVETYPE_NOCLIP;
 		return;
 	}
+
+	if (Zaero_VisorClientThink(ent))
+		return;
 
 	if (ent->client->chase_target)
 	{

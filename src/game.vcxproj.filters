@@ -80,6 +80,30 @@
 	<ClInclude Include="zaero\g_zaero_entities.h">
 	  <Filter>zaero</Filter>
 	</ClInclude>
+	<ClInclude Include="zaero\g_zaero_dm.h">
+	  <Filter>zaero</Filter>
+	</ClInclude>
+	<ClInclude Include="zaero\g_zaero_a2k.h">
+	  <Filter>zaero</Filter>
+	</ClInclude>
+	<ClInclude Include="zaero\g_zaero_ai.h">
+	  <Filter>zaero</Filter>
+	</ClInclude>
+	<ClInclude Include="zaero\g_zaero_finale.h">
+	  <Filter>zaero</Filter>
+	</ClInclude>
+	<ClInclude Include="zaero\g_zaero_handler.h">
+	  <Filter>zaero</Filter>
+	</ClInclude>
+	<ClInclude Include="zaero\g_zaero_hound.h">
+	  <Filter>zaero</Filter>
+	</ClInclude>
+	<ClInclude Include="zaero\g_zaero_sentien.h">
+	  <Filter>zaero</Filter>
+	</ClInclude>
+	<ClInclude Include="zaero\g_zaero_zboss.h">
+	  <Filter>zaero</Filter>
+	</ClInclude>
 	<ClInclude Include="zaero\g_zaero_autocannon.h">
 	  <Filter>zaero</Filter>
 	</ClInclude>
@@ -89,10 +113,16 @@
 	<ClInclude Include="zaero\g_zaero_ired.h">
 	  <Filter>zaero</Filter>
 	</ClInclude>
+	<ClInclude Include="zaero\g_zaero_plasma_shield.h">
+	  <Filter>zaero</Filter>
+	</ClInclude>
 	<ClInclude Include="zaero\g_zaero_sniper.h">
 	  <Filter>zaero</Filter>
 	</ClInclude>
 	<ClInclude Include="zaero\g_zaero_sonic.h">
+	  <Filter>zaero</Filter>
+	</ClInclude>
+	<ClInclude Include="zaero\g_zaero_visor.h">
 	  <Filter>zaero</Filter>
 	</ClInclude>
 	<ClInclude Include="zaero\g_zaero_weapons.h">
@@ -271,6 +301,30 @@
 	<ClCompile Include="zaero\g_zaero_entities.cpp">
 	  <Filter>zaero</Filter>
 	</ClCompile>
+	<ClCompile Include="zaero\g_zaero_dm.cpp">
+	  <Filter>zaero</Filter>
+	</ClCompile>
+	<ClCompile Include="zaero\g_zaero_a2k.cpp">
+	  <Filter>zaero</Filter>
+	</ClCompile>
+	<ClCompile Include="zaero\g_zaero_ai.cpp">
+	  <Filter>zaero</Filter>
+	</ClCompile>
+	<ClCompile Include="zaero\g_zaero_finale.cpp">
+	  <Filter>zaero</Filter>
+	</ClCompile>
+	<ClCompile Include="zaero\g_zaero_handler.cpp">
+	  <Filter>zaero</Filter>
+	</ClCompile>
+	<ClCompile Include="zaero\g_zaero_hound.cpp">
+	  <Filter>zaero</Filter>
+	</ClCompile>
+	<ClCompile Include="zaero\g_zaero_sentien.cpp">
+	  <Filter>zaero</Filter>
+	</ClCompile>
+	<ClCompile Include="zaero\g_zaero_zboss.cpp">
+	  <Filter>zaero</Filter>
+	</ClCompile>
 	<ClCompile Include="zaero\g_zaero_autocannon.cpp">
 	  <Filter>zaero</Filter>
 	</ClCompile>
@@ -280,10 +334,16 @@
 	<ClCompile Include="zaero\g_zaero_ired.cpp">
 	  <Filter>zaero</Filter>
 	</ClCompile>
+	<ClCompile Include="zaero\g_zaero_plasma_shield.cpp">
+	  <Filter>zaero</Filter>
+	</ClCompile>
 	<ClCompile Include="zaero\g_zaero_sniper.cpp">
 	  <Filter>zaero</Filter>
 	</ClCompile>
 	<ClCompile Include="zaero\g_zaero_sonic.cpp">
+	  <Filter>zaero</Filter>
+	</ClCompile>
+	<ClCompile Include="zaero\g_zaero_visor.cpp">
 	  <Filter>zaero</Filter>
 	</ClCompile>
 	<ClCompile Include="zaero\g_zaero_weapons.cpp">

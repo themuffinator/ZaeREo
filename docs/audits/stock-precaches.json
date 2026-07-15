@@ -1,0 +1,787 @@
+{
+  "audit": "zaero-stock-monster-precaches",
+  "inputs": {
+    "legacy_sources": [
+      {
+        "path": "m_actor.c",
+        "sha256": "d614e9d027bb6ca9e09694461aab731416f2442de235e1f32f7f4ff46471593d",
+        "size": 13963
+      },
+      {
+        "path": "m_berserk.c",
+        "sha256": "b2865145a1a22b6047805c7704ab1212e90a21616b3d21b08eecaee214f88361",
+        "size": 11972
+      },
+      {
+        "path": "m_boss2.c",
+        "sha256": "c9348d358ae949952e61650a099fdbc57084defb78dfc3ef45e4d26636683ee8",
+        "size": 16533
+      },
+      {
+        "path": "m_boss3.c",
+        "sha256": "da05cb04906c0f85a5a87be494de319334ba942cae37322c4f5912ee04e15c57",
+        "size": 2046
+      },
+      {
+        "path": "m_boss31.c",
+        "sha256": "c620232f2e28c6c8e5a32a43885fe82ba9ae405cd24858c770aa91c33da4f27c",
+        "size": 17733
+      },
+      {
+        "path": "m_boss32.c",
+        "sha256": "a1a1da79940480231ea00584b65042fc1b454fd01fc74f55b550a7b1c91303ad",
+        "size": 21222
+      },
+      {
+        "path": "m_brain.c",
+        "sha256": "a641c8e79735ef803bfacfcb7cedd07976e1c70fd3c3bf4449210e1b018fbe52",
+        "size": 15226
+      },
+      {
+        "path": "m_chick.c",
+        "sha256": "bfab2d7c065a0d724690cb870bf6d7795246ca68bdf361fe579caaf0a389df36",
+        "size": 15888
+      },
+      {
+        "path": "m_flash.c",
+        "sha256": "0a10115e01c33d008db24911cd8897bec9120d728d0f18a27a54cd7181f19324",
+        "size": 12444
+      },
+      {
+        "path": "m_flipper.c",
+        "sha256": "1f2df0ce2c4da49f2c4885d2d3b0e7eee4db0e8b961b582a8c6e068c26573e7c",
+        "size": 9692
+      },
+      {
+        "path": "m_float.c",
+        "sha256": "641a7547f68a71aa0d18119ddef3445781768d48578cb8de0114b399b1fde000",
+        "size": 15620
+      },
+      {
+        "path": "m_flyer.c",
+        "sha256": "3e66271bc9da5b1fdad27d588d7f38d7d33c13ce8548c7ce028b36a8a34686a4",
+        "size": 14678
+      },
+      {
+        "path": "m_gladiator.c",
+        "sha256": "a174ad502c17473a891898de0a7e80b2e2a01587276b23f11019054e3fbf5cd8",
+        "size": 9866
+      },
+      {
+        "path": "m_gunner.c",
+        "sha256": "72c295b49f7518f766423ebea18849c5b4686cd97d42fb38eed34474e0143080",
+        "size": 14951
+      },
+      {
+        "path": "m_hover.c",
+        "sha256": "e3a6ca713a655b7b9ac1a533d10a971d5d0498d01c5737956086de5378fadbaa",
+        "size": 14149
+      },
+      {
+        "path": "m_infantry.c",
+        "sha256": "acf0c4684c0def6422134b290b68fd7415ab7878b2ae8225b69f97339d97d3ab",
+        "size": 14651
+      },
+      {
+        "path": "m_insane.c",
+        "sha256": "40442dfb2e78f40d3f781648cbfa3b6b0a0aab1f44948e414bc6584c2a5d7737",
+        "size": 17253
+      },
+      {
+        "path": "m_medic.c",
+        "sha256": "356cc8d5850d177b77670ab8d8d1ad20f180d82afa0e7650c3bb284d66888872",
+        "size": 17997
+      },
+      {
+        "path": "m_move.c",
+        "sha256": "d0e5858e385db1d6397581b2f79f31c401b807717769a30be4d99d21ebc27081",
+        "size": 11476
+      },
+      {
+        "path": "m_mutant.c",
+        "sha256": "91317ed8b8febb578325a8c85102f1ed5d817e4ae52f5f3c9b673afac2506a69",
+        "size": 14658
+      },
+      {
+        "path": "m_parasite.c",
+        "sha256": "c6c3691a0a72acf93ac889e81312642bac62c3b8118fc965e67922223772a05a",
+        "size": 13757
+      },
+      {
+        "path": "m_soldier.c",
+        "sha256": "4c2f258311095e79c04124c3177b21be45083a20cb3d98713dd844d9e756a1ff",
+        "size": 29053
+      },
+      {
+        "path": "m_supertank.c",
+        "sha256": "7af4bc417199d7c8c26f9c35d59f4dd7df9d5d0008ba76c99eb8d5af7be3b627",
+        "size": 16293
+      },
+      {
+        "path": "m_tank.c",
+        "sha256": "d2c039e121cd9fcf71b2c98f07ad7781ebd90f8d0370f353a3843b0224768d25",
+        "size": 20036
+      }
+    ],
+    "port_sources": [
+      {
+        "path": "g_turret.cpp",
+        "sha256": "b46c0719fd2e879d5ba494a7b89b3d0c9165df04b5ce69c0c8375131f848c358",
+        "size": 17474
+      },
+      {
+        "path": "m_infantry.cpp",
+        "sha256": "d89f5dac0872a3b197b7b0d92222c3235df842a85a4fe47369ca102f5e6f73db",
+        "size": 26214
+      },
+      {
+        "path": "zaero/g_zaero_handler.cpp",
+        "sha256": "51235a5c65b75c8c50185bd87086bdafe2abfad3522e031b92d5bf95d2d3d2ea",
+        "size": 9005
+      },
+      {
+        "path": "zaero/g_zaero_hound.cpp",
+        "sha256": "172f62d0f52de3097e42872c5874a80d16962b532e8868d988c646e66a3813ca",
+        "size": 19914
+      }
+    ],
+    "rerelease_sources": [
+      {
+        "path": "game.h",
+        "sha256": "66defbd069c38c4a1740c5087a3f6f2343d603b956ca0d6e1d89e8ad46d0843f",
+        "size": 84018
+      },
+      {
+        "path": "g_turret.cpp",
+        "sha256": "178074430644e72181b5549c0e06dd135c4c2f4c71497598e31f043da2855ca5",
+        "size": 17358
+      },
+      {
+        "path": "m_infantry.cpp",
+        "sha256": "d745a3d27f0988cec9204babe89bc0cadce2ac199ddd4a9b118e14bcf4dfe518",
+        "size": 25271
+      }
+    ],
+    "zaero_sources": [
+      {
+        "path": "g_main.c",
+        "sha256": "5b1aa4ebf8aeec3bc6aeb8634b5b7075d0ab4391abd2b785428a2dc63951d35d",
+        "size": 6902
+      },
+      {
+        "path": "m_actor.c",
+        "sha256": "666bef685bcd78c89a6d26f746deaea372021a4fd0620869a2eba7c29a016d4e",
+        "size": 13233
+      },
+      {
+        "path": "m_berserk.c",
+        "sha256": "f53e8c6d0b776b4c5c24fde3e6a8cdea195a03b673f0f786a0c35fd9eb1fe993",
+        "size": 11319
+      },
+      {
+        "path": "m_boss2.c",
+        "sha256": "21cb9e48a36e9d9d57e1a0d628c7e51453f73c453478379841b372c39d913b2d",
+        "size": 16166
+      },
+      {
+        "path": "m_boss3.c",
+        "sha256": "c6e371f5fc9d1a374817e1aa65743896d93d197bac18cdd71a2e7418acaba385",
+        "size": 1316
+      },
+      {
+        "path": "m_boss31.c",
+        "sha256": "087245defb1615b31e432f2cdce392f299a56c62acc82e66e883a5584b5853ed",
+        "size": 17363
+      },
+      {
+        "path": "m_boss32.c",
+        "sha256": "8fdfc548046ccfee88411b36e0f4524baf4b52592464f35902ae7dd445fe3262",
+        "size": 20641
+      },
+      {
+        "path": "m_brain.c",
+        "sha256": "9f386fc56c82372d4ef1f586539730d726254bc6a9b211bfb1701a23e81c9469",
+        "size": 14571
+      },
+      {
+        "path": "m_chick.c",
+        "sha256": "a4ff10c0e3078dc1c3162d099dbc2659956b0a5e3573e7a8908ef560f5b886b8",
+        "size": 15069
+      },
+      {
+        "path": "m_flash.c",
+        "sha256": "26425c97e6a107a159d210a16eac717eebd3f3a4212f7b0e8bffde9d1ea43ca9",
+        "size": 7882
+      },
+      {
+        "path": "m_flipper.c",
+        "sha256": "22a1a35d1b19af45f3511baae6a4b2631b9bcaf55eb4dca0e5694be2f11040d2",
+        "size": 9040
+      },
+      {
+        "path": "m_float.c",
+        "sha256": "d601f2575739ffd7a0363e170e94b6b2464180a2570580972e3dc1c4b850c279",
+        "size": 14969
+      },
+      {
+        "path": "m_flyer.c",
+        "sha256": "1cf561743178224dfe4326f6b90f646f893085bcf34e6ae1492c966dfac3fa88",
+        "size": 14022
+      },
+      {
+        "path": "m_gladiator.c",
+        "sha256": "6f4c562ccee121f0153ecebd5df6bb209e311f850eda35296141dd789fa58b2a",
+        "size": 9217
+      },
+      {
+        "path": "m_gunner.c",
+        "sha256": "13a89b22e21a516ed72f32870a22ff109c974ec40ab42a0157eb1b3f83f19f03",
+        "size": 14298
+      },
+      {
+        "path": "m_hover.c",
+        "sha256": "d2b8dc0ad586c69d886b38ca404c65b2e211302ce6cc3b5cabf8d9c4e18d965a",
+        "size": 14808
+      },
+      {
+        "path": "m_infantry.c",
+        "sha256": "cff4a56387c313a5b02a9d07ecaa8cd1ff16c852e70e7221628870c437f09300",
+        "size": 14836
+      },
+      {
+        "path": "m_insane.c",
+        "sha256": "6e1547aa0afe12fe23fe03699cc5a00eb1b750933c0119b3bdf87d79eb52dfc3",
+        "size": 16593
+      },
+      {
+        "path": "m_medic.c",
+        "sha256": "3e0a4f33ad4256400c86d655ef94013f8cae984d2290d6d6e42c598bc35b7ba0",
+        "size": 17341
+      },
+      {
+        "path": "m_move.c",
+        "sha256": "6880cc71cff1f4efb5151abe10a8693d5e88ced681b57e66b031b15d7c20c6fa",
+        "size": 12340
+      },
+      {
+        "path": "m_mutant.c",
+        "sha256": "6454004b066dd847155587266ff340db59d71a1abb4885d44ce4679a0f506fe8",
+        "size": 14005
+      },
+      {
+        "path": "m_parasite.c",
+        "sha256": "8279108781b0f56c69f6b112c5de44c19d82dbc8510daca58e5c4785f9fc84e7",
+        "size": 13107
+      },
+      {
+        "path": "m_soldier.c",
+        "sha256": "94396aa6b86e4d2f687e04c6670e6b0b57daf8fa4f9da45e2636d6948aebbe16",
+        "size": 28735
+      },
+      {
+        "path": "m_supertank.c",
+        "sha256": "2227a2050dbef60523d26f0166514e00b254d3bb88da2dcec51d3a4757fccc76",
+        "size": 15790
+      },
+      {
+        "path": "m_tank.c",
+        "sha256": "b1193e25cd83d8b0fa040d80df26a9bdea0cc6b5dcc952306ab24c3609735bef",
+        "size": 19522
+      },
+      {
+        "path": "q_shared.h",
+        "sha256": "99691482ad4286b2973cd6fd167a9699f6b1c456762bc6829d8fe7289047e059",
+        "size": 28042
+      },
+      {
+        "path": "z_handler.c",
+        "sha256": "4d328ab722c4730eea75d486c632269fe31cb8a636c2e66af5b64ffce7db9c06",
+        "size": 9169
+      },
+      {
+        "path": "z_trigger.c",
+        "sha256": "1db62252c19019ce8568014acd4502a3289e45f0e88ad4ac46150bc68f1c3af4",
+        "size": 5406
+      },
+      {
+        "path": "zaero.dsp",
+        "sha256": "ba0122518b87183e7c1fd5c155a236b7e075dcf22427dada54909bb3f7cccb0e",
+        "size": 9531
+      }
+    ]
+  },
+  "legacy_sound_index_context": {
+    "cache_sound_workaround": {
+      "allocates_per_level_list_and_names": true,
+      "intercepts_global_soundindex": true,
+      "lowercases_caller_buffer_in_place": true,
+      "rejects_at_legacy_limit_with_zero": true,
+      "supplied_project_defines_cache_sound": false
+    },
+    "rerelease_legacy_compatibility_limit": 256,
+    "rerelease_max_sounds": 2048,
+    "zaero_max_sounds": 256
+  },
+  "port_adaptation": {
+    "classification": "ADAPT",
+    "decision": "D-043",
+    "handler_dependencies": {
+      "custom_hound_precache": "ZaeroHoundPrecache",
+      "native_stock_precache": "InfantryPrecache"
+    },
+    "native_rerelease_calls": [
+      {
+        "caller": "SP_turret_driver",
+        "line": 421,
+        "path": "g_turret.cpp"
+      },
+      {
+        "caller": "SP_monster_infantry",
+        "line": 877,
+        "path": "m_infantry.cpp"
+      }
+    ],
+    "port_calls": [
+      {
+        "caller": "SP_turret_driver",
+        "line": 428,
+        "path": "g_turret.cpp"
+      },
+      {
+        "caller": "InfantryConvertFromZaeroHandler",
+        "line": 916,
+        "path": "m_infantry.cpp"
+      },
+      {
+        "caller": "SP_monster_infantry",
+        "line": 941,
+        "path": "m_infantry.cpp"
+      },
+      {
+        "caller": "handler_precache",
+        "line": 39,
+        "path": "zaero/g_zaero_handler.cpp"
+      }
+    ],
+    "port_hound_calls": [
+      {
+        "caller": "handler_precache",
+        "line": 40,
+        "path": "zaero/g_zaero_handler.cpp"
+      }
+    ],
+    "sound_index_strategy": {
+      "cached_soundindex_files": [
+        "m_infantry.cpp",
+        "zaero/g_zaero_handler.cpp",
+        "zaero/g_zaero_hound.cpp"
+      ],
+      "legacy_cache_interceptor_symbols_present": [],
+      "uses_cached_assignments": true
+    }
+  },
+  "schema_version": 1,
+  "scope_note": "This audit classifies only the added stock precache helper surfaces and their call graph. Other resource, AI, EMP, flash, cadence, and behavior changes in the same stock files require their own compatibility rows.",
+  "stock_precache_extractions": [
+    {
+      "call_sites": [
+        {
+          "caller": "SP_monster_berserk",
+          "line": 413,
+          "path": "m_berserk.c"
+        }
+      ],
+      "definition_lines": [
+        392,
+        401
+      ],
+      "external_call_sites": [],
+      "name": "SP_monster_berserk_precache",
+      "owner": "m_berserk.c"
+    },
+    {
+      "call_sites": [
+        {
+          "caller": "SP_monster_boss2",
+          "line": 648,
+          "path": "m_boss2.c"
+        }
+      ],
+      "definition_lines": [
+        627,
+        634
+      ],
+      "external_call_sites": [],
+      "name": "SP_monster_boss2_precache",
+      "owner": "m_boss2.c"
+    },
+    {
+      "call_sites": [
+        {
+          "caller": "SP_monster_jorg",
+          "line": 718,
+          "path": "m_boss31.c"
+        }
+      ],
+      "definition_lines": [
+        687,
+        706
+      ],
+      "external_call_sites": [],
+      "name": "SP_monster_jorg_precache",
+      "owner": "m_boss31.c"
+    },
+    {
+      "call_sites": [
+        {
+          "caller": "SP_monster_brain",
+          "line": 630,
+          "path": "m_brain.c"
+        }
+      ],
+      "definition_lines": [
+        601,
+        617
+      ],
+      "external_call_sites": [],
+      "name": "SP_monster_brain_precache",
+      "owner": "m_brain.c"
+    },
+    {
+      "call_sites": [
+        {
+          "caller": "SP_monster_chick",
+          "line": 631,
+          "path": "m_chick.c"
+        }
+      ],
+      "definition_lines": [
+        603,
+        619
+      ],
+      "external_call_sites": [],
+      "name": "SP_monster_chick_precache",
+      "owner": "m_chick.c"
+    },
+    {
+      "call_sites": [
+        {
+          "caller": "SP_monster_flipper",
+          "line": 363,
+          "path": "m_flipper.c"
+        }
+      ],
+      "definition_lines": [
+        341,
+        351
+      ],
+      "external_call_sites": [],
+      "name": "SP_monster_flipper_precache",
+      "owner": "m_flipper.c"
+    },
+    {
+      "call_sites": [
+        {
+          "caller": "SP_monster_floater",
+          "line": 613,
+          "path": "m_float.c"
+        }
+      ],
+      "definition_lines": [
+        591,
+        600
+      ],
+      "external_call_sites": [],
+      "name": "SP_monster_floater_precache",
+      "owner": "m_float.c"
+    },
+    {
+      "call_sites": [
+        {
+          "caller": "SP_monster_flyer",
+          "line": 581,
+          "path": "m_flyer.c"
+        }
+      ],
+      "definition_lines": [
+        552,
+        561
+      ],
+      "external_call_sites": [],
+      "name": "SP_monster_flyer_precache",
+      "owner": "m_flyer.c"
+    },
+    {
+      "call_sites": [
+        {
+          "caller": "SP_monster_gladiator",
+          "line": 343,
+          "path": "m_gladiator.c"
+        }
+      ],
+      "definition_lines": [
+        318,
+        330
+      ],
+      "external_call_sites": [],
+      "name": "SP_monster_gladiator_precache",
+      "owner": "m_gladiator.c"
+    },
+    {
+      "call_sites": [
+        {
+          "caller": "SP_monster_gunner",
+          "line": 583,
+          "path": "m_gunner.c"
+        }
+      ],
+      "definition_lines": [
+        561,
+        570
+      ],
+      "external_call_sites": [],
+      "name": "SP_monster_gunner_precache",
+      "owner": "m_gunner.c"
+    },
+    {
+      "call_sites": [
+        {
+          "caller": "SP_monster_hover",
+          "line": 623,
+          "path": "m_hover.c"
+        }
+      ],
+      "definition_lines": [
+        602,
+        611
+      ],
+      "external_call_sites": [],
+      "name": "SP_monster_hover_precache",
+      "owner": "m_hover.c"
+    },
+    {
+      "call_sites": [
+        {
+          "caller": "SP_monster_infantry",
+          "line": 567,
+          "path": "m_infantry.c"
+        },
+        {
+          "caller": "SP_monster_handler_precache",
+          "line": 404,
+          "path": "z_handler.c"
+        }
+      ],
+      "definition_lines": [
+        540,
+        555
+      ],
+      "external_call_sites": [
+        {
+          "caller": "SP_monster_handler_precache",
+          "line": 404,
+          "path": "z_handler.c"
+        }
+      ],
+      "name": "SP_monster_infantry_precache",
+      "owner": "m_infantry.c"
+    },
+    {
+      "call_sites": [
+        {
+          "caller": "SP_misc_insane",
+          "line": 628,
+          "path": "m_insane.c"
+        }
+      ],
+      "definition_lines": [
+        600,
+        613
+      ],
+      "external_call_sites": [],
+      "name": "SP_misc_insane_precache",
+      "owner": "m_insane.c"
+    },
+    {
+      "call_sites": [
+        {
+          "caller": "SP_monster_medic",
+          "line": 722,
+          "path": "m_medic.c"
+        }
+      ],
+      "definition_lines": [
+        697,
+        709
+      ],
+      "external_call_sites": [],
+      "name": "SP_monster_medic_precache",
+      "owner": "m_medic.c"
+    },
+    {
+      "call_sites": [
+        {
+          "caller": "SP_monster_mutant",
+          "line": 619,
+          "path": "m_mutant.c"
+        }
+      ],
+      "definition_lines": [
+        591,
+        606
+      ],
+      "external_call_sites": [],
+      "name": "SP_monster_mutant_precache",
+      "owner": "m_mutant.c"
+    },
+    {
+      "call_sites": [
+        {
+          "caller": "SP_monster_parasite",
+          "line": 511,
+          "path": "m_parasite.c"
+        }
+      ],
+      "definition_lines": [
+        485,
+        498
+      ],
+      "external_call_sites": [],
+      "name": "SP_monster_parasite_precache",
+      "owner": "m_parasite.c"
+    },
+    {
+      "call_sites": [
+        {
+          "caller": "SP_monster_soldier_light",
+          "line": 1241,
+          "path": "m_soldier.c"
+        }
+      ],
+      "definition_lines": [
+        1222,
+        1228
+      ],
+      "external_call_sites": [],
+      "name": "SP_monster_soldier_light_precache",
+      "owner": "m_soldier.c"
+    },
+    {
+      "call_sites": [
+        {
+          "caller": "SP_monster_soldier",
+          "line": 1274,
+          "path": "m_soldier.c"
+        }
+      ],
+      "definition_lines": [
+        1255,
+        1261
+      ],
+      "external_call_sites": [],
+      "name": "SP_monster_soldier_precache",
+      "owner": "m_soldier.c"
+    },
+    {
+      "call_sites": [
+        {
+          "caller": "SP_monster_soldier_ss",
+          "line": 1305,
+          "path": "m_soldier.c"
+        }
+      ],
+      "definition_lines": [
+        1286,
+        1292
+      ],
+      "external_call_sites": [],
+      "name": "SP_monster_soldier_ss_precache",
+      "owner": "m_soldier.c"
+    },
+    {
+      "call_sites": [
+        {
+          "caller": "SP_monster_soldier_light_precache",
+          "line": 1224,
+          "path": "m_soldier.c"
+        },
+        {
+          "caller": "SP_monster_soldier_precache",
+          "line": 1257,
+          "path": "m_soldier.c"
+        },
+        {
+          "caller": "SP_monster_soldier_ss_precache",
+          "line": 1288,
+          "path": "m_soldier.c"
+        }
+      ],
+      "definition_lines": [
+        1181,
+        1187
+      ],
+      "external_call_sites": [],
+      "name": "SP_monster_soldier_x_precache",
+      "owner": "m_soldier.c"
+    },
+    {
+      "call_sites": [
+        {
+          "caller": "SP_monster_supertank",
+          "line": 680,
+          "path": "m_supertank.c"
+        }
+      ],
+      "definition_lines": [
+        658,
+        667
+      ],
+      "external_call_sites": [],
+      "name": "SP_monster_supertank_precache",
+      "owner": "m_supertank.c"
+    },
+    {
+      "call_sites": [
+        {
+          "caller": "SP_monster_tank",
+          "line": 806,
+          "path": "m_tank.c"
+        }
+      ],
+      "definition_lines": [
+        780,
+        790
+      ],
+      "external_call_sites": [],
+      "name": "SP_monster_tank_precache",
+      "owner": "m_tank.c"
+    }
+  ],
+  "summary": {
+    "external_call_site_count": 1,
+    "externally_reused_helper_count": 1,
+    "helper_count": 22,
+    "helpers_by_source": {
+      "m_berserk.c": 1,
+      "m_boss2.c": 1,
+      "m_boss31.c": 1,
+      "m_brain.c": 1,
+      "m_chick.c": 1,
+      "m_flipper.c": 1,
+      "m_float.c": 1,
+      "m_flyer.c": 1,
+      "m_gladiator.c": 1,
+      "m_gunner.c": 1,
+      "m_hover.c": 1,
+      "m_infantry.c": 1,
+      "m_insane.c": 1,
+      "m_medic.c": 1,
+      "m_mutant.c": 1,
+      "m_parasite.c": 1,
+      "m_soldier.c": 4,
+      "m_supertank.c": 1,
+      "m_tank.c": 1
+    },
+    "source_file_count": 19
+  }
+}

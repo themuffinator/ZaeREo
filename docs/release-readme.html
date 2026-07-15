@@ -41,9 +41,8 @@
       <p>When the independent code-rights gate permits it, this archive contains the game module and importer, but no Zaero maps or media. It is deliberately not playable until completed from your own legitimate Zaero installation.</p>
       <pre><code>cd zaereo
 pwsh -File .\tools\complete_importer_kit.ps1 `
-  -ZaeroLegacyRoot "D:\Games\Zaero" `
-  -EngineRoot "D:\Games\Quake II Rerelease"</code></pre>
-      <p>The importer verifies the three known retail PAK SHA-256 hashes, downloads nothing, builds <code>pak1.pak</code> locally, retains the nine required loose sprite/video files, and merges the Zaero map database fragment against your supported Rerelease data without redistributing its base database. Generated outputs are recorded in a separate import-ownership manifest.</p>
+  -ZaeroLegacyRoot "D:\Games\Zaero"</code></pre>
+      <p>The importer verifies the three known retail PAK SHA-256 hashes, downloads nothing, builds <code>pak1.pak</code> locally, retains the nine required loose sprite/video files, and writes a local asset manifest plus <code>IMPORT-COMPLETE.txt</code>. Map-database merging and an import-ownership manifest are roadmap work, not capabilities of this development template.</p>
     </article>
     <article class="card">
       <h2>Local-full mode</h2>
@@ -63,7 +62,7 @@ pwsh -File .\tools\complete_importer_kit.ps1 `
       <li>Verify the downloaded archive against its accompanying SHA-256 checksum file.</li>
       <li>Install the top-level <code>zaereo/</code> directory under <code>%USERPROFILE%\Saved Games\Nightdive Studios\Quake II\</code>. Never extract it over <code>baseq2</code>.</li>
       <li>If this is an importer kit, run the completion command above.</li>
-      <li>Launch through the mod selector when supported, or with <code>+set game zaereo +exec zaerostart.cfg</code>.</li>
+      <li>For development or validation, use the checkout's <code>tools/run_game.ps1</code> wrapper. It starts a visible windowed bootstrap and verifies its native window before selecting <code>zaereo</code> or a map; direct launch syntax is not validation evidence.</li>
     </ol>
     <p>A portable install beside the game is an explicit advanced override, not the default. The roadmap requires a packaged <code>tools/manage_install.ps1</code> to preview/install/repair/update/uninstall only manifest-owned bytes while preserving saves, local configuration, and import-owned output. That player manager is not implemented in the current development tree, so this template makes no managed-update claim until a rendered package actually contains and tests it. Never delete the whole directory as an update shortcut.</p>
   </section>
@@ -81,7 +80,7 @@ pwsh -File .\tools\complete_importer_kit.ps1 `
   LICENSE.txt
   LICENSE_SCOPE.md
   THIRD_PARTY_NOTICES.md</code></pre>
-      <p>Importer kits also contain <code>IMPORT_ASSETS.txt</code> and <code>tools/</code>. Completed importer kits and private local-full builds keep imported effective media in local <code>pak1.pak</code> plus the nine verified loose files under <code>.zaereo-install/import-ownership.json</code>; they never fold those bytes into package-owned <code>pak0.pak</code>. Asset-full media, if ever cleared, is package-owned instead.</p>
+      <p>Importer kits also contain <code>IMPORT_ASSETS.txt</code> and <code>tools/</code>. The current completion tool writes local effective media to <code>pak1.pak</code>, the nine verified loose files, <code>.zaereo-asset-manifest.json</code>, and <code>IMPORT-COMPLETE.txt</code>. An install manager and import-ownership manifest are planned; this template must not claim either exists. Asset-full media, if ever cleared, is package-owned instead.</p>
     </article>
     <article class="card">
       <h2>Support evidence</h2>

@@ -1,0 +1,550 @@
+{
+  "audit": "zaero-sv-flymove-plane-resolution",
+  "call_graph": {
+    "legacy": [
+      {
+        "caller": "SV_Physics_Step",
+        "line": 908,
+        "path": "g_phys.c"
+      }
+    ],
+    "port": [
+      {
+        "caller": "SV_Physics_Step",
+        "line": 894,
+        "path": "g_phys.cpp"
+      },
+      {
+        "caller": "SV_Physics_FallFloat",
+        "line": 1059,
+        "path": "g_phys.cpp"
+      },
+      {
+        "caller": "SV_Physics_NewToss",
+        "line": 92,
+        "path": "rogue/g_rogue_phys.cpp"
+      },
+      {
+        "caller": "Zaero_RunFlyStrafe",
+        "line": 82,
+        "path": "zaero/g_zaero_ai.cpp"
+      }
+    ],
+    "rerelease": [
+      {
+        "caller": "SV_Physics_Step",
+        "line": 831,
+        "path": "g_phys.cpp"
+      },
+      {
+        "caller": "SV_Physics_NewToss",
+        "line": 92,
+        "path": "rogue/g_rogue_phys.cpp"
+      }
+    ],
+    "rerelease_shared_helper": [
+      {
+        "caller": "SV_FlyMove",
+        "line": 145,
+        "path": "g_phys.cpp"
+      },
+      {
+        "caller": "PM_StepSlideMove_",
+        "line": 438,
+        "path": "p_move.cpp"
+      },
+      {
+        "caller": "PM_CheckSpecialMovement",
+        "line": 1173,
+        "path": "p_move.cpp"
+      }
+    ],
+    "zaero": [
+      {
+        "caller": "ai_fly_strafe",
+        "line": 806,
+        "path": "g_ai.c"
+      },
+      {
+        "caller": "SV_Physics_Step",
+        "line": 909,
+        "path": "g_phys.c"
+      },
+      {
+        "caller": "SV_Physics_FallFloat",
+        "line": 1029,
+        "path": "g_phys.c"
+      }
+    ]
+  },
+  "disposition": {
+    "classification": "ADAPT",
+    "decision": "D-044",
+    "implementation": "Retain the unmodified Rerelease shared step-slide helper for stock, expansion, FallFloat, and Hover callers; do not import the one-line global Zaero plane-comparison removal.",
+    "live_clip_fixtures_remaining": true
+  },
+  "golden_cases": [
+    {
+      "id": "open-control",
+      "legacy": {
+        "exact_duplicate_comparisons": 0,
+        "exact_duplicate_negative_rejections": 0,
+        "final_velocity": [
+          100.0,
+          20.0,
+          0.0
+        ],
+        "plane_count": 0,
+        "suppressed_exact_duplicate_comparisons": 0,
+        "terminal": "open"
+      },
+      "legacy_equals_zaero": true,
+      "normals": [],
+      "rerelease": {
+        "duplicate_skips": 0,
+        "final_velocity": [
+          100.0,
+          20.0,
+          0.0
+        ],
+        "plane_count": 0,
+        "terminal": "open"
+      },
+      "role": "unobstructed control",
+      "velocity": [
+        100.0,
+        20.0,
+        0.0
+      ],
+      "zaero": {
+        "exact_duplicate_comparisons": 0,
+        "exact_duplicate_negative_rejections": 0,
+        "final_velocity": [
+          100.0,
+          20.0,
+          0.0
+        ],
+        "plane_count": 0,
+        "suppressed_exact_duplicate_comparisons": 0,
+        "terminal": "open"
+      }
+    },
+    {
+      "id": "wall-slide",
+      "legacy": {
+        "exact_duplicate_comparisons": 0,
+        "exact_duplicate_negative_rejections": 0,
+        "final_velocity": [
+          0.0,
+          20.0,
+          0.0
+        ],
+        "plane_count": 1,
+        "suppressed_exact_duplicate_comparisons": 0,
+        "terminal": "plane"
+      },
+      "legacy_equals_zaero": true,
+      "normals": [
+        [
+          -1.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "rerelease": {
+        "duplicate_skips": 0,
+        "final_velocity": [
+          -1.0,
+          20.0,
+          0.0
+        ],
+        "plane_count": 1,
+        "terminal": "plane"
+      },
+      "role": "single axial wall",
+      "velocity": [
+        100.0,
+        20.0,
+        0.0
+      ],
+      "zaero": {
+        "exact_duplicate_comparisons": 0,
+        "exact_duplicate_negative_rejections": 0,
+        "final_velocity": [
+          0.0,
+          20.0,
+          0.0
+        ],
+        "plane_count": 1,
+        "suppressed_exact_duplicate_comparisons": 0,
+        "terminal": "plane"
+      }
+    },
+    {
+      "id": "corner-crease",
+      "legacy": {
+        "exact_duplicate_comparisons": 0,
+        "exact_duplicate_negative_rejections": 0,
+        "final_velocity": [
+          0.0,
+          0.0,
+          20.0
+        ],
+        "plane_count": 2,
+        "suppressed_exact_duplicate_comparisons": 0,
+        "terminal": "crease"
+      },
+      "legacy_equals_zaero": true,
+      "normals": [
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          -1.0,
+          0.0
+        ]
+      ],
+      "rerelease": {
+        "duplicate_skips": 0,
+        "final_velocity": [
+          0.0,
+          -1.0,
+          20.0
+        ],
+        "plane_count": 2,
+        "terminal": "plane"
+      },
+      "role": "perpendicular corner",
+      "velocity": [
+        100.0,
+        100.0,
+        20.0
+      ],
+      "zaero": {
+        "exact_duplicate_comparisons": 0,
+        "exact_duplicate_negative_rejections": 0,
+        "final_velocity": [
+          0.0,
+          0.0,
+          20.0
+        ],
+        "plane_count": 2,
+        "suppressed_exact_duplicate_comparisons": 0,
+        "terminal": "crease"
+      }
+    },
+    {
+      "id": "stair-riser-floor",
+      "legacy": {
+        "exact_duplicate_comparisons": 0,
+        "exact_duplicate_negative_rejections": 0,
+        "final_velocity": [
+          0.0,
+          25.0,
+          0.0
+        ],
+        "plane_count": 2,
+        "suppressed_exact_duplicate_comparisons": 0,
+        "terminal": "crease"
+      },
+      "legacy_equals_zaero": true,
+      "normals": [
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "rerelease": {
+        "duplicate_skips": 0,
+        "final_velocity": [
+          0.0,
+          25.0,
+          0.5
+        ],
+        "plane_count": 2,
+        "terminal": "plane"
+      },
+      "role": "vertical riser plus floor",
+      "velocity": [
+        100.0,
+        25.0,
+        -50.0
+      ],
+      "zaero": {
+        "exact_duplicate_comparisons": 0,
+        "exact_duplicate_negative_rejections": 0,
+        "final_velocity": [
+          0.0,
+          25.0,
+          0.0
+        ],
+        "plane_count": 2,
+        "suppressed_exact_duplicate_comparisons": 0,
+        "terminal": "crease"
+      }
+    },
+    {
+      "id": "three-plane-wedge",
+      "legacy": {
+        "exact_duplicate_comparisons": 0,
+        "exact_duplicate_negative_rejections": 0,
+        "final_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "plane_count": 3,
+        "suppressed_exact_duplicate_comparisons": 0,
+        "terminal": "primal-stop"
+      },
+      "legacy_equals_zaero": true,
+      "normals": [
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          -1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "rerelease": {
+        "duplicate_skips": 0,
+        "final_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "plane_count": 3,
+        "terminal": "primal-stop"
+      },
+      "role": "three unique blocking planes",
+      "velocity": [
+        100.0,
+        100.0,
+        -100.0
+      ],
+      "zaero": {
+        "exact_duplicate_comparisons": 0,
+        "exact_duplicate_negative_rejections": 0,
+        "final_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "plane_count": 3,
+        "suppressed_exact_duplicate_comparisons": 0,
+        "terminal": "primal-stop"
+      }
+    },
+    {
+      "id": "projectile-duplicate-plane",
+      "legacy": {
+        "exact_duplicate_comparisons": 0,
+        "exact_duplicate_negative_rejections": 0,
+        "final_velocity": [
+          305.685394,
+          -6.345245,
+          -216.150848
+        ],
+        "plane_count": 2,
+        "suppressed_exact_duplicate_comparisons": 1,
+        "terminal": "plane"
+      },
+      "legacy_equals_zaero": false,
+      "normals": [
+        [
+          -0.194906,
+          -0.949008,
+          -0.247782
+        ],
+        [
+          -0.194906,
+          -0.949008,
+          -0.247782
+        ]
+      ],
+      "rerelease": {
+        "duplicate_skips": 1,
+        "final_velocity": [
+          305.079346,
+          -9.296173,
+          -216.921295
+        ],
+        "plane_count": 1,
+        "terminal": "near-duplicate-skip"
+      },
+      "role": "fraction-zero repeat on an exact non-axial plane",
+      "velocity": [
+        366.290771,
+        288.74527,
+        -139.103989
+      ],
+      "zaero": {
+        "exact_duplicate_comparisons": 2,
+        "exact_duplicate_negative_rejections": 2,
+        "final_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "plane_count": 2,
+        "suppressed_exact_duplicate_comparisons": 0,
+        "terminal": "primal-stop"
+      }
+    },
+    {
+      "id": "monster-near-duplicate-plane",
+      "legacy": {
+        "exact_duplicate_comparisons": 0,
+        "exact_duplicate_negative_rejections": 0,
+        "final_velocity": [
+          0.0,
+          45.0,
+          10.0
+        ],
+        "plane_count": 2,
+        "suppressed_exact_duplicate_comparisons": 0,
+        "terminal": "plane"
+      },
+      "legacy_equals_zaero": true,
+      "normals": [
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          -0.999,
+          0.0447,
+          0.0
+        ]
+      ],
+      "rerelease": {
+        "duplicate_skips": 1,
+        "final_velocity": [
+          -1.199997,
+          45.0,
+          10.0
+        ],
+        "plane_count": 1,
+        "terminal": "near-duplicate-skip"
+      },
+      "role": "two nearly parallel curved-surface contacts",
+      "velocity": [
+        120.0,
+        45.0,
+        10.0
+      ],
+      "zaero": {
+        "exact_duplicate_comparisons": 0,
+        "exact_duplicate_negative_rejections": 0,
+        "final_velocity": [
+          0.0,
+          45.0,
+          10.0
+        ],
+        "plane_count": 2,
+        "suppressed_exact_duplicate_comparisons": 0,
+        "terminal": "plane"
+      }
+    }
+  ],
+  "inputs": {
+    "legacy": [
+      {
+        "path": "g_phys.c",
+        "sha256": "31e3b813814c249734550d262d2b4766184849563960c0d9715005a6e5743481",
+        "size": 21442
+      }
+    ],
+    "port": [
+      {
+        "path": "g_phys.cpp",
+        "sha256": "16ae78b84c0e5bc81a5ccf8d7f17184242cc456d50980330ec8516ec7240f78d",
+        "size": 31757
+      },
+      {
+        "path": "p_move.cpp",
+        "sha256": "0bed089782386fa1d9a4872a0bcfdae97f5d967a7d8bc3e6dc3fa3dd23dc2cc5",
+        "size": 37414
+      }
+    ],
+    "rerelease": [
+      {
+        "path": "g_phys.cpp",
+        "sha256": "c09d96106cee08d30bfca282159a487d91a93c852870b3f1ed6b21a4df6b4737",
+        "size": 24280
+      },
+      {
+        "path": "p_move.cpp",
+        "sha256": "0bed089782386fa1d9a4872a0bcfdae97f5d967a7d8bc3e6dc3fa3dd23dc2cc5",
+        "size": 37414
+      }
+    ],
+    "zaero": [
+      {
+        "path": "g_phys.c",
+        "sha256": "21a0e0374a925c9de1ac9e5143de80a64c2f197702b4ec8cbab1ecea45d5d056",
+        "size": 25085
+      }
+    ]
+  },
+  "schema_version": 1,
+  "scope_note": "These are deterministic float32 plane-resolution goldens, not live BSP trace captures. Windowed corner/wedge/stair/projectile/monster fixtures remain before Q-048 is verified.",
+  "source_delta": {
+    "legacy_function_lines": [
+      183,
+      313
+    ],
+    "legacy_suppression_condition": "if ((j != i) && !VectorCompare (planes[i], planes[j]))",
+    "port_function_lines": [
+      140,
+      172
+    ],
+    "port_helper_lines": [
+      282,
+      434
+    ],
+    "port_matches_rerelease_function": true,
+    "port_matches_rerelease_helper": true,
+    "rerelease_function_lines": [
+      140,
+      172
+    ],
+    "rerelease_helper_lines": [
+      282,
+      434
+    ],
+    "rerelease_near_duplicate_threshold": 0.99,
+    "rerelease_overbounce": 1.01,
+    "zaero_function_lines": [
+      164,
+      293
+    ],
+    "zaero_only_semantic_change": "if (j != i)"
+  },
+  "summary": {
+    "golden_case_count": 7,
+    "legacy_zaero_difference_case_count": 1,
+    "port_sv_flymove_caller_count": 4,
+    "rerelease_shared_helper_caller_count": 3,
+    "zaero_sv_flymove_caller_count": 3
+  }
+}

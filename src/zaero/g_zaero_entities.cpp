@@ -2,6 +2,7 @@
 
 #include "../g_local.h"
 #include "g_zaero_entities.h"
+#include "g_zaero_visor.h"
 
 // Implemented by the native Rerelease barrel code. Reusing it retains the
 // mass-sensitive push contract while the Zaero FALLFLOAT mover is pending.
@@ -81,8 +82,9 @@ THINK(zaero_trigger_laser_think) (edict_t *self) -> void
 	}
 	else
 	{
+		const int32_t trigger_spawn_count = self->spawn_count;
 		G_UseTargets(self, tr.ent);
-		if (!self->inuse)
+		if (!self->inuse || self->spawn_count != trigger_spawn_count)
 			return;
 
 		if (self->spawnflags.has(SPAWNFLAG_TRIGGER_LASER_MULTIPLE))
@@ -196,6 +198,23 @@ TOUCH(zaero_barrier_touch) (edict_t *self, edict_t *other, const trace_t &tr, bo
 		self->touch_debounce_time = level.time + (ZAERO_LEGACY_TICK * 2);
 	}
 }
+
+USE(zaero_zboss_target_use) (edict_t *self, edict_t *other, edict_t *activator) -> void
+{
+	edict_t *boss = nullptr;
+	while ((boss = G_FindByString<&edict_t::targetname>(boss, self->target)))
+	{
+		// The retail map targets the live ZBoss. Keep malformed/community maps
+		// deterministic instead of invoking an empty callback.
+		if (boss->health <= 0 || !boss->monsterinfo.attack ||
+			!boss->classname || strcmp(boss->classname, "monster_zboss"))
+			continue;
+
+		boss->monsterinfo.zaero_shot_target = self->s.origin;
+		boss->monsterinfo.aiflags |= AI_ZAERO_ONESHOT_TARGET;
+		boss->monsterinfo.attack(boss);
+	}
+}
 } // namespace
 
 void SP_sound_echo(edict_t *self)
@@ -296,6 +315,7 @@ void SP_misc_securitycamera(edict_t *self)
 	self->takedamage = true;
 	self->flags |= FL_IMMORTAL;
 	self->pain = zaero_securitycamera_pain;
+	Zaero_VisorRegisterCameraMessage(self);
 	gi.linkentity(self);
 }
 
@@ -373,4 +393,20 @@ void SP_misc_seat(edict_t *self)
 	self->mins = { -16.0f, -16.0f, 0.0f };
 	self->maxs = { 16.0f, 16.0f, 40.0f };
 	setup_crate(self);
+}
+
+void SP_target_zboss_target(edict_t *self)
+{
+	if (!self->target)
+	{
+		gi.Com_PrintFmt("{} without a target\n", *self);
+		G_FreeEdict(self);
+		return;
+	}
+
+	self->movetype = MOVETYPE_NONE;
+	self->svflags |= SVF_NOCLIENT;
+	self->solid = SOLID_NOT;
+	self->use = zaero_zboss_target_use;
+	gi.linkentity(self);
 }

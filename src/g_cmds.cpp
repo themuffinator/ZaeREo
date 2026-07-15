@@ -2,6 +2,7 @@
 // Licensed under the GNU General Public License 2.0.
 #include "g_local.h"
 #include "m_player.h"
+#include "zaero/g_zaero_visor.h"
 
 void SelectNextItem(edict_t *ent, item_flags_t itflags, bool menu = true)
 {
@@ -242,6 +243,8 @@ void Cmd_Give_f(edict_t *ent)
 		}
 
 		G_CheckPowerArmor(ent);
+		if (level.is_zaero && ent->client->pers.inventory[IT_ITEM_VISOR])
+			Zaero_VisorSetDefaultDuration(ent);
 		ent->client->pers.power_cubes = 0xFF;
 		return;
 	}
@@ -613,6 +616,75 @@ Cmd_Use_f
 Use an inventory item
 ==================
 */
+namespace
+{
+constexpr std::array<std::array<item_id_t, 2>, 10> zaero_weapon_number_slots = {{
+	{ IT_WEAPON_BLASTER, IT_WEAPON_FLAREGUN },
+	{ IT_WEAPON_SHOTGUN, IT_NULL },
+	{ IT_WEAPON_SSHOTGUN, IT_NULL },
+	{ IT_WEAPON_MACHINEGUN, IT_NULL },
+	{ IT_WEAPON_CHAINGUN, IT_NULL },
+	{ IT_WEAPON_GLAUNCHER, IT_NULL },
+	{ IT_WEAPON_RLAUNCHER, IT_NULL },
+	{ IT_WEAPON_HYPERBLASTER, IT_NULL },
+	{ IT_WEAPON_RAILGUN, IT_WEAPON_SNIPERRIFLE },
+	{ IT_WEAPON_BFG, IT_WEAPON_SONICCANNON }
+}};
+
+bool Zaero_TryUseWeaponNumberChoice(edict_t *ent, item_id_t item_id)
+{
+	gitem_t *item = GetItemByIndex(item_id);
+
+	if (!item || !item->use)
+	{
+		gi.LocClient_Print(ent, PRINT_HIGH, "$g_item_not_usable");
+		return false;
+	}
+
+	if (!ent->client->pers.inventory[item_id])
+	{
+		gi.LocClient_Print(ent, PRINT_HIGH, "$g_out_of_item", item->pickup_name);
+		return false;
+	}
+
+	// The Zaero 1.1 table owns its alternate order. Do not let the native
+	// mission-pack chain rooted at the selected weapon choose a third item.
+	ent->client->no_weapon_chains = true;
+	item->use(ent, item);
+	return true;
+}
+
+void Zaero_UseWeaponNumber(edict_t *ent, int number)
+{
+	if (number < 1 || number > static_cast<int>(zaero_weapon_number_slots.size()))
+	{
+		gi.LocClient_Print(ent, PRINT_HIGH, "Invalid weapon index: {}\n", number);
+		return;
+	}
+
+	const auto &slot = zaero_weapon_number_slots[number - 1];
+	const size_t count = slot[1] == IT_NULL ? 1 : slot.size();
+	size_t start = 0;
+
+	for (size_t i = 0; i < count; ++i)
+	{
+		if (GetItemByIndex(slot[i]) == ent->client->pers.weapon)
+		{
+			start = (i + 1) % count;
+			break;
+		}
+	}
+
+	for (size_t i = 0; i < count; ++i)
+	{
+		if (Zaero_TryUseWeaponNumberChoice(ent, slot[(start + i) % count]))
+			break;
+	}
+
+	ValidateSelectedItem(ent);
+}
+}
+
 void Cmd_Use_f(edict_t *ent)
 {
 	item_id_t index;
@@ -621,6 +693,17 @@ void Cmd_Use_f(edict_t *ent)
 
 	if (ent->health <= 0 || ent->deadflag)
 		return;
+
+	if (!Q_strcasecmp(gi.argv(1), "weapon"))
+	{
+		const char *number = gi.argv(2);
+
+		if (!number[0])
+			gi.LocClient_Print(ent, PRINT_HIGH, "weapon index expected (1 to 10)\n");
+		else
+			Zaero_UseWeaponNumber(ent, atoi(number));
+		return;
+	}
 
 	s = gi.args();
 
@@ -1008,6 +1091,13 @@ void Cmd_Kill_f(edict_t *ent)
 
 	// [Paril-KEX] don't allow kill to take points away in TDM
 	player_die(ent, ent, ent, 100000, vec3_origin, { MOD_SUICIDE, !!teamplay->integer });
+}
+
+void Cmd_ZaeroShowOrigin_f(edict_t *ent)
+{
+	ent->client->zaero_show_origin = !ent->client->zaero_show_origin;
+	gi.LocClient_Print(ent, PRINT_HIGH,
+		ent->client->zaero_show_origin ? "Show origin ON\n" : "Show origin OFF\n");
 }
 
 /*
@@ -1598,6 +1688,19 @@ static void Cmd_ListMonsters_f(edict_t *ent)
 	}
 }
 
+static bool Zaero_VisorUseCommandTargetsVisor(const char *cmd)
+{
+	if (!Q_strcasecmp(cmd, "use_index") ||
+		!Q_strcasecmp(cmd, "use_index_only"))
+		return atoi(gi.args()) == IT_ITEM_VISOR;
+
+	if (Q_strcasecmp(cmd, "use") && Q_strcasecmp(cmd, "use_only"))
+		return false;
+
+	const gitem_t *item = FindItem(gi.args());
+	return item && item->id == IT_ITEM_VISOR;
+}
+
 /*
 =================
 ClientCommand
@@ -1611,6 +1714,33 @@ void ClientCommand(edict_t *ent)
 		return; // not fully in game yet
 
 	cmd = gi.argv(0);
+
+	// D-008: preserve the Visor's gameplay control lock while allowing native
+	// lobby/chat routing. Modern index commands are accepted only when they
+	// address the Visor, keeping wheel and split-screen input client-local.
+	const bool visor_chat_command =
+		!Q_strcasecmp(cmd, "say") ||
+		!Q_strcasecmp(cmd, "say_team") ||
+		!Q_strcasecmp(cmd, "steam");
+	if (Zaero_VisorIsActive(ent) && !level.intermissiontime &&
+		!visor_chat_command)
+	{
+		if (!Q_strcasecmp(cmd, "putaway"))
+		{
+			Zaero_VisorStop(ent, true);
+			Cmd_PutAway_f(ent);
+		}
+		else if (Zaero_VisorUseCommandTargetsVisor(cmd))
+			Cmd_Use_f(ent);
+		else if (!Q_strcasecmp(cmd, "invuse") &&
+			ent->client->pers.selected_item == IT_ITEM_VISOR)
+			Cmd_InvUse_f(ent);
+		else if (!Q_strcasecmp(cmd, "invnext"))
+			SelectNextItem(ent, IF_ANY);
+		else if (!Q_strcasecmp(cmd, "invprev"))
+			SelectPrevItem(ent, IF_ANY);
+		return;
+	}
 
 	if (Q_strcasecmp(cmd, "players") == 0)
 	{
@@ -1713,6 +1843,8 @@ void ClientCommand(edict_t *ent)
 		Cmd_Kill_AI_f( ent );
 	else if ( Q_strcasecmp( cmd, "where" ) == 0 )
 		Cmd_Where_f( ent );
+	else if (Q_strcasecmp(cmd, "showorigin") == 0)
+		Cmd_ZaeroShowOrigin_f(ent);
 	else if ( Q_strcasecmp( cmd, "clear_ai_enemy" ) == 0 )
 		Cmd_Clear_AI_Enemy_f( ent );
 	else if (Q_strcasecmp(cmd, "putaway") == 0)

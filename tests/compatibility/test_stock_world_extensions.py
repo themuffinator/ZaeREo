@@ -12,8 +12,13 @@ ROOT = Path(__file__).resolve().parents[2]
 MISC = (ROOT / "src" / "g_misc.cpp").read_text(encoding="utf-8")
 TARGET = (ROOT / "src" / "g_target.cpp").read_text(encoding="utf-8")
 FUNC = (ROOT / "src" / "g_func.cpp").read_text(encoding="utf-8")
+SPAWN = (ROOT / "src" / "g_spawn.cpp").read_text(encoding="utf-8")
+SAVES = (ROOT / "src" / "g_save.cpp").read_text(encoding="utf-8")
 AUDIT = json.loads(
     (ROOT / "docs" / "audits" / "bsp-entities.json").read_text(encoding="utf-8")
+)
+SOURCE_AUDIT = json.loads(
+    (ROOT / "docs" / "audits" / "source-delta.json").read_text(encoding="utf-8")
 )
 
 VIPER_SMOKE = 1
@@ -21,6 +26,46 @@ VIPER_SOLID = 2
 VIPER_CUSTOM_BOUNDS = 4
 DOOR_ACTIVE_TOGGLE = 1
 DOOR_ACTIVE_ON = 2
+NON_DAMAGING_ROTATING_DOORS = {
+    "zdef1": ((779, None), (780, None)),
+    "zdef3": ((1392, None), (1393, None), (1397, "0")),
+    "zdm5": ((56, None),),
+    "ztomb2": ((292, None), (739, "0"), (1117, "0"), (1118, "0")),
+    "zwaste1": ((231, "0"),),
+    "zwaste3": ((188, "0"),),
+}
+PATH_CORNER_MAP_COUNTS = {
+    "zbase1": (12, 5, 1),
+    "zboss": (8, 3, 0),
+    "zdef1": (47, 4, 0),
+    "zdef2": (36, 11, 0),
+    "zdef3": (67, 26, 3),
+    "zdef4": (55, 4, 0),
+    "ztomb1": (20, 9, 0),
+    "ztomb2": (52, 14, 0),
+    "ztomb3": (64, 18, 0),
+    "zwaste1": (4, 2, 0),
+    "zwaste2": (8, 0, 0),
+    "zwaste3": (2, 0, 0),
+}
+PATH_CORNER_FLAG_COUNTS = {0: 78, 1: 3, 2048: 291, 2049: 1, 2816: 2}
+FUNC_TRAIN_FLAG_COUNTS = {1: 5, 3: 20, 1793: 1, 2048: 1, 2050: 1}
+ZDEF4_PATH_SPEEDS = {
+    492: 110,
+    493: 330,
+    495: 500,
+    496: 1000,
+    1078: 5000,
+}
+TELEPORT_PATH_CORNERS = {
+    "zbase1": ((63, 1),),
+    "zdef3": ((907, 1), (1115, 1), (1736, 2049)),
+}
+ZERO_ASPEED_TRAINS = {
+    "zdef3": (1956,),
+    "ztomb2": (630, 632),
+    "zwaste3": (189,),
+}
 
 
 def function_body(source: str, signature: str) -> str:
@@ -46,6 +91,62 @@ class ViperPresentation:
     attachments: tuple[str | None, str | None, str | None]
     mins: tuple[int, int, int]
     maxs: tuple[int, int, int]
+
+
+@dataclass(frozen=True)
+class SmoothTrainStep:
+    remaining: float
+    current_speed: float
+    rate: float
+    accelerating: bool
+    velocity: float
+    final: bool
+
+
+def begin_zaero_smooth_step(
+    *,
+    remaining: float,
+    target_speed: float,
+    current_speed: float,
+    corner_rate: float,
+    train_decel: float = 0.0,
+    automatic: bool,
+) -> SmoothTrainStep:
+    """Model the supplied DLL's immediate first 10 Hz smooth callback."""
+
+    current_speed = current_speed or target_speed
+    rate = corner_rate
+    accelerating = target_speed > current_speed
+    if target_speed > remaining:
+        current_speed = target_speed
+        rate = 0.0
+    elif automatic:
+        steps = remaining / ((target_speed + current_speed) * 0.5)
+        rate = (target_speed - current_speed) / steps
+    else:
+        if train_decel < 0:
+            rate = -rate
+        if not accelerating:
+            rate = -rate
+
+    if remaining >= current_speed:
+        remaining -= current_speed
+    current_speed += rate
+    if accelerating and current_speed > target_speed:
+        current_speed = target_speed
+    elif not accelerating and current_speed < target_speed:
+        current_speed = target_speed
+
+    final = remaining <= current_speed
+    velocity = (remaining if final else current_speed) * 10.0
+    return SmoothTrainStep(
+        remaining,
+        current_speed,
+        rate,
+        accelerating,
+        velocity,
+        final,
+    )
 
 
 def spawn_viper(
@@ -107,6 +208,13 @@ def zaero_door_trigger_accepts(active: int) -> bool:
     return not active & DOOR_ACTIVE_TOGGLE or bool(active & DOOR_ACTIVE_ON)
 
 
+def rotating_door_damage(authored: int | None, *, is_zaero_map: bool) -> int:
+    value = authored or 0
+    if value == 0 and not is_zaero_map:
+        return 2
+    return value
+
+
 class MiscViperTests(unittest.TestCase):
     def test_smoke_is_consumed_before_train_logic(self) -> None:
         viper = spawn_viper(flags=VIPER_SMOKE)
@@ -153,6 +261,319 @@ class MiscViperTests(unittest.TestCase):
             'ent->s.modelindex = gi.modelindex("models/ships/viper/tris.md2")',
             body,
         )
+
+
+class TrainPathCornerTests(unittest.TestCase):
+    def test_source_identity_and_complete_shipped_inventory_are_locked(self) -> None:
+        records = {
+            record["path"]: record
+            for record in SOURCE_AUDIT["comparison"]["file_records"]
+        }
+        self.assertEqual(
+            records["g_func.c"]["zaero_sha256"],
+            "aa7d05629c1213145e8fb74d14252d0b982b35cbc2dd4c75f1c27882f72adea6",
+        )
+        self.assertEqual(
+            records["g_misc.c"]["zaero_sha256"],
+            "60378a0a35864453e5d6a2e1a18a43cc73c327e28dc3a45a1bec087425515fe1",
+        )
+        self.assertEqual(
+            AUDIT["global"]["classname_counts"]["path_corner"], 375
+        )
+        self.assertEqual(
+            AUDIT["global"]["classname_counts"]["func_train"], 28
+        )
+        self.assertEqual(
+            AUDIT["global"]["classname_counts"]["misc_viper"], 7
+        )
+        self.assertEqual(
+            sum(counts[0] for counts in PATH_CORNER_MAP_COUNTS.values()), 375
+        )
+        self.assertEqual(
+            sum(counts[1] for counts in PATH_CORNER_MAP_COUNTS.values()), 96
+        )
+        self.assertEqual(
+            sum(counts[2] for counts in PATH_CORNER_MAP_COUNTS.values()), 4
+        )
+        self.assertEqual(sum(map(len, TELEPORT_PATH_CORNERS.values())), 4)
+        self.assertEqual(len(ZDEF4_PATH_SPEEDS), 5)
+        self.assertEqual(sum(map(len, ZERO_ASPEED_TRAINS.values())), 4)
+        self.assertEqual(sum(PATH_CORNER_FLAG_COUNTS.values()), 375)
+        self.assertFalse(
+            any(flags & 6 for flags in PATH_CORNER_FLAG_COUNTS)
+        )
+        self.assertEqual(sum(FUNC_TRAIN_FLAG_COUNTS.values()), 28)
+        self.assertFalse(
+            any(flags & (8 | 16 | 32 | 64) for flags in FUNC_TRAIN_FLAG_COUNTS)
+        )
+
+    def test_per_corner_speed_accel_and_decel_preserve_zaero_state(self) -> None:
+        self.assertEqual(
+            ZDEF4_PATH_SPEEDS,
+            {492: 110, 493: 330, 495: 500, 496: 1000, 1078: 5000},
+        )
+        body = function_body(
+            FUNC, "THINK(train_next) (edict_t *self) -> void"
+        )
+        self.assertIn("if (ent->speed)", body)
+        self.assertIn("self->moveinfo.speed = ent->speed", body)
+        self.assertIn("self->moveinfo.accel = ent->accel", body)
+        self.assertIn("self->moveinfo.accel = ent->speed", body)
+        self.assertIn("self->moveinfo.decel = ent->decel", body)
+        self.assertIn("self->moveinfo.decel = ent->speed", body)
+        native = body.index("if (!level.is_zaero)")
+        self.assertIn("self->speed = ent->speed", body[native:])
+        self.assertIn("self->moveinfo.current_speed = 0", body[native:])
+
+    def test_misc_viper_uses_raw_origin_only_for_ordinary_next_segment(self) -> None:
+        destination = function_body(
+            FUNC,
+            "static vec3_t train_destination(edict_t *self, edict_t *corner, bool allow_zaero_viper_origin)",
+        )
+        self.assertIn("if (level.is_zaero)", destination)
+        self.assertIn("allow_zaero_viper_origin", destination)
+        self.assertIn('Q_strcasecmp(self->classname, "misc_viper") == 0', destination)
+        self.assertIn("return corner->s.origin;", destination)
+        self.assertIn("return corner->s.origin - self->mins;", destination)
+        self.assertIn("SPAWNFLAG_TRAIN_USE_ORIGIN", destination)
+        self.assertIn("SPAWNFLAG_TRAIN_FIX_OFFSET", destination)
+
+        train_next = function_body(
+            FUNC, "THINK(train_next) (edict_t *self) -> void"
+        )
+        self.assertEqual(
+            train_next.count("train_destination(self, ent, true)"), 1
+        )
+        self.assertEqual(
+            train_next.count("train_destination(self, ent, false)"), 1
+        )
+        self.assertIn(
+            "train_destination(self, ent, false)",
+            function_body(FUNC, "void train_resume(edict_t *self)"),
+        )
+        self.assertIn(
+            "train_destination(self, ent, false)",
+            function_body(FUNC, "THINK(func_train_find) (edict_t *self) -> void"),
+        )
+
+    def test_wait_turns_first_and_both_teleport_events_are_suppressed(self) -> None:
+        corner = function_body(
+            MISC,
+            "TOUCH(path_corner_touch) (edict_t *self, edict_t *other, const trace_t &tr, bool other_touching_self) -> void",
+        )
+        wait = corner.index("if (self->wait)")
+        yaw = corner.index("other->ideal_yaw = vectoyaw(v)", wait)
+        pause = corner.index("other->monsterinfo.pausetime", wait)
+        stand = corner.index("other->monsterinfo.stand(other)", wait)
+        self.assertLess(yaw, pause)
+        self.assertLess(pause, stand)
+        self.assertIn("if (level.is_zaero && other->goalentity)", corner)
+        self.assertIn("if (!level.is_zaero)\n\t\t\tother->s.event = EV_OTHER_TELEPORT", corner)
+
+        train_next = function_body(
+            FUNC, "THINK(train_next) (edict_t *self) -> void"
+        )
+        self.assertIn("if (!level.is_zaero)\n\t\t\tself->s.event = EV_OTHER_TELEPORT", train_next)
+
+    def test_auto_smooth_retains_10_hz_decisions_over_40_hz_motion(self) -> None:
+        step = begin_zaero_smooth_step(
+            remaining=2000.0,
+            target_speed=300.0,
+            current_speed=100.0,
+            corner_rate=300.0,
+            automatic=True,
+        )
+        self.assertEqual(step.remaining, 1900.0)
+        self.assertEqual(step.current_speed, 120.0)
+        self.assertEqual(step.rate, 20.0)
+        self.assertEqual(step.velocity, 1200.0)
+        self.assertFalse(step.final)
+        distance_per_40_hz_tick = step.velocity * 0.025
+        self.assertEqual(distance_per_40_hz_tick * 4, step.current_speed)
+
+        short = begin_zaero_smooth_step(
+            remaining=250.0,
+            target_speed=300.0,
+            current_speed=100.0,
+            corner_rate=300.0,
+            automatic=True,
+        )
+        self.assertTrue(short.final)
+        self.assertEqual(short.velocity * 0.025 * 4, 250.0)
+
+        calc = function_body(
+            FUNC,
+            "static void zaero_train_move_calc(edict_t *ent, const vec3_t &dest,",
+        )
+        self.assertIn("SPAWNFLAG_PATH_CORNER_ZAERO_AUTO_SMOOTH", calc)
+        self.assertIn("SPAWNFLAG_PATH_CORNER_ZAERO_CUSTOM_SMOOTH", calc)
+        self.assertIn("zaero_train_smooth_think(ent)", calc)
+        think = function_body(
+            FUNC, "THINK(zaero_train_smooth_think) (edict_t *ent) -> void"
+        )
+        self.assertIn("ent->moveinfo.current_speed * 10.0f", think)
+        self.assertIn("level.time + 10_hz", think)
+        final = function_body(
+            FUNC, "static void zaero_train_smooth_final(edict_t *ent)"
+        )
+        self.assertIn(
+            "ent->moveinfo.dir * (ent->moveinfo.remaining_distance * 10.0f)",
+            final,
+        )
+        self.assertIn("level.time + 10_hz", final)
+
+    def test_custom_smooth_and_rotation_bits_retain_native_fallback(self) -> None:
+        step = begin_zaero_smooth_step(
+            remaining=2000.0,
+            target_speed=100.0,
+            current_speed=300.0,
+            corner_rate=25.0,
+            automatic=False,
+        )
+        self.assertEqual(step.remaining, 1700.0)
+        self.assertEqual(step.current_speed, 275.0)
+        self.assertEqual(step.rate, -25.0)
+        self.assertFalse(step.accelerating)
+
+        for name, bit in (
+            ("REVERSE", 8),
+            ("X_AXIS", 16),
+            ("Y_AXIS", 32),
+            ("Z_AXIS", 64),
+        ):
+            self.assertIn(
+                f"SPAWNFLAG_TRAIN_ZAERO_{name} = {bit}_spawnflag", FUNC
+            )
+        spawn = function_body(FUNC, "void SP_func_train(edict_t *self)")
+        self.assertIn("if (level.is_zaero)", spawn)
+        self.assertIn("self->movedir = -self->movedir", spawn)
+        self.assertIn("ent->avelocity = ent->movedir * ent->aspeed", FUNC)
+        self.assertIn("if (level.is_zaero)\n\t\tent->avelocity = {}", FUNC)
+
+        train_next = function_body(
+            FUNC, "THINK(train_next) (edict_t *self) -> void"
+        )
+        self.assertIn(
+            "if (!level.is_zaero && self->spawnflags.has(SPAWNFLAG_TRAIN_MOVE_TEAMCHAIN))",
+            train_next,
+        )
+        fix_teams = function_body(SPAWN, "void G_FixTeams()")
+        self.assertIn("if (!level.is_zaero && !strcmp(e->classname, \"func_train\")", fix_teams)
+
+    def test_smooth_callback_and_existing_mover_state_are_json_saveable(self) -> None:
+        self.assertIn("THINK(zaero_train_smooth_think)", FUNC)
+        for field in (
+            "aspeed",
+            "moveinfo.accel",
+            "moveinfo.speed",
+            "moveinfo.decel",
+            "moveinfo.dir",
+            "moveinfo.dest",
+            "moveinfo.current_speed",
+            "moveinfo.remaining_distance",
+            "moveinfo.endfunc",
+        ):
+            self.assertIn(f"FIELD_AUTO({field})", SAVES)
+
+
+class MiscExploboxTests(unittest.TestCase):
+    def test_source_identity_and_all_31_shipped_placements_are_locked(self) -> None:
+        records = {
+            record["path"]: record
+            for record in SOURCE_AUDIT["comparison"]["file_records"]
+        }
+        self.assertEqual(
+            records["g_misc.c"]["zaero_sha256"],
+            "60378a0a35864453e5d6a2e1a18a43cc73c327e28dc3a45a1bec087425515fe1",
+        )
+        self.assertEqual(records["g_misc.c"]["status"], "modified")
+
+        counts = {
+            record["map_name"]: record["classname_counts"].get(
+                "misc_explobox", 0
+            )
+            for record in AUDIT["maps"]
+            if record["classname_counts"].get("misc_explobox", 0)
+        }
+        self.assertEqual(
+            counts,
+            {
+                "zbase1": 4,
+                "zdef1": 2,
+                "ztomb2": 6,
+                "zwaste2": 7,
+                "zwaste3": 12,
+            },
+        )
+        self.assertEqual(sum(counts.values()), 31)
+
+    def test_zaero_spawn_uses_fallfloat_mass_400_and_legacy_drop_start(self) -> None:
+        body = function_body(MISC, "void SP_misc_explobox(edict_t *self)")
+        self.assertIn(
+            "self->movetype = level.is_zaero ? MOVETYPE_FALLFLOAT : MOVETYPE_STEP",
+            body,
+        )
+        self.assertIn("if (!self->mass)", body)
+        self.assertIn("self->mass = level.is_zaero ? 400 : 50", body)
+        self.assertIn("self->monsterinfo.aiflags = AI_NOSTEP", body)
+        self.assertIn("else\n\t\tself->flags |= FL_TRAP", body)
+        self.assertIn("self->think = barrel_start", body)
+        self.assertIn("level.is_zaero ? 200_ms : 20_hz", body)
+
+        start = function_body(
+            MISC, "THINK(barrel_start) (edict_t *self) -> void"
+        )
+        drop = start.index("M_droptofloor(self)")
+        zaero = start.index("if (level.is_zaero)")
+        native = start.index("self->think = barrel_think")
+        self.assertLess(drop, zaero)
+        self.assertLess(zaero, native)
+        self.assertIn("self->think = nullptr", start[zaero:native])
+        self.assertIn("self->nextthink = 0_ms", start[zaero:native])
+        self.assertIn("return;", start[zaero:native])
+
+    def test_zaero_touch_is_client_only_and_allows_airborne_pushers(self) -> None:
+        body = function_body(
+            MISC,
+            "TOUCH(barrel_touch) (edict_t *self, edict_t *other, const trace_t &tr, bool other_touching_self) -> void",
+        )
+        native_start = body.index("\n\tfloat  ratio;")
+        zaero = body[:native_start]
+        native = body[native_start:]
+
+        self.assertIn("if (level.is_zaero)", zaero)
+        self.assertIn("other->groundentity == self || !other->client", zaero)
+        self.assertNotIn("!other->groundentity", zaero)
+        self.assertNotIn("other_touching_self", zaero)
+        self.assertIn("static_cast<float>(other->mass)", zaero)
+        self.assertIn("static_cast<float>(self->mass)", zaero)
+        self.assertIn("self->s.origin - other->s.origin", zaero)
+        self.assertIn("20.0f * ratio * gi.frame_time_s", zaero)
+        self.assertIn("SV_movestep(self, direction *", zaero)
+        self.assertIn(", true);", zaero)
+
+        # Native Rerelease barrels keep both their grounded-contact eligibility
+        # and M_walkmove path on every non-Zaero map.
+        self.assertIn("!other->groundentity", native)
+        self.assertIn("!other_touching_self", native)
+        self.assertIn("M_walkmove", native)
+
+    def test_push_rate_is_tick_independent_and_preserves_mass_ratio(self) -> None:
+        player_mass = 100.0
+        barrel_mass = 400.0
+        legacy_distance = 20.0 * (player_mass / barrel_mass) * 0.1
+        target_tick_distance = 20.0 * (player_mass / barrel_mass) * 0.025
+        self.assertEqual(legacy_distance, 0.5)
+        self.assertEqual(target_tick_distance, 0.125)
+        self.assertEqual(target_tick_distance * 4, legacy_distance)
+
+    def test_existing_callbacks_and_explosion_path_remain_save_native(self) -> None:
+        self.assertIn("TOUCH(barrel_touch)", MISC)
+        self.assertIn("THINK(barrel_start)", MISC)
+        self.assertIn("THINK(barrel_think)", MISC)
+        self.assertIn("THINK(barrel_explode)", MISC)
+        self.assertIn("DIE(barrel_delay)", MISC)
+        self.assertIn("T_RadiusDamage", function_body(MISC, "THINK(barrel_explode)"))
 
 
 class TargetExplosionTests(unittest.TestCase):
@@ -316,6 +737,79 @@ class FuncDoorTests(unittest.TestCase):
             "else if (ent->spawnflags.has(SPAWNFLAG_DOOR_START_OPEN))",
             body,
         )
+
+
+class RotatingDoorDamageTests(unittest.TestCase):
+    def test_all_12_missing_or_zero_damage_placements_are_locked(self) -> None:
+        records = {
+            record["path"]: record
+            for record in SOURCE_AUDIT["comparison"]["file_records"]
+        }
+        self.assertEqual(
+            records["g_func.c"]["zaero_sha256"],
+            "aa7d05629c1213145e8fb74d14252d0b982b35cbc2dd4c75f1c27882f72adea6",
+        )
+        self.assertEqual(
+            sum(len(entries) for entries in NON_DAMAGING_ROTATING_DOORS.values()),
+            12,
+        )
+        self.assertEqual(
+            sum(
+                value is None
+                for entries in NON_DAMAGING_ROTATING_DOORS.values()
+                for _, value in entries
+            ),
+            6,
+        )
+        self.assertEqual(
+            sum(
+                value == "0"
+                for entries in NON_DAMAGING_ROTATING_DOORS.values()
+                for _, value in entries
+            ),
+            6,
+        )
+        self.assertEqual(
+            AUDIT["global"]["classname_counts"]["func_door_rotating"], 32
+        )
+        self.assertLessEqual(
+            set(NON_DAMAGING_ROTATING_DOORS),
+            set(AUDIT["global"]["classname_maps"]["func_door_rotating"]),
+        )
+
+    def test_zaero_missing_and_zero_stay_zero_but_positive_damage_is_exact(self) -> None:
+        self.assertEqual(rotating_door_damage(None, is_zaero_map=True), 0)
+        self.assertEqual(rotating_door_damage(0, is_zaero_map=True), 0)
+        for damage in (1, 2, 6, 25):
+            with self.subTest(damage=damage):
+                self.assertEqual(
+                    rotating_door_damage(damage, is_zaero_map=True), damage
+                )
+
+    def test_non_zaero_missing_and_zero_retain_rerelease_default(self) -> None:
+        self.assertEqual(rotating_door_damage(None, is_zaero_map=False), 2)
+        self.assertEqual(rotating_door_damage(0, is_zaero_map=False), 2)
+        self.assertEqual(rotating_door_damage(6, is_zaero_map=False), 6)
+
+    def test_spawn_and_blocked_paths_preserve_zero_without_stalling_motion(self) -> None:
+        rotating = function_body(FUNC, "void SP_func_door_rotating(edict_t *ent)")
+        self.assertIn("if (!ent->dmg && !level.is_zaero)", rotating)
+        self.assertIn("ent->dmg = 2", rotating)
+
+        sliding = function_body(FUNC, "void SP_func_door(edict_t *ent)")
+        self.assertIn("if (!ent->dmg)\n\t\tent->dmg = 2", sliding)
+        self.assertNotIn("!ent->dmg && !level.is_zaero", sliding)
+
+        blocked = function_body(
+            FUNC,
+            "MOVEINFO_BLOCKED(door_blocked) (edict_t *self, edict_t *other) -> void",
+        )
+        damage = blocked.index("if (self->dmg")
+        reversal = blocked.index("if (self->moveinfo.wait >= 0)")
+        self.assertLess(damage, reversal)
+        self.assertIn("T_Damage", blocked[damage:reversal])
+        self.assertIn("door_go_up", blocked[reversal:])
+        self.assertIn("door_go_down", blocked[reversal:])
 
 
 class ShippedMapPatternTests(unittest.TestCase):

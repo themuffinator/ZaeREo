@@ -1128,7 +1128,16 @@
           "size": 3910
         }
       ],
-      "origin": "supplied local tree; upstream commit or archive origin is not recorded",
+      "official_git": {
+        "commit": "8dc1fc9794c01ece06881e703851b768fb3994de",
+        "repository": "https://github.com/id-Software/quake2-rerelease-dll.git",
+        "subtree": "rerelease",
+        "subtree_tree_oid": "7c3a380c5114dab4e7b7511a5c9c96390b72a1cd",
+        "verification_record": "docs/provenance/upstream-match.json",
+        "verified_on": "2026-07-14"
+      },
+      "origin": "https://github.com/id-Software/quake2-rerelease-dll.git@8dc1fc9794c01ece06881e703851b768fb3994de:rerelease; exact supplied-tree content match",
+      "origin_status": "verified-exact-content-match",
       "total_size": 2635282,
       "tree_sha256": "74b79d4f853fb521a866aaa5b1510c1c46afb63a73370b907b10143146629bf5"
     },

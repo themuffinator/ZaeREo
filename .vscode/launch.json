@@ -2,37 +2,44 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "ZaeREo: Launch installed campaign (Debug)",
+      "name": "ZaeREo: Run verified windowed runtime smoke",
       "type": "cppvsdbg",
       "request": "launch",
-      "program": "${input:q2Executable}",
-      "cwd": "${input:q2RereleaseEngineRoot}",
+      "program": "pwsh.exe",
+      "cwd": "${workspaceFolder}",
       "args": [
-        "+set",
-        "game",
-        "zaereo",
-        "+set",
-        "developer",
-        "1",
-        "+exec",
-        "zaerostart.cfg"
+        "-NoLogo",
+        "-NoProfile",
+        "-File",
+        "${workspaceFolder}\\tools\\run_game.ps1",
+        "-EngineRoot",
+        "${input:q2RereleaseEngineRoot}",
+        "-UserRoot",
+        "${input:q2RereleaseUserRoot}",
+        "-Map",
+        "${input:zaereoRuntimeMap}"
       ],
-      "symbolSearchPath": "${workspaceFolder}\\build\\Debug;${workspaceFolder}\\.install\\zaereo",
       "stopAtEntry": false,
-      "console": false,
+      "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
     }
   ],
   "inputs": [
     {
-      "id": "q2Executable",
-      "type": "promptString",
-      "description": "Full path to the local Quake II Rerelease executable"
-    },
-    {
       "id": "q2RereleaseEngineRoot",
       "type": "promptString",
-      "description": "Read-only Quake II Rerelease engine/data root containing baseq2; zaereo is installed in the per-user data root"
+      "description": "Read-only Quake II Rerelease engine/data root containing baseq2"
+    },
+    {
+      "id": "q2RereleaseUserRoot",
+      "type": "promptString",
+      "description": "Writable Rerelease user-data parent containing the managed zaereo install"
+    },
+    {
+      "id": "zaereoRuntimeMap",
+      "type": "promptString",
+      "default": "zbase1",
+      "description": "Map name for the verified smoke run (letters, digits, underscore, dot, or hyphen only)"
     }
   ]
 }

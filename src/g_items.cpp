@@ -2,10 +2,13 @@
 // Licensed under the GNU General Public License 2.0.
 #include "g_local.h"
 #include "bots/bot_includes.h"
+#include "zaero/g_zaero_a2k.h"
 #include "zaero/g_zaero_emp.h"
 #include "zaero/g_zaero_ired.h"
+#include "zaero/g_zaero_plasma_shield.h"
 #include "zaero/g_zaero_sniper.h"
 #include "zaero/g_zaero_sonic.h"
+#include "zaero/g_zaero_visor.h"
 #include "zaero/g_zaero_weapons.h"
 
 // The Rerelease protocol exposes fixed 32-entry wheels. These counts include
@@ -782,6 +785,23 @@ bool Pickup_Health(edict_t *ent, edict_t *other)
 	return true;
 }
 
+static const char *G_ZaeroHealthPickupSound(const edict_t *ent)
+{
+	const int32_t count = ent->count ? ent->count : ent->item->quantity;
+
+	switch (count)
+	{
+	case 2:
+		return "items/s_health.wav";
+	case 10:
+		return "items/n_health.wav";
+	case 25:
+		return "items/l_health.wav";
+	default:
+		return "items/m_health.wav";
+	}
+}
+
 //======================================================================
 
 item_id_t ArmorIndex(edict_t *ent)
@@ -1014,6 +1034,8 @@ TOUCH(Touch_Item) (edict_t *ent, edict_t *other, const trace_t &tr, bool other_t
 
 		if (ent->noise_index)
 			gi.sound(other, CHAN_ITEM, ent->noise_index, 1, ATTN_NORM, 0);
+		else if (level.is_zaero && ent->item->pickup == Pickup_Health)
+			gi.sound(other, CHAN_ITEM, gi.soundindex(G_ZaeroHealthPickupSound(ent)), 1, ATTN_NORM, 0);
 		else if (ent->item->pickup_sound)
 			gi.sound(other, CHAN_ITEM, gi.soundindex(ent->item->pickup_sound), 1, ATTN_NORM, 0);
 		
@@ -4109,7 +4131,7 @@ model="models/items/mega_h/tris.md2"
 		/* pickup */ Pickup_Ammo,
 		/* use */ Use_Weapon,
 		/* drop */ Drop_Ammo,
-		/* weaponthink */ Weapon_ZaeroA2KPending,
+		/* weaponthink */ Weapon_ZaeroA2K,
 		/* pickup_sound */ "misc/am_pkup.wav",
 		/* world_model */ "models/weapons/g_a2k/tris.md2",
 		/* world_model_flags */ EF_NONE,
@@ -4121,11 +4143,11 @@ model="models/items/mega_h/tris.md2"
 		/* quantity */ 1,
 		/* ammo */ IT_AMMO_A2K,
 		/* chain */ IT_AMMO_A2K,
-		/* flags */ IF_AMMO | IF_POWERUP | IF_NO_WEAPON_SELECTION | IF_PENDING_IMPLEMENTATION,
+		/* flags */ IF_AMMO | IF_POWERUP | IF_NO_WEAPON_SELECTION,
 		/* vwep_model */ nullptr,
 		/* armor_info */ nullptr,
 		/* tag */ AMMO_A2K,
-		/* precaches */ "weapons/a2k/countdn.wav weapons/a2k/ak_exp01.wav",
+		/* precaches */ "weapons/a2k/countdn.wav weapons/a2k/ak_exp01.wav models/objects/b_explode/tris.md2",
 		/* sort_id */ 0,
 		/* quantity_warn */ 1
 	},
@@ -4187,9 +4209,9 @@ model="models/items/mega_h/tris.md2"
 	{
 		/* id */ IT_ITEM_VISOR,
 		/* classname */ "item_visor",
-		/* pickup */ Pickup_General,
-		/* use */ Use_ZaeroVisorPending,
-		/* drop */ Drop_General,
+		/* pickup */ Pickup_ZaeroVisor,
+		/* use */ Use_ZaeroVisor,
+		/* drop */ Drop_ZaeroVisor,
 		/* weaponthink */ nullptr,
 		/* pickup_sound */ "items/pkup.wav",
 		/* world_model */ "models/items/visor/tris.md2",
@@ -4213,7 +4235,7 @@ model="models/items/mega_h/tris.md2"
 		/* id */ IT_AMMO_PLASMASHIELD,
 		/* classname */ "ammo_plasmashield",
 		/* pickup */ Pickup_Ammo,
-		/* use */ Use_ZaeroPlasmaShieldPending,
+		/* use */ Use_ZaeroPlasmaShield,
 		/* drop */ Drop_Ammo,
 		/* weaponthink */ nullptr,
 		/* pickup_sound */ "misc/ar3_pkup.wav",

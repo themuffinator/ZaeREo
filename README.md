@@ -8,7 +8,9 @@ facilities correctly.
 
 > **Current status: roadmap/audit baseline complete; early gameplay integration.
 > The substrate has Debug/Release/export proof and the current gameplay worktree has
-> a clean Debug build, but no supplied map has yet passed the live compatibility
+> clean Debug and Release builds plus bounded legacy single-stage windowed load
+> smokes (which must be rerun under the current window-before-mod/map protocol),
+> but no supplied map has yet passed the live compatibility
 > matrix and there is no supported public release.**
 > Do not treat the current DLL as a campaign-playable build. See the
 > [port roadmap](docs/ZAERO_PORT_ROADMAP.md) and the
@@ -19,12 +21,12 @@ facilities correctly.
 
 | Surface | Intended target | Current status |
 | --- | --- | --- |
-| Platform | Quake II Rerelease, Windows x64 first | Hash-recorded supplied substrate; upstream identity remains open, substrate Debug/Release/export and current uncommitted-worktree Debug verified locally |
+| Platform | Quake II Rerelease, Windows x64 first | Supplied substrate is an exact per-file match for pinned official commit `8dc1fc9`; local Debug/Release/export proof exists, while engine-load/data-build certification remains open |
 | Single player | 14-map campaign, cinematics through finale | Foundations and selected gameplay systems integrated; not map-verified/playable |
 | Co-op | Authored starts and progression across all campaign maps | All 121 starts audited and native paths retained; full gameplay/progression matrix not implemented or live-verified |
-| Deathmatch | Six ZDM maps plus campaign-map starts and item injection | All 230 starts/items audited; injection, full rules, and live sessions remain |
+| Deathmatch | Six ZDM maps plus campaign-map starts and item injection | All 230 starts and exact injection semantics are source/BSP/model-tested; private windowed `q2dm1` proves values 0–3 plus exact eight-item order/start/offset/native-drop state, `zdm1` proves authored suppression, a real-brush fixture proves partial success, and eight one-member fixtures prove every precondition member. Full rules, saves, dedicated and live 2/4/8-client sessions remain |
 | Saves | Native Rerelease JSON save/load | Implemented-slice fields/callbacks registered; live lifecycle round trips and remaining systems are incomplete |
-| Split screen | Isolated per-client HUD, views, zoom, and Visor | Flare/Sonic/Sniper state is client-local; Visor/wheel and live cross-talk matrix remain |
+| Split screen | Isolated per-client HUD, views, zoom, and Visor | Flare/Sonic/Sniper/showorigin plus the active Visor view/HUD/copy state are client-local under static contracts, and full native Zaero wheel allocation plus 1–10 aliases are static-tested; live wheel/Visor/cross-talk matrices remain |
 | Legacy content | 20 BSPs, 969 effective PAK paths, nine required loose files | Hash-audited importer works locally; content is not distributed |
 | Tooling | Audit, import, build, managed install, package and release containment | Development tools are fixture-tested; fail-closed distribution policy and remote containment are active, while player install management, exact-commit readiness, and complete release modes remain incomplete |
 | Remastered content | Optional post-parity overlay | Out of 1.0 scope |
@@ -72,11 +74,12 @@ The planned release defaults to the upstream-recommended per-user directory:
 %USERPROFILE%\Saved Games\Nightdive Studios\Quake II\zaereo
 ~~~
 
-It launches through the game's mod selector or the verified equivalent of:
-
-~~~text
-+set game zaereo +exec zaerostart.cfg
-~~~
+For development, debugging, and validation, use `tools/run_game.ps1`; it
+starts a visible `-window`/`v_windowmode 0` bootstrap, positively verifies all
+visible native windows owned by the selected executable, and only then injects
+the `zaereo`/map command. Do not substitute a direct command line or fullscreen
+launch for that verifier. Future end-user instructions will distinguish the
+game's mod selector from the verified developer workflow.
 
 Stable releases will include install, update, uninstall, version, and checksum
 instructions. Until one exists, GitHub source snapshots and locally generated
@@ -112,7 +115,23 @@ python ./tools/import_legacy_assets.py --source "D:\Games\Zaero" --output .insta
 python ./tools/validate_runtime.py --root .install/imported/zaereo --manifest .install/imported/zaereo-asset-manifest.json --strict
 ./tools/install_dev.ps1 -EngineRoot "D:\Games\Quake II Rerelease\rerelease" -ContentRoot .install/imported/zaereo -AssetManifest .install/imported/zaereo-asset-manifest.json -Configuration Debug -WhatIf
 # Inspect the plan, then repeat without -WhatIf to use the per-user default.
+./tools/run_game.ps1 -Map q2dm1 -Deathmatch -ZdmFlags 0 -ProbeDeathmatchItems -ReportOutput .install/runtime-reports/q2dm1-zdmflags0-placement.json
+# The wrapper starts a visible -window/v_windowmode 0 bootstrap and only injects
+# the mod/map after all visible native windows pass its caption/non-popup check.
 ~~~
+
+`tools/make_dm_runtime_fixture.py` can derive an ignored, private-only
+partial-placement BSP from a locally owned `baseq2/pak0.pak` for D-045 runtime
+testing. `--include-existing-member-controls` additionally emits one map for
+each of the eight historical item classnames. `install_dev.ps1 -RuntimeFixtureRoot`
+accepts only
+`maps/zaereo_fixture_*.bsp` beneath `.install/runtime-fixtures`, refuses content
+collisions and reparse points, and manages the overlay like every other owned
+install byte in a private generated `pak2.pak`, above project `pak0.pak` and
+the importer-owned `pak1.pak`. Reinstall without `-RuntimeFixtureRoot`
+immediately after the test. The derived BSP, its identity manifest, the
+resulting PAK, and runtime
+report must never be committed or published.
 
 The importer and installer write only to ignored/managed locations. The
 installer reads `-EngineRoot` but writes the managed mod beneath
@@ -121,7 +140,9 @@ installer reads `-EngineRoot` but writes the managed mod beneath
 for an explicit portable/disposable Rerelease directory that contains `baseq2`;
 it cannot be combined with `-UserRoot`. The installer refuses engine/program-root
 and `baseq2` writes, refuses unmanaged overwrite, and prints the launch
-arguments. For an
+arguments. A normal install builds project-owned `pak0.pak` and importer-owned
+`pak1.pak`, retains the verified loose files, and validates the completed stage
+against the import manifest before it is copied to the user-data mod root. For an
 asset-free local packaging check, use
 `./tools/package_windows.ps1 -DistributionMode importer-kit -AllowDirty`;
 this is local development output and is not publication-authorized. Dirty or
@@ -133,11 +154,11 @@ requirements are in [CONTRIBUTING.md](CONTRIBUTING.md) and
 
 | Path | Purpose |
 | --- | --- |
-| src/ | Hash-recorded supplied Rerelease substrate and reviewed Zaero integration; official upstream identity remains open |
+| src/ | Officially pinned Rerelease substrate reconstruction plus reviewed Zaero integration |
 | pack/ | Tracked redistributable configuration contribution only; imported commercial content stays under ignored `.install/` |
 | tools/ | Bootstrap, audits, importer, build, install, validation, packaging |
 | tests/ | Audit fixtures and runtime/golden coverage |
-| docs/audits/ | Normalized generated evidence |
+| docs/audits/ | Normalized source, upstream-integration, map/entity, and asset evidence |
 | docs/compatibility/ | Feature, entity, map, quirk, and decision ledgers |
 | docs/provenance/ | Baseline identities and distribution evidence |
 | editor/ | Generated mapper definitions and editor integration |
@@ -147,8 +168,9 @@ requirements are in [CONTRIBUTING.md](CONTRIBUTING.md) and
 
 No supported binaries or asset-bearing releases are currently published. The
 packager already produces deterministic local importer-kit/`local-full`
-archives, external manifests, and SHA-256 checksums, but current tooling output
-is not evidence of publication rights or release readiness. Remote workflows
+archives, external manifests, SHA-256 checksums, a pinned SPDX 2.3 substrate
+SBOM, and exact vcpkg license bundle, but current tooling output is not evidence
+of publication rights or release readiness. Remote workflows
 are read-only and the publisher fails closed before external access; those
 controls must remain in place while every public mode is blocked. Stable publication
 additionally requires the exact-commit machine-readable readiness gate, private

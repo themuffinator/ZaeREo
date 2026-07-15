@@ -8,6 +8,7 @@ wired into the Rerelease implementation.
 from __future__ import annotations
 
 from dataclasses import dataclass
+import json
 from pathlib import Path
 import unittest
 
@@ -17,6 +18,27 @@ MAX_QPATH = 64
 MAX_TIMER_TARGETS = 16
 ZAERO_PUSH_START_OFF = 2
 ZAERO_PUSH_NO_SOUND = 4
+ZAERO_PLAT_LOW_TRIGGER_2 = 2
+PLAT_LOW_TRIGGER_2_MAPS = {
+    "zbase2": 1,
+    "zdef1": 1,
+    "zdef2": 2,
+    "zdef4": 1,
+    "zdm1": 1,
+    "zdm3": 1,
+    "zdm4": 2,
+    "ztomb3": 2,
+}
+SOURCE_AUDIT = json.loads(
+    (REPOSITORY_ROOT / "docs" / "audits" / "source-delta.json").read_text(
+        encoding="utf-8"
+    )
+)
+BSP_AUDIT = json.loads(
+    (REPOSITORY_ROOT / "docs" / "audits" / "bsp-entities.json").read_text(
+        encoding="utf-8"
+    )
+)
 
 
 def parse_timer_targets(value: str) -> tuple[str, ...] | None:
@@ -32,6 +54,28 @@ def parse_timer_targets(value: str) -> tuple[str, ...] | None:
     if any(len(target) >= MAX_QPATH for target in targets):
         raise ValueError("target exceeds MAX_QPATH")
     return targets
+
+
+def zaero_low_plat_touch_activates(
+    *,
+    is_player: bool,
+    health: int,
+    is_zaero_map: bool,
+    spawnflags: int,
+    feet_z: float,
+    lowered_top_z: float,
+) -> bool:
+    """Model Touch_Plat_Center while the platform is at STATE_BOTTOM."""
+
+    if not is_player or health <= 0:
+        return False
+    if (
+        is_zaero_map
+        and spawnflags & ZAERO_PLAT_LOW_TRIGGER_2
+        and feet_z > lowered_top_z + 8
+    ):
+        return False
+    return True
 
 
 @dataclass(frozen=True)
@@ -134,6 +178,121 @@ class TriggerPushTests(unittest.TestCase):
         self.assertIn("if (!level.is_zaero && self->spawnflags.has(SPAWNFLAG_PUSH_PLUS))", source)
         self.assertIn("self->spawnflags ^= SPAWNFLAG_PUSH_ZAERO_START_OFF", source)
         self.assertIn("other->client && self->message", source)
+
+
+class PlatLowTriggerTests(unittest.TestCase):
+    def test_legacy_source_and_all_shipped_placements_are_identity_locked(self) -> None:
+        records = {
+            record["path"]: record
+            for record in SOURCE_AUDIT["comparison"]["file_records"]
+        }
+        self.assertEqual(
+            records["g_func.c"]["zaero_sha256"],
+            "aa7d05629c1213145e8fb74d14252d0b982b35cbc2dd4c75f1c27882f72adea6",
+        )
+        self.assertEqual(records["g_func.c"]["status"], "modified")
+        self.assertEqual(sum(PLAT_LOW_TRIGGER_2_MAPS.values()), 11)
+        self.assertEqual(
+            set(PLAT_LOW_TRIGGER_2_MAPS),
+            {
+                "zbase2",
+                "zdef1",
+                "zdef2",
+                "zdef4",
+                "zdm1",
+                "zdm3",
+                "zdm4",
+                "ztomb3",
+            },
+        )
+        func_plat_maps = set(BSP_AUDIT["global"]["classname_maps"]["func_plat"])
+        self.assertLessEqual(set(PLAT_LOW_TRIGGER_2_MAPS), func_plat_maps)
+
+    def test_exact_eight_unit_feet_boundary_is_inclusive(self) -> None:
+        common = {
+            "is_player": True,
+            "health": 100,
+            "is_zaero_map": True,
+            "spawnflags": ZAERO_PLAT_LOW_TRIGGER_2,
+            "lowered_top_z": 64.0,
+        }
+        self.assertTrue(zaero_low_plat_touch_activates(feet_z=71.999, **common))
+        self.assertTrue(zaero_low_plat_touch_activates(feet_z=72.0, **common))
+        self.assertFalse(zaero_low_plat_touch_activates(feet_z=72.001, **common))
+
+    def test_non_players_and_dead_players_never_activate(self) -> None:
+        common = {
+            "is_zaero_map": True,
+            "spawnflags": ZAERO_PLAT_LOW_TRIGGER_2,
+            "feet_z": 64.0,
+            "lowered_top_z": 64.0,
+        }
+        self.assertFalse(
+            zaero_low_plat_touch_activates(is_player=False, health=100, **common)
+        )
+        self.assertFalse(
+            zaero_low_plat_touch_activates(is_player=True, health=0, **common)
+        )
+
+    def test_bit_two_collision_is_dispatched_by_positive_zaero_map_identity(self) -> None:
+        source = (REPOSITORY_ROOT / "src" / "g_func.cpp").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("SPAWNFLAG_PLAT_NO_MONSTER = 2_spawnflag", source)
+        self.assertIn("SPAWNFLAG_PLAT_ZAERO_LOW_TRIGGER_2 = 2_spawnflag", source)
+        self.assertIn(
+            "const bool native_no_monster = !level.is_zaero && "
+            "ent->spawnflags.has(SPAWNFLAG_PLAT_NO_MONSTER);",
+            source,
+        )
+
+        touch_start = source.index("TOUCH(Touch_Plat_Center)")
+        touch_end = source.index("edict_t *plat_spawn_inside_trigger", touch_start)
+        touch = source[touch_start:touch_end]
+        self.assertIn("if (!other->client)", touch)
+        self.assertIn("if (other->health <= 0)", touch)
+        self.assertIn("if (ent->moveinfo.state == STATE_BOTTOM)", touch)
+        self.assertIn(
+            "level.is_zaero && "
+            "ent->spawnflags.has(SPAWNFLAG_PLAT_ZAERO_LOW_TRIGGER_2)",
+            touch,
+        )
+        self.assertIn(
+            "other->s.origin[2] + other->mins[2] > "
+            "ent->moveinfo.end_origin[2] + ent->maxs[2] + 8.0f",
+            touch,
+        )
+        height_check = touch.index("other->s.origin[2] + other->mins[2]")
+        height_rejection = touch.index("return;", height_check)
+        self.assertLess(height_rejection, touch.index("plat_go_up(ent);"))
+
+        self.assertIn(
+            "if (ent->spawnflags.has(SPAWNFLAG_PLAT_LOW_TRIGGER))",
+            source,
+        )
+        self.assertIn("tmax[2] = tmin[2] + 8;", source)
+
+    def test_non_zaero_bit_two_retains_native_touch_and_no_monster_meaning(self) -> None:
+        common = {
+            "is_player": True,
+            "health": 100,
+            "spawnflags": ZAERO_PLAT_LOW_TRIGGER_2,
+            "feet_z": 256.0,
+            "lowered_top_z": 64.0,
+        }
+        self.assertTrue(
+            zaero_low_plat_touch_activates(is_zaero_map=False, **common)
+        )
+
+        source = (REPOSITORY_ROOT / "src" / "g_func.cpp").read_text(
+            encoding="utf-8"
+        )
+        use_start = source.index("USE(Use_Plat)")
+        use_end = source.index("TOUCH(Touch_Plat_Center)", use_start)
+        use = source[use_start:use_end]
+        self.assertIn(
+            "if ((other->svflags & SVF_MONSTER) && !native_no_monster)", use
+        )
 
 
 class RotatingTests(unittest.TestCase):

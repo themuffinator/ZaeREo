@@ -1,6 +1,7 @@
 // Copyright (c) ZeniMax Media Inc.
 // Licensed under the GNU General Public License 2.0.
 #include "g_local.h"
+#include "zaero/g_zaero_weapons.h"
 
 /*
 =================
@@ -726,6 +727,7 @@ edict_t *fire_rocket(edict_t *self, const vec3_t &start, const vec3_t &dir, int 
 	rocket->s.sound = gi.soundindex("weapons/rockfly.wav");
 	rocket->classname = "rocket";
 
+	Zaero_CheckProjectileDodge(self, rocket->s.origin, dir, speed);
 	gi.linkentity(rocket);
 
 	return rocket;
@@ -1168,6 +1170,7 @@ void fire_bfg(edict_t *self, const vec3_t &start, const vec3_t &dir, int damage,
 	bfg->teammaster = bfg;
 	bfg->teamchain = nullptr;
 
+	Zaero_CheckProjectileDodge(self, bfg->s.origin, dir, speed);
 	gi.linkentity(bfg);
 }
 

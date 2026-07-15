@@ -1,9 +1,10 @@
 # ZaeREo: Zaero to Quake II Rerelease Port Roadmap
 
-- Document status: audited roadmap baseline complete; execution remains gated by
-  the phase exit criteria below
-- Audit date: 2026-07-13
-- Roadmap revision: 1.0
+- Document status: audited roadmap baseline with record-level traceability and
+  runtime-v2 safety gates implemented; gameplay execution remains gated by the
+  phase exit criteria below
+- Audit date: 2026-07-14
+- Roadmap revision: 1.2
 - Target platform: Quake II Rerelease game DLL API 2023, Windows x64 first
 - Recommended game directory: `zaereo`
 
@@ -113,19 +114,23 @@ Do not make a remastered asset the only way to validate original behavior.
 
 | Input | Local audit path | Role |
 | --- | --- | --- |
-| Zaero C source | `E:\_SOURCE\_CODE\zaero` | Primary evidence for custom game behavior |
-| Legacy Quake II game source | `E:\_SOURCE\_CODE\Quake-2-master\game` | Reference used to isolate Zaero changes from the original game |
-| Zaero installation | `E:\_SOURCE\_ASSETS\Zaero` | Shipped maps, media, configuration, documentation, and binary layering |
-| Quake II Rerelease source | `E:\_SOURCE\_CODE\quake2-rerelease-dll-main\rerelease` | Target API and implementation baseline |
-| REBLIVION repository | `E:\Repositories\REBLIVION` | Repository, build, install, editor, PAK, and release-workflow reference |
+| Zaero C source | `ZAERO_SOURCE_ROOT` / ignored local config | Primary evidence for custom game behavior |
+| Legacy Quake II game source | `Q2_LEGACY_SOURCE_ROOT` / ignored local config | Reference used to isolate Zaero changes from the original game |
+| Zaero installation | `ZAERO_LEGACY_ROOT` / ignored local config | Shipped maps, media, configuration, documentation, and binary layering |
+| Quake II Rerelease source | `Q2_RERELEASE_SOURCE_ROOT` / ignored local config | Target API and implementation baseline |
+| REBLIVION repository | Explicit audit-tool argument | Repository, build, install, editor, PAK, and release-workflow reference |
 
-Initial machine-readable manifests and source-tree hashes are recorded under
-`docs/provenance/` and `docs/audits/`. They do not close D-002: the supplied
-source directories are not known to be Git checkouts, so a commit identifier
-must not be invented. Before Phase 1 closes, obtain the official upstream
-repository and record its commit, or record the archive origin, retrieval date,
-per-file SHA-256 values, and aggregate tree hash. Repeat that process before any
-baseline change.
+These are resolver names, not repository constants. The original audit
+workstation paths are private provenance evidence and must not be added to
+commands, examples, policy, or source. Machine-readable manifests and source-tree hashes are recorded under
+`docs/provenance/` and `docs/audits/`. D-002 is now closed for the Rerelease
+source identity: `tools/identify_upstream.py` verified every supplied path/blob
+against official commit `8dc1fc9794c01ece06881e703851b768fb3994de` and Git
+subtree `7c3a380c5114dab4e7b7511a5c9c96390b72a1cd`; the normalized scan is
+`docs/provenance/upstream-match.json`. This reconstructs the supplied bytes but
+does not invent their lost original acquisition date or certify an engine/data
+build. Regenerate the per-file baseline and official match before any baseline
+change.
 
 ### 4.2 Audit method
 
@@ -142,7 +147,16 @@ The audit is implemented by committed scripts rather than one-off notes:
 
 - `tools/audit_source_delta.py`
 - `tools/audit_bsp_entities.py`
+- `tools/audit_dm_injection.py`
 - `tools/audit_assets.py`
+- `tools/audit_flymove.py`
+- `tools/audit_release_surfaces.py`
+- `tools/audit_stock_precaches.py`
+- `tools/audit_visor_trace_order.py`
+- `tools/identify_upstream.py`
+- `tools/audit_upstream_integration.py`
+- `tools/audit_repository.py`
+- `tools/validate_distribution_policy.py`
 - `tools/validate_runtime.py`
 
 Their normalized reports are committed under `docs/audits/` and updated
@@ -157,8 +171,8 @@ The phrase “all differences” has three layers, all of which must stay linked
    their normalized per-map/classname/key-value counts retained; and all 132
    exact map classnames plus all 978 effective runtime paths are retained in
    generated JSON/Markdown reports under `docs/audits/`.
-2. **Behavioral classification:** the 75 rows in
-   `docs/compatibility/feature-matrix.md`, 48 entity-contract rows, and 49 known
+2. **Behavioral classification:** the 77 rows in
+   `docs/compatibility/feature-matrix.md`, 50 entity-contract rows, and 57 known
    quirks classify the gameplay, mapper, system, and defect consequences of
    that mechanical evidence by observable surface. The Appendix A source-area
    crosswalk routes common-file areas into those surfaces; a symbol may span more
@@ -168,12 +182,65 @@ The phrase “all differences” has three layers, all of which must stay linked
 3. **Target/release mapping:** Sections 8–16 assign each class of behavior to a
    Rerelease integration point, implementation phase, verification matrix,
    risk gate, repository artifact, and definition of done.
+4. **Record-level closure (Phase 0 gate):** broad source-area categories are
+   not sufficient proof that every record is routed. The committed
+   `tools/audit_traceability.py` produces two deterministic normalized outputs:
+
+   - `docs/audits/source-delta-coverage.json`/`.md` must contain every
+     `source-delta.json` path record, each lexical added/removed/changed
+     function or global record, and every Zaero-only/legacy-only path. Each
+     record must link to one or more feature/entity/quirk/decision IDs, a
+     `PARITY`/`ADAPT`/`FIX` outcome or a narrow `SOURCE_AGE`/`NON_RUNTIME`/
+     `TOOLING_ONLY` disposition, a reason, phase, implementation seam, and
+     test/evidence link. A source-age/no-runtime record still needs a reviewed
+     target decision; “covered by area” is invalid.
+   - `docs/audits/bsp-contract-coverage.json`/`.md` must contain every exact
+     BSP classname plus each observed key and spawnflag value. It must identify
+     its entity/feature/decision row or an explicit native-no-delta exemption,
+     map applicability/classifier, key/flag semantics, save/lifecycle surface,
+     spawn status, and proof link. The 50 handwritten entity rows may group
+     surfaces but may not leave any of the 132 names or their mapper contracts
+     implicit in raw audit output.
+
+   The tool validates ledger IDs, source/BSP input hashes, per-classname mapper
+   input, duplicate records, required routing fields, and zero uncovered records.
+   The current reports cover 948 source records (102 paths, 556 functions, and
+   290 globals) and 1,752 BSP records (132 classnames, 946 keys, and 674
+   spawnflag values), with zero uncovered. Private audit regeneration reads the
+   proprietary inputs; public CI verifies checked-in report self-consistency and
+   ledger/count integrity. A changed source or BSP baseline cannot merge without
+   regenerated coverage, and a future new record fails closed rather than being
+   covered by an implicit area.
 
 CI must regenerate or validate the audit reports and reject unexplained drift.
 When a count in prose conflicts with generated evidence, the generated report
 wins and this roadmap plus the affected ledgers must be updated in the same
 change. This prevents both raw text differences and subtle source-version drift
 from being mistaken for untracked Zaero requirements.
+
+### 4.4 REBLIVION reference patterns and deliberate divergence
+
+The private `REBLIVION` repository was reviewed as an architectural reference,
+not as a source or policy to copy wholesale. Its useful patterns are a dedicated
+Rerelease DLL target, separated `src`/`pack`/`editor`/`tools` concerns,
+generated editor definitions, an HTML release readme, deterministic staging,
+and explicit developer versus release scripts. ZaeREo adopts those structural
+ideas only where they preserve Zaero's own evidence and provenance gates.
+
+The following REBLIVION behaviors are expressly not inherited:
+
+| Reference pattern | ZaeREo decision and reason |
+| --- | --- |
+| Default, writable Steam-install path and direct mod-directory updates | Resolve an explicit read-only engine root and a managed per-user root; reject engine/program-root and `baseq2` writes except an explicit disposable portable override. |
+| Junction/link convenience and ad-hoc cleanup in the game tree | Use manifest-owned copies under the managed root, path/reparse checks, and an explicit uninstall/restore contract. |
+| Direct client launch with `+set game` | Development and validation must use the verified wrapper: visible `-window` bootstrap, every exact-PID top-level window check, then mod/map injection. |
+| Automatically publishable nightly/release flow | Keep all remote paths disabled until the independent code/media rights gates and policy allowlist permit a mode; the manual publisher fails closed. |
+| Shipping bundled proprietary content | Use a local importer kit and asset manifests; `local-full` is private forever and a public asset-full release needs separate code and media clearance. |
+
+Future comparisons may add a reference pattern to this table, but must state
+whether it is adopted, adapted, or rejected and link the resulting tool,
+decision, and test. A reference repository never overrides this roadmap's
+behavior-first compatibility order or rights policy.
 
 ## 5. Executive audit findings
 
@@ -192,12 +259,10 @@ from being mistaken for untracked Zaero requirements.
   Their entity lumps contain 14,933 entity records and 132 distinct classnames.
 - The current Rerelease baseline already recognizes 105 of those exact
   classnames. Twenty-seven map-facing classnames need Zaero implementations.
-  A [reproducible worktree audit](compatibility/entity-matrix.md) currently
-  resolves 127; the five currently unresolved names are
-  `monster_handler`, `monster_hound`,
-  `monster_sentien`, `monster_zboss`, and `target_zboss_target`. This is a
-  progress snapshot, not a Phase 2 exit: release validation still requires all
-  132 to resolve without placeholders.
+  A [reproducible worktree audit](compatibility/entity-matrix.md) now resolves
+  all 132 without placeholders. This is a registry snapshot, not a Phase 2
+  exit: each entity still requires its behavior, lifecycle, save, asset, and map
+  evidence.
   Several recognized stock classnames still require modified Zaero semantics.
 - The maps contain 121 co-op starts across all 14 campaign maps and 230
   deathmatch starts across all 20 maps. Co-op and deathmatch are therefore
@@ -214,12 +279,12 @@ current honest checkpoint is:
 
 | Phase | Current evidence | Gate still preventing closure |
 | --- | --- | --- |
-| 0 | Generated source/BSP/asset reports, policy documents, matrices, fail-closed distribution decision, and a mostly untracked repository worktree scaffold exist | Official/archive origins, reviewed private immutable identity for the untracked tree, and channel containment remain; any public tools-only root must prove a history-wide allowlist before the independently gated mode can publish |
-| 1 | Rerelease substrate, project, bootstrap/build wrappers, and Windows workflows exist; Debug/Release/export proof exists for the substrate and the current unsnapshotted gameplay worktree has a clean Debug build | Reviewed immutable local tree/commit identity, clean-clone CI, Release/API load, stock-map smoke, and pinned upstream identity remain |
-| 2 | Importer, validators, deterministic PAK/ZIP tooling, a managed developer installer with overwrite/`baseq2` guards, config/mapdb scaffold, custom fields/save conventions, and 127/132 registry coverage exist | Explicit per-user destination resolution, full asset-bearing local stage, all-class registry, reference closure, rights-safe mapdb merge, and live JSON round trip remain |
-| 3 | Static contracts cover several movement types, map behaviors, stock-class extensions, and simple world entities | Live mover/rider/save/map fixtures plus train/path/help/freeze gaps remain |
-| 4 | Static implementations exist for the item foundation, Push, Flare, Sonic Cannon, Sniper Rifle, IRED, EMP, and Autocannon interactions | A2K, Plasma Shield, Visor, aliases/wheel/HUD completion, live behavior, split-screen, and lifecycle saves remain |
-| 5–10 | Backlog, dependency order, and gates are defined | No campaign, monster-set, finale, multiplayer, soak, or stable-release phase has passed |
+| 0 | Generated source/BSP/asset reports, policy/schema records, matrices, fail-closed distribution decision, exact official Rerelease match, reviewed private evidence tree, repository audit, and read-only workflow/manual-publisher containment exist | The configured GitHub gameplay repository is currently public despite D-003 and the machine policy; that external exposure must be resolved by an authorized owner. Remaining supplied Zaero/legacy origin records and any future tools-only history root also need closure. |
+| 1 | Pinned official Rerelease substrate, project, shared path resolver, safe per-user developer install, bootstrap/build wrappers, Windows workflows, local Debug/Release/export proof, deterministic pinned-schema substrate SBOM/license harvesting, and a complete classification of all 68 current `src/` differences exist | Fresh-clone CI certification, reconstruction/certification of the minimal substrate-only integration, stock baseline DLL API engine-load/stock-map smoke, and a fresh v2 two-stage window-before-mod/map Release smoke remain. The retained v1 one-stage Release report is historical D-015 evidence, not a launch-safety gate. |
+| 2 | Importer, validators, deterministic PAK/ZIP tooling, managed per-user developer installer with overwrite/`baseq2`/program-root guards, config/mapdb scaffold, custom fields/save conventions, 132/132 registry coverage including ZBoss/marker, direct/Handler-created Hound, Handler, and Sentien, the D-010 no-redistribution world-music mapping, generated 30-changelevel target/destination closure with D-011's inert-orphan disposition, plus bounded private legacy one-stage `zbase1`/`zdef1`/`zboss`/`zdm6` DLL-load/map-spawn/client-entry/shutdown smokes exist | The legacy sampled logs close registry/resources only, are not v2 launch-safety proof, and prove neither playability nor complete behavior/entity closure. Rerun them with the two-stage harness; zdm6 additionally needs acoustic silence or deathmatch. Music still needs live audible/transition/volume/server proof; all valid campaign transitions still need geometry, save, co-op, and completion proof. Canonical PAK/import ownership, install-manager lifecycle, cross-layer reference/case closure, rights-safe mapdb merge, classifier, live JSON round trips, and all-map behavior remain. |
+| 3 | Static contracts cover several movement types, map behaviors, stock-class extensions, simple world entities, the exact source-only no-toggle `trigger_laser` contract with generation-safe target dispatch, retained post-trigger physics lifetime guards, D-044's identity-locked one-line FlyMove classification/seven float32 goldens and unmodified shared native solver, the exact Zaero-gated bit-2 `func_plat` feet boundary, mass-400 FALLFLOAT `misc_explobox` airborne-client pushing, rotating-door zero-damage defaults, and the complete train/path-corner mapper surface including native flag isolation | Live mover/rider/save/map fixtures plus help/freeze and always-windowed corner/wedge/stair/repeated-plane/projectile/monster/player/expansion collision fixtures remain |
+| 4 | Static implementations exist for the item foundation, Push, Flare, Sonic Cannon, Sniper Rifle, IRED, Plasma Shield, EMP, A2K, Autocannon interactions, active Visor duration/camera/view/HUD/input/lifecycle with the D-021 trace-order FIX, exact `use weapon 1`–`10` multiselect, opt-in aliases, full native wheel ownership, private `showorigin` HUD, kill guard, 25 monster obituaries, seven custom MOD paths, shared-state-safe Zaero health-count sounds, and the saved Rocket/BFG/Flare projectile-dodge throttle with Blaster exclusion | Visor and all other systems still require live behavior, collision, save and split-screen matrices; localization keys, live health concurrency/custom-count behavior, and remaining live behavior also remain |
+| 5–10 | Static Handler/Hound/Sentien/ZBoss/finale slices, D-041's scoped damage-reaction integration, D-042's 22-placement Hover radial-dodge integration/Q-013 reset FIX, D-043's identity-locked 22-helper/19-file stock-precache classification and native Handler/Infantry route, D-045's source/BSP-locked injection plus private always-windowed values 0–3/suppression, exact `q2dm1` identity/start/offset/native-drop probe, real-brush partial-placement fixture, and all eight one-member controls, sampled windowed registry/resource smokes, and remaining dependency gates exist | No campaign, monster-set, finale, multiplayer, soak, or stable-release phase has passed; DM injection still lacks pickup/respawn/save, dedicated/2/4/8-client and native-mode isolation; all other affected resource/audio, combat, lifecycle, save and completion matrices remain live-unverified |
 
 Implementation status is maintained in the living matrices, not by editing the
 phase prose into a retrospective. Only the exit criteria below close phases.
@@ -321,17 +386,17 @@ and must be registered even though maps do not place it.
 | Random `func_timer` | A semicolon-delimited target list means choose one target randomly rather than firing the literal name. Shipped examples occur in `ztomb2`, `ztomb4`, and `zdm6`. |
 | Toggle `trigger_push` | Adds bit 2 start-off and bit 4 no-sound plus a `use` toggle. At least five shipped fan/push volumes depend on this behavior; validate messages/non-client touches while off. |
 | Accelerating `func_rotating` | Zaero adds acceleration/deceleration and stateful toggle behavior. Translate timing to duration types and verify rider/contact behavior. |
-| Low-trigger `func_plat` | Zaero reuses spawnflag bit 2 as `PLAT_LOW_TRIGGER_2`: `Touch_Plat_Center` accepts only a player whose feet are within eight units of the lowered platform top. Eleven shipped platforms across eight maps use it. Rerelease already uses bit 2 as `SPAWNFLAG_PLAT_NO_MONSTER`, so dispatch the legacy meaning only on positively classified Zaero maps and retain native behavior elsewhere. |
-| Rotating doors | Zaero removes the legacy default `dmg 2` from `func_door_rotating`; 12 of the 32 shipped rotating doors omit or explicitly zero damage. Preserve non-damaging blocking and explicit positive damage without changing native Rerelease defaults on other maps. |
+| Low-trigger `func_plat` | Zaero reuses spawnflag bit 2 as `PLAT_LOW_TRIGGER_2`: `Touch_Plat_Center` accepts only a player whose feet are within eight units of the lowered platform top. Eleven shipped platforms across eight maps use it. Rerelease already uses bit 2 as `SPAWNFLAG_PLAT_NO_MONSTER`; [D-036](compatibility/decisions.md#d-036--func_plat-bit-2-low-trigger-collision) now dispatches the exact inclusive boundary only on Zaero-classified maps and retains native behavior elsewhere under static tests. Live touch/movement/save and D-018 classifier closure remain. |
+| Rotating doors | Zaero removes the legacy default `dmg 2` from `func_door_rotating`; 12 of the 32 shipped rotating doors omit or explicitly zero damage. [D-038](compatibility/decisions.md#d-038--func_door_rotating-zero-damage-default) now preserves zero/missing and positive authored values only on Zaero-classified maps while retaining the native default elsewhere under static tests. Live block/reversal/movement/team/save proof remains. |
 | Rider physics | `MOVETYPE_RIDE` lets the floor autocannon follow moving platforms/trains. |
 | Pushable physics | `MOVETYPE_FALLFLOAT` supports crates and seats; `MOVETYPE_BOUNCEFLY` supports custom projectiles/effects. |
-| Falling explosive barrels | Zaero changes stock `misc_explobox` to `MOVETYPE_FALLFLOAT`, mass 400, and a client-only `barrel_touch` that does not require the pusher to be grounded and moves through `SV_movestep`. Thirty-one placements in five maps require water, airborne-push, slope, explosion, save, and native-map-fallback proof; the Rerelease baseline mass is 50. |
+| Falling explosive barrels | Zaero changes stock `misc_explobox` to `MOVETYPE_FALLFLOAT`, mass 400, and a client-only `barrel_touch` that does not require the pusher to be grounded and moves through `SV_movestep`. [D-037](compatibility/decisions.md#d-037--misc_explobox-fallfloat-and-push-contract) now gates those spawn/touch/start differences, preserves their 40 Hz speed, and retains native STEP/mass-50 behavior elsewhere under static tests. Thirty-one placements in five maps still require live water, airborne-push, slope, explosion, save, and native-map-fallback proof. |
 | Damage modes/flags | Custom code relies on `DAMAGE_IMMORTAL`, `FL_DONTSETOLDORIGIN`, `FL_BFGMISSFIRE`, and transient barrier/EMP/flash state. |
 | Mission help | Thirty-nine `target_help` entities in ten maps supply objectives. Preserve F1/help display, cross-level state, save/load, and per-client presentation. |
 | Changelevels | Preserve `*` unit boundaries, `$spawnpoint` suffixes, cinematic/image chains, and exact target strings. Catalog suspicious data rather than silently repairing it. |
-| World music | Worldspawn `sounds` values 1 through 11 select legacy CD/music tracks. Define and test the Rerelease soundtrack fallback. |
+| World music | Worldspawn `sounds` values 1 through 11 select legacy CD/music tracks. [D-010](compatibility/decisions.md#d-010--music-values-111) now preserves explicit native `music`, passes values 2–11 through Rerelease's own numeric base-soundtrack contract, and logs value 1/invalid requests before selecting silence. Zaero ships no music and ZaeREo packages none. Static evidence locks all 20 map values, no-media provenance, transitions, volume/loop isolation, and native fallback; a bounded private windowed zdm6 load proves the exact value-1 log. Acoustic silence, audible 2–11, transitions, client volume, cinematic, and server proof remain. |
 | Enhanced `misc_viper` | Supports smoke, solid/custom bounds, and `model2`–`model4` linked presentation while retaining the ordinary `func_train_find`/`train_use` route. The supplied source has no separate train-destination variant: preserve exact smoke-flag consumption before train logic and linked-model motion without inventing one. |
-| Trains and path corners | `train_next` accepts per-corner speed/accel/decel and uses raw-origin destinations for `misc_viper`; `path_corner_touch` turns toward the next goal before waiting and suppresses the teleport event. Shipped evidence includes five nonzero per-node speeds in `zdef4`, 96 waiting corners, and four teleport corners. No shipped corner uses smooth bits 2/4, no train uses Zaero rotation bits 8/16/32/64, and all four authored `aspeed` values are zero: retain those source-exposed contracts for synthetic/community-map tests without claiming the shipped campaign needs them. Rerelease train flag collisions require Zaero-map gating. |
+| Trains and path corners | `train_next` accepts per-corner speed/accel/decel and uses raw-origin destinations for `misc_viper`; `path_corner_touch` turns toward the next goal before waiting and suppresses the teleport event. [D-039](compatibility/decisions.md#d-039--train-and-path-corner-colliding-mapper-semantics) now implements those scoped paths plus the source-only 10 Hz smooth bits 2/4 and train rotation bits 8/16/32/64 while preserving native/Rogue meanings elsewhere. Static evidence locks all 375 corners, 28 trains, seven Vipers, five nonzero zdef4 node speeds, 96 waits, four teleports, zero shipped smooth/rotation uses, and four zero `aspeed` values. Live route/orientation/rider/save and classifier proof remains. |
 | Cosmetic `target_explosion` | Zaero flag 1 selects an animated A2K-style effect/sound but retains ordinary target-explosion damage and target firing; it is not an EMP. |
 | Monster count flag | Zaero uses monster spawnflag 16 for “do not count,” including composite-spawn edge cases. The compatibility spine now translates that low authored bit to Rerelease `AI_DO_NOT_COUNT` before native accounting; the two shipped placements are statically covered, while live composite-spawn accounting remains a gate. |
 | Spawn killboxes | Custom monster/player killbox helpers avoid killing a live player in one path and may remove the spawning monster instead. Zaero monster trigger/target-spawn paths now use a gated player-safe helper that clears non-player blockers but self-removes the spawning monster on a live-player overlap; live obstruction and save/load fixtures remain required. |
@@ -351,7 +416,7 @@ console-log inspection.
 | Sniper Rifle | Uses three slugs, has an approximately three-second charge/reload, zooms to FOV 15 in single player and 30 in deathmatch, does 250/400 damage/kick in single player and 150/300 in deathmatch, bypasses armor, passes through Plasma Shields, and uses a custom impact effect. The supplied code excludes it from generic cycling in places. |
 | A2K | The Armageddon 2000 is a use-as-weapon item with a maximum carry of one. Activation consumes the item, holds gunframe 19, and starts a five-second duration (`50` legacy frames, `200` target ticks) in the firing client's `a2kFramenum` state; the port stores a duration/deadline, not the literal target tick count. That player is absolutely immune during the countdown even to `DAMAGE_NO_PROTECTION`; there is no intermediate explosion entity. Death cancels the pending event. At detonation, the temporary `A2K Explosion` is created and a 2,500-damage/512-radius primary event is followed by a visibility-gated outer pass to 1,024 units, so qualifying targets can be hit twice; self damage is halved. Quad state at blast time multiplies damage and both radii by four. Lock HUD seconds, exact time/radius boundaries, death/save phases, self/double hits, and Quad-at-blast with golden tests. |
 | EMP Nuke | A use-as-weapon item creates a no-line-of-sight EMP field with roughly 1,024 radius and 30-second lifetime. It disrupts an explicit matrix of energy weapons, monster attacks, IRED, Plasma Shield, and Sonic Cannon behavior rather than all weapons; its owner is exempt from the owner's own field check. |
-| Visor | A nominal 30-second usable remote-camera view (`300` legacy frames, `1,200` target ticks, represented as a duration). It cycles active `misc_securitycamera` entities, freezes the still-solid real player, creates an overlapping solid/non-damageable `VisorCopy`, uses required camera `message` and `mangle`, displays tracking target and timer, applies a ±15-degree yaw view swing over 6.4 seconds (`64` legacy frames, `256` target ticks), flashes static for 0.2 seconds, can be dropped with remaining duration, and cancels on damage/death/putaway. Picking up a dropped Visor can add its remaining duration to a partially consumed one and exceed 30 seconds. Bound cycling safely and decide the copy's trace-absorption behavior explicitly while preserving ordinary presentation. |
+| Visor | A nominal 30-second usable remote-camera view (`300` legacy frames, `1,200` target ticks, represented as a duration). It cycles active `misc_securitycamera` entities, freezes the still-solid real player, and preserves third-person presentation through a `VisorCopy`. The source copy is solid/non-damageable, but D-021 proves its trace winner changes with mover-driven link order and selects a scoped non-solid-copy FIX without weakening the real player. The view uses required camera `message` and `mangle`, displays tracking target and timer, applies a ±15-degree yaw swing over 6.4 seconds (`64` legacy frames, `256` target ticks), flashes static for 0.2 seconds, can be dropped with remaining duration, and cancels on damage/death/putaway. Picking up a dropped Visor can add its remaining duration to a partially consumed one and exceed 30 seconds. |
 | Plasma Shield | Places an oriented, stationary sprite barrier about 50 units ahead. It has 4,000 health, lives about ten seconds, uses power-armor-like mitigation (making effective durability much higher), loops audio/animation, is prevented by EMP, and is penetrated by the Sniper Rifle. It has no conventional owner damage attribution and even owner shots collide. Preserve the original multiplayer sound quirk unless deliberately adapted. |
 | Custom keys | Airfield Pass (`key_landing_area`), Laboratory (`key_lab`), Clearance Pass (`key_clearancepass`), Energy, Lava, and Slime keys use standard key/coop semantics with custom models/icons/messages. The two source-exposed keys not used by the supplied maps still belong to the mapper/item contract. |
 | Obituaries and presentation | Zaero adds 25 monster-specific death messages plus custom MOD handling for Sniper, Tripbomb, Flare, `gl_polyblend`, A2K, Sonic Cannon, and Autocannon. Its `IsFemale` test uses the first character of `skin` rather than the legacy `gender` key and removes neutral handling. Preserve the observable SP/co-op/DM/self/friendly-fire results while adapting safely to Rerelease localization and formatting. |
@@ -386,8 +451,8 @@ safely with the complete Rerelease item list.
 | Autocannon | Ceiling and floor variants, multipart rendering, four styles covering three attack types (styles 3/4 both HyperBlaster), berserk/start-off/use flags, constrained tracking arcs, deploy/active states, damage/death, and mover riding for the floor variant. The implementation preserves its deliberate non-`SVF_MONSTER` classification, 10 Hz decisions, generation-safe multipart riders, EMP suppression and retail style-4 frame result; static source/map/ELF contracts pass, while live mover/combat/save proof remains. |
 | Hound | 175-health leap/bite monster with spawnflag-8 schooling/swarm behavior, custom movement ranges, team behavior, pain/death, and wake/target logic. |
 | Handler | Begins as a combined Handler/Hound creature whose lethal damage is clamped until separation, releases a Hound using the intended health proportion, then becomes an infantry-derived Handler. Monster totals and spawn flags account for the future Hound. |
-| Sentien | 900-health flying/ranged monster with bullet/blast and laser attacks, defensive fend/shield behavior, custom movement/AI, pain, and death effects. Preserve the shipped spelling and precaches. |
-| ZBoss | Multi-attack final boss with skill health 3,000/4,500/6,000/8,000, rockets/flares, grapple/drag behavior, plasma attack, staged state/taunts, EMP responses, damage quartering only when the direct inflictor itself is monster-classified, death barrage, and one-shot `target_zboss_target` scripting. Pain retaliation occurs on the 42nd qualifying callback; the separate below-25%-health EMP path uses a 30–35 second cooldown stored in legacy `zDistance`. Its encounter and outro are a release gate. |
+| Sentien | 900-health ranged monster whose hovering presentation uses grounded STEP/walkmonster locomotion, with bullet/blast and laser attacks, defensive fend/shield behavior, pain, and death effects. Preserve the shipped spelling and precaches. |
+| ZBoss | Multi-attack final boss with skill health 3,000/4,500/6,000/8,000, rockets/flares, grapple/drag behavior, plasma attack, staged state/taunts, EMP responses, damage quartering only when the direct inflictor itself is monster-classified, death barrage, and one-shot `target_zboss_target` scripting. A dedicated module now implements the complete static frame/state surface, typed/saved pressure/cooldown state, marker consumption, and generation-owned child cleanup under D-025. Pain retaliation occurs on the 42nd qualifying callback; the separate below-25%-health EMP path uses a 30–35 second cooldown isolated from Hound schooling. Live phase, save, damage, co-op, encounter, and outro proof remains a release gate. |
 | Security camera | `message` is required and initial active state derives solely from the presence of `targetname`; preserve subsequent active/use state, frames 0–59 at 10 Hz as a six-second animation loop, 0.2-second green-shell pain feedback, target message, remote-view orientation, save state, and Visor enumeration. |
 | Barrier | Invisible, immortal blocking volume that reveals itself briefly on touch/damage and influences weapon traces through transient barrier state. |
 | Crates/seats | Three crate sizes plus a seat use pushable/fall-float physics, damage, collision, and mass-dependent interaction with Push. |
@@ -398,10 +463,19 @@ safely with the complete Rerelease item list.
 Zaero also changes stock monster/system behavior. The implementation audit must
 track these separately from wholly new monsters:
 
-- Handler transformation depends on reusable stock-infantry precache/spawn logic.
+- Handler transformation depends on reusable stock-infantry precache/spawn
+  logic. [D-043](compatibility/decisions.md#d-043--stock-monster-precache-extraction-and-sound-index-strategy)
+  and the [generated call graph](audits/stock-precaches.md) prove that this is
+  the only cross-file consumer among Zaero's 22 extracted helpers in 19 stock
+  files. The Rerelease baseline already exposes the needed
+  `InfantryPrecache`; the port reuses it and a Zaero-owned Hound precache rather
+  than cloning unrelated stock files.
 - Custom monsters and some projectiles consult EMP state.
 - Flying AI gains strafe/schooling/team behavior and uses added AI flags/fields.
-- Hover behavior includes an active dodge/strafing path.
+- Hover behavior includes an active dodge/strafing path. D-042 now scopes the
+  exact callback to Zaero `monster_hover`, preserves its 37-direction search,
+  strict typed one-second state and direct 3D impulse, and explicitly resets
+  Q-013's expired/clipped state; live projectile/collision/save proof remains.
 - Monster flash/blind handling is shared with Flare Gun behavior.
 - Team and target-response rules are modified for `mteam` and paired creatures.
 - Shared `check_dodge` state adds `AI_DODGETIMEOUT` and saved
@@ -413,8 +487,9 @@ track these separately from wholly new monsters:
   10 Hz decision intent on the 40 Hz target, and save/load during each window.
 - `M_ReactToDamage` accepts non-monster Autocannons, retains `AI_SOUND_TARGET`
   when a player attacks, applies `mteam`, and can select the reacting monster
-  itself through `attacker->enemy`; classify and test that pathological case
-  before making the safe Rerelease adaptation.
+  itself through `attacker->enemy`. D-041 now layers the intended deltas onto
+  native Tesla/medic/target-anger/cooldown/ignore-shot behavior and preserves
+  Rerelease's self-selection guard; live combat/save proof remains.
 - The final boss grapple changes player movement/view state and therefore needs
   multiplayer, save/load, death, disconnect, and teleport cleanup tests.
 
@@ -423,11 +498,11 @@ The stock-monster diff has a small intentional core surrounded by version drift:
 | Area | Observed Zaero change | Port classification |
 | --- | --- | --- |
 | Selective EMP | Aborts/misfires Boss2 and Jorg machineguns plus Infantry, Supertank, and Tank machineguns; Makron BFG has a redundant check. Global wrappers cover selected energy projectiles. Actor/Gunner/Soldier hitscan and monster shotguns/grenades remain active. | Preserve this explicit affected/unaffected matrix first. |
-| Hover | Adds a roughly one-second radial fly-strafe dodge; its reset contains an assignment/comparison typo. | Port intended dodge and test the quirk before fixing the stuck state. |
-| Infantry | Adds the Handler-to-Infantry conversion entry point and reusable precache. | Required. |
+| Hover | Adds a roughly one-second radial fly-strafe dodge; its reset contains an assignment/comparison typo. | [D-042](compatibility/decisions.md#d-042--hover-fly-strafe-and-expired-state-reset) preserves the exact Zaero-only callback/search/impulse through a dedicated saved Rerelease state and fixes the stale comparison; static contracts pass for all 22 placements, with live seeded/collision/expiry/save proof remaining. |
+| Infantry | Adds the Handler-to-Infantry conversion entry point and is the sole stock precache helper reused from another Zaero source file. | [D-043](compatibility/decisions.md#d-043--stock-monster-precache-extraction-and-sound-index-strategy) reuses the Rerelease baseline's existing `InfantryPrecache` for Handler and conversion; live resource/audio/conversion proof remains. |
 | Chick | Removes the third pain sound and chooses between two sounds 50/50, likely due sound pressure. | Preserve for initial parity; expanded sound capacity is not permission to redesign audio. |
 | Monster movement | Adds FALLFLOAT ledge/water handling and flare evasion. The flare selector uses the first enumerated flare, overwrites a goal, and contains a precedence expression that is always false. | Port observable selection/motion, then classify safety/logic fixes. |
-| Other stock monsters | Mostly behavior-neutral extraction of precache functions so composite/custom monsters can reuse them. | Reuse native Rerelease precaches or small helpers; do not clone whole files. |
+| Other stock monsters | Adds 21 more precache helper surfaces across 18 files, but the identity-locked call graph finds no cross-file consumer; the same files can still contain unrelated EMP, flash, audio, cadence, or source-version deltas. | Keep native Rerelease spawn-local resource paths and do not clone organizational extractions. Independently classify every observable non-precache delta. |
 | Muzzle offsets/protocol | Restores older base offsets and omits later expansion offsets/constants. | Treat as source-version drift; keep Rerelease tables unless a Zaero visual test demands an override. |
 
 All differing old monster files also omit upstream GPL headers. That is not a
@@ -443,11 +518,12 @@ Initial golden-test anchors from the custom-monster source are:
 - Handler starts at 175 health and clamps a lethal hit until separation. Release
   derives a 175-scaled Hound health value and leaves the same remaining health
   on the converted Infantry body, effectively duplicating encounter durability.
-- Sentien is a 900-health, −425-gib, mass-500 flier. Its burst helper accepts
+- Sentien is a 900-health, −425-gib, mass-500 grounded STEP/walkmonster whose
+  model presents as hovering. Its burst helper accepts
   five damage but fires hard-coded two-damage/four-kick shots. Its persistent
   laser does eight base damage, locks aim on its first frame, and scales damage
   and turn speed by skill. Fend briefly holds a frame and reduces incoming
-  damage to 85 percent. It is not removed automatically in deathmatch.
+  damage to 85 percent. Its normal monster lifecycle removes it in deathmatch.
 - Ceiling Autocannon style 1 fires four-damage bullets; style 2 fires
   100-direct/120-radius rockets at speed 650; styles 3/4 fire 20-damage
   hyperblaster shots at speed 1,000. Floor cannons reject style 1. Range is
@@ -455,9 +531,10 @@ Initial golden-test anchors from the custom-monster source are:
   150/384 radial damage, historically ignores its current enemy, and reports
   the Tripbomb MOD.
 - ZBoss has skill health 3,000/4,500/6,000/8,000, gib threshold −700, and mass
-  1,000. Its flare/rocket, seven-shot bouncing plasma, grapple, EMP, damage
-  reduction, one-shot marker, and death-barrage paths each need separate tests;
-  do not simplify them into a generic Rerelease boss attack.
+  1,000. Its dedicated source-shaped flare/rocket, seven-shot bouncing plasma,
+  grapple, EMP, damage-reduction, one-shot marker, and death-barrage paths now
+  have static contracts; each still needs deterministic live and save tests and
+  must not be simplified into a generic Rerelease boss attack.
 
 ### 6.6 Stock gameplay and engine-facing modifications
 
@@ -507,10 +584,11 @@ surface:
 - Version 1.1 removes the old `zwepas` toggle and implements alternate selection
   through `use weapon 1`–`10` plus config aliases `zwepas_on`/`zwepas_off`.
   Preserve the actual 1–10 syntax and aliases without rebinding users by default.
-- While the Visor is active, the legacy command allowlist permits only
-  cancellation/Visor use and inventory cycling, suppressing even chat. Preserve
-  the control freeze initially, then decide whether chat suppression is a safe
-  multiplayer adaptation.
+- While the Visor is active, preserve the legacy gameplay-command lock:
+  cancellation/Visor-only use and inventory cycling remain available. D-008
+  adapts chat by allowing `say`, `say_team`, and `steam` to continue through
+  native Rerelease lobby routing rather than suppressing or reimplementing it
+  in the game DLL.
 - The old `give` path assembles multiword names in a fixed unchecked buffer.
   Use safe Rerelease parsing while retaining accepted item names.
 - The old `kill` behavior allows an immediate respawn after a five-second
@@ -540,6 +618,27 @@ bouncing spawn state, all-or-none precondition, and console count are observable
 quirks. Port them first for parity; a later deterministic/fair-spawn mode may be
 offered under a separate cvar.
 
+[D-045](compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection)
+now implements this in `src/zaero/g_zaero_dm.cpp` through native Rerelease item
+lifecycle. “All-or-none” is explicitly the existing-member precondition, not a
+transaction: blocked geometry can leave 0–7 successful additions and the exact
+console count remains observable. The normalized
+[source/BSP audit](audits/dm-injection.md) proves all 20 supplied maps already
+contain at least one member and therefore suppress auto-injection, including
+six maps with incomplete sets. Static values 0–3, order/wrap/partial failure,
+save-callback surface and D-018 isolation tests pass; always-windowed eligible
+stock `q2dm1` now proves aggregate counts 8/8/disabled/disabled for values 0–3,
+and authored `zdm1` proves existing-member suppression. A structured Debug
+probe proves all eight exact identities/order, successive start ordinals 1–8 on
+first attempts, 128/16-unit initial offsets, final origins, and live native
+Toss/trigger/Touch_Item/IR state; bit-2 and authored controls record zero.
+A deterministic private fixture with four starts inside real collision brushes
+proves the other four placements survive at set indices 0/2/4/6 and wrapped
+ordinals 1/6/11/16. Eight additional private maps each contain one valid start
+and exactly one historical member; all eight structured value-0 runs record
+zero additions. Multiplayer, pickup/respawn/drop/save, dedicated/server-info,
+and native-mode fixtures remain before SYS-012 is verified.
+
 ### 6.9 Campaign and map inventory
 
 | Unit | Maps | Boundary/flow |
@@ -567,15 +666,21 @@ flowchart LR
     T1 <--> T2["ztomb2"]
     T1 <--> T3["ztomb3"]
     T1 <--> T4["ztomb4"]
-    T1 -.->|"suspicious target"| Missing["tomb1 (no supplied BSP)"]
+    T1 -.->|"preserved unreferenced artifact"| Missing["tomb1 (no supplied BSP)"]
     T1 -->|"unit boundary"| Boss["zboss"]
     Boss --> Outro["outro + victory"]
 ~~~
 
 Internal transitions use named `$spawnpoint` suffixes and must be preserved.
-One `ztomb1` changelevel appears to target `tomb1`, for which no BSP was found.
-Treat this as a catalogued data anomaly: reproduce and test the reachable path
-before deciding whether an opt-in correction is required.
+[D-011](compatibility/decisions.md#d-011--ztomb1-target-for-absent-tomb1-bsp)
+now classifies the `ztomb1` changelevel to absent `tomb1`: generated closure of
+all 30 changelevels proves entity 522 is both the sole missing destination and
+the sole record with no activation or other target reference. Because
+`target_changelevel` is invisible/use-only and no production code names its
+`mainexit` targetname, it is unreachable from every valid inbound state and is
+preserved unchanged as an inert mapper artifact. Do not add an alias, rewrite
+the BSP, or create an importer data patch. A map revision that adds either the
+reference or destination must fail the audit and reopen the decision.
 
 Entry to `zboss` has a separate player-state contract. On a positive-health
 entry, `PutClientInServer` calls `InitClientPersistant`, retains only current
@@ -595,22 +700,44 @@ mod-specific configuration that can be executed explicitly.
 
 ### 6.10 Source-only and non-runtime material
 
-The supplied source includes animation/frame/monster test utilities guarded by
-`_DEBUG` and `_Z_TESTMODE`. Preserve useful developer capability only after
-normal runtime parity; do not ship test entities or commands accidentally.
-The separate `_SHANETEST` animated-rocket experiment is also disabled in the
-supplied projects, and two boss grapple-cable rendering blocks are compiled out
-with `#if 0`. Treat these as archaeological/debug material, not missing release
-features, unless retail observation shows an equivalent effect.
+The supplied source includes seven project-enumerated animation/frame/monster
+test modules plus integration hooks guarded by `_DEBUG` and `_Z_TESTMODE`.
+Only the supplied Debug configuration defines `_Z_TESTMODE`; its Release
+configuration defines `NDEBUG` and not `_DEBUG`/`_Z_TESTMODE`. The separate
+two-site `_SHANETEST` animated-rocket experiment is defined by neither supplied
+configuration, and both boss grapple-cable rendering branches are literal
+`#if 0` blocks whose selected fallback is `TE_MEDIC_CABLE_ATTACK`. Under
+[D-015](compatibility/decisions.md#d-015--debug-and-test-tools), these are
+archaeological/developer material rather than missing release features.
+
+The machine-readable [Release-surface policy](provenance/release-surface-policy.json)
+identity-locks all 15 relevant source/project files and the exact guarded
+commands, classnames, configuration paths, symbols, and compiled-out branches.
+The normalized [audit](audits/release-surfaces.md) proves the current port has
+zero forbidden source/project hits. `tools/audit_release_surfaces.py` also
+fails closed on ASCII or UTF-16 signatures in a produced DLL and on forbidden
+members or embedded DLL signatures in a deterministic ZIP. Its grapple denial
+is scoped only to `src/zaero/g_zaero_zboss.cpp`, so the native Rerelease
+protocol and CTF constants remain valid. Revision 2 approves D-045's narrowly
+scoped read-only `sv zaereo_dm_probe` only under `_DEBUG`: placement metadata
+lives outside edicts/saves, the server dispatch/declaration is absent from
+Release, and both command/output signatures join the binary denylist. Any
+future developer-tool restoration requires the same explicit non-Release flag,
+policy revision, and regression tests; it cannot arrive as an accidental
+mapper/game ABI. Static/DLL proof does not replace live evidence. The retained
+2026-07-15 schema-valid windowed Release smoke now loads the audited DLL,
+initializes/spawns `zbase1`, reaches native client begin, and shuts down cleanly,
+closing Q-039/SYS-018 without making a map-playability claim.
 
 Conditional `CACHE_SOUND` code was intended to work around legacy sound-index
-limits but was not enabled by the supplied release project. Rerelease raises
-the relevant resource limits (including a much larger sound index budget), so
-port the desired precaching behavior using native cached-index mechanisms and
-verify it with logs. Do not emulate the original missing-sound failures in
-`zdef1`, `zdef4`, `ztomb1`, and `ztomb3`.
-Do not carry forward the dormant cache's in-place lowercasing of string literals
-or its allocation leaks.
+limits but was not enabled by either supplied project configuration. The
+[D-043 audit](audits/stock-precaches.md) now locks its global `gi.soundindex`
+interception, in-place caller-buffer lowercasing, level-list/name allocations,
+return-zero rejection at the 256-entry ceiling, and the Rerelease-native 2,048
+limit. The port therefore uses scoped cached-index mechanisms and does not
+emulate the original missing-sound failures in `zdef1`, `zdef4`, `ztomb1`, or
+`ztomb3`. Per-map referenced-index counts and audible verification remain open;
+the larger ceiling and sampled spawn logs alone are not acoustic proof.
 
 Old demos and saves use incompatible protocols/formats and are archival inputs,
 not runtime compatibility targets. A stable release is not required to replay
@@ -624,11 +751,11 @@ These findings require explicit decisions before code cleanup:
 | --- | --- |
 | IRED/EMP phase-out code compares rather than assigns `SVF_NOCLIENT` in one path. | Reproduce expected visible behavior in a test, then `FIX` the obvious state bug if no retail quirk depends on it. |
 | Barrier trace helper has a path without a final return value. | `FIX` undefined behavior while preserving tested trace results. |
-| A2K has overlapping radial/visible damage paths and unusual self-damage. | `PARITY` until golden tests establish exact targets and multiplicity. |
-| Quad multiplies A2K damage and radii, while Sonic Cannon plays Quad audio without multiplying damage. | Sonic now preserves the single discharge sound and unscaled damage/radius under a static contract; retain `PARITY` pending live comparison and A2K implementation. |
+| A2K has overlapping radial/visible damage paths and unusual self-damage. | D-028 preserves source-origin/bbox falloff, integer damage, half self damage, and both ordered passes under static golden contracts; retain `PARITY` pending live boundary/multiplicity capture. |
+| Quad multiplies A2K damage and radii, while Sonic Cannon plays Quad audio without multiplying damage. | A2K now samples Quad at blast and scales damage plus the inner radius before deriving the outer radius; Sonic preserves one discharge sound and unscaled equations. Retain `PARITY` pending live comparison. |
 | Flare damage compensates for a client rendering preference. | `PARITY` by default; retain the historical opt-out flag and document it. |
 | Visor camera cycling can loop indefinitely when all cameras are inactive, restores WALK rather than the prior movement type, and has a broken player-copy skin-change path. | `FIX` lifecycle/safety bugs while preserving ordinary camera presentation. |
-| Plasma Shield uses the generic ammo cap despite a contradictory dead pickup-specific maximum and has no ordinary owner attribution. | Test shipped pickup/drop/death behavior; preserve observable limits and document ownership adaptation. |
+| Plasma Shield uses the generic ammo cap despite a contradictory dead pickup-specific maximum and has no ordinary owner attribution. | [D-029](compatibility/decisions.md#d-029--plasma-shield-collision-durability-and-placer-identity) retains 20→40 limits, no gameplay owner, owner-shot collision, independent lifetime, and generation-checked non-collision placer metadata under static contracts; live pickup/drop/death/collision/save proof remains. |
 | IRED shrapnel has a possible null trace-plane dereference. | `FIX` memory safety without changing valid impacts. |
 | Sentien's bullet helper ignores a requested damage argument and hardcodes two damage. | `PARITY` unless retail comparison proves the helper call was intended. |
 | Autocannon destruction attributes its blast as Tripbomb damage and ignores its current enemy. | The port preserves both under dedicated MOD/source contracts; live radius and obituary capture remains before verification. |
@@ -637,26 +764,28 @@ These findings require explicit decisions before code cleanup:
 | Schooling averages yaw arithmetically (so 359° and 1° average to 180°), includes non-schooling Hounds, and “minimum distance” copies a neighbor's heading rather than separating. | Begin with `PARITY` because formation motion is visible; offer corrected steering only after captures. |
 | Handler release duplicates remaining health into the converted Handler and detached Hound; the detached Hound has `noclass`/zero max health and can miscount kills when the Handler is not counted. | Preserve encounter durability, but normalize stable identity/count/save bookkeeping as an `ADAPT`. |
 | Sentien's persistent laser helper is switched off but not freed at death/gib. | `FIX` entity leak while preserving the beam shutdown event. |
-| ZBoss one-shot marker can be used without a live enemy, but the firing path dereferences the enemy unconditionally and the marker calls unvalidated targets. | `FIX` ownership/type/null safety with valid-marker behavior locked by tests. |
+| ZBoss one-shot marker can be used without a live enemy, but the firing path dereferences the enemy unconditionally and the marker calls unvalidated targets. | D-025 implements exact live-boss/type/null validation and guarded marker consumption; live valid-marker behavior/free-reuse remains. |
+| ZBoss attack interruption can overwrite its live hook pointer, and detonated plasma retains collision/touch through its blast visual. | D-025 generation-owns/cleans hooks and makes plasma contact terminal while preserving the visual; live lifecycle/save proof remains. |
 | `DAMAGE_ARMORMOSTLY` has no known caller and can produce an invalid result. | Retain no ABI dependence; quarantine or correct before any new use. |
 | Random timer target parsing and old `give` parsing use unchecked buffers. | `FIX` bounds while preserving accepted syntax and selection behavior. |
 | FALLFLOAT ground/water state and rotating START_ON reset contain suspicious assignments. | Reproduce map scenarios and classify before rewriting physics. |
 | Player death clears inventory before an old co-op key-preservation path can retain keys, and power-armor state is not fully cleared. | Use Rerelease co-op/key semantics only after parity/softlock tests; explicitly clear stale power state. |
 | Ammo spawn flags add out-of-DM timed respawn/cap semantics; Pack omits Flares and no-ammo fallback ignores custom weapons. | Preserve placed-item behavior and Pack omission; integrate custom fallback through Rerelease selection. |
-| Health pickup temporarily mutates the shared global item sound. | `FIX` shared-state hazard while preserving the selected sound per pickup. |
+| Health pickup temporarily mutates the shared global item sound. | [D-040](compatibility/decisions.md#d-040--health-pickup-sound-concurrency) now selects the exact count-derived sound locally after explicit native noise, retains native maps, and never writes shared item metadata. Static 447-placement/interleaving contracts pass; live simultaneous/custom-count proof remains. |
 | `target_explosion` flag 1 is named EMP-style but is only an A2K-like cosmetic explosion; it still applies ordinary damage/targets. | Preserve cosmetic-only semantics; do not create an EMP field. |
 | The 1.1 readme describes `use weapon 0`–`9`, but the DLL accepts 1–10 and the updated config binds key 0 to `use weapon 10`. | Treat source plus shipped config (1–10) as authoritative; document the readme error. |
-| `ZDM_ZAERO_ITEMS` bit name reads opposite to its effect. | Preserve numeric semantics; improve only internal naming and documentation. |
+| `ZDM_ZAERO_ITEMS` bit name reads opposite to its effect. | [D-045](compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection) preserves external values 0–3 and replaces the executable symbol with `ZAERO_DMFLAG_DISABLE_ITEM_INJECTION`; source/BSP/contracts and private windowed `q2dm1` counts lock the inversion while live server-info query/config persistence/dedicated proof remains. |
 | Mirror-level fields/system appear dormant. | Preserve parsing/save ABI and compatibility no-ops; do not invent missing gameplay. |
 | Some original levels exceeded old sound limits. | `ADAPT` to native Rerelease indexing; absence of missing audio is intended. |
 | Original `default.cfg` unbinds all controls. | `ADAPT` into an explicit, non-destructive `zaero.cfg`. |
-| A `ztomb1` transition names an absent `tomb1`. | Investigate reachable behavior; never silently rewrite map data. |
-| `VisorCopy` is a solid, non-damageable duplicate overlapping the still-solid player and may absorb traces. | Capture retail owner/enemy/projectile traces, then choose `PARITY` or a tested safety `FIX` without weakening the real player's vulnerability. |
-| Picking up a dropped Visor can add its remaining time to a partially consumed Visor and exceed the nominal 30 seconds (`300` legacy frames = `1,200` target ticks, represented as a duration). | `PARITY` pending fresh/partial/stacked pickup captures and save/drop tests. |
-| `M_ReactToDamage` can choose the reacting monster itself through `attacker->enemy`. | `FIX` the pathological self-target only after normal Autocannon/player/`mteam` reaction paths are locked. |
-| `SV_Physics_Step` omits the post-`G_TouchTriggers` `inuse` guard. | `FIX` use-after-free risk while retaining valid trigger ordering and one-shot/free behavior. |
-| `SV_FlyMove` removes duplicate-plane suppression globally. | Classify with collision clips as intended Zaero behavior versus source-age drift before changing the native Rerelease path. |
-| Shared projectile dodge throttles Rocket/BFG/Flare but deliberately not Blaster. | `PARITY`; lock skill cadence, 40 Hz conversion, projectile call sites, and saved timeout state. |
+| A `ztomb1` transition names an absent `tomb1`. | D-011 preserves the sole unreferenced/missing changelevel as an inert artifact; generated 30/29/1 closure and use-only dispatch tests prohibit a silent rewrite or alias. |
+| `VisorCopy` is a solid, non-damageable duplicate overlapping the still-solid player and may absorb traces. | D-021's identity-locked source/link audit proves equal-hit ownership changes when a mover relinks the frozen player. Use a tested `FIX`: keep the real player solid/vulnerable and make only the visual copy non-solid; live attacker/projectile/mover verification remains. |
+| Picking up a dropped Visor can add its remaining time to a partially consumed Visor and exceed the nominal 30 seconds (`300` legacy frames = `1,200` target ticks, represented as a duration). | Typed carrier/drop fields now preserve exact fresh/equality/partial/stacked/reset arithmetic and native grant/death/co-op integration under static tests; retain `PARITY` pending live pickup/drop/active/save captures. |
+| `M_ReactToDamage` can choose the reacting monster itself through `attacker->enemy`. | [D-041](compatibility/decisions.md#d-041--zaero-monster-damage-reaction-and-self-target-safety) preserves normal player/Autocannon/`mteam`/sound/buddy paths atop native lifecycle and keeps the Rerelease self guard as a tested `FIX`; live combat/save proof remains. |
+| Hover fly-strafe timeout compares with `AS_STRAIGHT` instead of assigning it. | [D-042](compatibility/decisions.md#d-042--hover-fly-strafe-and-expired-state-reset) retains the radial movement and strict deadline but explicitly clears the dedicated state on expiry, collision, or invalid lifecycle as Q-013 `FIX`; live 40 Hz/collision/save proof remains. |
+| `SV_Physics_Step` omits the post-`G_TouchTriggers` `inuse` guard. | [D-035](compatibility/decisions.md#d-035--step-physics-trigger-free-lifetime-safety) retains the native guard and equivalent FallFloat guards under static order tests; live ordinary/free/free-reuse fixtures remain. |
+| `SV_FlyMove` removes duplicate-plane suppression globally. | [D-044](compatibility/decisions.md#d-044--global-sv_flymove-duplicate-plane-delta) classifies the exact one-condition removal as source-age drift. Seven identity-locked float32 goldens show its only legacy difference is a repeated-plane residual dead-stop; retain the shared Rerelease 0.99 near-duplicate/1.01 overclip solver and require live caller-isolation clips. |
+| Shared projectile dodge throttles Rocket/BFG/Flare but deliberately not Blaster. | [D-033](compatibility/decisions.md#d-033--projectile-dodge-timing-and-rerelease-coexistence) preserves the firing-time trace, both typed skill windows, exact hooks and stock isolation under static tests; live seeded cadence and mid-window save proof remain. |
 
 Add every discovered defect to `docs/compatibility/quirks.md` with evidence,
 retail comparison if available, decision, owner, and regression test.
@@ -679,6 +808,20 @@ precedence before importing into an ignored `.install/imported/` working tree,
 and keep an origin/layer column in the importer manifest. Tracked `pack/`
 contains only redistributable project-owned configuration while D-003 remains
 open. The effective legacy PAK view contains 969 unique paths.
+
+[D-047](compatibility/decisions.md#d-047--legacy-pak-layer-to-runtime-ownership-semantics)
+defines the output contract: preserving `pak0 < pak1 < pak2` means preserving
+the source-layer audit and each final effective byte/path, not necessarily
+shipping three copied commercial PAKs. A local import may therefore collapse
+the already-resolved legacy effective view into an import-owned `pak1.pak`
+beside a project-owned `pak0.pak`, but only with deterministic source-origin
+records, explicit project/import collision policy, exact `default.cfg` and
+`maps.lst` override tests, loose-file precedence tests, and fail-closed
+cross-layer case/reference validation. The current installer/package records
+the physical project/import/generated layers, compares the complete staged
+import byte set against the importer manifest, and rejects direct member/loose
+collisions. Source-override, engine loose-precedence, cross-layer reference,
+and lifecycle proofs remain; SYS-016 is not verified.
 
 `pak0` includes:
 
@@ -730,9 +873,11 @@ recompile as the 1.0 compatibility baseline.
 
 The checked-in baseline inventory is `docs/audits/assets.json` (with a reviewed
 Markdown rendering), while every local import produces a deterministic JSON
-manifest. The sole reviewed policy overlay is
+manifest. The future sole reviewed per-path policy overlay is
 `docs/provenance/asset-policy.json`, keyed by normalized path or a narrowly
-defined category rule. Together, the release-time manifest and that overlay
+defined category rule. It does not exist at this audit checkpoint and is an
+explicit Phase 2/provenance gate; no prose or distribution-policy record may be
+treated as its substitute. Together, the release-time manifest and that overlay
 must carry at least:
 
 `runtime_path`, `source_container`, `source_path`, `source_sha256`,
@@ -908,7 +1053,7 @@ large generated diff without classifying it.
 | 10 Hz server frames and integer `framenum` deadlines | Express time using `gtime_t` and duration literals. Preserve durations, not frame counts. Audit every custom think, animation, debounce, countdown, charge, timeout, and random interval. |
 | Legacy monster move callbacks execute at 10 Hz | Use the Rerelease legacy-move throttling behavior where parity demands it; opt into high-tick behavior only with measured tests. Avoid making AI/projectiles four times faster. |
 | C arrays, `vec3_t` helpers, and integer booleans | Port to the Rerelease C++ vector/format/string conventions without changing arithmetic order until golden tests pass. |
-| Raw `gi.*index` calls and legacy resource ceilings | Use cached model/sound/image indexes and Rerelease limits. Centralize precaches; verify closure on every map. |
+| Raw `gi.*index` calls and legacy resource ceilings | Use cached model/sound/image indexes and Rerelease limits. [D-043](compatibility/decisions.md#d-043--stock-monster-precache-extraction-and-sound-index-strategy) rejects the supplied-but-disabled global 256-sound interceptor in favor of native 2,048-index capacity and scoped cached precaches; verify referenced-index and audible closure on every map. |
 | Pointer-oriented binary save tables | Register every custom think/use/touch/pain/die/blocked callback and every custom field with the Rerelease save macros/JSON serializer. Test live and dormant entities. |
 | One local player's view/HUD | Make view state client-local, split-screen safe, and serialized. Route Visor, sniper zoom, help, timer, blend/static, boss/grapple state, and weapon display through appropriate game/cgame data. |
 | Statusbar/inventory-only weapon selection | Add stable item/wheel IDs, wheel configstrings, icons, ammo and quantity metadata, and cgame UI while preserving `use weapon N` aliases. |
@@ -1150,7 +1295,7 @@ ZaeREo/
 │       └── release-windows.yml
 ├── .vscode/
 │   ├── extensions.json
-│   ├── launch.json              # calls config-driven wrappers; no personal paths
+│   ├── launch.json              # launches run_game.ps1; never a direct game target
 │   └── tasks.json
 ├── .install/                     # generated developer stage, ignored
 ├── build/                        # generated compiler output, ignored
@@ -1168,16 +1313,24 @@ ZaeREo/
 │   ├── provenance/
 │   │   ├── ASSET_SOURCES.md
 │   │   ├── asset-policy.json
-│   │   ├── distribution-policy.json
 │   │   ├── baselines.json
+│   │   ├── dependency-policy.json
+│   │   ├── distribution-policy.json
+│   │   ├── release-surface-policy.json
+│   │   ├── upstream-integration-policy.json
+│   │   ├── upstream-match.json
 │   │   └── schemas/
+│   │       ├── README.md
 │   │       ├── asset-policy.schema.json
+│   │       ├── dependency-policy.schema.json
 │   │       ├── distribution-policy.schema.json
 │   │       ├── import-ownership.schema.json
 │   │       ├── install-ownership.schema.json
 │   │       ├── local-config.schema.json
 │   │       ├── release-manifest.schema.json
-│   │       └── release-readiness.schema.json
+│   │       ├── release-readiness.schema.json
+│   │       ├── runtime-smoke.schema.json
+│   │       └── spdx-schema-2.3.json
 │   └── release-readme.html
 ├── editor/
 │   ├── entities.json             # generator source of truth
@@ -1209,8 +1362,15 @@ ZaeREo/
 │   ├── audit_assets.py
 │   ├── audit_bsp_entities.py
 │   ├── audit_common.py
+│   ├── audit_dm_injection.py
+│   ├── audit_flymove.py
+│   ├── audit_release_surfaces.py
 │   ├── audit_repository.py
 │   ├── audit_source_delta.py
+│   ├── audit_stock_precaches.py
+│   ├── audit_traceability.py
+│   ├── audit_upstream_integration.py
+│   ├── audit_visor_trace_order.py
 │   ├── bootstrap.ps1
 │   ├── build_game.ps1
 │   ├── check_project_sources.py
@@ -1221,7 +1381,9 @@ ZaeREo/
 │   ├── generate_sbom.py
 │   ├── generate_version.py
 │   ├── import_legacy_assets.py
+│   ├── identify_upstream.py
 │   ├── install_dev.ps1
+│   ├── make_dm_runtime_fixture.py
 │   ├── make_pak.py
 │   ├── make_release_zip.py
 │   ├── manage_install.ps1
@@ -1233,8 +1395,10 @@ ZaeREo/
 │   ├── render_release_readme.py
 │   ├── run_game.ps1
 │   ├── run_runtime_matrix.ps1
+│   ├── validate_distribution_policy.py
 │   ├── validate_runtime.py
-│   └── verify_binary.ps1
+│   ├── verify_binary.ps1
+│   └── zaereo_paths.ps1
 ├── .editorconfig
 ├── .gitattributes
 ├── .gitignore
@@ -1251,15 +1415,15 @@ ZaeREo/
 └── vcpkg.json
 ~~~
 
-This is the target contract, not a claim that every entry exists today. At the
-audit checkpoint, notable planned gaps include `.editorconfig`,
-`.github/dependabot.yml`, `.vscode/launch.json`, `docs/UPSTREAM.md`, the
-provenance policy overlays/schemas, config-driven run/runtime-matrix wrappers,
-mapdb and version generators, release-readiness/README rendering, and the live runtime
-suite. The current `.gitignore` also needs an explicit `launch.json` exception
-before that shared file can be tracked. Each gap is assigned below to Phase 0/1,
-the relevant feature phase, or the Phase-9 release gate; an empty placeholder
-does not close it.
+This is the target contract, not a claim that every entry exists today. The
+repository/editor/VS Code scaffold, official upstream match, current-integration
+classification, distribution and local-config schemas, path resolver, audit
+snapshot, and remote containment now exist. Notable planned gaps include the
+reviewed path-level `asset-policy.json`, package/import/readiness schemas,
+version/mapdb generators, a verified config-driven run wrapper and runtime
+matrix, the install manager, release-readiness/README rendering, and the live
+runtime suite. Each gap is assigned below to the relevant feature phase or the
+Phase-9 release gate; an empty or unverified placeholder does not close it.
 
 Every machine-consumed policy/config/ownership/release record declares its
 schema ID and version and validates before use. Schemas are authored, reviewed
@@ -1297,6 +1461,8 @@ The tracked file must tell human and automated contributors:
   handled;
 - which generated directories must not be edited or committed;
 - required focused and full validation before completion;
+- that every repository-provided launch configuration invokes the windowed
+  `tools/run_game.ps1` verifier rather than launching the game directly;
 - rules for updating the feature/entity/map/quirk matrices with code changes;
 - safe Git practices in a shared/dirty worktree; and
 - scope boundaries for remastering/maps plus code, media, repository/source,
@@ -1337,9 +1503,10 @@ Ignore at least:
 - editor logs, map compiler `.prt/.lin` output, crash dumps, and runtime saves.
 
 Keep `.vscode/tasks.json`, `launch.json`, and `extensions.json` tracked while
-ignoring other personal editor state. Launch configurations call repository
-wrappers and contain no personal paths. Do not ignore source assets or committed
-audit reports.
+ignoring other personal editor state. Launch configurations call the repository
+windowed verifier and contain no personal paths; a shared direct-game debugger
+is prohibited because it cannot establish the native-window safety result. Do
+not ignore source assets or committed audit reports.
 
 #### `.gitattributes`
 
@@ -1537,6 +1704,15 @@ python ./tools/import_legacy_assets.py --source "D:\Games\Zaero" --output .insta
 python ./tools/validate_runtime.py --root .install/imported/zaereo --manifest .install/imported/zaereo-asset-manifest.json --strict
 ./tools/install_dev.ps1 -EngineRoot "D:\Games\Quake II Rerelease" -UserRoot "D:\Disposable\Quake2User" -ContentRoot .install/imported/zaereo -AssetManifest .install/imported/zaereo-asset-manifest.json -Configuration Debug -WhatIf
 # Inspect the preview, then repeat the preceding install command without -WhatIf.
+./tools/run_game.ps1 -EngineRoot "D:\Games\Quake II Rerelease" -UserRoot "D:\Disposable\Quake2User" -Map q2dm1 -Deathmatch -ZdmFlags 0 -ProbeDeathmatchItems -ReportOutput .install/runtime-reports/q2dm1-zdmflags0-placement.json
+# Optional private D-045 partial-geometry proof; all outputs remain ignored.
+python ./tools/make_dm_runtime_fixture.py --source-pak "D:\Games\Quake II Rerelease\baseq2\pak0.pak" --source-member maps/q2dm1.bsp --fixture-name zaereo_fixture_dm_partial --output-root .install/runtime-fixtures/zaereo_fixture_dm_partial --manifest-output .install/runtime-fixtures/zaereo_fixture_dm_partial-manifest.json --include-existing-member-controls
+./tools/install_dev.ps1 -Configuration Debug -SkipBuild -RuntimeFixtureRoot .install/runtime-fixtures/zaereo_fixture_dm_partial
+./tools/run_game.ps1 -Map zaereo_fixture_dm_partial -Deathmatch -ZdmFlags 0 -ProbeDeathmatchItems -ReportOutput .install/runtime-reports/zaereo-fixture-dm-partial.json
+./tools/install_dev.ps1 -Configuration Debug -SkipBuild # immediately restore normal content
+./tools/build_game.ps1 -Configuration Release -VcpkgRoot "C:\path\to\vcpkg"
+python ./tools/audit_release_surfaces.py --policy ./docs/provenance/release-surface-policy.json --zaero-root "D:\Sources\Zaero" --port-root ./src --binary ./build/Release/game_x64.dll
+python ./tools/audit_dm_injection.py --zaero-root "D:\Sources\Zaero" --port-root ./src --bsp-audit ./docs/audits/bsp-entities.json --json-output ./docs/audits/dm-injection.json --markdown-output ./docs/audits/dm-injection.md
 ./tools/package_windows.ps1 -Configuration Release -DistributionMode importer-kit
 ~~~
 
@@ -1598,16 +1774,87 @@ mod root. It removes only files listed in its own previous-stage manifest and
 never deletes arbitrary user files. Support `-NoPak` loose-content mode for
 debugging and `-Link` mode only when privileges and behavior are clear.
 
-Launch instructions should use the Rerelease's supported game-mod selection or
-`+set game zaereo +exec zaerostart.cfg` equivalent, verified against the target
-build.
+For private derived-BSP tests only, `-RuntimeFixtureRoot` accepts a strict child
+of `.install/runtime-fixtures` containing only
+`maps/zaereo_fixture_[a-z0-9_]+.bsp`. It rejects root/directory/file reparse
+points and any collision with imported or tracked content, and records the
+managed fixture count. This is not a packaging input: the fixture BSP,
+identity manifest, PAK, and report remain ignored/private-local-only. A normal
+install without the argument must remove the overlay before other testing.
+
+All project launchers and validation runs force windowed mode and never start
+fullscreen. The KEX `-window` startup argument is authoritative before video
+initialization; changing a cvar after startup is not acceptable. The verifier
+uses a required two-stage protocol:
+
+1. launch a visible bootstrap with `-window`, `v_windowmode 0`, explicit
+   dimensions, and no `game`, `map`, or equivalent mod/map command;
+2. enumerate every visible top-level window belonging to each exact newly
+   launched executable PID, reject any popup/non-windowed one, and require a
+   captioned non-popup window; then
+3. inject the selected `zaereo`/mode/map command into that verified window and
+   retain a `zaereo.runtime-smoke/v2` report proving the ordering.
+
+The wrapper requires a continuous three-second process-free interval before
+launching, so a just-exited Steam/KEX handoff cannot reuse stale startup state.
+Any visible popup/non-windowed observation or failed post-verification command
+delivery causes immediate termination of the exact verified executable PID and
+a distinct failed safety report; it never waits for the ordinary timeout or
+attempts an in-process mode switch. A legacy one-stage report that passed
+`+set game`/`+map` on the initial command line is historical runtime evidence
+only and cannot satisfy this gate.
 
 ### 10.5 Config-driven launch and runtime harness
 
-Add `run_game.ps1` as the one supported local launch wrapper and
-`run_runtime_matrix.ps1` as its non-interactive orchestration layer. They read
-paths from the same explicit/environment/ignored-config precedence as the build
-and installer and never encode a developer username or store path.
+The first bounded slice of `run_game.ps1` is implemented as the supported local
+single-map single-player/deathmatch smoke wrapper. It uses the shared path
+resolver, requires a managed developer install and three-second process
+quiescence, launches a visible `-window`/`v_windowmode 0` bootstrap without a
+mod/map selector, enumerates every visible Win32 top-level window owned by the
+exact process, immediately aborts the PID on any popup/non-windowed style, and
+only then sends the selected Zaero command to the verified window. It follows
+the real process through the Steam bootstrap, brackets only the current console
+session, shuts down exact observed PIDs, and writes a strict private-local v2
+hash report. The `launch_protocol` and command-injection marker are mandatory
+for a passing v2 report; v1 reports remain retained historical evidence but do
+not meet the sequencing gate.
+`-Deathmatch` selects deathmatch and `-ZdmFlags 0` through `3` records the exact
+server setting; nonzero `-ZdmFlags` is rejected outside deathmatch. The report
+records mode, flags, and the final legacy-compatible `0` through `8` “Zaero
+entities added” count when the session emits one. On Debug builds,
+`-ProbeDeathmatchItems` invokes the D-015-contained read-only server probe after
+the wait and requires structured item order, start/attempt/entity identity,
+128/16-unit initial placement, final origin, generation-safe liveness, and
+native Toss/trigger/Touch_Item/IR state to parse consistently. It is rejected
+outside deathmatch and fails against a Release DLL because the command is
+deliberately absent. The v2 schema makes the launch-protocol and command-
+injection evidence mandatory for every current passing report; retained v1
+reports are archival evidence only and must not be validated as current runs.
+Static, schema, parser, and synthetic `-WhatIf` contracts live under
+`tests/runtime/`.
+`make_dm_runtime_fixture.py` supplies one narrow live geometry fixture by
+selectively reading a legitimate local `baseq2` PAK, retaining the selected
+BSP's geometry byte-for-byte, replacing only its ignored entity lump, and
+choosing blocked starts inside actual solid collision brushes. Its manifest
+records source/output identities and the expected partial result without an
+absolute local path. `--include-existing-member-controls` adds eight separate
+maps with exactly one historical member apiece. The installer overlay is
+path/collision/reparse scoped, and reinstalling without it restores ordinary
+content.
+Retained private results loaded/spawned `zbase1`, `zdef1`, and `zboss` and exited
+cleanly on 2026-07-14; they establish only sampled registry/resource closure,
+including the newly registered ZBoss. They are not map-pass claims. Add
+`run_runtime_matrix.ps1` as the non-interactive orchestration layer.
+Both layers read paths from the same explicit/environment/ignored-config
+precedence as the build and installer and never encode a developer username or
+store path.
+
+The tracked VS Code launch entry and its matching task invoke this wrapper with
+the selected read-only engine root, writable user root, and map. They
+intentionally do not expose a direct Quake executable debug target: the
+wrapper owns the pre-video `-window` switch and must observe a captioned,
+non-popup native game window before selecting the mod/map. Attach a local
+debugger only to a process that the verified wrapper has already started.
 
 The launch wrapper must accept configuration, map/start-chain, skill, mode,
 client count, dedicated/listen mode, extra cvars, writable user-data root,
@@ -1615,8 +1862,11 @@ timeout, and log/result paths. It stages first unless explicitly told to reuse a
 verified stage, constructs arguments as an array rather than a shell string,
 uses a fresh named profile for automated runs, and reports the executable,
 content manifest, DLL hash, command arguments, process exit, crash dump, and
-console-log location. Interactive launch may stay attached; automated launch is
-hidden/headless where the engine permits and has bounded shutdown.
+console-log location. Interactive client launch may stay attached; automated
+client launch remains visible because it must prove the native window before
+selecting the mod/map. Dedicated/headless server scenarios are a separate
+non-client lane: they cannot satisfy any windowed-client safety or presentation
+gate and must say so in their result.
 
 The matrix wrapper consumes a reviewed JSON scenario file, expands map/skill/
 mode/client cases, invokes the same launch wrapper, and emits normalized JUnit
@@ -1815,16 +2065,18 @@ version, dependency baseline, and file scope agree; an automatic GitHub source
 archive is accepted only if the test proves it is complete corresponding source
 for the exact binary and the distribution policy permits that repository/ref.
 
-Implement deterministic `generate_sbom.py` and `collect_licenses.py` stages.
-Pin the SPDX JSON schema/version and generator version; enumerate the exact
-source components, vcpkg packages, compiler/runtime libraries, and packaged
-Python/PowerShell tools from build metadata and the external manifest; copy the
-actual copyright/license files from the pinned dependency installation; sort
-records and use the release epoch rather than wall-clock metadata. Synthetic
-fixtures cover static/dynamic dependencies, duplicate/missing licenses, mode
-exclusion, version drift, and two-build byte equality. An unknown component,
-missing copyright file, inconsistent license expression/scope, or SBOM/manifest
-path mismatch fails packaging and readiness.
+The Phase-1 substrate implementation of deterministic `generate_sbom.py` and
+`collect_licenses.py` is present. It pins the official SPDX 2.3 JSON Schema and
+generator version; verifies the exact vcpkg closure/baseline/versions; records
+the compiler and static runtime; copies the actual dependency copyright bytes;
+sorts records; uses the source commit epoch; and is included in current local
+package stages. Synthetic and live-install tests cover unknown dependencies,
+missing/tampered license bytes, version/policy drift, official-schema validity,
+and two-build byte equality. Phase 9 must extend the same policy/SBOM to every
+mode-specific packaged Python/PowerShell tool and artifact-manifest path before
+publication readiness. An unknown component, missing copyright file,
+inconsistent license expression/scope, or SBOM/manifest path mismatch fails
+packaging and readiness.
 
 `zaero.cfg` and `zaerostart.cfg` should normally occur once inside the cleared
 project PAK. The active full `mapdb.json` occurs once in the locally generated
@@ -1834,13 +2086,17 @@ If target engine testing requires one to be loose, move it rather than
 duplicating it. The stage validator rejects ambiguous loose-versus-PAK
 overrides.
 
-Current-script gap: the existing packager exposes only importer-kit and
-local-full paths, always stages the DLL, gives local-full no required
-`-local-full-private` filename suffix, and phrases its warning as conditional on
-the media gate. Its local-full path currently folds imported bytes into
-`pak0.pak` and emits no separate `pak1`/import-ownership record. It does not yet
-implement the canonical ownership split, tools-only, asset-full, independent
-code/media policy, or permanent local-full rejection.
+Current-script state/gap: the local packager and developer installer now stage
+project `pak0.pak` separately from an effective importer-owned `pak1.pak`,
+reject project/import path collisions, retain the required loose files, and
+write mode-specific runtime ownership records. Private generated runtime
+fixtures use a distinct `pak2.pak`; they cannot be mistaken for imported media.
+The packager still exposes only importer-kit and local-full paths, always stages
+the DLL, gives local-full no required `-local-full-private` filename suffix, and
+does not yet implement tools-only, asset-full, independent code/media policy,
+or permanent local-full rejection. These local ownership records are not proof
+of the unimplemented source-override, loose-precedence, cross-layer reference,
+or install/update/rollback lifecycle matrix.
 Remote containment landed on 2026-07-13: package/nightly/stable workflows are
 read-only verification jobs with no cache, artifact, release, or credential
 publication path; checkout credentials are not persisted; and the manual
@@ -1848,10 +2104,12 @@ publisher is a fail-closed stub. Their deterministic archives remain local
 development evidence only. Remote mutation must stay technically absent until
 the mode schema, packager, publisher, workflows and tests implement this section
 end to end and the relevant rights gates are independently permitted.
-The current release manifest also treats each PAK as one outer file, and
-`validate_runtime.py --pak` does not compare its member paths against staged
-loose files. Cross-layer member/loose manifest validation and a negative
-override fixture are therefore publication gates, not existing capability.
+The release manifest still treats each PAK as one outer file, but
+`validate_runtime.py --stage` now compares importer `pak1` members plus the
+required loose paths to the import manifest and rejects all project/import/
+generated member collisions. Exact legacy `default.cfg`/`maps.lst` source-winner
+fixtures, engine lookup proof for the loose files, and cross-layer reference
+validation remain publication gates.
 For every mode, a package dependency-closure test executes each bundled entry
 point in an extracted offline archive and proves every imported script/module,
 data file, schema, runtime, and license is present and allowlisted; no tool may
@@ -2177,8 +2435,13 @@ Work:
   selected Rerelease upstream commit or archive.
 - Generate and review source-delta, BSP-entity, map-flow, asset-layer, and
   case-collision reports.
-- Inventory the currently almost-entirely untracked worktree; review it for
-  secrets, proprietary/imported/generated bytes, ignore/LFS policy, and intended
+- Regenerate and review the record-level source/function/global and
+  BSP-classname/key/spawnflag coverage reports defined in Section 4.3. Keep
+  public-CI structural validation and private proprietary-input regeneration;
+  zero uncovered records is a hard failure.
+- Inventory the complete candidate gameplay tree; review every tracked and
+  untracked path for secrets, proprietary/imported/generated bytes, ignore/LFS
+  policy, and intended
   repository scope, then capture an immutable private/local evidence commit/tree
   before using “head,” clean-checkout, or exact-commit claims.
 - Resolve or explicitly gate code/media redistribution.
@@ -2205,6 +2468,10 @@ Exit criteria:
 - All 20 BSPs and all 969 effective PAK paths plus nine loose files appear in
   generated reports.
 - The 132-classname inventory and exact 27 missing map-facing names are locked.
+- Every source-delta and BSP mapper-contract record has a validated coverage
+  entry with an explicit disposition, ledger/decision ID, implementation seam,
+  lifecycle/save applicability, and test/evidence link; no `SOURCE_AGE`,
+  `NON_RUNTIME`, or native-no-delta exemption lacks a reason.
 - Code and media publication permissions are each either cleared or explicitly
   fail-closed; only the corresponding eligible tools-only, importer-kit, or
   distinct asset-full path may be considered for publication, and local-full
@@ -2246,6 +2513,9 @@ Work:
   unsafe silent program-root discovery from the supported path.
 - Add Windows CI, formatting/static checks, project-file completeness checks,
   and an empty/mod-directory load smoke test.
+- Enforce D-015 with an identity-locked legacy-source policy plus fail-closed
+  current source/project, produced Release DLL, and package-member deny scans;
+  preserve native Rerelease grapple constants through path-scoped rules.
 - Add `GAMEVERSION`/display version through a minimal Zaero integration commit,
   without gameplay.
 
@@ -2265,6 +2535,29 @@ Exit criteria:
   override, no implicit Steam/program-root mutation, and refusal of `baseq2`.
 - The substrate SBOM and license bundle reproduce byte-for-byte and fail on an
   unknown dependency, missing copyright text, or manifest/scope mismatch.
+- The D-015 validator proves the produced Release DLL/package contains none of
+  the legacy test commands, entities, configs, modules, animated-rocket strings,
+  or Zaero ZBoss grapple experiment, followed by a v2 two-stage windowed Release
+  DLL-load/map-spawn/client-entry/shutdown smoke.
+
+Current D-015 closure (2026-07-15): the identity-locked policy and normalized
+audit cover 15 source/project files, seven project-enumerated debug modules,
+three guarded commands, two `_SHANETEST` sites, and two literal grapple blocks.
+Six fail-closed tests cover the current source/project, scoped native grapple
+allowance, ASCII/UTF-16 DLL strings, ZIP members/embedded binaries, and embedded
+PAK directory names. Revision 2 additionally contains D-045's read-only probe
+under `_DEBUG` and denies both signatures. The current produced Release DLL
+passes its 11-string deny scan, and four local deterministic packages pass their
+member, DLL, and PAK scans with a generated private-local result. The retained
+v1 single-stage `zbase1` Release smoke loads DLL SHA-256
+`273ac734dc2ee0199e1aa88bd745d657b53c2e181419e13fd0cbaf7af2cf2fc0`,
+initializes, spawns, reaches native client begin, and shuts down with no
+non-windowed observation, safety abort, timeout, fatal output, dump, or process
+leak (report SHA-256
+`b0ca47bc40779ef6e4ee83cf3e656c20f51f97ab9dec8988abb514a9ab8c7bd4`).
+It remains historical binary/load evidence only: because it selected the
+mod/map before native-window proof, it no longer closes D-015/Q-039/SYS-018.
+Rerun it under the v2 protocol; it still does not claim map compatibility.
 
 Playable output: stock Rerelease behavior under the new mod directory, useful
 only as an installation/build smoke test.
@@ -2329,9 +2622,10 @@ Work:
 
 - Port `MOVETYPE_FALLFLOAT`, `MOVETYPE_RIDE`, `MOVETYPE_BOUNCEFLY`, and the
   legacy freeze state through Rerelease physics/masks/entity handles.
-- Restore lifetime validation after step-physics trigger touches, and classify
-  Zaero's global duplicate-plane `SV_FlyMove` change against golden collision
-  clips before applying any scoped adaptation to the native Rerelease path.
+- Restore lifetime validation after step-physics trigger touches. Under D-044,
+  retain the unmodified shared Rerelease `SV_FlyMove`/step-slide path: the
+  identity-locked source audit and seven float32 goldens classify Zaero's
+  one-line global exact-duplicate comparison removal as source-age drift.
 - Port accelerating/decelerating `func_rotating`; exact per-corner train
   speed/accel/decel and raw-origin Viper destinations; path-corner pre-wait
   turning and suppressed teleport events; active/touch/message/zero-damage
@@ -2351,6 +2645,27 @@ Work:
 - Register all entity fields and callbacks with JSON save; add targeted fixtures
   for riders, pushers, toggles, random targets, and dormant timers.
 
+Current static closure includes the exact `func_plat` bit-2 collision dispatch,
+`misc_explobox` spawn/push delta, rotating-door damage default, and complete
+train/path-corner mapper surface: all 11 platforms, 31 barrels, 12 missing/zero
+rotating doors, 375 corners, 28 trains and seven Vipers are inventoried;
+platform equality at eight units activates; barrel push speed is
+tick-independent and accepts airborne clients; zero-damage doors still enter
+their shared reversal path; all five zdef4 speed nodes, 96 waits and four
+teleports are locked; source-only smooth/rotation flags retain their 10 Hz
+decisions over 40 Hz physics; and non-Zaero maps retain native meanings. This
+is not live mover, map-completion, water/contact, blocking, rider, orientation,
+or save/load evidence; those Phase-3 exit gates remain open.
+
+D-044 additionally locks legacy, Zaero, Rerelease and current physics sources,
+proves Zaero changes only the exact-duplicate comparison inside global
+`SV_FlyMove`, and executes unobstructed, wall, corner, stair, three-plane wedge,
+exact-repeat projectile, and near-repeat monster float32 goldens. Only the exact
+repeat distinguishes legacy from Zaero: the removed suppression turns a tiny
+negative residual into a dead-stop, while Rerelease recognizes the repeat via
+its native 0.99 gate. This closes the static disposition, not the live BSP/
+caller-isolation fixtures.
+
 Exit criteria:
 
 - Entity test maps demonstrate each movement type, flag, target path, and use
@@ -2366,8 +2681,9 @@ Exit criteria:
   corners pass their shipped-map fixtures; stock/Rogue meanings remain native.
 - Synthetic trigger_laser and unused path/train flag fixtures prove the complete
   mapper ABI without turning source-only behavior into a shipped-map claim.
-- A trigger that frees a stepped entity cannot cause post-free work, and
-  corner/wedge/stair/projectile/monster clips document the `SV_FlyMove` decision.
+- A trigger that frees a stepped entity cannot cause post-free work, and live
+  corner/wedge/stair/repeated-plane projectile/monster/player/expansion clips
+  confirm D-044 without forking the shared `SV_FlyMove` path.
 - Map-flow tests preserve exact `*unit`, `$spawnpoint`, help, and cross-level
   semantics.
 
@@ -2462,10 +2778,18 @@ Work:
   separation from ZBoss cooldown storage.
 - Port ceiling/floor Autocannons, styles, arcs, state, mover riding, damage, and
   destruction.
-- Port Sentien flight, bullet/laser/fend/shield, pain, death, EMP, and team logic.
+- Port Sentien's grounded hover locomotion, bullet/laser/fend/shield, pain,
+  death, EMP, and team logic.
 - Integrate stock-monster precache refactors only where Handler/custom spawns
-  require them; port genuine Zaero stock-AI changes such as Hover dodge/strafe
-  and EMP/flash interactions behind compatible defaults.
+  require them. D-043's generated audit now closes the static classification:
+  only Infantry crosses a source boundary, the Rerelease baseline already owns
+  that helper, Handler/Hound use cached native indexes, and the disabled legacy
+  256-sound interceptor is not ported. Complete all-map referenced-index,
+  audible, Handler conversion, and native-expansion isolation proof. Port
+  genuine Zaero stock-AI changes such as Hover dodge/strafe and EMP/flash
+  interactions behind compatible defaults. D-042's static Hover slice covers
+  all 22 supplied placements without changing native Daedalus; complete its
+  seeded live direction/collision/expiry/save matrix.
 - Complete shared projectile-dodge integration and `M_ReactToDamage` behavior
   for players, monsters, non-monster Autocannons, `AI_SOUND_TARGET`, `mteam`,
   and attacker-enemy indirection; reject pathological self-selection through
@@ -2488,7 +2812,8 @@ Exit criteria:
   without corrupting boss time.
 - Saves round-trip during every attack/pain/death state, Hound school update,
   Sentien fend, moving Autocannon, map IRED, and critical puzzle.
-- The suspicious `tomb1` transition path has a documented, tested disposition.
+- The inert `tomb1` changelevel has D-011's generated, tested no-patch
+  disposition; valid Tomb routes still pass their live matrix.
 - Co-op progression reaches `zboss` without item-instancing or squad-respawn
   softlocks.
 
@@ -2501,19 +2826,24 @@ Goal: complete the campaign end to end.
 
 Work:
 
-- Port ZBoss health-by-skill, target logic, rockets/flares/plasma, grapple/drag,
-  EMP reactions, damage scaling, taunts/state, 42nd-qualifying-pain retaliation,
-  the separate below-25%-health EMP path, its 30–35-second legacy `zDistance`
-  cooldown, death barrage, and one-shot target markers. Store schooling and boss
-  cooldown state separately so a nearby Hound cannot corrupt the timer.
-- Preserve positive-health inbound `zboss` player reset: retain health only,
-  reinitialize persistence, and grant Push, Blaster, Flare Gun and three flares,
-  while distinguishing first entry from reload, death and ordinary transitions
-  for every local/network client.
+- Complete and live-verify the implemented ZBoss health-by-skill, target logic,
+  rockets/flares/plasma, grapple/drag, EMP reactions, damage scaling,
+  taunts/state, 42nd-qualifying-pain retaliation, separate below-25%-health EMP
+  path, isolated typed/saved 30–35-second cooldown, death barrage, and one-shot
+  target markers. Static contracts and a bounded load/spawn smoke are present;
+  none substitute for phase, damage, lifecycle, save, co-op, or encounter proof.
+- The positive-health inbound `zboss` player reset now retains health only,
+  reinitializes persistence, grants Push, Blaster, Flare Gun and three flares,
+  and uses the Rerelease fresh-body lifecycle to distinguish first entry from
+  reload and death for each local/network client. Static contracts pass; live
+  first-entry/reload/death/level-travel/co-op/split-screen proof remains.
 - Make boss-owned entities robust to target/owner death, co-op target switches,
   disconnect, save/load, and entity-slot reuse.
-- Implement the five-second white finale fade and exact
-  `outro.cin+victory.pcx` handoff.
+- The five-second white finale fade and exact authored
+  `outro.cin+victory.pcx` handoff now have a Zaero-owned typed-duration path
+  through native per-client screen blends and `gamemap`. Static color,
+  duration, gating and chain contracts pass; live fade frames, cinematic,
+  victory art, skip/return/menu and co-op/split-screen proof remain.
 - Validate final objective/intermission/achievement-compatible behavior without
   relying on a custom protocol opcode.
 
@@ -2552,6 +2882,26 @@ Work:
   monster navigation as separately measurable enhancements.
 - Verify dedicated server, mixed input clients, reconnect, map rotation, and
   server-info cvars.
+
+Current implementation evidence: D-045 provides the exact numeric bits,
+eight-item precondition/order, wrapping start walk, four-attempt 16/128-unit
+placement sweep, interim Bounce state, partial-success count, native item/save
+lifecycle, and mapper-classification isolation. The normalized audit proves all
+20 supplied maps suppress the positive path because each has at least one set
+member. Five private legacy v1 single-stage Debug reports prove eligible
+stock `q2dm1` aggregate counts 8/8/disabled/disabled for values 0–3 and prove
+that authored `zdm1` suppresses injection. Three structured reports further
+prove the exact eight identities/order, successive first-attempt starts,
+128/16-unit offsets, final origins and live native item state, plus zero records
+for bit-2 and authored suppression. A fourth structured private report uses a
+deterministic locally derived BSP with four starts inside real collision brushes
+and proves the other four placements survive at historical set indices
+0/2/4/6 and wrapped ordinals 1/6/11/16. Eight further legacy v1 structured
+reports each contain exactly one historical member and record zero additions,
+closing every live single-member suppression case. They must be rerun through
+the v2 protocol before they count as current windowed runtime evidence. This
+does not close live multiplayer, server-info persistence, pickup/respawn/save,
+dedicated, or native-mode work above.
 
 Exit criteria:
 
@@ -2909,20 +3259,46 @@ initial decisions that cannot be left implicit:
 | D-005 | Compatibility bug policy | Default to parity, fix memory safety/undefined behavior with tests | Phase 0 |
 | D-006 | Rerelease co-op defaults | Choose from map tests; do not inherit accidentally | Before Phase 5 |
 | D-007 | Flare `gl_polyblend` compensation | Historic parity mode with documented server control; evaluate safer default before 1.0 | Phase 4/8 |
-| D-008 | Visor command/chat restrictions | Preserve control lock; adapt chat only if it cannot affect gameplay | Phase 4 |
+| D-008 | Visor command/chat restrictions | Preserve gameplay lock and Visor-only use/inventory commands; route chat through native Rerelease lobby handling | Live multiplayer/split-screen command matrix |
 | D-009 | Loose sprites/videos | Keep loose until packed behavior is verified on target | Phase 2 |
-| D-010 | Music tracks 1–11 | Map to legally available Rerelease music with silent/logged fallback | Phase 2/7 |
-| D-011 | `ztomb1` absent `tomb1` target | Test reachability; data patch only as versioned compatibility fix | Phase 6 |
+| D-010 | Music tracks 1–11 | Reuse target-native numeric 2–11 without distributing media; preserve value 1/invalid as logged silence | Phase 2/7 live audio matrix |
+| D-011 | `ztomb1` absent `tomb1` target | Preserve exact sole orphan/missing changelevel as inert; no alias or data patch | Reopen on a supported map revision that references/supplies it |
 | D-012 | New protocol/engine fork | Avoid for 1.0 unless a required effect is impossible through supported APIs | Phase 4 |
 | D-013 | Bot/navigation scope | Safe metadata/fallback for 1.0; advanced tactics/pathing post-parity | Phase 8 |
 | D-014 | Legacy demos/saves | Archive evidence only; no playback/load promise | Phase 0 |
-| D-015 | Source debug/test tools | Developer-only, disabled and excluded from releases | Phase 1 |
+| D-015 | Source debug/test tools | Developer-only; identity-locked source/project policy plus path-scoped source, Release DLL, and ZIP deny gates; revision 2 contains D-045's read-only `_DEBUG` probe and forbids both signatures from Release | Static source/DLL/four-package scans pass; the retained v1 Release smoke is historical only. Close after an equivalently clean v2 two-stage window-before-mod/map load/spawn/client/shutdown rerun, then reopen for any new developer surface |
 | D-016 | Stable release publication | Manual/draft approval using CI-equivalent scripts | Phase 9 |
 | D-017 | Remastered content | Optional overlay after 1.0, never replaces parity baseline | Phase 10 |
 | D-018 | Zaero semantics on stock classnames | Separate content/gameplay activation from hash/metadata/signature-proved mapper semantics; retain native stock meanings elsewhere | Phase 2/3 |
 | D-019 | Autocannon style-4 idle overread | Preserve the shipped false result with bounded data, not undefined memory access | Phase 6 |
 | D-020 | Selective EMP matrix and BFG latch | Explicit attack-type hooks, saved non-colliding latch, and source-order/audio tests; never a blanket weapon disable | Phase 4/6/7 |
-| D-021 | Visor copy collision | Capture overlapping solid-copy trace behavior before choosing PARITY or a scoped transparent-copy FIX | Phase 4 |
+| D-021 | Visor copy collision | FIX link-order-dependent absorption: keep the real player solid/vulnerable and the visual copy non-solid | Live hitscan/projectile/mover/save/multiplayer matrix |
+| D-022 | Hound schooling transient state | Keep school scans local while preserving visible peer/yaw/proximity quirks | Phase 5/6 |
+| D-023 | Handler split identity/accounting | Preserve duplicated durability with stable identities and pre-reserved native counts | Phase 5 |
+| D-024 | Sentien locomotion/laser lifecycle | Preserve grounded hover and mitigation; generation-check and free the persistent beam | Phase 6 |
+| D-025 | ZBoss child/projectile lifecycle | Preserve source attacks with generation-checked hooks/projectiles and single terminal damage | Phase 7 |
+| D-026 | ZBoss inbound persistence | Apply the exact fresh-entry loadout per client without corrupting loadgame/death lifecycle | Phase 7 |
+| D-027 | Finale fade/handoff | Five-second per-client white blend with continued world work and authored native handoff | Phase 7 |
+| D-028 | A2K deadline/radius boundaries | Typed per-client five-second deadline plus source-shaped dual damage walker; no countdown entity | Phase 4 |
+| D-029 | Plasma Shield collision/durability/placer identity | Preserve ownerless source collision and mitigation; generation-check non-collision placer metadata | Phase 4 |
+| D-030 | Visor duration representation/incremental gate | Typed carrier/drop duration drives the active elapsed-time lifecycle; D-021 is resolved | Live pickup/drop/active-state/save matrix |
+| D-031 | Weapon-number multiselect/native wheel | Follow source/config 1–10 semantics, isolate the exact alternate table from native weapon chains, and retain the native wheel in parallel | Phase 4 |
+| D-032 | Player HUD/lifecycle/obituary presentation | Preserve client-local showorigin, native five-second kill lifecycle, exact safe obituary fallbacks and Zaero skin-first gender while isolating stock maps | Phase 4/8 |
+| D-033 | Projectile-dodge timing/native coexistence | Preserve Zaero's exact firing-time Rocket/BFG/Flare trace and saved two-stage throttle on classified maps; retain native proximity dodge elsewhere | Phase 4/6 |
+| D-034 | trigger_laser mapper/lifetime contract | Preserve exact no-use auto-start/rearm/free behavior and generation-check the entity after target dispatch | Phase 3 |
+| D-035 | Step-physics trigger-free safety | Retain Rerelease post-trigger lifetime validation and mirror it in custom FallFloat | Phase 3 |
+| D-036 | func_plat bit-2 low-trigger collision | Apply Zaero's inclusive eight-unit feet boundary on classified maps and preserve native no-monster semantics elsewhere | Phase 3 |
+| D-037 | misc_explobox FALLFLOAT/push contract | Gate mass-400 FALLFLOAT and airborne client SV_movestep pushing while retaining native barrels elsewhere | Phase 3 |
+| D-038 | func_door_rotating zero-damage default | Preserve missing/zero and positive Zaero damage values while retaining native Rerelease defaults elsewhere | Phase 3 |
+| D-039 | Train/path-corner colliding mapper semantics | Scope node speed/smooth/teleport/Viper/rotation behavior and retain native/Rogue train bits elsewhere | Phase 3 |
+| D-040 | Health pickup sound concurrency | Select Zaero's 2/10/25/default sound per pickup without shared item mutation; retain explicit/native paths | Phase 4 live concurrency matrix |
+| D-041 | Zaero monster damage reaction/self-target safety | Layer Autocannon, mteam, tank and retained-sound deltas onto native reaction; preserve the self guard and expansion lifecycle | Phase 6 live combat/save matrix |
+| D-042 | Hover fly-strafe/expired-state reset | Preserve the exact Zaero-only radial dodge in a dedicated saved state; FIX the comparison typo and retain native Hover/Daedalus flight elsewhere | Phase 6 live seeded/collision/expiry/save matrix |
+| D-043 | Stock-monster precache extraction/sound-index strategy | Reuse the existing native Infantry helper only for Handler/conversion, keep other stock spawns native, use cached indexes, and omit the disabled 256-sound interceptor | Phase 5–6 all-map resource/audio and Handler conversion matrix |
+| D-044 | Global SV_FlyMove duplicate-plane delta | Retain the unmodified shared Rerelease 0.99 near-duplicate/1.01 overclip solver; do not import Zaero's one-line exact-repeat residual dead-stop globally or through a map fork | Phase 3 live windowed clip/caller-isolation matrix |
+| D-045 | zdmflags and deathmatch item injection | Preserve external bits 1/2 and the exact eight-item precondition/order/wrapping-start/placement/partial-count pass through native item lifecycle; keep it independent of mapper classification | Phase 8 multiplayer/save/dedicated/server-info and native-mode isolation; live values 0–3, eligible/ineligible including all eight one-member controls, exact open placement/native-drop state and real-brush partial placement pass |
+| D-046 | Two-stage visible window-before-mod/map runtime launch | Bootstrap visibly with `-window`/`v_windowmode 0`, inspect every exact-PID top-level window, then inject the mod/map only after a captioned/non-popup result | Private v2 reruns of Release/campaign/DM/fixture smokes; console-injection proof on every supported KEX distribution |
+| D-047 | Legacy PAK layer to runtime ownership semantics | Retain audited `pak0 < pak1 < pak2` source precedence and final effective paths/bytes while allowing a deterministic import-owned effective `pak1` beside project-owned `pak0` | Override/origin/loose/case/reference/collision and package/install lifecycle proof |
 
 Every decision record needs context, alternatives, behavioral impact, evidence,
 date/owner, and tests or migration consequences.
@@ -2932,6 +3308,8 @@ date/owner, and tests or migration consequences.
 ### 16.1 A feature is done when
 
 - its source/map/asset evidence is linked;
+- every contributing source-delta and mapper-contract coverage record is linked
+  to the same feature/entity/quirk/decision disposition;
 - `PARITY`, `ADAPT`, or `FIX` is recorded;
 - Rerelease-native implementation is reviewed;
 - all new fields, callbacks, moves, resources, IDs, UI strings, multiplayer
@@ -2995,6 +3373,9 @@ The supplied trees contain:
   and 12 removed definitions. Functions in Zaero-only modules are separately
   covered by the module/feature inventories rather than being conflated with
   common-file deltas.
+- the same common-file lexical audit finds five added, 20 changed, and 12
+  removed simple global declarations; complex declarations remain path-routed
+  rather than being misrepresented as compiler-accurate semantic analysis.
 
 Zaero-only paths:
 
@@ -3049,24 +3430,24 @@ The 200 changed shared functions cluster as follows:
 
 | Shared source area | Changed definitions | Zaero-relevant themes | Primary ledger routes |
 | --- | ---: | --- | --- |
-| `g_ai` | 5 | target visibility/reaction and custom flight | AI-012–AI-014, SYS-001, Q-046 |
+| `g_ai` | 5 | target visibility/reaction and custom flight | AI-012–AI-014, SYS-001, Q-013/Q-046 |
 | `g_cmds` | 12 | alternate weapon slots, item visibility/use, camera command gating | PLY-012, PLY-016–PLY-018, SYS-013 |
 | `g_combat` | 5 | armor/power armor, immortal damage, teams, EMP, reaction | MAP-018, PLY-005–PLY-007, PLY-009, AI-014, Q-003/Q-043/Q-046 |
 | `g_func` | 29 | acceleration, doors, trains, rotating, timers, platforms | MAP-006, MAP-008–MAP-009, MAP-017–MAP-019, Q-020/Q-021 |
-| `g_items` | 10 | ammo maxima, custom pickups/drops, item hiding/precaches | PLY-001–PLY-015, Q-008/Q-023–Q-025 |
+| `g_items` | 10 | ammo maxima, custom pickups/drops, item hiding/precaches | PLY-001–PLY-015, PLY-020, Q-008/Q-023–Q-025 |
 | `g_main` | 4 | frame/exit/intermission behavior and DM flow | SYS-005, SYS-009, SYS-011–SYS-012, SYS-019 |
 | `g_misc` | 5 | viper attachments, crates/barrels, path corners/player head | MAP-011, MAP-017, MAP-020, AI-008 |
 | `g_monster` | 11 | fire helpers, cadence, trigger spawn, custom state | MAP-016, AI-011, AI-013, AI-015, SYS-001 |
-| `g_phys` | 5 | dispatch, toss/step/fly/push and new movement types | MAP-010, MAP-017, MAP-020, AI-001, AI-008, Q-021/Q-041/Q-047/Q-048 |
+| `g_phys` | 5 | dispatch, toss/step/fly/push and new movement types; D-044 retains the baseline shared plane solver | MAP-010, MAP-017, MAP-020, AI-001, AI-008, Q-021/Q-041/Q-047/Q-048 |
 | `g_save` | 9 | raw legacy save ABI and added fields | SYS-002 and every stateful MAP/PLY/AI row |
-| `g_spawn` | 3 | field parsing, worldspawn, mode filtering/DM injection | MAP-001–MAP-005, MAP-014–MAP-015, SYS-012 |
+| `g_spawn` | 3 | field parsing, worldspawn and mode filtering; D-045 moves the exact DM injection body into a Zaero-owned module with one post-team hook | MAP-001–MAP-005, MAP-014–MAP-015, SYS-012 |
 | `g_svcmds` | 1 | reduced old server-command surface | SYS-015 source-version-drift guard |
 | `g_target` | 4 | delayed explosion and custom blaster/spawner behavior | MAP-012–MAP-013, MAP-016, AI-005, AI-011, Q-026 |
 | `g_trigger` | 2 | toggle/silent push | MAP-007 |
 | `g_turret` | 2 | driver/breach fire integration | AI-011, SYS-015 |
 | `g_utils` | 4 | entity free/use targets, angles, monster-safe killboxes | MAP-016, AI-014, SYS-002 |
 | `g_weapon` | 8 | projectiles, dodge, barrier/EMP/custom effects | PLY-002, PLY-005, PLY-007, PLY-009, AI-011, AI-016, Q-002/Q-043/Q-049 |
-| stock monster sources | 34 | reusable precaches, EMP/flash, Hover changes, version drift | AI-003, AI-011–AI-013, AI-015 |
+| stock monster sources | 34 | 22-helper/19-file precache call graph, EMP/flash, Hover changes, audio and version drift | AI-003, AI-011–AI-013, AI-015, D-043; `docs/audits/stock-precaches.md` separates organizational helpers from behavior |
 | `p_client` | 16 | loadout, persistence, death/respawn, camera/weapon state and obituaries | PLY-008, PLY-013, PLY-017–PLY-019, SYS-002, SYS-009–SYS-010, SYS-013 |
 | `p_hud` | 4 | help, stats, scoreboard, finale intermission | MAP-013, PLY-005, PLY-008, PLY-016, SYS-013, SYS-019 |
 | `p_view` | 7 | zoom/camera/blend/sound/effects/view | PLY-002, PLY-005, PLY-008, SYS-013, SYS-019, Q-044–Q-045 |
@@ -3118,7 +3499,7 @@ slot free/reuse round trip without stale handles:
 | `autocannon turret` | Multipart cannon child/rider | Style/frame/use/motion, parent destruction, generation reuse and save |
 | `bosshook` | ZBoss grapple projectile linked to boss and victim | Hit/miss/drag/release, target death/disconnect/teleport, boss death, free-reuse and save |
 | `plasmaball` | ZBoss plasma projectile | Flight/touch/EMP/owner loss, attribution, free and mid-flight save |
-| `VisorCopy` | Solid visual duplicate linked to a still-solid player | Trace/collision decision, view stop on every exit, client disconnect/death and save cleanup |
+| `VisorCopy` | Generation-owned non-solid visual duplicate linked to a still-solid/vulnerable player under D-021 FIX | Live hitscan/projectile/mover collision, view stop on every exit, disconnect/death/free-reuse and active save cleanup |
 | detached `noclass` Hound | Handler-created monster with legacy identity/count anomalies | Split health/count/no-count, stable target identity, parent/child death order and all-phase save |
 
 Confirmed baseline drift that must not regress Rerelease includes removed
@@ -3176,16 +3557,43 @@ directly; auto-injection is primarily for non-Zaero maps.
 The roadmap is not a substitute for implementation evidence. Maintain:
 
 - `docs/audits/source-delta.md` — per-file/function mechanical lexical delta;
+- `docs/audits/source-delta-coverage.json` and `.md` — generated one-to-many
+  source path/function/global to disposition/ledger/implementation/test
+  crosswalk, including reviewed non-runtime/source-age records;
+- `docs/audits/upstream-integration.json` plus
+  `docs/provenance/upstream-integration-policy.json` — exhaustive current
+  `src/` differences from the pinned Rerelease baseline and their reviewed
+  integration categories;
 - `docs/audits/bsp-entities.json` — exact class/key/value/count report;
+- `docs/audits/bsp-contract-coverage.json` and `.md` — generated 132-classname
+  and observed key/spawnflag to entity/feature/decision/native-exemption/save/
+  lifecycle/test crosswalk;
 - `docs/audits/assets.json` — layers, hashes, references, case and effective paths;
+- `docs/audits/visor-trace-order.json` and `.md` — identity-locked
+  legacy area-link/trace/mover proof and the D-021 FIX disposition;
+- `docs/audits/stock-precaches.json` and `.md` — identity-locked 22-helper/
+  19-file call graph, native/port Handler dependency route, legacy/Rerelease
+  sound limits, and D-043 disposition;
+- `docs/audits/flymove.json` and `.md` — identity-locked one-condition
+  legacy/Zaero delta, native shared-helper/call-graph proof, seven executable
+  float32 collision goldens, and D-044 disposition;
+- `docs/audits/dm-injection.json` and `.md` — identity-recorded source bits,
+  cvar, eight-item order/search/placement/partial-count contract, native port
+  lifecycle/hook proof, 20-map/230-start inventory, and D-045 disposition;
+- `docs/audits/release-surfaces.json` and `.md` plus
+  `docs/provenance/release-surface-policy.json` — D-015 identity locks, supplied
+  configuration/guard evidence, path-scoped current-source denial, and the
+  local-only produced DLL/package validation contract;
 - `docs/compatibility/feature-matrix.md` — every gameplay/system difference;
 - `docs/compatibility/entity-matrix.md` — classname, keys, flags, maps, code, saves;
 - `docs/compatibility/map-matrix.md` — mode, flow, objectives, starts, status/tests;
 - `docs/compatibility/quirks.md` — anomaly evidence and decisions;
 - `docs/compatibility/decisions.md` — architectural/behavioral decisions;
 - `docs/UPSTREAM.md`, `docs/provenance/baselines.json`,
-  `ASSET_SOURCES.md`, `asset-policy.json`, and the independently versioned
-  `distribution-policy.json` component/mode/channel gate;
+  `docs/provenance/upstream-match.json`, `docs/provenance/ASSET_SOURCES.md`,
+  `docs/provenance/asset-policy.json`,
+  `docs/provenance/dependency-policy.json`, and the independently versioned
+  `docs/provenance/distribution-policy.json` component/mode/channel gate;
 - the reviewed `docs/provenance/schemas/` suite for asset/distribution policy,
   local config, release manifests/readiness, and package/import ownership;
 - `LICENSE_SCOPE.md` and the generated exact-install ownership manifests;

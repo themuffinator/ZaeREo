@@ -1,0 +1,497 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zaereo.invalid/schemas/runtime-smoke/v2",
+  "title": "ZaeREo private runtime smoke report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema_version",
+    "result",
+    "run_id",
+    "started_utc",
+    "finished_utc",
+    "map",
+    "game_directory",
+    "window_mode",
+    "window_width",
+    "window_height",
+    "window_probe",
+    "non_windowed_visible_observed",
+    "window_safety_abort",
+    "launch_protocol",
+    "mod_map_command_injected_after_window_verification",
+    "engine_executable",
+    "engine_sha256",
+    "game_dll_sha256",
+    "pak0_sha256",
+    "managed_manifest_sha256",
+    "process_exit_code",
+    "process_exit_code_accepted",
+    "timed_out",
+    "wait_frames",
+    "markers",
+    "stderr_empty",
+    "fatal_matches",
+    "crash_dumps",
+    "console_log",
+    "publication_status"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "result": {
+            "const": "passed"
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "then": {
+        "properties": {
+          "window_probe": {
+            "type": "object"
+          },
+          "non_windowed_visible_observed": {
+            "const": false
+          },
+          "window_safety_abort": {
+            "const": false
+          },
+          "launch_protocol": {
+            "const": "two-stage-window-before-mod-map/v1"
+          },
+          "mod_map_command_injected_after_window_verification": {
+            "const": true
+          },
+          "process_exit_code_accepted": {
+            "const": true
+          },
+          "timed_out": {
+            "const": false
+          },
+          "markers": {
+            "properties": {
+              "session_begin": {
+                "const": true
+              },
+              "windowed_mode_confirmed": {
+                "const": true
+              },
+              "mod_map_command_injected_after_window_verification": {
+                "const": true
+              },
+              "game_dll_loaded": {
+                "const": true
+              },
+              "game_initialized": {
+                "const": true
+              },
+              "map_spawned": {
+                "const": true
+              },
+              "client_entered": {
+                "const": true
+              },
+              "game_shutdown": {
+                "const": true
+              },
+              "session_end": {
+                "const": true
+              }
+            }
+          },
+          "stderr_empty": {
+            "const": true
+          },
+          "fatal_matches": {
+            "maxItems": 0
+          },
+          "crash_dumps": {
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "schema": {
+      "const": "zaereo.runtime-smoke/v2"
+    },
+    "schema_version": {
+      "const": 2
+    },
+    "result": {
+      "enum": [
+        "passed",
+        "failed"
+      ]
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{32}$"
+    },
+    "started_utc": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "finished_utc": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "map": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_][A-Za-z0-9_.-]*$"
+    },
+    "game_mode": {
+      "enum": [
+        "single-player",
+        "deathmatch"
+      ]
+    },
+    "zdmflags": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3
+    },
+    "zaero_entities_added": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 8
+    },
+    "dm_item_probe": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "requested",
+            "complete",
+            "recorded_count",
+            "live_count",
+            "items"
+          ],
+          "properties": {
+            "requested": {
+              "const": true
+            },
+            "complete": {
+              "type": "boolean"
+            },
+            "recorded_count": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 8
+            },
+            "live_count": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 8
+            },
+            "items": {
+              "type": "array",
+              "maxItems": 8,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "set_index",
+                  "classname",
+                  "spawn_ordinal",
+                  "attempt",
+                  "entity_number",
+                  "start_origin",
+                  "placed_origin",
+                  "live_origin",
+                  "placement_radius_xy",
+                  "placement_height",
+                  "live",
+                  "movetype_toss",
+                  "solid_trigger",
+                  "touch_item",
+                  "ir_visible",
+                  "grounded"
+                ],
+                "properties": {
+                  "set_index": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 7
+                  },
+                  "classname": {
+                    "enum": [
+                      "weapon_soniccannon",
+                      "weapon_sniperrifle",
+                      "weapon_flaregun",
+                      "ammo_ired",
+                      "ammo_a2k",
+                      "ammo_flares",
+                      "ammo_empnuke",
+                      "ammo_plasmashield"
+                    ]
+                  },
+                  "spawn_ordinal": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "attempt": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 4
+                  },
+                  "entity_number": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "start_origin": {
+                    "$ref": "#/$defs/origin"
+                  },
+                  "placed_origin": {
+                    "$ref": "#/$defs/origin"
+                  },
+                  "live_origin": {
+                    "$ref": "#/$defs/origin"
+                  },
+                  "placement_radius_xy": {
+                    "type": "number",
+                    "minimum": 127.99,
+                    "maximum": 128.01
+                  },
+                  "placement_height": {
+                    "type": "number",
+                    "minimum": 15.99,
+                    "maximum": 16.01
+                  },
+                  "live": {
+                    "type": "boolean"
+                  },
+                  "movetype_toss": {
+                    "type": "boolean"
+                  },
+                  "solid_trigger": {
+                    "type": "boolean"
+                  },
+                  "touch_item": {
+                    "type": "boolean"
+                  },
+                  "ir_visible": {
+                    "type": "boolean"
+                  },
+                  "grounded": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "game_directory": {
+      "const": "zaereo"
+    },
+    "window_mode": {
+      "const": "windowed"
+    },
+    "window_width": {
+      "const": 1280
+    },
+    "window_height": {
+      "const": 720
+    },
+    "window_probe": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "method",
+            "process_id",
+            "style_hex",
+            "captioned",
+            "popup",
+            "left",
+            "top",
+            "width",
+            "height"
+          ],
+          "properties": {
+            "method": {
+              "const": "win32-visible-top-level-window-enumeration"
+            },
+            "process_id": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "style_hex": {
+              "type": "string",
+              "pattern": "^0x[0-9A-F]{8,16}$"
+            },
+            "captioned": {
+              "type": "boolean"
+            },
+            "popup": {
+              "type": "boolean"
+            },
+            "left": {
+              "type": "integer"
+            },
+            "top": {
+              "type": "integer"
+            },
+            "width": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "height": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        }
+      ]
+    },
+    "non_windowed_visible_observed": {
+      "type": "boolean"
+    },
+    "window_safety_abort": {
+      "type": "boolean"
+    },
+    "launch_protocol": {
+      "const": "two-stage-window-before-mod-map/v1"
+    },
+    "mod_map_command_injected_after_window_verification": {
+      "type": "boolean"
+    },
+    "engine_executable": {
+      "enum": [
+        "quake2ex_steam.exe",
+        "quake2ex_gog.exe",
+        "quake2ex.exe"
+      ]
+    },
+    "engine_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "game_dll_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "pak0_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "managed_manifest_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "process_exit_code": {
+      "type": "integer"
+    },
+    "process_exit_code_accepted": {
+      "type": "boolean"
+    },
+    "timed_out": {
+      "type": "boolean"
+    },
+    "wait_frames": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10000
+    },
+    "markers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "session_begin",
+        "windowed_mode_confirmed",
+        "mod_map_command_injected_after_window_verification",
+        "game_dll_loaded",
+        "game_initialized",
+        "map_spawned",
+        "client_entered",
+        "game_shutdown",
+        "session_end"
+      ],
+      "properties": {
+        "session_begin": {
+          "type": "boolean"
+        },
+        "windowed_mode_confirmed": {
+          "type": "boolean"
+        },
+        "mod_map_command_injected_after_window_verification": {
+          "type": "boolean"
+        },
+        "game_dll_loaded": {
+          "type": "boolean"
+        },
+        "game_initialized": {
+          "type": "boolean"
+        },
+        "map_spawned": {
+          "type": "boolean"
+        },
+        "client_entered": {
+          "type": "boolean"
+        },
+        "game_shutdown": {
+          "type": "boolean"
+        },
+        "session_end": {
+          "type": "boolean"
+        }
+      }
+    },
+    "stderr_empty": {
+      "type": "boolean"
+    },
+    "fatal_matches": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "crash_dumps": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(?![A-Za-z]:|/|.*(?:^|/)\\.\\.(?:/|$)).+$"
+      }
+    },
+    "console_log": {
+      "const": "stdout.txt"
+    },
+    "publication_status": {
+      "const": "private-local-only"
+    }
+  },
+  "$defs": {
+    "origin": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "number"
+      }
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

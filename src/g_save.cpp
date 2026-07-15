@@ -798,6 +798,7 @@ SAVE_STRUCT_START
 
 	FIELD_AUTO(selected_item),
 	FIELD_SIMPLE(inventory, ST_INVENTORY),
+	FIELD_AUTO(zaero_visor_remaining),
 
 	FIELD_AUTO(max_ammo),
 	
@@ -937,6 +938,19 @@ SAVE_STRUCT_START
 	FIELD_AUTO(zaero_sonic_warmup_until),
 	FIELD_AUTO(zaero_bfg_emp_misfire),
 	FIELD_AUTO(zaero_sniper_charge_ready),
+	FIELD_AUTO(zaero_a2k_detonate_time),
+	FIELD_AUTO(zaero_show_origin),
+	FIELD_AUTO(zaero_visor_camera),
+	FIELD_AUTO(zaero_visor_camera_spawn_count),
+	FIELD_AUTO(zaero_visor_copy),
+	FIELD_AUTO(zaero_visor_copy_spawn_count),
+	FIELD_AUTO(zaero_visor_last_update),
+	FIELD_AUTO(zaero_visor_static_until),
+	FIELD_AUTO(zaero_visor_saved_pm_type),
+	FIELD_AUTO(zaero_visor_saved_fov),
+	FIELD_AUTO(zaero_visor_saved_gunindex),
+	FIELD_AUTO(zaero_visor_saved_gunskin),
+	FIELD_AUTO(zaero_visor_saved_noclient),
 SAVE_STRUCT_END
 #undef DECLARE_SAVE_STRUCT
 // clang-format on
@@ -1096,6 +1110,8 @@ SAVE_STRUCT_START
 	FIELD_AUTO(random),
 	FIELD_AUTO(zaero_timer_targets),
 	FIELD_AUTO(zaero_timer_target_count),
+	FIELD_AUTO(zaero_child_target_spawn_count),
+	FIELD_AUTO(zaero_visor_remaining),
 
 	FIELD_AUTO(teleport_time),
 		
@@ -1249,12 +1265,21 @@ SAVE_STRUCT_START
 	FIELD_AUTO( monsterinfo.checkattack_time ),
 	FIELD_AUTO( monsterinfo.start_frame ),
 	FIELD_AUTO( monsterinfo.dodge_time ),
+	FIELD_AUTO( monsterinfo.zaero_dodge_timeout ),
+	FIELD_AUTO( monsterinfo.zaero_fly_strafe_roll ),
+	FIELD_AUTO( monsterinfo.zaero_fly_strafe_timeout ),
 	FIELD_AUTO( monsterinfo.move_block_counter ),
 	FIELD_AUTO( monsterinfo.move_block_change_time ),
 	FIELD_AUTO( monsterinfo.react_to_damage_time ),
 	FIELD_AUTO(monsterinfo.jump_time),
 	FIELD_AUTO(monsterinfo.zaero_flare_flash_ticks),
 	FIELD_AUTO(monsterinfo.zaero_flare_flash_base),
+	FIELD_AUTO(monsterinfo.zaero_shot_target),
+	FIELD_AUTO(monsterinfo.zaero_damage_scale),
+	FIELD_AUTO(monsterinfo.zaero_boss_fire_count),
+	FIELD_AUTO(monsterinfo.zaero_boss_fire_timeout),
+	FIELD_AUTO(monsterinfo.zaero_boss_emp_cooldown),
+	FIELD_AUTO(monsterinfo.zaero_boss_cannon_spread),
 
 	FIELD_SIMPLE( monsterinfo.reinforcements, ST_REINFORCEMENTS ),
 	FIELD_AUTO( monsterinfo.chosen_reinforcements ),

@@ -37,6 +37,10 @@ class PackScaffoldingTests(unittest.TestCase):
         self.assertFalse(any(line.startswith("unbindall") for line in active_lines))
         self.assertFalse(any(line == "zwepas_on" for line in active_lines))
 
+        for number in range(1, 10):
+            self.assertIn(f"bind {number} use weapon {number}", config)
+        self.assertIn("bind 0 use weapon 10", config)
+
 
 if __name__ == "__main__":
     unittest.main()

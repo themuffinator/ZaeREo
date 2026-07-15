@@ -101,6 +101,24 @@
       "problemMatcher": []
     },
     {
+      "label": "ZaeREo: Run verified windowed runtime smoke",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoLogo",
+        "-NoProfile",
+        "-File",
+        "./tools/run_game.ps1",
+        "-EngineRoot",
+        "${input:q2RereleaseEngineRoot}",
+        "-UserRoot",
+        "${input:q2RereleaseUserRoot}",
+        "-Map",
+        "${input:zaereoRuntimeMap}"
+      ],
+      "problemMatcher": []
+    },
+    {
       "label": "ZaeREo: Package importer kit (local verification)",
       "type": "shell",
       "command": "pwsh",
@@ -126,6 +144,17 @@
       "id": "q2RereleaseEngineRoot",
       "type": "promptString",
       "description": "Read-only Quake II Rerelease engine/data root containing baseq2; install uses the per-user data root"
+    },
+    {
+      "id": "q2RereleaseUserRoot",
+      "type": "promptString",
+      "description": "Writable Rerelease user-data parent containing the managed zaereo install"
+    },
+    {
+      "id": "zaereoRuntimeMap",
+      "type": "promptString",
+      "default": "zbase1",
+      "description": "Map name for the verified smoke run (letters, digits, underscore, dot, or hyphen only)"
     }
   ]
 }

@@ -10,9 +10,13 @@ Compatibility work follows this order:
 5. improve defects or presentation only through a recorded decision.
 
 The detailed authority is [docs/ZAERO_PORT_ROADMAP.md](docs/ZAERO_PORT_ROADMAP.md).
-The repository has a compiling early integration DLL but is still pre-playable:
-no supplied map has passed live verification. Do not describe planned or
-static-only behavior as live-compatible.
+The repository has a compiling early integration DLL but is still pre-playable.
+`zbase1`, `zdef1`, and `zboss` have passed only bounded legacy single-stage
+DLL-load/map-spawn/client-entry/shutdown smokes. Those reports predate the
+two-stage window-before-mod/map protocol and must be rerun before they count as
+launch-safety evidence; no supplied map has passed completion or
+gameplay-compatibility verification. Do not describe planned or static-only
+behavior as live-compatible.
 
 ## Normal workflow
 
@@ -47,6 +51,17 @@ Use `-UserRoot` for an explicit writable user-data parent. Use `-GameRoot` only
 as an intentional portable/disposable override whose directory already contains
 `baseq2`; it is mutually exclusive with `-UserRoot`. The normal installer treats
 `-EngineRoot` as read-only and refuses engine/program-root and `baseq2` writes.
+Always launch Quake II Rerelease in windowed mode for development, debugging,
+and automated or manual validation; never start it fullscreen. Repository launch
+wrappers and shared editor configurations must pass the KEX startup argument
+`-window` before video initialization, retain `v_windowmode 0` in the runtime
+command, and positively verify that the created native window is windowed before
+selecting the mod or map. A later switch from fullscreen is insufficient.
+Automated launches must first observe a continuous three-second interval with
+no selected Rerelease process, preventing a just-exited Steam/KEX handoff from
+reusing stale startup state. If any visible native window is popup/non-windowed,
+terminate the exact verified executable PID immediately, record a failed safety
+report, and do not wait for the ordinary runtime timeout.
 
 Developer installation, deterministic packaging, and importer-kit completion
 are present. The machine-readable distribution policy is active and fails

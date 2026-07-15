@@ -2,7 +2,10 @@
 // Licensed under the GNU General Public License 2.0.
 #include "g_local.h"
 #include "g_statusbar.h"
+#include "zaero/g_zaero_a2k.h"
+#include "zaero/g_zaero_finale.h"
 #include "zaero/g_zaero_sniper.h"
+#include "zaero/g_zaero_visor.h"
 
 /*
 ======================================================================
@@ -275,6 +278,9 @@ void BeginIntermission(edict_t *targ)
 	if (level.intermissiontime)
 		return; // already activated
 
+	for (auto player : active_players())
+		Zaero_VisorStop(player, false);
+
 	// ZOID
 	if (ctf->integer)
 		CTFCalcScores();
@@ -307,6 +313,7 @@ void BeginIntermission(edict_t *targ)
 	level.intermission_clear = targ->spawnflags.has(SPAWNFLAG_CHANGELEVEL_CLEAR_INVENTORY);
 	level.intermission_eou = false;
 	level.intermission_fade = targ->spawnflags.has(SPAWNFLAG_CHANGELEVEL_FADE_OUT);
+	Zaero_BeginFinaleFade();
 
 	// destroy all player trails
 	PlayerTrail_Destroy(nullptr);
@@ -752,12 +759,12 @@ void G_SetStats(edict_t *ent)
 	//
 	uint32_t weaponbits = 0;
 
-	for (invIndex = IT_WEAPON_GRAPPLE; invIndex <= IT_WEAPON_DISRUPTOR; invIndex++)
+	for (invIndex = static_cast<unsigned int>(IT_NULL + 1); invIndex < IT_TOTAL; invIndex++)
 	{
-		if (ent->client->pers.inventory[invIndex])
-		{
-			weaponbits |= 1 << GetItemByIndex((item_id_t) invIndex)->weapon_wheel_index;
-		}
+		const gitem_t *weapon = GetItemByIndex(static_cast<item_id_t>(invIndex));
+		if (ent->client->pers.inventory[invIndex] &&
+			(weapon->flags & IF_WEAPON) && weapon->weapon_wheel_index >= 0)
+			weaponbits |= 1u << weapon->weapon_wheel_index;
 	}
 
 	ent->client->ps.stats[STAT_WEAPONS_OWNED_1] = (weaponbits & 0xFFFF);
@@ -767,6 +774,24 @@ void G_SetStats(edict_t *ent)
 		ent->client->pers.weapon ? ent->client->pers.weapon->weapon_wheel_index :
 		-1);
 	ent->client->ps.stats[STAT_ACTIVE_WEAPON] = ent->client->pers.weapon ? ent->client->pers.weapon->weapon_wheel_index : -1;
+
+	// Zaero's production showorigin command is client-local. The source casts
+	// each component to an integer before sending it through a player stat.
+	if (ent->client->zaero_show_origin)
+	{
+		ent->client->ps.stats[STAT_ZAERO_SHOW_ORIGIN] = 1;
+		ent->client->ps.stats[STAT_ZAERO_ORIGIN_X] = static_cast<int16_t>(static_cast<int32_t>(ent->s.origin[0]));
+		ent->client->ps.stats[STAT_ZAERO_ORIGIN_Y] = static_cast<int16_t>(static_cast<int32_t>(ent->s.origin[1]));
+		ent->client->ps.stats[STAT_ZAERO_ORIGIN_Z] = static_cast<int16_t>(static_cast<int32_t>(ent->s.origin[2]));
+	}
+	else
+	{
+		ent->client->ps.stats[STAT_ZAERO_SHOW_ORIGIN] = 0;
+		ent->client->ps.stats[STAT_ZAERO_ORIGIN_X] = 0;
+		ent->client->ps.stats[STAT_ZAERO_ORIGIN_Y] = 0;
+		ent->client->ps.stats[STAT_ZAERO_ORIGIN_Z] = 0;
+	}
+	Zaero_VisorSetStats(ent);
 
 	//
 	// ammo
@@ -868,7 +893,11 @@ void G_SetStats(edict_t *ent)
 	// timers
 	//
 	// PGM
-	if (ent->client->owned_sphere)
+	if (Zaero_A2KSetTimerStats(ent))
+	{
+		// A2K is Zaero's highest-priority timer, including over owned spheres.
+	}
+	else if (ent->client->owned_sphere)
 	{
 		if (ent->client->owned_sphere->spawnflags == SPHERE_DEFENDER) // defender
 			ent->client->ps.stats[STAT_TIMER_ICON] = gi.imageindex("p_defender");

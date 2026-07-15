@@ -198,4 +198,4 @@ finally {
 
 Write-Host "Local content import is complete: $pakPath"
 Write-Host "SHA256 $($secondHash.ToLowerInvariant())"
-Write-Host "Launch with: +set game zaereo +exec zaerostart.cfg"
+Write-Host "For any verified development/debug/validation launch, use the checkout's tools/run_game.ps1; do not bypass its window-before-mod/map safety check."
