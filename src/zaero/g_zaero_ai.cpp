@@ -21,7 +21,7 @@ void Zaero_ResetFlyStrafe(edict_t *self)
 
 void Zaero_BeginHoverFlyStrafe(edict_t *self)
 {
-	if (!level.is_zaero || !self || !self->inuse || self->health <= 0 ||
+	if (!level.zaero_mapper_contract || !self || !self->inuse || self->health <= 0 ||
 		!self->classname || strcmp(self->classname, "monster_hover") != 0)
 		return;
 
@@ -59,7 +59,7 @@ bool Zaero_RunFlyStrafe(edict_t *self, float distance)
 	if (!self || self->monsterinfo.attack_state != AS_ZAERO_FLY_STRAFE)
 		return false;
 
-	if (!level.is_zaero || !self->inuse || self->health <= 0 || !self->enemy ||
+	if (!level.zaero_mapper_contract || !self->inuse || self->health <= 0 || !self->enemy ||
 		!self->enemy->inuse || self->monsterinfo.zaero_fly_strafe_timeout < level.time)
 	{
 		// FIX Q-013: the supplied source compares here instead of assigning,

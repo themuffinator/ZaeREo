@@ -148,7 +148,7 @@ class ZaeroEMPContractTests(unittest.TestCase):
     def test_field_creation_is_full_radius_immediately_and_has_no_damage(self) -> None:
         fire = function_body(SOURCE, "edict_t *Zaero_FireEMPNuke")
         for contract in (
-            "if (!level.is_zaero)",
+            "if (!level.zaero_content_active)",
             "return nullptr",
             "gi.sound(owner, CHAN_VOICE",
             "ZAERO_EMP_TRIGGER_SOUND",
@@ -217,7 +217,7 @@ class ZaeroEMPContractTests(unittest.TestCase):
     def test_query_preserves_owner_exemption_overlap_and_no_los(self) -> None:
         query = function_body(SOURCE, "bool Zaero_EMPNukeCheck")
         for contract in (
-            "if (!level.is_zaero)",
+            "if (!level.zaero_content_active)",
             "G_FindByString<&edict_t::classname>(center, ZAERO_EMP_CENTER_CLASSNAME)",
             "subject && center->owner == subject",
             "center->count == subject->spawn_count",
@@ -256,7 +256,7 @@ class ZaeroEMPContractTests(unittest.TestCase):
             self.assertIn(contract, SOURCE)
 
         weapon = function_body(SOURCE, "void Weapon_ZaeroEMPNuke(edict_t *ent)")
-        self.assertIn("if (!level.is_zaero || !ent || !ent->client)", weapon)
+        self.assertIn("if (!level.zaero_content_active || !ent || !ent->client)", weapon)
         self.assertIn("weapon_think_time <= level.time", weapon)
         self.assertIn(
             "g_instant_weapon_switch->integer&&"
@@ -320,7 +320,7 @@ class ZaeroEMPContractTests(unittest.TestCase):
         )
 
         misfire = function_body(SOURCE, "void Zaero_PlayEMPMisfire")
-        self.assertIn("if (!level.is_zaero || !subject)", misfire)
+        self.assertIn("if (!level.zaero_content_active || !subject)", misfire)
         self.assertIn("ZAERO_EMP_MISFIRE_SOUND", misfire)
         self.assertIn("CHAN_AUTO", misfire)
 
@@ -451,10 +451,10 @@ class ZaeroEMPContractTests(unittest.TestCase):
         self.assertIn("P_AddWeaponKick(ent, ent->client->v_forward * -2", bfg)
 
         for wrapper in (
-            "Weapon_RocketLauncher_Fire,!level.is_zaero",
-            "Weapon_Blaster_Fire,!level.is_zaero",
-            "weapon_railgun_fire,!level.is_zaero",
-            "weapon_bfg_fire,!level.is_zaero",
+            "Weapon_RocketLauncher_Fire,!level.zaero_mapper_contract",
+            "Weapon_Blaster_Fire,!level.zaero_mapper_contract",
+            "weapon_railgun_fire,!level.zaero_mapper_contract",
+            "weapon_bfg_fire,!level.zaero_mapper_contract",
         ):
             self.assertIn(wrapper, compact(PLAYER_WEAPONS))
         self.assertTrue(

@@ -8,6 +8,7 @@
 #include "zaero/g_zaero_handler.h"
 #include "zaero/g_zaero_ired.h"
 #include "zaero/g_zaero_hound.h"
+#include "zaero/g_zaero_map_identity.h"
 #include "zaero/g_zaero_sentien.h"
 #include "zaero/g_zaero_zboss.h"
 
@@ -1019,7 +1020,7 @@ void G_FixTeams()
 			continue;
 		if (!e->team)
 			continue;
-		if (!level.is_zaero && !strcmp(e->classname, "func_train") &&
+		if (!level.zaero_mapper_contract && !strcmp(e->classname, "func_train") &&
 			e->spawnflags.has(SPAWNFLAG_TRAIN_MOVE_TEAMCHAIN))
 		{
 			if (e->flags & FL_TEAMSLAVE)
@@ -1134,31 +1135,133 @@ inline bool G_InhibitEntity(edict_t *ent)
 
 void setup_shadow_lights();
 
-static bool G_IsZaeroMap(const char *mapname, const char *entities)
+enum class zaero_mapper_metadata_t
 {
-	static constexpr const char *canonical_maps[] = {
-		"zbase1", "zbase2", "zdef1", "zdef2", "zdef3", "zdef4",
-		"zwaste1", "zwaste2", "zwaste3", "ztomb1", "ztomb2", "ztomb3",
-		"ztomb4", "zboss", "zdm1", "zdm2", "zdm3", "zdm4", "zdm5", "zdm6"
-	};
+	absent,
+	enabled,
+	disabled,
+	invalid
+};
 
-	for (const char *candidate : canonical_maps)
-		if (!Q_strcasecmp(mapname, candidate))
-			return true;
+struct zaero_mapper_classification_t
+{
+	bool enabled;
+	zaero_mapper_contract_reason_t reason;
+};
 
-	// Custom Zaero maps do not have a mandated name prefix. Detect durable
-	// mapper-contract signatures without treating every map loaded by this DLL
-	// as Zaero; that keeps stock Rerelease maps on their native flag meanings.
+// This key is intentionally exact/case-sensitive. It is read from the first
+// worldspawn before normal field parsing so mapper semantics are available to
+// every later entity spawn. `1` opts in and `0` explicitly opts out; any other
+// or duplicated value fails closed.
+static zaero_mapper_metadata_t G_ParseZaeroMapperMetadata(const char *entities)
+{
+	const char *cursor = entities;
+	const char *token = COM_Parse(&cursor);
+	if (!cursor || strcmp(token, "{") != 0)
+		return zaero_mapper_metadata_t::invalid;
+
+	zaero_mapper_metadata_t result = zaero_mapper_metadata_t::absent;
+	while (cursor)
+	{
+		token = COM_Parse(&cursor);
+		if (!token[0] || strcmp(token, "}") == 0)
+			return result;
+		const bool is_contract_key = strcmp(token, "zaero_mapper_contract") == 0;
+		const char *value = COM_Parse(&cursor);
+		if (!cursor || !value[0] || strcmp(value, "}") == 0)
+			return zaero_mapper_metadata_t::invalid;
+		if (!is_contract_key)
+			continue;
+		if (result != zaero_mapper_metadata_t::absent)
+			return zaero_mapper_metadata_t::invalid;
+		if (strcmp(value, "1") == 0)
+			result = zaero_mapper_metadata_t::enabled;
+		else if (strcmp(value, "0") == 0)
+			result = zaero_mapper_metadata_t::disabled;
+		else
+			return zaero_mapper_metadata_t::invalid;
+	}
+	return zaero_mapper_metadata_t::invalid;
+}
+
+// Only Zaero-owned classnames are signatures. In particular, a colliding
+// stock spawnflag, `spawnflags2`, or a name resembling a retail map cannot
+// enable this scope by itself.
+static const char *G_ZaeroMapperSignature(const char *entities)
+{
 	static constexpr const char *signatures[] = {
-		"\"spawnflags2\"", "\"weapon_flaregun\"", "\"ammo_ired\"",
-		"\"monster_sentien\"", "\"monster_autocannon\"", "\"monster_zboss\"",
-		"\"misc_securitycamera\"", "\"func_barrier\""
+		"weapon_flaregun", "ammo_ired", "monster_sentien", "monster_autocannon",
+		"monster_zboss", "misc_securitycamera", "func_barrier"
 	};
-	for (const char *signature : signatures)
-		if (strstr(entities, signature))
-			return true;
 
-	return false;
+	const char *cursor = entities;
+	while (cursor)
+	{
+		const char *token = COM_Parse(&cursor);
+		if (!token[0])
+			break;
+		if (strcmp(token, "{") != 0)
+			continue;
+		while (cursor)
+		{
+			token = COM_Parse(&cursor);
+			if (!token[0] || strcmp(token, "}") == 0)
+				break;
+			const bool is_classname = strcmp(token, "classname") == 0;
+			const char *value = COM_Parse(&cursor);
+			if (!value[0] || strcmp(value, "}") == 0)
+				return nullptr;
+			if (!is_classname)
+				continue;
+			for (const char *signature : signatures)
+				if (strcmp(value, signature) == 0)
+					return signature;
+		}
+	}
+	return nullptr;
+}
+
+static zaero_mapper_classification_t G_ClassifyZaeroMapperContract(const char *mapname, const char *entities,
+	const zaero_sha256_t &entity_hash)
+{
+	switch (G_ParseZaeroMapperMetadata(entities))
+	{
+	case zaero_mapper_metadata_t::enabled:
+		return { true, zaero_mapper_contract_reason_t::explicit_metadata };
+	case zaero_mapper_metadata_t::disabled:
+		return { false, zaero_mapper_contract_reason_t::explicit_metadata_disabled };
+	case zaero_mapper_metadata_t::invalid:
+		gi.Com_PrintFmt("Zaero mapper contract: invalid worldspawn zaero_mapper_contract on {}; failing closed.\n", mapname);
+		return { false, zaero_mapper_contract_reason_t::none };
+	case zaero_mapper_metadata_t::absent:
+		break;
+	}
+
+	if (Zaero_FindShippedMapEntityIdentity(mapname, entity_hash))
+		return { true, zaero_mapper_contract_reason_t::shipped_entity_lump };
+
+	if (G_ZaeroMapperSignature(entities))
+		return { true, zaero_mapper_contract_reason_t::signature };
+
+	return { false, zaero_mapper_contract_reason_t::none };
+}
+
+static const char *G_ZaeroMapperContractReasonName(zaero_mapper_contract_reason_t reason)
+{
+	switch (reason)
+	{
+	case zaero_mapper_contract_reason_t::shipped_entity_lump:
+		return "shipped-entity-lump";
+	case zaero_mapper_contract_reason_t::explicit_metadata:
+		return "explicit-metadata";
+	case zaero_mapper_contract_reason_t::signature:
+		return "signature";
+	case zaero_mapper_contract_reason_t::explicit_metadata_disabled:
+		return "explicit-metadata-disabled";
+	case zaero_mapper_contract_reason_t::none:
+		return "none";
+	}
+	return "invalid";
 }
 
 // [Paril-KEX]
@@ -1249,7 +1352,16 @@ void SpawnEntities(const char *mapname, const char *entities, const char *spawnp
 		Q_strlcpy(game.spawnpoint, spawnpoint, sizeof(game.spawnpoint));
 
 	level.is_n64 = strncmp(level.mapname, "q64/", 4) == 0;
-	level.is_zaero = G_IsZaeroMap(level.mapname, entities);
+	level.zaero_content_active = true;
+	level.zaero_entity_lump_sha256 = Zaero_EntityLumpSHA256(entities);
+	const auto mapper_classification = G_ClassifyZaeroMapperContract(
+		level.mapname, entities, level.zaero_entity_lump_sha256);
+	level.zaero_mapper_contract = mapper_classification.enabled;
+	level.zaero_mapper_contract_reason = mapper_classification.reason;
+	gi.Com_PrintFmt("Zaero map scope: map={} content=active mapper={} reason={} entity-sha256={}.\n",
+		level.mapname, level.zaero_mapper_contract ? "enabled" : "native",
+		G_ZaeroMapperContractReasonName(level.zaero_mapper_contract_reason),
+		Zaero_SHA256Hex(level.zaero_entity_lump_sha256));
 
 	level.coop_scale_players = 0;
 	level.coop_health_scaling = clamp(g_coop_health_scaling->value, 0.f, 1.f);
@@ -1608,7 +1720,7 @@ void SP_worldspawn(edict_t *ent)
 	{
 		gi.configstring(CS_CDTRACK, st.music);
 	}
-	else if (level.is_zaero)
+	else if (level.zaero_mapper_contract)
 	{
 		gi.configstring(CS_CDTRACK, G_ZaeroWorldMusic(ent->sounds));
 	}

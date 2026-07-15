@@ -63,6 +63,10 @@ reusing stale startup state. If any visible native window is popup/non-windowed,
 terminate the exact verified executable PID immediately, record a failed safety
 report, and do not wait for the ordinary runtime timeout.
 
+Windowed-only launch is a non-negotiable validation rule: no contributor may
+start Quake II Rerelease fullscreen, including for a one-off manual smoke. A
+post-start switch out of fullscreen does not satisfy this rule.
+
 Developer installation, deterministic packaging, and importer-kit completion
 are present. The machine-readable distribution policy is active and fails
 closed; all public modes are blocked, remote workflows are read-only, and the

@@ -116,6 +116,26 @@ def _merge_stage_assets(
                 f"Staged runtime ownership collision between {previous.path!r} and "
                 f"{asset.path!r} while adding {owner}"
             )
+        parent_parts = asset.path.split("/")[:-1]
+        while parent_parts:
+            parent_path = "/".join(parent_parts)
+            parent = target.get(parent_path.casefold())
+            if parent is not None:
+                raise ValidationError(
+                    "Staged runtime file/directory ownership collision between "
+                    f"{parent.path!r} and {asset.path!r} while adding {owner}"
+                )
+            parent_parts.pop()
+        child_prefix = f"{folded}/"
+        child = next(
+            (candidate for key, candidate in target.items() if key.startswith(child_prefix)),
+            None,
+        )
+        if child is not None:
+            raise ValidationError(
+                "Staged runtime file/directory ownership collision between "
+                f"{child.path!r} and {asset.path!r} while adding {owner}"
+            )
         target[folded] = asset
 
 
@@ -253,11 +273,20 @@ def validate_stage(
     if not stage.is_dir():
         raise ValidationError(f"Runtime stage does not exist: {stage}")
 
-    package_paths = {
-        path.name.casefold(): path
-        for path in stage.iterdir()
-        if path.is_file() and path.suffix.casefold() == ".pak"
-    }
+    package_paths: dict[str, Path] = {}
+    for path in stage.iterdir():
+        if path.suffix.casefold() != ".pak":
+            continue
+        if path.is_symlink():
+            raise ValidationError(f"Staged PAK layer cannot be a symbolic link: {path.name}")
+        if not path.is_file():
+            raise ValidationError(f"Staged PAK layer is not a regular file: {path.name}")
+        key = path.name.casefold()
+        if path.name != key:
+            raise ValidationError(f"Staged PAK layer has non-canonical case: {path.name}")
+        if key in package_paths:
+            raise ValidationError(f"Staged PAK layers collide by case: {path.name}")
+        package_paths[key] = path
     unexpected_packages = sorted(set(package_paths) - {"pak0.pak", "pak1.pak", "pak2.pak"})
     if unexpected_packages:
         raise ValidationError(f"Unexpected staged PAK layer: {unexpected_packages[0]}")

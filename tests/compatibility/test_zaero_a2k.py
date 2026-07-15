@@ -116,7 +116,7 @@ class ZaeroA2KContractTests(unittest.TestCase):
 
     def test_absolute_immunity_precedes_ordinary_invulnerability(self) -> None:
         protect = function_body(SOURCE, "bool Zaero_A2KProtects")
-        self.assertIn("level.is_zaero", protect)
+        self.assertIn("level.zaero_content_active", protect)
         self.assertIn("zaero_a2k_detonate_time > level.time", protect)
 
         a2k_check = COMBAT.index("if (Zaero_A2KProtects(targ))")

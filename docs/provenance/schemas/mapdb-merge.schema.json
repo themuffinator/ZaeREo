@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zaereo.invalid/schemas/mapdb-merge/v1",
+  "title": "ZaeREo private mapdb merge report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema_version",
+    "base_mapdb_sha256",
+    "base_source",
+    "base_container_sha256",
+    "base_member",
+    "fragment_sha256",
+    "data_build",
+    "episode_insert_index",
+    "map_insert_index",
+    "added_episode_ids",
+    "added_map_bsps",
+    "merged_sha256",
+    "inverse_reconstructs_base",
+    "publication_status"
+  ],
+  "properties": {
+    "schema": {
+      "const": "zaereo.mapdb-merge/v1"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "base_mapdb_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "base_source": {
+      "enum": [
+        "file",
+        "pak-member"
+      ]
+    },
+    "base_container_sha256": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/sha256"
+        }
+      ]
+    },
+    "base_member": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "pattern": "^[^\\\\/][^\\\\]*$"
+        }
+      ]
+    },
+    "fragment_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "data_build": {
+      "type": "string",
+      "minLength": 1
+    },
+    "episode_insert_index": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "map_insert_index": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "added_episode_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9_.-]+$"
+      }
+    },
+    "added_map_bsps": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "merged_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "inverse_reconstructs_base": {
+      "const": true
+    },
+    "publication_status": {
+      "const": "private-local-only"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "base_source": {
+            "const": "file"
+          }
+        },
+        "required": [
+          "base_source"
+        ]
+      },
+      "then": {
+        "properties": {
+          "base_container_sha256": {
+            "type": "null"
+          },
+          "base_member": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "base_source": {
+            "const": "pak-member"
+          }
+        },
+        "required": [
+          "base_source"
+        ]
+      },
+      "then": {
+        "properties": {
+          "base_container_sha256": {
+            "$ref": "#/$defs/sha256"
+          },
+          "base_member": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

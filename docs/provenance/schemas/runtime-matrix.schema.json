@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zaereo.invalid/schemas/runtime-matrix/v1",
+  "title": "ZaeREo private runtime matrix scenarios",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema_version",
+    "scenarios"
+  ],
+  "properties": {
+    "schema": {
+      "const": "zaereo.runtime-matrix/v1"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "scenarios": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "map",
+          "deathmatch",
+          "zdmflags",
+          "probe_deathmatch_items",
+          "wait_frames",
+          "timeout_seconds",
+          "requires_private_content"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9_.-]*$"
+          },
+          "map": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_][A-Za-z0-9_.-]*$"
+          },
+          "deathmatch": {
+            "type": "boolean"
+          },
+          "zdmflags": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3
+          },
+          "probe_deathmatch_items": {
+            "type": "boolean"
+          },
+          "wait_frames": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10000
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 3600
+          },
+          "requires_private_content": {
+            "const": true
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "deathmatch": {
+                  "const": false
+                }
+              },
+              "required": [
+                "deathmatch"
+              ]
+            },
+            "then": {
+              "properties": {
+                "zdmflags": {
+                  "const": 0
+                },
+                "probe_deathmatch_items": {
+                  "const": false
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "probe_deathmatch_items": {
+                  "const": true
+                }
+              },
+              "required": [
+                "probe_deathmatch_items"
+              ]
+            },
+            "then": {
+              "properties": {
+                "deathmatch": {
+                  "const": true
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

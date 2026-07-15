@@ -1,7 +1,7 @@
 {
   "schema": "zaereo.upstream-integration-policy/v1",
   "policy_id": "zaereo-rerelease-integration-seams",
-  "revision": 14,
+  "revision": 15,
   "baseline": {
     "key": "quake2_rerelease",
     "tree_sha256": "74b79d4f853fb521a866aaa5b1510c1c46afb63a73370b907b10143146629bf5",
@@ -138,6 +138,20 @@
       "removed": []
     },
     {
+      "id": "bot-native-integration",
+      "description": "Rerelease bot item-boundary hardening required by appended Zaero item IDs and native metadata for Zaero hazards.",
+      "evidence": [
+        "docs/compatibility/decisions.md#d-013--bots-and-navigation",
+        "docs/compatibility/feature-matrix.md",
+        "tests/compatibility/test_zaero_bot_integration.py"
+      ],
+      "modified": [
+        "bots/bot_exports.cpp"
+      ],
+      "added": [],
+      "removed": []
+    },
+    {
       "id": "developer-runtime-evidence",
       "description": "Debug-only, read-only server-command hook for structured private runtime evidence; the command and signatures are excluded from Release by D-015 policy.",
       "evidence": [
@@ -187,8 +201,11 @@
         "zaero/g_zaero_zboss.h",
         "zaero/g_zaero_ired.cpp",
         "zaero/g_zaero_ired.h",
+        "zaero/g_zaero_map_identity.cpp",
+        "zaero/g_zaero_map_identity.h",
         "zaero/g_zaero_plasma_shield.cpp",
         "zaero/g_zaero_plasma_shield.h",
+        "zaero/g_zaero_shipped_map_identity.h",
         "zaero/g_zaero_sniper.cpp",
         "zaero/g_zaero_sniper.h",
         "zaero/g_zaero_sonic.cpp",

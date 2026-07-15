@@ -85,24 +85,28 @@ automatic injection; `zbase2`, `zboss`, `zdm5`, `ztomb3`, `ztomb4`, and
 `zwaste1` omit one or more members but remain ineligible under the historical
 any-member rule. Static values 0–3, item order, wrapping start walk,
 partial-success, native lifecycle, and mapper-isolation contracts now pass.
-A private always-windowed `q2dm1` matrix proves aggregate counts 8/8/disabled/
-disabled for values 0–3, and a `zdm1` control proves existing-member
-suppression. A structured `q2dm1` probe proves exact identities/order,
+A private legacy-v1 one-stage `q2dm1` matrix records aggregate counts
+8/8/disabled/disabled for values 0–3, and a `zdm1` control records
+existing-member suppression. A structured `q2dm1` probe records exact identities/order,
 successive first-attempt start ordinals, 128/16-unit offsets, final origins,
 and native live item state; disabled/authored controls record zero. A private
-real-brush fixture proves alternating failures retain indices 0/2/4/6 at
-wrapped ordinals 1/6/11/16. Eight private one-member maps each record zero
-injection. No item row advances: pickup/respawn/drop/save, dedicated and
-2/4/8-client sessions, and native-mode isolation remain live-unverified.
+real-brush fixture records alternating failures at indices 0/2/4/6 and wrapped
+ordinals 1/6/11/16. Eight private one-member maps each record zero injection.
+All such reports predate D-046 and must be rerun before they count as current
+runtime evidence. No item row advances: pickup/respawn/drop/save, dedicated
+and 2/4/8-client sessions, and native-mode isolation remain live-unverified.
 The source-only `trigger_laser` has no supplied BSP placement, but its community-
 map ABI is now statically closed for required target, 0.1-second auto-start,
 default wait, trace/render/spark behavior, bit-1 rearm versus one-shot free,
 saved callbacks, no-use surface, generation-safe target dispatch, and generated
 editor metadata. A synthetic live fixture is still required before verification.
 These reduce implementation risk but are not map completion evidence. The
-bounded load/spawn results recorded below prove only that the installed DLL
-reaches local client entry and orderly shutdown; every completion and save cell
-remains NOT TESTED.
+historical one-stage load/spawn results recorded below originally observed that
+the installed DLL reached local client entry and orderly shutdown; every
+completion and save cell remains NOT TESTED. They are no longer current runtime
+evidence: each injected `game`/`map` before the wrapper could verify a native
+window. Rerun them with the v2 two-stage wrapper before using them for a
+launch-safety, load/spawn, resource, or registry claim.
 
 The completed source/BSP audit also identifies 11 bit-2 low-trigger `func_plat`
 entities: one each in `zbase2`, `zdef1`, `zdef4`, `zdm1`, and `zdm3`, plus two
@@ -147,11 +151,11 @@ zdm3 3, zdm4 5, zdm5 6, zdm6 1, ztomb1 5, ztomb2 6, ztomb3 3, ztomb4 11,
 zwaste1 6, zwaste2 9, and zwaste3 11. Values 2–11 retain native numeric
 selection; zdm6's unavailable data-track value 1 becomes logged silence.
 Static tests cover provenance, explicit `music` precedence, native-map
-isolation, transition replacement, and no volume/loop mutation. A bounded
-private windowed zdm6 load emitted the exact value-1 fallback line, but did not
-capture audio. No track has yet passed live audibility, transition,
-client-volume, or dedicated-server proof, so only zdm6's narrow load/spawn cell
-advances below.
+isolation, transition replacement, and no volume/loop mutation. A historical
+legacy-v1 one-stage zdm6 report recorded the exact value-1 fallback line but
+must be rerun under D-046 and did not capture audio. No track has yet passed
+live audibility, transition, client-volume, or dedicated-server proof, so no
+music or load/spawn cell advances on that observation.
 
 [D-011](decisions.md#d-011--ztomb1-target-for-absent-tomb1-bsp) resolves the
 ztomb1 `tomb1` anomaly without changing map data. The generated closure report
@@ -203,10 +207,11 @@ no map status changes.
 ## Progress and dependencies
 
 NOT TESTED means no compatible runtime evidence exists for that cell. It must
-not be interpreted as failing or passing. LOAD/SPAWN PASS is a narrower harness
-result, not playability: it does not prove entity closure, objectives, combat,
-saves, transitions, or completion. Completion requires both supported fresh
-starts and intended inbound campaign state.
+not be interpreted as failing or passing. HISTORICAL V1 ONLY records an
+otherwise useful pre-v2 observation, not a current harness result and not
+playability: it does not prove window-safe launch, entity closure, objectives,
+combat, saves, transitions, or completion. Completion requires both supported
+fresh starts and intended inbound campaign state.
 
 **Window-protocol boundary:** every retained runtime report named below was
 produced by the legacy v1 single-stage launcher, which supplied `game`/`map`
@@ -215,11 +220,11 @@ described registry/resource result and does not satisfy the current v2
 window-before-mod/map safety gate. Rerun each cited smoke before using it as
 post-rule launch, presentation, or release evidence.
 
-| Map | Planned phase | Notable Zaero dependencies | Load/spawn smoke | SP completion | Co-op completion | DM smoke | Save/transition evidence |
+| Map | Planned phase | Notable Zaero dependencies | Historical v1 sample only | SP completion | Co-op completion | DM smoke | Save/transition evidence |
 | --- | ---: | --- | --- | --- | --- | --- | --- |
-| zbase1 | 5 | Handler; crate/seat; four cameras; rotating objects; all major player systems; start cinematics/help | LOAD/SPAWN PASS¹ | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED |
+| zbase1 | 5 | Handler; crate/seat; four cameras; rotating objects; all major player systems; start cinematics/help | HISTORICAL V1 ONLY¹ | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED |
 | zbase2 | 5 | Two Handlers; comm dish; four cameras; Visor flow/help | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED |
-| zdef1 | 6 | Four Hounds; five Sentiens; six cameras; accelerating laser rotation; mteam/mirror metadata/help | LOAD/SPAWN PASS³ | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED |
+| zdef1 | 6 | Four Hounds; five Sentiens; six cameras; accelerating laser rotation; mteam/mirror metadata/help | HISTORICAL V1 ONLY³ | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED |
 | zdef2 | 6 | Four Autocannons; three Sentiens; rotating objects; medium crate; six cameras | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED |
 | zdef3 | 6 | Two Autocannons; six cameras; active machinery; toggle push | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED |
 | zdef4 | 6 | Three Autocannons; six Sentiens; Landing key; medium crate; five cameras | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED |
@@ -230,15 +235,15 @@ post-rule launch, presentation, or release evidence.
 | ztomb2 | 6 | Autocannon; Slime key; random timer; rotating object; seven cameras | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED |
 | ztomb3 | 6 | Two floor Autocannons; two Hounds; two map IREDs; Energy key; six cameras | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED |
 | ztomb4 | 6 | Sentien; Barrier; Lava key; random timer | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED |
-| zboss | 7 | Static positive-health inbound reset; ZBoss five targets, grapple, pain/EMP cooldown branches and death barrage; static five-second white fade and exact outro/victory handoff | LOAD/SPAWN PASS² | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED |
-| zdm1 | 8 | Full custom item set; seven cameras/Visor | LOAD/SPAWN PASS⁵ | N/A | N/A | 1-CLIENT LOAD/SPAWN PASS⁵ | NOT TESTED |
+| zboss | 7 | Static positive-health inbound reset; ZBoss five targets, grapple, pain/EMP cooldown branches and death barrage; static five-second white fade and exact outro/victory handoff | HISTORICAL V1 ONLY² | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED |
+| zdm1 | 8 | Full custom item set; seven cameras/Visor | HISTORICAL V1 ONLY⁵ | N/A | N/A | HISTORICAL V1 ONLY⁵ | NOT TESTED |
 | zdm2 | 8 | Full custom item set; seven cameras/Visor | NOT TESTED | N/A | N/A | NOT TESTED | NOT TESTED |
 | zdm3 | 8 | Full custom item set; nine cameras/Visor | NOT TESTED | N/A | N/A | NOT TESTED | NOT TESTED |
 | zdm4 | 8 | Full custom item set; three cameras/Visor; rotating objects | NOT TESTED | N/A | N/A | NOT TESTED | NOT TESTED |
 | zdm5 | 8 | Custom set without placed A2K; five cameras/Visor | NOT TESTED | N/A | N/A | NOT TESTED | NOT TESTED |
-| zdm6 | 8 | Full custom item set; six cameras/Visor; random timer; four accelerating fans and toggle pushes | LOAD/SPAWN PASS⁴ | N/A | N/A | NOT TESTED | NOT TESTED |
+| zdm6 | 8 | Full custom item set; six cameras/Visor; random timer; four accelerating fans and toggle pushes | HISTORICAL V1 ONLY⁴ | N/A | N/A | NOT TESTED | NOT TESTED |
 
-¹ The 2026-07-14 private-local report
+¹ The 2026-07-14 private-local **legacy v1** report
 `.install/runtime-reports/zbase1-load-spawn.json` (SHA-256
 `b9425f38ecd2f394a1470afa16e4c4acda507e1cb693ff3d75a8effa7bc0e129`)
 validates against the [runtime-smoke schema](../provenance/schemas/runtime-smoke.schema.json).
@@ -250,7 +255,7 @@ The session contains no missing-spawn log, closing the direct Handler registry/
 resource load for this map only. It does not exercise separation, combat,
 counts, saves, objectives, progression, or playability. The report remains
 ignored and private because it identifies local proprietary runtime inputs.
-The companion 2026-07-15 D-015 Release report
+The companion 2026-07-15 D-015 Release **legacy v1** report
 `.install/runtime-reports/zbase1-release-surface-smoke.json` (SHA-256
 `b0ca47bc40779ef6e4ee83cf3e656c20f51f97ab9dec8988abb514a9ab8c7bd4`)
 loads audited Release DLL SHA-256
@@ -259,7 +264,7 @@ spawns the same map, reaches native client begin, and shuts down under the
 hardened captioned/non-popup window guard. It closes Release-surface runtime
 containment only and does not advance any gameplay column.
 
-² The latest 2026-07-14 private-local report
+² The latest 2026-07-14 private-local **legacy v1** report
 `.install/runtime-reports/zboss-load-spawn.json` (SHA-256
 `8d54af97247ea4103b9a9779c4321f26cac14c91c63062be38ae2f3824d311e2`)
 validates against the same schema. The harness observed a captioned, non-popup
@@ -272,7 +277,7 @@ no process. This closes sampled registry/resource loading only: no attack,
 marker use, damage, grapple, EMP, save, death target, finale, or completion
 status is advanced.
 
-³ The 2026-07-14 private-local report
+³ The 2026-07-14 private-local **legacy v1** report
 `.install/runtime-reports/zdef1-load-spawn.json` (SHA-256
 `175ffae612738cb3983defe29e019002179b041d1267880160f65d9f7f336dfc`)
 validates against the same schema. The harness observed a captioned, non-popup
@@ -285,7 +290,7 @@ Sentiens. It proves direct Hound/Sentien registry and resource-load closure on
 this map only, not combat, schooling, attacks, fend, `mteam`, save behavior,
 progression, or playability.
 
-⁴ The 2026-07-14 private-local report `.install/runtime-reports/zdm6.json`
+⁴ The 2026-07-14 private-local **legacy v1** report `.install/runtime-reports/zdm6.json`
 (SHA-256
 `68ab47b74486949b81290252ee907e9e85e50526aca82cfdf985744aa0438d59`)
 validates against the same schema. The harness observed a captioned, non-popup
@@ -299,7 +304,7 @@ acoustically prove silence or test audible music, deathmatch, cameras, timers,
 fans/pushes, combat, saves, transitions, or playability. The report is ignored
 and private because it identifies local proprietary runtime inputs.
 
-⁵ The 2026-07-15 private-local report
+⁵ The 2026-07-15 private-local **legacy v1** report
 `.install/runtime-reports/zdm1-zdmflags0-placement.json` (SHA-256
 `04d8a8461550cf3dca14e2fd59423cb49a94da7e56a75d5913fd48d1890f5a10`)
 validates against the same schema. The harness started with `-window`, observed
@@ -317,20 +322,23 @@ multiple clients, or map playability. The report remains ignored/private.
 The private `zaereo_fixture_dm_partial` geometry fixture is deliberately not a
 shipped-map row. `tools/make_dm_runtime_fixture.py` preserves the locally owned
 `q2dm1` BSP geometry and substitutes only an ignored entity lump containing one
-open and four real-solid-brush deathmatch starts. Its 2026-07-15 windowed report
+open and four real-solid-brush deathmatch starts. Its 2026-07-15 historical
+legacy-v1 one-stage windowed report
 (`.install/runtime-reports/zaereo-fixture-dm-partial.json`, SHA-256
 `391a27d07c98308e838d3d5a309730827f504610bc79cad4048a5764f97b0f0d`)
 records exactly four D-045 placements at set indices 0/2/4/6 and wrapped start
-ordinals 1/6/11/16. The fixture is evidence for injection failure retention,
-not evidence that `q2dm1` or any Zaero map is playable. The generated BSP,
+ordinals 1/6/11/16. It must be rerun under D-046 before it counts as current
+runtime evidence. The fixture is historical injection-failure evidence, not
+evidence that `q2dm1` or any Zaero map is playable. The generated BSP,
 manifest, PAK, and report are ignored/private-local-only, and a normal managed
 reinstall proved the fixture absent afterward.
 
 The same private suite contains `zaereo_fixture_dm_m0` through `m7`, each with
 one valid deathmatch start and exactly one Sonic/Sniper/Flare/IRED/A2K/Flares/
-EMP/Shield member respectively. All eight 2026-07-15 schema-valid windowed
-reports record zero automatic placements and no addition line, proving every
-one-member precondition live. They remain test fixtures, not shipped-map or
+EMP/Shield member respectively. All eight 2026-07-15 schema-valid historical
+legacy-v1 one-stage windowed reports record zero automatic placements and no
+addition line. They must be rerun under D-046 before closing a runtime
+precondition; they remain test fixtures, not shipped-map or
 item-pickup/playability evidence. Their exact report hashes are recorded in
 [D-045](decisions.md#d-045--zdmflags-and-deathmatch-item-injection).
 

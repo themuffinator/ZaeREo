@@ -128,7 +128,7 @@ class ZaeroWorldMusicTests(unittest.TestCase):
     def test_explicit_music_precedes_scope_and_native_maps_are_unchanged(self) -> None:
         world = function_body(SPAWN, "void SP_worldspawn(edict_t *ent)\n{")
         explicit = world.index("if (st.music && st.music[0])")
-        zaero = world.index("else if (level.is_zaero)", explicit)
+        zaero = world.index("else if (level.zaero_mapper_contract)", explicit)
         native = world.index("else", zaero + len("else"))
         loop_count = world.index("CS_CD_LOOP_COUNT", native)
         self.assertLess(explicit, zaero)

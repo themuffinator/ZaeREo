@@ -70,7 +70,7 @@ class ZaeroProjectileDodgeContractTests(unittest.TestCase):
         self.assertIn("void Zaero_CheckProjectileDodge", ZAERO_HEADER)
         body = function_body(ZAERO_WEAPON, "void Zaero_CheckProjectileDodge")
         for contract in (
-            "!level.is_zaero",
+            "!level.zaero_mapper_contract",
             "!self->client",
             "speed <= 0",
             "skill->value == 0.0f && frandom() > 0.25f",
@@ -127,7 +127,7 @@ class ZaeroProjectileDodgeContractTests(unittest.TestCase):
     def test_zaero_maps_do_not_also_run_native_proximity_dodge(self) -> None:
         think = function_body(MONSTER, "THINK(monster_think)")
         condition = re.search(
-            r"if \(!level\.is_zaero && self->health > 0 && "
+            r"if \(!level\.zaero_mapper_contract && self->health > 0 && "
             r"self->monsterinfo\.dodge &&\s*"
             r"!\(globals\.server_flags & SERVER_FLAG_LOADING\)\)\s*"
             r"M_CheckDodge\(self\);",

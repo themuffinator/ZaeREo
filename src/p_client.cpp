@@ -144,7 +144,7 @@ const char *Zaero_GetMonsterObituary(const edict_t *attacker)
 	for (const auto &obituary : zaero_monster_obituaries)
 	{
 		if (!Q_strcasecmp(attacker->classname, obituary.classname))
-			return (level.is_zaero || obituary.zaero_owned) ? obituary.message : nullptr;
+			return (level.zaero_mapper_contract || obituary.zaero_owned) ? obituary.message : nullptr;
 	}
 
 	return nullptr;
@@ -235,13 +235,13 @@ void ClientObituary(edict_t *self, edict_t *inflictor, edict_t *attacker, mod_t 
 			break;
 		case MOD_HG_SPLASH:
 		case MOD_G_SPLASH:
-			if (level.is_zaero)
+			if (level.zaero_mapper_contract)
 				base = Zaero_IsFemaleBySkin(self) ? "{} tripped on her own grenade.\n" : "{} tripped on his own grenade.\n";
 			else
 				base = "$g_mod_self_grenade_splash";
 			break;
 		case MOD_R_SPLASH:
-			if (level.is_zaero)
+			if (level.zaero_mapper_contract)
 				base = Zaero_IsFemaleBySkin(self) ? "{} blew herself up.\n" : "{} blew himself up.\n";
 			else
 				base = "$g_mod_self_rocket_splash";
@@ -266,7 +266,7 @@ void ClientObituary(edict_t *self, edict_t *inflictor, edict_t *attacker, mod_t 
 			break;
 			// ROGUE
 		default:
-			if (level.is_zaero)
+			if (level.zaero_mapper_contract)
 				base = Zaero_IsFemaleBySkin(self) ? "{} killed herself.\n" : "{} killed himself.\n";
 			else
 				base = "$g_mod_self_default";
@@ -2281,7 +2281,7 @@ void PutClientInServer(edict_t *ent)
 	bool zaero_boss_entry_reset = false;
 	if (client->pers.health <= 0)
 		InitClientPersistant(ent, client);
-	else if (spawn_from_begin && level.is_zaero &&
+	else if (spawn_from_begin && level.zaero_mapper_contract &&
 		Q_strcasecmp(level.mapname, "zboss") == 0)
 	{
 		// The supplied DLL discarded all carried persistence on entry to the

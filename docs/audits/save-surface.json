@@ -1,0 +1,1157 @@
+{
+  "callback_registrations": [
+    {
+      "macro": "THINK",
+      "name": "Zaero_A2KExplosionThink",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_a2k.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "Zaero_AutocannonThink",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_autocannon.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "Zaero_AutocannonExplode",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_autocannon.cpp"
+    },
+    {
+      "macro": "DIE",
+      "name": "Zaero_AutocannonDie",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_autocannon.cpp"
+    },
+    {
+      "macro": "PAIN",
+      "name": "Zaero_AutocannonPain",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_autocannon.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "Zaero_AutocannonActivate",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_autocannon.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "Zaero_AutocannonDeactivate",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_autocannon.cpp"
+    },
+    {
+      "macro": "USE",
+      "name": "Zaero_AutocannonUse",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_autocannon.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "Zaero_AutocannonUseStub",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_autocannon.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "Zaero_EMPNukeFinish",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_emp.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "Zaero_EMPBlastAnim",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_emp.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "zaero_drop_to_floor",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_entities.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "zaero_trigger_laser_think",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_entities.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "zaero_trigger_laser_on",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_entities.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "zaero_commdish_animate",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_entities.cpp"
+    },
+    {
+      "macro": "USE",
+      "name": "zaero_commdish_use",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_entities.cpp"
+    },
+    {
+      "macro": "USE",
+      "name": "zaero_securitycamera_use",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_entities.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "zaero_securitycamera_think",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_entities.cpp"
+    },
+    {
+      "macro": "PAIN",
+      "name": "zaero_securitycamera_pain",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_entities.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "zaero_barrier_think",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_entities.cpp"
+    },
+    {
+      "macro": "PAIN",
+      "name": "zaero_barrier_pain",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_entities.cpp"
+    },
+    {
+      "macro": "TOUCH",
+      "name": "zaero_barrier_touch",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_entities.cpp"
+    },
+    {
+      "macro": "USE",
+      "name": "zaero_zboss_target_use",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_entities.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "handler_move_stand1",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_handler.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "handler_move_stand2",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_handler.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "handler_move_stand3",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_handler.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "handler_move_stand4",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_handler.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "handler_move_stand5",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_handler.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_STAND",
+      "name": "handler_stand",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_handler.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_WALK",
+      "name": "handler_walk",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_handler.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "handler_move_release",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_handler.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_ATTACK",
+      "name": "handler_attack",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_handler.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_RUN",
+      "name": "handler_run",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_handler.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_SIGHT",
+      "name": "handler_sight",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_handler.cpp"
+    },
+    {
+      "macro": "PAIN",
+      "name": "handler_pain",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_handler.cpp"
+    },
+    {
+      "macro": "DIE",
+      "name": "handler_die",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_handler.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_SIGHT",
+      "name": "hound_sight",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_hound.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "hound_move_stand1",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_hound.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "hound_move_stand2",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_hound.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_STAND",
+      "name": "hound_stand",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_hound.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "hound_move_run",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_hound.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_RUN",
+      "name": "hound_run",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_hound.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "hound_move_walk",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_hound.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_WALK",
+      "name": "hound_walk",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_hound.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "hound_move_pain1",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_hound.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "hound_move_pain2",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_hound.cpp"
+    },
+    {
+      "macro": "PAIN",
+      "name": "hound_pain",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_hound.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_SETSKIN",
+      "name": "hound_setskin",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_hound.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "hound_move_attack1",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_hound.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "hound_move_attack2",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_hound.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_MELEE",
+      "name": "hound_melee",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_hound.cpp"
+    },
+    {
+      "macro": "TOUCH",
+      "name": "hound_jump_touch",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_hound.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "hound_move_handler_jump",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_hound.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "hound_move_jump",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_hound.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_ATTACK",
+      "name": "hound_jump",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_hound.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_CHECKATTACK",
+      "name": "hound_checkattack",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_hound.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "hound_move_death",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_hound.cpp"
+    },
+    {
+      "macro": "DIE",
+      "name": "hound_die",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_hound.cpp"
+    },
+    {
+      "macro": "TOUCH",
+      "name": "Zaero_IREDShrapnelTouch",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_ired.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "Zaero_IREDExplode",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_ired.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "Zaero_IREDLaserThink",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_ired.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "Zaero_IREDLaserOn",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_ired.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "Zaero_CreateIREDLaser",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_ired.cpp"
+    },
+    {
+      "macro": "USE",
+      "name": "Zaero_IREDUse",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_ired.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "Zaero_IREDTurnOffGlow",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_ired.cpp"
+    },
+    {
+      "macro": "PAIN",
+      "name": "Zaero_IREDPain",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_ired.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "Zaero_IREDThink",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_ired.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "Zaero_PlasmaShieldExpire",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_plasma_shield.cpp"
+    },
+    {
+      "macro": "DIE",
+      "name": "Zaero_PlasmaShieldDie",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_plasma_shield.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "sentien_laser_think",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "sentien_move_stand1",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "sentien_move_stand2",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "sentien_move_stand3",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_STAND",
+      "name": "sentien_stand",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "sentien_move_walk_start",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "sentien_move_walk",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "sentien_move_walk_end",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_WALK",
+      "name": "sentien_walk",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "sentien_move_run_start",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "sentien_move_run",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "sentien_move_run_end",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_RUN",
+      "name": "sentien_run",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "sentien_move_pre_blast_attack",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "sentien_move_blast_attack",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "sentien_move_post_blast_attack",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "sentien_move_pre_laser_attack",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "sentien_move_laser_attack",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "sentien_move_post_laser_attack",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_ATTACK",
+      "name": "sentien_attack",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "sentien_move_fend",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_DODGE",
+      "name": "sentien_fend",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "sentien_move_pain1",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "sentien_move_pain2",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "sentien_move_pain3",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "PAIN",
+      "name": "sentien_pain",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_SETSKIN",
+      "name": "sentien_setskin",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "sentien_move_death1",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "sentien_move_death2",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "DIE",
+      "name": "sentien_die",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sentien.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "Zaero_SonicExplosionThink",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_sonic.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "Zaero_FlareThink",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_weapons.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_SIGHT",
+      "name": "zboss_sight",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_stand1",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_stand2",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_postwalk",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_prewalk",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_walk",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_WALK",
+      "name": "zboss_walk",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_prerun",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_run",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_RUN",
+      "name": "zboss_run",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_STAND",
+      "name": "zboss_stand",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_pain1",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_pain2",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_pain3",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "PAIN",
+      "name": "zboss_pain",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_hook_melee",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_premelee",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_MELEE",
+      "name": "zboss_melee",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_reload",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_rocket_attack",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "zboss_hook_drag_think",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "TOUCH",
+      "name": "zboss_hook_touch",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "zboss_hook_fly_think",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_hook_reel",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_hook_fire",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_posthook",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_prehook",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "zboss_plasma_blast_anim",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "zboss_plasma_explode",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "TOUCH",
+      "name": "zboss_plasma_touch",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_cannon_attack",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_precannon",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_postcannon",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_hook_to_cannon",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_cannon_to_hook",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_ATTACK",
+      "name": "zboss_attack_start",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_death1",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "zboss_dead_hook_expire",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "TOUCH",
+      "name": "zboss_dead_hook_touch",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "MMOVE_T",
+      "name": "zboss_move_death2",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "DIE",
+      "name": "zboss_die",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "zaero_rotating_think",
+      "registered_by_macro": true,
+      "source": "g_func.cpp"
+    },
+    {
+      "macro": "THINK",
+      "name": "zaero_train_smooth_think",
+      "registered_by_macro": true,
+      "source": "g_func.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_DODGE",
+      "name": "hover_zaero_dodge",
+      "registered_by_macro": true,
+      "source": "m_hover.cpp"
+    }
+  ],
+  "field_registrations": [
+    {
+      "field": "zaero_content_active",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "level_locals_t"
+    },
+    {
+      "field": "zaero_entity_lump_sha256",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "level_locals_t"
+    },
+    {
+      "field": "zaero_mapper_contract",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "level_locals_t"
+    },
+    {
+      "field": "zaero_mapper_contract_reason",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "level_locals_t"
+    },
+    {
+      "field": "zaero_boss_cannon_spread",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "monsterinfo_t"
+    },
+    {
+      "field": "zaero_boss_emp_cooldown",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "monsterinfo_t"
+    },
+    {
+      "field": "zaero_boss_fire_count",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "monsterinfo_t"
+    },
+    {
+      "field": "zaero_boss_fire_timeout",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "monsterinfo_t"
+    },
+    {
+      "field": "zaero_damage_scale",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "monsterinfo_t"
+    },
+    {
+      "field": "zaero_dodge_timeout",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "monsterinfo_t"
+    },
+    {
+      "field": "zaero_flare_flash_base",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "monsterinfo_t"
+    },
+    {
+      "field": "zaero_flare_flash_ticks",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "monsterinfo_t"
+    },
+    {
+      "field": "zaero_fly_strafe_roll",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "monsterinfo_t"
+    },
+    {
+      "field": "zaero_fly_strafe_timeout",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "monsterinfo_t"
+    },
+    {
+      "field": "zaero_shot_target",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "monsterinfo_t"
+    },
+    {
+      "field": "zaero_visor_remaining",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "client_persistant_t"
+    },
+    {
+      "field": "zaero_a2k_detonate_time",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "gclient_t"
+    },
+    {
+      "field": "zaero_bfg_emp_misfire",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "gclient_t"
+    },
+    {
+      "field": "zaero_flare_flash_base",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "gclient_t"
+    },
+    {
+      "field": "zaero_flare_flash_ticks",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "gclient_t"
+    },
+    {
+      "field": "zaero_show_origin",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "gclient_t"
+    },
+    {
+      "field": "zaero_sniper_charge_ready",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "gclient_t"
+    },
+    {
+      "field": "zaero_sonic_charge_start",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "gclient_t"
+    },
+    {
+      "field": "zaero_sonic_warmup_until",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "gclient_t"
+    },
+    {
+      "field": "zaero_transient_lastweapon",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "gclient_t"
+    },
+    {
+      "field": "zaero_visor_camera",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "gclient_t"
+    },
+    {
+      "field": "zaero_visor_camera_spawn_count",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "gclient_t"
+    },
+    {
+      "field": "zaero_visor_copy",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "gclient_t"
+    },
+    {
+      "field": "zaero_visor_copy_spawn_count",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "gclient_t"
+    },
+    {
+      "field": "zaero_visor_last_update",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "gclient_t"
+    },
+    {
+      "field": "zaero_visor_saved_fov",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "gclient_t"
+    },
+    {
+      "field": "zaero_visor_saved_gunindex",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "gclient_t"
+    },
+    {
+      "field": "zaero_visor_saved_gunskin",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "gclient_t"
+    },
+    {
+      "field": "zaero_visor_saved_noclient",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "gclient_t"
+    },
+    {
+      "field": "zaero_visor_saved_pm_type",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "gclient_t"
+    },
+    {
+      "field": "zaero_visor_static_until",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "gclient_t"
+    },
+    {
+      "field": "zaero_child_target_spawn_count",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "edict_t"
+    },
+    {
+      "field": "zaero_rotating_state",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "edict_t"
+    },
+    {
+      "field": "zaero_timer_target_count",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "edict_t"
+    },
+    {
+      "field": "zaero_timer_targets",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "edict_t"
+    },
+    {
+      "field": "zaero_visor_remaining",
+      "registered": true,
+      "registration": "FIELD_AUTO",
+      "struct": "edict_t"
+    }
+  ],
+  "macro_contracts": {
+    "DIE": true,
+    "MMOVE_T": true,
+    "MONSTERINFO_ATTACK": true,
+    "MONSTERINFO_BLOCKED": true,
+    "MONSTERINFO_CHECKATTACK": true,
+    "MONSTERINFO_DODGE": true,
+    "MONSTERINFO_DUCK": true,
+    "MONSTERINFO_IDLE": true,
+    "MONSTERINFO_MELEE": true,
+    "MONSTERINFO_PHYSCHANGED": true,
+    "MONSTERINFO_RUN": true,
+    "MONSTERINFO_SEARCH": true,
+    "MONSTERINFO_SETSKIN": true,
+    "MONSTERINFO_SIDESTEP": true,
+    "MONSTERINFO_SIGHT": true,
+    "MONSTERINFO_STAND": true,
+    "MONSTERINFO_UNDUCK": true,
+    "MONSTERINFO_WALK": true,
+    "PAIN": true,
+    "THINK": true,
+    "TOUCH": true,
+    "USE": true
+  },
+  "missing_callbacks": [],
+  "missing_fields": [],
+  "schema": "zaereo.save-surface-audit/v1",
+  "source_root": "src",
+  "summary": {
+    "callback_count": 145,
+    "callback_registration_count": 145,
+    "complete": true,
+    "field_count": 41,
+    "field_registration_count": 41
+  }
+}

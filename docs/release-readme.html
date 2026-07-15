@@ -42,7 +42,7 @@
       <pre><code>cd zaereo
 pwsh -File .\tools\complete_importer_kit.ps1 `
   -ZaeroLegacyRoot "D:\Games\Zaero"</code></pre>
-      <p>The importer verifies the three known retail PAK SHA-256 hashes, downloads nothing, builds <code>pak1.pak</code> locally, retains the nine required loose sprite/video files, and writes a local asset manifest plus <code>IMPORT-COMPLETE.txt</code>. Map-database merging and an import-ownership manifest are roadmap work, not capabilities of this development template.</p>
+      <p>The importer verifies the three known retail PAK SHA-256 hashes, downloads nothing, builds <code>pak1.pak</code> locally, retains the nine required loose sprite/video files, and writes a local asset manifest plus <code>IMPORT-COMPLETE.txt</code>. The current importer kit does not combine a base map database: the source checkout provides a hash-pinned private <code>merge_mapdb.py</code> tool, but completion deliberately does not guess the supported Rerelease data-build hash or menu position. The import-ownership manifest remains roadmap work.</p>
     </article>
     <article class="card">
       <h2>Local-full mode</h2>

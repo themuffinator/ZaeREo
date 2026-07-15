@@ -164,7 +164,9 @@
 	<ClInclude Include="zaero\g_zaero_autocannon.h" />
 	<ClInclude Include="zaero\g_zaero_emp.h" />
 	<ClInclude Include="zaero\g_zaero_ired.h" />
+	<ClInclude Include="zaero\g_zaero_map_identity.h" />
 	<ClInclude Include="zaero\g_zaero_plasma_shield.h" />
+	<ClInclude Include="zaero\g_zaero_shipped_map_identity.h" />
 	<ClInclude Include="zaero\g_zaero_sniper.h" />
 	<ClInclude Include="zaero\g_zaero_sonic.h" />
 	<ClInclude Include="zaero\g_zaero_visor.h" />
@@ -275,6 +277,7 @@
 	<ClCompile Include="zaero\g_zaero_autocannon.cpp" />
 	<ClCompile Include="zaero\g_zaero_emp.cpp" />
 	<ClCompile Include="zaero\g_zaero_ired.cpp" />
+	<ClCompile Include="zaero\g_zaero_map_identity.cpp" />
 	<ClCompile Include="zaero\g_zaero_plasma_shield.cpp" />
 	<ClCompile Include="zaero\g_zaero_sniper.cpp" />
 	<ClCompile Include="zaero\g_zaero_sonic.cpp" />

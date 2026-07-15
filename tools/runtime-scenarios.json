@@ -1,0 +1,46 @@
+{
+  "schema": "zaereo.runtime-matrix/v1",
+  "schema_version": 1,
+  "scenarios": [
+    {
+      "id": "zbase1-load-spawn",
+      "map": "zbase1",
+      "deathmatch": false,
+      "zdmflags": 0,
+      "probe_deathmatch_items": false,
+      "wait_frames": 200,
+      "timeout_seconds": 60,
+      "requires_private_content": true
+    },
+    {
+      "id": "zdef1-load-spawn",
+      "map": "zdef1",
+      "deathmatch": false,
+      "zdmflags": 0,
+      "probe_deathmatch_items": false,
+      "wait_frames": 200,
+      "timeout_seconds": 60,
+      "requires_private_content": true
+    },
+    {
+      "id": "zboss-load-spawn",
+      "map": "zboss",
+      "deathmatch": false,
+      "zdmflags": 0,
+      "probe_deathmatch_items": false,
+      "wait_frames": 200,
+      "timeout_seconds": 60,
+      "requires_private_content": true
+    },
+    {
+      "id": "zdm6-load-spawn",
+      "map": "zdm6",
+      "deathmatch": true,
+      "zdmflags": 0,
+      "probe_deathmatch_items": false,
+      "wait_frames": 200,
+      "timeout_seconds": 60,
+      "requires_private_content": true
+    }
+  ]
+}

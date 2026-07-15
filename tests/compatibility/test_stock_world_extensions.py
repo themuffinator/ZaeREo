@@ -254,7 +254,7 @@ class MiscViperTests(unittest.TestCase):
 
     def test_all_attachment_slots_and_stock_fallback_are_explicit(self) -> None:
         body = function_body(MISC, "void SP_misc_viper(edict_t *ent)")
-        self.assertIn("if (level.is_zaero)", body)
+        self.assertIn("if (level.zaero_mapper_contract)", body)
         for number in (2, 3, 4):
             self.assertIn(f"ent->s.modelindex{number} = gi.modelindex(ent->model{number})", body)
         self.assertIn(
@@ -321,7 +321,7 @@ class TrainPathCornerTests(unittest.TestCase):
         self.assertIn("self->moveinfo.accel = ent->speed", body)
         self.assertIn("self->moveinfo.decel = ent->decel", body)
         self.assertIn("self->moveinfo.decel = ent->speed", body)
-        native = body.index("if (!level.is_zaero)")
+        native = body.index("if (!level.zaero_mapper_contract)")
         self.assertIn("self->speed = ent->speed", body[native:])
         self.assertIn("self->moveinfo.current_speed = 0", body[native:])
 
@@ -330,7 +330,7 @@ class TrainPathCornerTests(unittest.TestCase):
             FUNC,
             "static vec3_t train_destination(edict_t *self, edict_t *corner, bool allow_zaero_viper_origin)",
         )
-        self.assertIn("if (level.is_zaero)", destination)
+        self.assertIn("if (level.zaero_mapper_contract)", destination)
         self.assertIn("allow_zaero_viper_origin", destination)
         self.assertIn('Q_strcasecmp(self->classname, "misc_viper") == 0', destination)
         self.assertIn("return corner->s.origin;", destination)
@@ -367,13 +367,13 @@ class TrainPathCornerTests(unittest.TestCase):
         stand = corner.index("other->monsterinfo.stand(other)", wait)
         self.assertLess(yaw, pause)
         self.assertLess(pause, stand)
-        self.assertIn("if (level.is_zaero && other->goalentity)", corner)
-        self.assertIn("if (!level.is_zaero)\n\t\t\tother->s.event = EV_OTHER_TELEPORT", corner)
+        self.assertIn("if (level.zaero_mapper_contract && other->goalentity)", corner)
+        self.assertIn("if (!level.zaero_mapper_contract)\n\t\t\tother->s.event = EV_OTHER_TELEPORT", corner)
 
         train_next = function_body(
             FUNC, "THINK(train_next) (edict_t *self) -> void"
         )
-        self.assertIn("if (!level.is_zaero)\n\t\t\tself->s.event = EV_OTHER_TELEPORT", train_next)
+        self.assertIn("if (!level.zaero_mapper_contract)\n\t\t\tself->s.event = EV_OTHER_TELEPORT", train_next)
 
     def test_auto_smooth_retains_10_hz_decisions_over_40_hz_motion(self) -> None:
         step = begin_zaero_smooth_step(
@@ -445,20 +445,20 @@ class TrainPathCornerTests(unittest.TestCase):
                 f"SPAWNFLAG_TRAIN_ZAERO_{name} = {bit}_spawnflag", FUNC
             )
         spawn = function_body(FUNC, "void SP_func_train(edict_t *self)")
-        self.assertIn("if (level.is_zaero)", spawn)
+        self.assertIn("if (level.zaero_mapper_contract)", spawn)
         self.assertIn("self->movedir = -self->movedir", spawn)
         self.assertIn("ent->avelocity = ent->movedir * ent->aspeed", FUNC)
-        self.assertIn("if (level.is_zaero)\n\t\tent->avelocity = {}", FUNC)
+        self.assertIn("if (level.zaero_mapper_contract)\n\t\tent->avelocity = {}", FUNC)
 
         train_next = function_body(
             FUNC, "THINK(train_next) (edict_t *self) -> void"
         )
         self.assertIn(
-            "if (!level.is_zaero && self->spawnflags.has(SPAWNFLAG_TRAIN_MOVE_TEAMCHAIN))",
+            "if (!level.zaero_mapper_contract && self->spawnflags.has(SPAWNFLAG_TRAIN_MOVE_TEAMCHAIN))",
             train_next,
         )
         fix_teams = function_body(SPAWN, "void G_FixTeams()")
-        self.assertIn("if (!level.is_zaero && !strcmp(e->classname, \"func_train\")", fix_teams)
+        self.assertIn("if (!level.zaero_mapper_contract && !strcmp(e->classname, \"func_train\")", fix_teams)
 
     def test_smooth_callback_and_existing_mover_state_are_json_saveable(self) -> None:
         self.assertIn("THINK(zaero_train_smooth_think)", FUNC)
@@ -510,21 +510,21 @@ class MiscExploboxTests(unittest.TestCase):
     def test_zaero_spawn_uses_fallfloat_mass_400_and_legacy_drop_start(self) -> None:
         body = function_body(MISC, "void SP_misc_explobox(edict_t *self)")
         self.assertIn(
-            "self->movetype = level.is_zaero ? MOVETYPE_FALLFLOAT : MOVETYPE_STEP",
+            "self->movetype = level.zaero_mapper_contract ? MOVETYPE_FALLFLOAT : MOVETYPE_STEP",
             body,
         )
         self.assertIn("if (!self->mass)", body)
-        self.assertIn("self->mass = level.is_zaero ? 400 : 50", body)
+        self.assertIn("self->mass = level.zaero_mapper_contract ? 400 : 50", body)
         self.assertIn("self->monsterinfo.aiflags = AI_NOSTEP", body)
         self.assertIn("else\n\t\tself->flags |= FL_TRAP", body)
         self.assertIn("self->think = barrel_start", body)
-        self.assertIn("level.is_zaero ? 200_ms : 20_hz", body)
+        self.assertIn("level.zaero_mapper_contract ? 200_ms : 20_hz", body)
 
         start = function_body(
             MISC, "THINK(barrel_start) (edict_t *self) -> void"
         )
         drop = start.index("M_droptofloor(self)")
-        zaero = start.index("if (level.is_zaero)")
+        zaero = start.index("if (level.zaero_mapper_contract)")
         native = start.index("self->think = barrel_think")
         self.assertLess(drop, zaero)
         self.assertLess(zaero, native)
@@ -541,7 +541,7 @@ class MiscExploboxTests(unittest.TestCase):
         zaero = body[:native_start]
         native = body[native_start:]
 
-        self.assertIn("if (level.is_zaero)", zaero)
+        self.assertIn("if (level.zaero_mapper_contract)", zaero)
         self.assertIn("other->groundentity == self || !other->client", zaero)
         self.assertNotIn("!other->groundentity", zaero)
         self.assertNotIn("other_touching_self", zaero)
@@ -587,7 +587,7 @@ class TargetExplosionTests(unittest.TestCase):
         body = function_body(
             TARGET, "THINK(target_explosion_explode) (edict_t *self) -> void"
         )
-        cosmetic = body.index("if (level.is_zaero")
+        cosmetic = body.index("if (level.zaero_mapper_contract")
         damage = body.index("T_RadiusDamage")
         targets = body.index("G_UseTargets")
         self.assertLess(cosmetic, damage)
@@ -658,7 +658,7 @@ class FuncDoorTests(unittest.TestCase):
             FUNC,
             "USE(door_use) (edict_t *self, edict_t *other, edict_t *activator) -> void",
         )
-        active_branch = body.index("if (level.is_zaero")
+        active_branch = body.index("if (level.zaero_mapper_contract")
         move_branch = body.index("door_openclose(self, other, activator)")
         self.assertLess(active_branch, move_branch)
         self.assertIn("for (edict_t *ent = self; ent; ent = ent->teamchain)", body)
@@ -727,7 +727,7 @@ class FuncDoorTests(unittest.TestCase):
             )
 
         body = function_body(FUNC, "void SP_func_door(edict_t *ent)")
-        self.assertIn("if (level.is_zaero)", body)
+        self.assertIn("if (level.zaero_mapper_contract)", body)
         self.assertIn("ent->active = 0", body)
         self.assertIn(
             "(ent->health || ent->targetname) && !(ent->active & ZAERO_DOOR_ACTIVE_TOGGLE)",
@@ -793,12 +793,12 @@ class RotatingDoorDamageTests(unittest.TestCase):
 
     def test_spawn_and_blocked_paths_preserve_zero_without_stalling_motion(self) -> None:
         rotating = function_body(FUNC, "void SP_func_door_rotating(edict_t *ent)")
-        self.assertIn("if (!ent->dmg && !level.is_zaero)", rotating)
+        self.assertIn("if (!ent->dmg && !level.zaero_mapper_contract)", rotating)
         self.assertIn("ent->dmg = 2", rotating)
 
         sliding = function_body(FUNC, "void SP_func_door(edict_t *ent)")
         self.assertIn("if (!ent->dmg)\n\t\tent->dmg = 2", sliding)
-        self.assertNotIn("!ent->dmg && !level.is_zaero", sliding)
+        self.assertNotIn("!ent->dmg && !level.zaero_mapper_contract", sliding)
 
         blocked = function_body(
             FUNC,

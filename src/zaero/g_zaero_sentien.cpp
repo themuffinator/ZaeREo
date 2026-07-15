@@ -179,7 +179,6 @@ void sentien_laser_on(edict_t *self)
 	laser->activator = self;
 	laser->spawnflags |= SPAWNFLAG_LASER_ZAP | SPAWNFLAG_LASER_ON;
 	laser->svflags &= ~SVF_NOCLIENT;
-	laser->flags |= FL_TRAP;
 	sentien_laser_think(laser);
 }
 
@@ -197,6 +196,9 @@ void sentien_create_laser(edict_t *self)
 	laser->movetype = MOVETYPE_NONE;
 	// Preserve the supplied point-sized BBOX trace obstruction contract.
 	laser->solid = SOLID_BBOX;
+	// The native bot bridge gives laser fields separate endpoint/active-state
+	// metadata. It does not affect target_laser damage or legacy visibility.
+	laser->flags |= FL_TRAP_LASER_FIELD;
 	laser->s.renderfx = RF_BEAM | RF_TRANSLUCENT;
 	laser->s.modelindex = MODELINDEX_WORLD;
 	laser->s.frame = 2;

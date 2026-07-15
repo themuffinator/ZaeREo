@@ -18,7 +18,7 @@ constexpr const char *ZAERO_PLASMA_SHIELD_DIE_SOUND = "items/plasmashield/psdie.
 
 bool Zaero_IsPlasmaShield(const edict_t *ent)
 {
-	return level.is_zaero && ent && ent->classname &&
+	return level.zaero_content_active && ent && ent->classname &&
 		strcmp(ent->classname, ZAERO_PLASMA_SHIELD_CLASSNAME) == 0;
 }
 
@@ -57,7 +57,7 @@ DIE(Zaero_PlasmaShieldDie) (edict_t *self, edict_t *, edict_t *, int,
 
 void Use_ZaeroPlasmaShield(edict_t *ent, gitem_t *item)
 {
-	if (!level.is_zaero || !ent || !ent->client || !item)
+	if (!level.zaero_content_active || !ent || !ent->client || !item)
 		return;
 	if (ent->client->pers.inventory[item->id] <= 0)
 		return;

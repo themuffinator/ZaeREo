@@ -155,8 +155,16 @@ function Assert-NoTreeCollisions {
         }
         $relative = [IO.Path]::GetRelativePath($second, $file.FullName)
         $candidate = Get-SafeDestination $first $relative
-        if (Test-Path -LiteralPath $candidate -PathType Leaf) {
+        if (Test-Path -LiteralPath $candidate) {
             throw "$Description has an ownership collision at $relative"
+        }
+        $parentRelative = Split-Path -Parent $relative
+        while ($parentRelative) {
+            $parent = Get-SafeDestination $first $parentRelative
+            if (Test-Path -LiteralPath $parent -PathType Leaf) {
+                throw "$Description has a file/directory ownership collision at $parentRelative"
+            }
+            $parentRelative = Split-Path -Parent $parentRelative
         }
     }
 }
@@ -412,6 +420,11 @@ if ($DistributionMode -eq "local-full") {
 Copy-TreeFiles $packSource $projectWork @("README.md")
 if ($DistributionMode -eq "local-full") {
     Assert-NoTreeCollisions $projectWork $importWork "Project/import runtime content"
+    Invoke-PythonTool $python $validateTool @(
+        "--root", $importWork,
+        "--manifest", $resolvedAssetManifest,
+        "--strict"
+    )
 }
 
 $loosePaths = @()

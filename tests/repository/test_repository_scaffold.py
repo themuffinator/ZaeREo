@@ -96,6 +96,32 @@ class RepositoryScaffoldTests(unittest.TestCase):
         ):
             self.assertIn(pattern, ignore.splitlines())
 
+    def test_legacy_one_stage_runtime_reports_are_not_current_passes(self) -> None:
+        agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
+        roadmap = (ROOT / "docs" / "ZAERO_PORT_ROADMAP.md").read_text(encoding="utf-8")
+        matrix = (ROOT / "docs" / "compatibility" / "map-matrix.md").read_text(
+            encoding="utf-8"
+        )
+        features = (ROOT / "docs" / "compatibility" / "feature-matrix.md").read_text(
+            encoding="utf-8"
+        )
+        entities = (ROOT / "docs" / "compatibility" / "entity-matrix.md").read_text(
+            encoding="utf-8"
+        )
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+
+        self.assertIn("must be rerun before they count as", agents)
+        self.assertIn("HISTORICAL V1 ONLY", matrix)
+        self.assertNotIn("LOAD/SPAWN PASS", matrix)
+        self.assertIn("legacy v1", roadmap)
+        self.assertIn("must be rerun under D-046", features)
+        self.assertIn("historical legacy v1 only", entities)
+        self.assertIn("legacy-v1 one-stage", readme)
+        self.assertNotIn("private windowed `q2dm1` proves", readme)
+        self.assertIn("historical legacy-v1 one-stage Release report", changelog)
+        self.assertNotIn("retained Release runtime gate now passes", changelog)
+
     def test_upstream_record_matches_the_machine_readable_baseline(self) -> None:
         baseline_document = json.loads(
             (ROOT / "docs" / "provenance" / "baselines.json").read_text(

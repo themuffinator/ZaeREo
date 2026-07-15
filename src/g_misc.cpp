@@ -328,14 +328,14 @@ TOUCH(path_corner_touch) (edict_t *self, edict_t *other, const trace_t &tr, bool
 	// Zaero accepts any flagged next node, while native Rerelease retains its
 	// point_combat HOLD safeguard.
 	if (next && next->spawnflags.has(SPAWNFLAG_PATH_CORNER_TELEPORT) &&
-		(level.is_zaero || !strcmp(next->classname, "path_corner")))
+		(level.zaero_mapper_contract || !strcmp(next->classname, "path_corner")))
 	{
 		v = next->s.origin;
 		v[2] += next->mins[2];
 		v[2] -= other->mins[2];
 		other->s.origin = v;
 		next = G_PickTarget(next->target);
-		if (!level.is_zaero)
+		if (!level.zaero_mapper_contract)
 			other->s.event = EV_OTHER_TELEPORT;
 	}
 
@@ -343,7 +343,7 @@ TOUCH(path_corner_touch) (edict_t *self, edict_t *other, const trace_t &tr, bool
 
 	if (self->wait)
 	{
-		if (level.is_zaero && other->goalentity)
+		if (level.zaero_mapper_contract && other->goalentity)
 		{
 			v = other->goalentity->s.origin - other->s.origin;
 			other->ideal_yaw = vectoyaw(v);
@@ -1116,7 +1116,7 @@ bool SV_movestep(edict_t *ent, vec3_t move, bool relink);
 
 TOUCH(barrel_touch) (edict_t *self, edict_t *other, const trace_t &tr, bool other_touching_self) -> void
 {
-	if (level.is_zaero)
+	if (level.zaero_mapper_contract)
 	{
 		if (other->groundentity == self || !other->client)
 			return;
@@ -1207,7 +1207,7 @@ THINK(barrel_think) (edict_t *self) -> void
 THINK(barrel_start) (edict_t *self) -> void
 {
 	M_droptofloor(self);
-	if (level.is_zaero)
+	if (level.zaero_mapper_contract)
 	{
 		self->think = nullptr;
 		self->nextthink = 0_ms;
@@ -1234,7 +1234,7 @@ void SP_misc_explobox(edict_t *self)
 	gi.soundindex("weapons/bfg__l1a.wav");
 
 	self->solid = SOLID_BBOX;
-	self->movetype = level.is_zaero ? MOVETYPE_FALLFLOAT : MOVETYPE_STEP;
+	self->movetype = level.zaero_mapper_contract ? MOVETYPE_FALLFLOAT : MOVETYPE_STEP;
 
 	self->model = "models/objects/barrels/tris.md2";
 	self->s.modelindex = gi.modelindex(self->model);
@@ -1242,7 +1242,7 @@ void SP_misc_explobox(edict_t *self)
 	self->maxs = { 16, 16, 40 };
 
 	if (!self->mass)
-		self->mass = level.is_zaero ? 400 : 50;
+		self->mass = level.zaero_mapper_contract ? 400 : 50;
 	if (!self->health)
 		self->health = 10;
 	if (!self->dmg)
@@ -1250,7 +1250,7 @@ void SP_misc_explobox(edict_t *self)
 
 	self->die = barrel_delay;
 	self->takedamage = true;
-	if (level.is_zaero)
+	if (level.zaero_mapper_contract)
 		self->monsterinfo.aiflags = AI_NOSTEP;
 	else
 		self->flags |= FL_TRAP;
@@ -1259,7 +1259,7 @@ void SP_misc_explobox(edict_t *self)
 
 	// PGM - change so barrels will think and hence, blow up
 	self->think = barrel_start;
-	self->nextthink = level.time + (level.is_zaero ? 200_ms : 20_hz);
+	self->nextthink = level.time + (level.zaero_mapper_contract ? 200_ms : 20_hz);
 	// PGM
 
 	gi.linkentity(self);
@@ -1580,7 +1580,7 @@ void SP_misc_viper(edict_t *ent)
 
 	ent->movetype = MOVETYPE_PUSH;
 
-	if (level.is_zaero)
+	if (level.zaero_mapper_contract)
 	{
 		// Bit 1 is presentation-only for the Zaero viper.  Consume it before
 		// func_train_find/train_use can interpret the same numeric bit as

@@ -9,7 +9,7 @@ constexpr gtime_t ZAERO_FINALE_FADE_DURATION = 5_sec;
 
 bool Zaero_IsFinaleLevel()
 {
-	return level.is_zaero && !deathmatch->integer &&
+	return level.zaero_mapper_contract && !deathmatch->integer &&
 		Q_strcasecmp(level.mapname, "zboss") == 0;
 }
 }

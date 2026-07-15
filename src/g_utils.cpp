@@ -574,7 +574,7 @@ changed.
 */
 bool Zaero_MonsterKillBox(edict_t *ent)
 {
-	if (!level.is_zaero || !(ent->svflags & SVF_MONSTER))
+	if (!level.zaero_mapper_contract || !(ent->svflags & SVF_MONSTER))
 		return KillBox(ent, false);
 
 	static edict_t *touch[MAX_EDICTS];

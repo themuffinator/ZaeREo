@@ -50,6 +50,10 @@
         ]
       },
       "then": {
+        "required": [
+          "command_delivery",
+          "residual_process_ids"
+        ],
         "properties": {
           "window_probe": {
             "type": "object"
@@ -62,6 +66,9 @@
           },
           "launch_protocol": {
             "const": "two-stage-window-before-mod-map/v1"
+          },
+          "command_delivery": {
+            "const": "engine-confirmed"
           },
           "mod_map_command_injected_after_window_verification": {
             "const": true
@@ -110,6 +117,9 @@
             "maxItems": 0
           },
           "crash_dumps": {
+            "maxItems": 0
+          },
+          "residual_process_ids": {
             "maxItems": 0
           }
         }
@@ -368,6 +378,31 @@
         }
       ]
     },
+    "focus_diagnostic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage",
+        "foreground_process_id",
+        "target_foreground"
+      ],
+      "properties": {
+        "stage": {
+          "type": "string",
+          "minLength": 1
+        },
+        "foreground_process_id": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "target_foreground": {
+          "type": "boolean"
+        }
+      }
+    },
     "non_windowed_visible_observed": {
       "type": "boolean"
     },
@@ -376,6 +411,19 @@
     },
     "launch_protocol": {
       "const": "two-stage-window-before-mod-map/v1"
+    },
+    "command_delivery": {
+      "enum": [
+        "not-attempted",
+        "target-unavailable",
+        "foreground-unavailable",
+        "console-toggle-send-failed",
+        "character-send-failed",
+        "return-send-failed",
+        "input-submitted",
+        "manual-awaiting-engine-confirmation",
+        "engine-confirmed"
+      ]
     },
     "mod_map_command_injected_after_window_verification": {
       "type": "boolean"
@@ -472,6 +520,14 @@
         "type": "string",
         "pattern": "^(?![A-Za-z]:|/|.*(?:^|/)\\.\\.(?:/|$)).+$"
       }
+    },
+    "residual_process_ids": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "uniqueItems": true
     },
     "console_log": {
       "const": "stdout.txt"

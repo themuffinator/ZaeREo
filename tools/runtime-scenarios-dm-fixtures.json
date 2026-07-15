@@ -1,0 +1,96 @@
+{
+  "schema": "zaereo.runtime-matrix/v1",
+  "schema_version": 1,
+  "scenarios": [
+    {
+      "id": "fixture-dm-partial-placement",
+      "map": "zaereo_fixture_dm_partial",
+      "deathmatch": true,
+      "zdmflags": 0,
+      "probe_deathmatch_items": true,
+      "wait_frames": 200,
+      "timeout_seconds": 60,
+      "requires_private_content": true
+    },
+    {
+      "id": "fixture-dm-m0-sonic-suppression",
+      "map": "zaereo_fixture_dm_m0",
+      "deathmatch": true,
+      "zdmflags": 0,
+      "probe_deathmatch_items": true,
+      "wait_frames": 200,
+      "timeout_seconds": 60,
+      "requires_private_content": true
+    },
+    {
+      "id": "fixture-dm-m1-sniper-suppression",
+      "map": "zaereo_fixture_dm_m1",
+      "deathmatch": true,
+      "zdmflags": 0,
+      "probe_deathmatch_items": true,
+      "wait_frames": 200,
+      "timeout_seconds": 60,
+      "requires_private_content": true
+    },
+    {
+      "id": "fixture-dm-m2-flare-suppression",
+      "map": "zaereo_fixture_dm_m2",
+      "deathmatch": true,
+      "zdmflags": 0,
+      "probe_deathmatch_items": true,
+      "wait_frames": 200,
+      "timeout_seconds": 60,
+      "requires_private_content": true
+    },
+    {
+      "id": "fixture-dm-m3-ired-suppression",
+      "map": "zaereo_fixture_dm_m3",
+      "deathmatch": true,
+      "zdmflags": 0,
+      "probe_deathmatch_items": true,
+      "wait_frames": 200,
+      "timeout_seconds": 60,
+      "requires_private_content": true
+    },
+    {
+      "id": "fixture-dm-m4-a2k-suppression",
+      "map": "zaereo_fixture_dm_m4",
+      "deathmatch": true,
+      "zdmflags": 0,
+      "probe_deathmatch_items": true,
+      "wait_frames": 200,
+      "timeout_seconds": 60,
+      "requires_private_content": true
+    },
+    {
+      "id": "fixture-dm-m5-flares-suppression",
+      "map": "zaereo_fixture_dm_m5",
+      "deathmatch": true,
+      "zdmflags": 0,
+      "probe_deathmatch_items": true,
+      "wait_frames": 200,
+      "timeout_seconds": 60,
+      "requires_private_content": true
+    },
+    {
+      "id": "fixture-dm-m6-emp-suppression",
+      "map": "zaereo_fixture_dm_m6",
+      "deathmatch": true,
+      "zdmflags": 0,
+      "probe_deathmatch_items": true,
+      "wait_frames": 200,
+      "timeout_seconds": 60,
+      "requires_private_content": true
+    },
+    {
+      "id": "fixture-dm-m7-shield-suppression",
+      "map": "zaereo_fixture_dm_m7",
+      "deathmatch": true,
+      "zdmflags": 0,
+      "probe_deathmatch_items": true,
+      "wait_frames": 200,
+      "timeout_seconds": 60,
+      "requires_private_content": true
+    }
+  ]
+}

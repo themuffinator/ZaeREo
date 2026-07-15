@@ -16,7 +16,7 @@
 // Sniper retain their legacy weapon-selection exclusions; A2K and EMP remain
 // non-weapon inventory items.
 constexpr size_t ZAERO_AMMO_WHEEL_SLOTS = 17;
-constexpr size_t ZAERO_WEAPON_WHEEL_SLOTS = 25;
+constexpr size_t ZAERO_WEAPON_WHEEL_SLOTS = 24;
 static_assert(ZAERO_AMMO_WHEEL_SLOTS <= MAX_WHEEL_ITEMS, "Zaero ammo wheel overflow");
 static_assert(ZAERO_WEAPON_WHEEL_SLOTS <= MAX_WHEEL_ITEMS, "Zaero weapon wheel overflow");
 static_assert(AMMO_MAX == ZAERO_AMMO_WHEEL_SLOTS, "Update Zaero ammo wheel allocation when ammo_t changes");
@@ -639,9 +639,9 @@ bool Pickup_Ammo(edict_t *ent, edict_t *other)
 	oldcount = other->client->pers.inventory[ent->item->id];
 
 	// Zaero gives mapper-authored ammo two additional pickup contracts.  Keep
-	// these behind the map-family gate because both low bits already have native
+	// these behind the mapper-contract gate because both low bits already have native
 	// Rerelease item-spawn meanings.
-	if (level.is_zaero && ent->spawnflags.has(SPAWNFLAG_ITEM_MAX))
+	if (level.zaero_mapper_contract && ent->spawnflags.has(SPAWNFLAG_ITEM_MAX))
 	{
 		if (oldcount >= count)
 			return false;
@@ -659,7 +659,7 @@ bool Pickup_Ammo(edict_t *ent, edict_t *other)
 
 	if (!(ent->spawnflags & (SPAWNFLAG_ITEM_DROPPED | SPAWNFLAG_ITEM_DROPPED_PLAYER)) && deathmatch->integer)
 		SetRespawn(ent, 30_sec);
-	else if (level.is_zaero && ent->spawnflags.has(SPAWNFLAG_ITEM_TOSS_SPAWN))
+	else if (level.zaero_mapper_contract && ent->spawnflags.has(SPAWNFLAG_ITEM_TOSS_SPAWN))
 		SetRespawn(ent, 15_sec);
 	return true;
 }
@@ -687,7 +687,7 @@ void Drop_Ammo(edict_t *ent, gitem_t *item)
 	// Native Rerelease prevents an active ammo-as-weapon item from being
 	// dropped to zero.  Zaero intentionally allowed this for Grenades and its
 	// deployable ammo weapons; retain the native guard everywhere else.
-	if (empties_active_ammo_weapon && !level.is_zaero)
+	if (empties_active_ammo_weapon && !level.zaero_content_active)
 	{
 		gi.LocClient_Print(ent, PRINT_HIGH, "$g_cant_drop_weapon");
 		G_FreeEdict(dropped);
@@ -1034,7 +1034,7 @@ TOUCH(Touch_Item) (edict_t *ent, edict_t *other, const trace_t &tr, bool other_t
 
 		if (ent->noise_index)
 			gi.sound(other, CHAN_ITEM, ent->noise_index, 1, ATTN_NORM, 0);
-		else if (level.is_zaero && ent->item->pickup == Pickup_Health)
+		else if (level.zaero_mapper_contract && ent->item->pickup == Pickup_Health)
 			gi.sound(other, CHAN_ITEM, gi.soundindex(G_ZaeroHealthPickupSound(ent)), 1, ATTN_NORM, 0);
 		else if (ent->item->pickup_sound)
 			gi.sound(other, CHAN_ITEM, gi.soundindex(ent->item->pickup_sound), 1, ATTN_NORM, 0);
@@ -1364,7 +1364,7 @@ be on an entity that hasn't spawned yet.
 void SpawnItem(edict_t *ent, gitem_t *item)
 {
 	const bool valid_zaero_ammo_spawnflags =
-		level.is_zaero && (item->flags & IF_AMMO) &&
+		level.zaero_mapper_contract && (item->flags & IF_AMMO) &&
 		!(ent->spawnflags.value & ~0x0Fu);
 
 	// [Sam-KEX]

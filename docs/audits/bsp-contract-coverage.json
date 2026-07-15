@@ -1,7 +1,7 @@
 {
   "format": "ZaeREo BSP contract traceability coverage",
   "inputs": {
-    "bsp_entities_sha256": "8f90c00c46ae7598a6a71f7fd0c9b1f2e9133bcdf5e1baca459be222ef87113c"
+    "bsp_entities_sha256": "72c7fb1792275982c668775fe635af759b67a249c664d01942129d009f4d77ee"
   },
   "records": [
     {
@@ -38,7 +38,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:ammo_a2k",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -152,7 +152,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:ammo_empnuke",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -189,7 +189,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:ammo_flares",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -264,7 +264,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:ammo_ired",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -299,7 +299,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:ammo_plasmashield",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -463,7 +463,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:func_barrier",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -1455,7 +1455,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:item_visor",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -1513,7 +1513,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:key_energy",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -1532,7 +1532,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:key_landing_area",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -1552,7 +1552,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:key_lava",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -1632,7 +1632,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:key_slime",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -1730,7 +1730,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:misc_commdish",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -1750,7 +1750,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:misc_crate",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -1770,7 +1770,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:misc_crate_medium",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -1853,7 +1853,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:misc_ired",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -1872,7 +1872,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:misc_seat",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -1908,7 +1908,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:misc_securitycamera",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -2020,7 +2020,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:monster_autocannon",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -2039,7 +2039,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:monster_autocannon_floor",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -2264,7 +2264,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:monster_handler",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -2286,7 +2286,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:monster_hound",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -2362,7 +2362,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:monster_sentien",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -2524,7 +2524,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:monster_zboss",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -2961,7 +2961,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:target_zboss_target",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -3281,7 +3281,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:weapon_flaregun",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -3538,7 +3538,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:weapon_sniperrifle",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -3575,7 +3575,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:classname:weapon_soniccannon",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -3695,7 +3695,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_a2k:angle",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -3737,7 +3737,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_a2k:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -3806,7 +3806,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_a2k:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -3848,7 +3848,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_a2k:spawnflags",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -3891,7 +3891,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_a2k:spawnflags2",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -3933,7 +3933,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_a2k:target",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -4799,7 +4799,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_empnuke:angle",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -4843,7 +4843,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_empnuke:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -4887,7 +4887,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_empnuke:mirrorlevelsave",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -4976,7 +4976,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_empnuke:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -5021,7 +5021,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_empnuke:spawnflags",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -5066,7 +5066,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_empnuke:spawnflags2",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -5110,7 +5110,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_empnuke:target",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -5153,7 +5153,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_flares:angle",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -5196,7 +5196,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_flares:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -5278,7 +5278,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_flares:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -5321,7 +5321,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_flares:spawnflags",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -5365,7 +5365,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_flares:spawnflags2",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -5724,7 +5724,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_ired:angle",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -5768,7 +5768,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_ired:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -5887,7 +5887,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_ired:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -5934,7 +5934,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_ired:spawnflags",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -5979,7 +5979,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_ired:spawnflags2",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -6020,7 +6020,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_plasmashield:angle",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -6061,7 +6061,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_plasmashield:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -6129,7 +6129,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_plasmashield:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -6170,7 +6170,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_plasmashield:spawnflags",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -6212,7 +6212,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_plasmashield:spawnflags2",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -6253,7 +6253,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:ammo_plasmashield:target",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -7742,7 +7742,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:func_barrier:angle",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -7767,7 +7767,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:func_barrier:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -7792,7 +7792,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:func_barrier:maxs",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -7817,7 +7817,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:func_barrier:mins",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -7842,7 +7842,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:func_barrier:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -7867,7 +7867,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:func_barrier:spawnflags",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -7892,7 +7892,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:func_barrier:targetname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -19547,7 +19547,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:item_visor:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -19589,7 +19589,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:item_visor:mirrorlevelsave",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -19660,7 +19660,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:item_visor:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -19703,7 +19703,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:item_visor:spawnflags",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -19746,7 +19746,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:item_visor:spawnflags2",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -20022,7 +20022,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:key_energy:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -20049,7 +20049,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:key_energy:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -20076,7 +20076,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:key_energy:spawnflags",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -20102,7 +20102,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:key_energy:spawnflags2",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -20128,7 +20128,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:key_energy:target",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -20154,7 +20154,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:key_energy:targetname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -20179,7 +20179,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:key_landing_area:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -20204,7 +20204,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:key_landing_area:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -20229,7 +20229,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:key_landing_area:target",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -20255,7 +20255,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:key_lava:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -20282,7 +20282,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:key_lava:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -20309,7 +20309,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:key_lava:spawnflags",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -20335,7 +20335,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:key_lava:spawnflags2",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -20361,7 +20361,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:key_lava:target",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -20387,7 +20387,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:key_lava:targetname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -20807,7 +20807,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:key_slime:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -20834,7 +20834,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:key_slime:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -20861,7 +20861,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:key_slime:spawnflags",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -20887,7 +20887,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:key_slime:spawnflags2",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -20913,7 +20913,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:key_slime:target",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -20939,7 +20939,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:key_slime:targetname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -28690,7 +28690,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:misc_commdish:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -28715,7 +28715,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:misc_commdish:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -28740,7 +28740,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:misc_commdish:spawnflags2",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -28765,7 +28765,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:misc_commdish:targetname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -28791,7 +28791,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:misc_crate:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -28818,7 +28818,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:misc_crate:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -28844,7 +28844,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:misc_crate:spawnflags",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -28870,7 +28870,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:misc_crate_medium:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -28897,7 +28897,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:misc_crate_medium:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -28923,7 +28923,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:misc_crate_medium:spawnflags",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -29547,7 +29547,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:misc_ired:angle",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -29572,7 +29572,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:misc_ired:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -29598,7 +29598,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:misc_ired:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -29623,7 +29623,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:misc_ired:spawnflags",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -29648,7 +29648,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:misc_seat:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -29673,7 +29673,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:misc_seat:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -29698,7 +29698,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:misc_seat:spawnflags",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -29779,7 +29779,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:misc_securitycamera:angle",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -29821,7 +29821,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:misc_securitycamera:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -29946,7 +29946,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:misc_securitycamera:mangle",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -30092,7 +30092,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:misc_securitycamera:message",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -30246,7 +30246,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:misc_securitycamera:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -30288,7 +30288,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:misc_securitycamera:spawnflags",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -30330,7 +30330,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:misc_securitycamera:spawnflags2",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -31284,7 +31284,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_autocannon:angle",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -31314,7 +31314,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_autocannon:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -31344,7 +31344,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_autocannon:health",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -31377,7 +31377,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_autocannon:lip",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -31418,7 +31418,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_autocannon:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -31451,7 +31451,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_autocannon:spawnflags",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -31481,7 +31481,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_autocannon:spawnflags2",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -31514,7 +31514,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_autocannon:style",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -31546,7 +31546,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_autocannon:targetname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -31572,7 +31572,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_autocannon_floor:angle",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -31597,7 +31597,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_autocannon_floor:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -31623,7 +31623,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_autocannon_floor:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -31648,7 +31648,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_autocannon_floor:style",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -34782,7 +34782,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_handler:angle",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -34810,7 +34810,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_handler:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -34838,7 +34838,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_handler:mteam",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -34872,7 +34872,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_handler:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -34905,7 +34905,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_handler:spawnflags",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -34933,7 +34933,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_handler:spawnflags2",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -34970,7 +34970,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_hound:angle",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -34998,7 +34998,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_hound:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -35030,7 +35030,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_hound:mteam",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -35077,7 +35077,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_hound:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -35116,7 +35116,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_hound:spawnflags",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -35145,7 +35145,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_hound:spawnflags2",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -35176,7 +35176,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_hound:targetname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -36218,7 +36218,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_sentien:angle",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -36250,7 +36250,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_sentien:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -36286,7 +36286,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_sentien:combattarget",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -36318,7 +36318,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_sentien:deathtarget",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -36351,7 +36351,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_sentien:item",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -36383,7 +36383,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_sentien:killtarget",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -36420,7 +36420,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_sentien:mteam",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -36482,7 +36482,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_sentien:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -36527,7 +36527,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_sentien:spawnflags",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -36560,7 +36560,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_sentien:spawnflags2",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -36599,7 +36599,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_sentien:target",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -36641,7 +36641,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_sentien:targetname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -39185,7 +39185,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_zboss:angle",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -39210,7 +39210,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_zboss:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -39235,7 +39235,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_zboss:deathtarget",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -39260,7 +39260,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_zboss:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -39285,7 +39285,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_zboss:target",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -39310,7 +39310,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:monster_zboss:targetname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -47713,7 +47713,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:target_zboss_target:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -47742,7 +47742,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:target_zboss_target:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -47767,7 +47767,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:target_zboss_target:target",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -47796,7 +47796,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:target_zboss_target:targetname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -51830,7 +51830,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:weapon_flaregun:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -51894,7 +51894,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:weapon_flaregun:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -51936,7 +51936,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:weapon_flaregun:spawnflags",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -51979,7 +51979,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:weapon_flaregun:spawnflags2",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -52021,7 +52021,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:weapon_flaregun:target",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -52063,7 +52063,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:weapon_flaregun:team",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -53993,7 +53993,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:weapon_sniperrifle:angle",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -54033,7 +54033,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:weapon_sniperrifle:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -54089,7 +54089,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:weapon_sniperrifle:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -54129,7 +54129,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:weapon_sniperrifle:spawnflags",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -54169,7 +54169,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:weapon_sniperrifle:spawnflags2",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -54212,7 +54212,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:weapon_soniccannon:angle",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -54255,7 +54255,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:weapon_soniccannon:classname",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -54318,7 +54318,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:weapon_soniccannon:origin",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -54362,7 +54362,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:weapon_soniccannon:spawnflags",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -54405,7 +54405,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:key:weapon_soniccannon:spawnflags2",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease"
+      "spawn_status": "requires-zaereo-compatibility"
     },
     {
       "classifier": "Zaero map identity/classname dispatch (D-018)",
@@ -55159,7 +55159,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:ammo_a2k:spawnflags2:0",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "0"
     },
     {
@@ -55199,7 +55199,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:ammo_a2k:spawnflags2:1",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "1"
     },
     {
@@ -55239,7 +55239,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:ammo_a2k:spawnflags:1792",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "1792"
     },
     {
@@ -55743,7 +55743,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:ammo_empnuke:spawnflags2:0",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "0"
     },
     {
@@ -55785,7 +55785,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:ammo_empnuke:spawnflags2:1",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "1"
     },
     {
@@ -55827,7 +55827,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:ammo_empnuke:spawnflags:1792",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "1792"
     },
     {
@@ -55869,7 +55869,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:ammo_empnuke:spawnflags:2048",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2048"
     },
     {
@@ -55910,7 +55910,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:ammo_flares:spawnflags2:0",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "0"
     },
     {
@@ -55951,7 +55951,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:ammo_flares:spawnflags2:1",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "1"
     },
     {
@@ -55992,7 +55992,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:ammo_flares:spawnflags:1792",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "1792"
     },
     {
@@ -56198,7 +56198,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:ammo_ired:spawnflags2:0",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "0"
     },
     {
@@ -56240,7 +56240,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:ammo_ired:spawnflags2:1",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "1"
     },
     {
@@ -56282,7 +56282,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:ammo_ired:spawnflags:1024",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "1024"
     },
     {
@@ -56324,7 +56324,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:ammo_ired:spawnflags:1792",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "1792"
     },
     {
@@ -56366,7 +56366,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:ammo_ired:spawnflags:3072",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "3072"
     },
     {
@@ -56408,7 +56408,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:ammo_ired:spawnflags:4",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "4"
     },
     {
@@ -56447,7 +56447,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:ammo_plasmashield:spawnflags2:0",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "0"
     },
     {
@@ -56486,7 +56486,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:ammo_plasmashield:spawnflags2:1",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "1"
     },
     {
@@ -56525,7 +56525,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:ammo_plasmashield:spawnflags:1792",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "1792"
     },
     {
@@ -57339,7 +57339,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:func_barrier:spawnflags:2048",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2048"
     },
     {
@@ -63045,7 +63045,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:item_visor:spawnflags2:0",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "0"
     },
     {
@@ -63085,7 +63085,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:item_visor:spawnflags2:1",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "1"
     },
     {
@@ -63125,7 +63125,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:item_visor:spawnflags:1792",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "1792"
     },
     {
@@ -63165,7 +63165,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:item_visor:spawnflags:2048",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2048"
     },
     {
@@ -63281,7 +63281,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:key_energy:spawnflags2:0",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "0"
     },
     {
@@ -63305,7 +63305,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:key_energy:spawnflags:2048",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2048"
     },
     {
@@ -63329,7 +63329,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:key_energy:spawnflags:2051",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2051"
     },
     {
@@ -63353,7 +63353,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:key_lava:spawnflags2:0",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "0"
     },
     {
@@ -63377,7 +63377,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:key_lava:spawnflags:2048",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2048"
     },
     {
@@ -63401,7 +63401,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:key_lava:spawnflags:2051",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2051"
     },
     {
@@ -63569,7 +63569,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:key_slime:spawnflags2:0",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "0"
     },
     {
@@ -63593,7 +63593,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:key_slime:spawnflags:2048",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2048"
     },
     {
@@ -63617,7 +63617,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:key_slime:spawnflags:2051",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2051"
     },
     {
@@ -63790,7 +63790,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:misc_commdish:spawnflags2:0",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "0"
     },
     {
@@ -63814,7 +63814,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:misc_crate:spawnflags:2048",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2048"
     },
     {
@@ -63838,7 +63838,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:misc_crate_medium:spawnflags:2048",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2048"
     },
     {
@@ -64119,7 +64119,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:misc_ired:spawnflags:2049",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2049"
     },
     {
@@ -64142,7 +64142,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:misc_seat:spawnflags:2048",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2048"
     },
     {
@@ -64182,7 +64182,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:misc_securitycamera:spawnflags2:0",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "0"
     },
     {
@@ -64222,7 +64222,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:misc_securitycamera:spawnflags:1792",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "1792"
     },
     {
@@ -64460,7 +64460,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_autocannon:spawnflags2:0",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "0"
     },
     {
@@ -64488,7 +64488,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_autocannon:spawnflags:2048",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2048"
     },
     {
@@ -64516,7 +64516,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_autocannon:spawnflags:2052",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2052"
     },
     {
@@ -64544,7 +64544,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_autocannon:spawnflags:2304",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2304"
     },
     {
@@ -64572,7 +64572,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_autocannon:spawnflags:3584",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "3584"
     },
     {
@@ -67359,7 +67359,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_handler:spawnflags2:0",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "0"
     },
     {
@@ -67385,7 +67385,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_handler:spawnflags:12",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "12"
     },
     {
@@ -67411,7 +67411,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_handler:spawnflags:2053",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2053"
     },
     {
@@ -67437,7 +67437,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_handler:spawnflags:2821",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2821"
     },
     {
@@ -67463,7 +67463,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_handler:spawnflags:5",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "5"
     },
     {
@@ -67489,7 +67489,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_handler:spawnflags:772",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "772"
     },
     {
@@ -67515,7 +67515,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_handler:spawnflags:8",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "8"
     },
     {
@@ -67541,7 +67541,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_hound:spawnflags2:0",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "0"
     },
     {
@@ -67567,7 +67567,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_hound:spawnflags2:1",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "1"
     },
     {
@@ -67593,7 +67593,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_hound:spawnflags:1",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "1"
     },
     {
@@ -67619,7 +67619,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_hound:spawnflags:2053",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2053"
     },
     {
@@ -67645,7 +67645,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_hound:spawnflags:2063",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2063"
     },
     {
@@ -67671,7 +67671,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_hound:spawnflags:2319",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2319"
     },
     {
@@ -67697,7 +67697,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_hound:spawnflags:259",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "259"
     },
     {
@@ -67723,7 +67723,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_hound:spawnflags:2821",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2821"
     },
     {
@@ -67749,7 +67749,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_hound:spawnflags:2831",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2831"
     },
     {
@@ -67775,7 +67775,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_hound:spawnflags:3",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "3"
     },
     {
@@ -67801,7 +67801,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_hound:spawnflags:5",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "5"
     },
     {
@@ -67827,7 +67827,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_hound:spawnflags:771",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "771"
     },
     {
@@ -67853,7 +67853,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_hound:spawnflags:773",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "773"
     },
     {
@@ -67879,7 +67879,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_hound:spawnflags:779",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "779"
     },
     {
@@ -69059,7 +69059,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_sentien:spawnflags2:0",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "0"
     },
     {
@@ -69089,7 +69089,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_sentien:spawnflags2:1",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "1"
     },
     {
@@ -69119,7 +69119,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_sentien:spawnflags:1",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "1"
     },
     {
@@ -69149,7 +69149,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_sentien:spawnflags:18",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "18"
     },
     {
@@ -69179,7 +69179,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_sentien:spawnflags:2",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2"
     },
     {
@@ -69209,7 +69209,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_sentien:spawnflags:2309",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2309"
     },
     {
@@ -69239,7 +69239,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_sentien:spawnflags:2311",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2311"
     },
     {
@@ -69269,7 +69269,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_sentien:spawnflags:257",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "257"
     },
     {
@@ -69299,7 +69299,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_sentien:spawnflags:258",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "258"
     },
     {
@@ -69329,7 +69329,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_sentien:spawnflags:259",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "259"
     },
     {
@@ -69359,7 +69359,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_sentien:spawnflags:261",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "261"
     },
     {
@@ -69389,7 +69389,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_sentien:spawnflags:263",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "263"
     },
     {
@@ -69419,7 +69419,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_sentien:spawnflags:3",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "3"
     },
     {
@@ -69449,7 +69449,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_sentien:spawnflags:7",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "7"
     },
     {
@@ -69479,7 +69479,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_sentien:spawnflags:770",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "770"
     },
     {
@@ -69509,7 +69509,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:monster_sentien:spawnflags:771",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "771"
     },
     {
@@ -75591,7 +75591,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:weapon_flaregun:spawnflags2:0",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "0"
     },
     {
@@ -75631,7 +75631,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:weapon_flaregun:spawnflags2:1",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "1"
     },
     {
@@ -75671,7 +75671,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:weapon_flaregun:spawnflags:1792",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "1792"
     },
     {
@@ -76652,7 +76652,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:weapon_sniperrifle:spawnflags2:0",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "0"
     },
     {
@@ -76690,7 +76690,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:weapon_sniperrifle:spawnflags:1792",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "1792"
     },
     {
@@ -76731,7 +76731,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:weapon_soniccannon:spawnflags2:0",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "0"
     },
     {
@@ -76772,7 +76772,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:weapon_soniccannon:spawnflags:1792",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "1792"
     },
     {
@@ -76813,7 +76813,7 @@
       "proof": "tests/compatibility/test_spawn_save_contract.py",
       "record_id": "bsp:spawnflag:weapon_soniccannon:spawnflags:2048",
       "save_lifecycle_surface": "native unless the linked entity contract declares saved Zaero state",
-      "spawn_status": "registered-in-current-rerelease",
+      "spawn_status": "requires-zaereo-compatibility",
       "value": "2048"
     },
     {

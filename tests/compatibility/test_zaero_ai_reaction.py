@@ -95,7 +95,7 @@ class ZaeroAIReactionContractTests(unittest.TestCase):
         )
         self.assertIn('"monster_autocannon"', autocannon)
         scope = function_body(COMBAT, "static bool Zaero_UsesDamageReaction")
-        self.assertIn("level.is_zaero", scope)
+        self.assertIn("level.zaero_mapper_contract", scope)
         self.assertIn("autocannon", scope)
         self.assertIn("targ && targ->mteam", scope)
         spray = function_body(

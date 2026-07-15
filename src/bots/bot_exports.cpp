@@ -10,7 +10,10 @@ Bot_SetWeapon
 ================
 */
 void Bot_SetWeapon( edict_t * bot, const int weaponIndex, const bool instantSwitch ) {
-	if ( weaponIndex <= IT_NULL || weaponIndex > IT_TOTAL ) {
+	// Zaero appends item IDs. The external bot bridge can therefore receive the
+	// new one-past-the-end IT_TOTAL sentinel; never index either inventory or
+	// itemlist with it.
+	if ( weaponIndex <= IT_NULL || weaponIndex >= IT_TOTAL ) {
 		return;
 	}
 
@@ -95,6 +98,12 @@ void Bot_UseItem( edict_t * bot, const int32_t itemID ) {
 	}
 
 	if ( ( bot->svflags & SVF_BOT ) == 0 ) {
+		return;
+	}
+	// Bot_UseItem is an external entry point. Reject the null and terminal
+	// sentinels before converting to item_id_t and calling ValidateSelectedItem,
+	// which indexes the inventory directly.
+	if ( itemID <= IT_NULL || itemID >= IT_TOTAL ) {
 		return;
 	}
 

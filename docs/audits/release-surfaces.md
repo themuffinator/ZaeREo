@@ -40,5 +40,6 @@ D-015 separately records the retained live Release smoke that closes Q-039/SYS-0
 ## Runtime evidence boundary
 
 Produced Release DLL/package validation remains local generated evidence.
-D-015 separately links the retained windowed Release DLL-load/map-spawn/
-client-entry/shutdown report. This static gate does not embed that live proof.
+D-015 separately links the retained legacy-v1 one-stage windowed Release
+DLL-load/map-spawn/client-entry/shutdown report. It must be rerun under D-046
+before it can satisfy a current runtime gate; this static gate embeds no live proof.

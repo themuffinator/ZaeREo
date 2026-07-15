@@ -86,17 +86,18 @@ begin.
   any-member suppression, wrapping successive starts, four 15-degree radial
   sweeps, Bounce/native item lifecycle, partial-success count, and stock-map
   mapper isolation. The normalized audit proves all 20 supplied maps already
-  suppress injection and locks 230 authored starts. Private always-windowed
-  `q2dm1` runs prove live counts 8, 8, disabled, disabled for `zdmflags` 0–3;
-  a `zdm1` control proves existing-item suppression. A `_DEBUG`-only structured
+  suppress injection and locks 230 authored starts. Private legacy-v1 one-stage
+  `q2dm1` reports record counts 8, 8, disabled, disabled for `zdmflags` 0–3;
+  a `zdm1` control records existing-item suppression. A `_DEBUG`-only structured
   probe additionally records all eight exact classnames, successive starts,
   first attempts, 128/16-unit offsets, final origins, and native live item
-  state. A deterministic private fixture derived locally from `q2dm1` now
-  proves alternating collision-brush failures retain exactly four successes at
+  state. A deterministic private fixture derived locally from `q2dm1`
+  records alternating collision-brush failures retaining exactly four successes at
   historical set indices 0/2/4/6 and wrapped start ordinals 1/6/11/16. Eight
-  additional private controls prove that every one historical classname alone
-  suppresses the entire pass. Pickup, save, dedicated, and multiplayer evidence
-  remain.
+  additional private controls record that every one historical classname alone
+  suppresses the entire pass. These reports predate the v2 window-before-mod/map
+  protocol and must be rerun before they count as current runtime evidence.
+  Pickup, save, dedicated, and multiplayer evidence remain.
 - The bounded runtime wrapper now accepts deathmatch plus validated `zdmflags`
   0–3 and records mode and the observed legacy addition count in strict private
   evidence while retaining `-window` as the first argument and a mandatory
@@ -106,16 +107,20 @@ begin.
   popup/non-windowed observation. The report distinguishes this safety abort
   from an ordinary timeout while older schema-v1 reports remain valid.
 - A private-fixture generator and path-scoped installer overlay provide
-  deterministic live collision evidence without tracking or publishing a
-  derived BSP. Reinstalling normally removes the fixture and reproduces the
-  ordinary 947-entry managed PAK byte for byte.
+  deterministic historical collision-observation fixtures without tracking or
+  publishing a derived BSP. Their legacy-v1 reports require D-046 reruns before
+  current runtime use. Reinstalling normally removes the fixture and reproduces
+  the ordinary 947-entry managed PAK byte for byte.
 - D-015 policy revision 2 explicitly denies both structured DM-probe signatures
   from Release; the produced Release DLL passes the expanded 11-string scan.
-- D-015's retained Release runtime gate now passes: the audited Release DLL
-  loads, initializes, spawns `zbase1`, reaches the native client-begin marker,
-  and shuts down in a schema-valid captioned/non-popup windowed session with no
-  safety abort, timeout, fatal output, dump, or residual process. The harness
-  accepts both native `entered the game` and Release `Begin() from` log forms.
+- D-015 retains a historical legacy-v1 one-stage Release report: the audited
+  Release DLL loaded, initialized, spawned `zbase1`, reached the native
+  client-begin marker, and shut down in a captioned/non-popup windowed session
+  with no recorded safety abort, timeout, fatal output, dump, or residual
+  process. It supplied the mod/map before the v2 window verification and must
+  be rerun before it can satisfy a current launch-safety or Release runtime
+  gate. The harness accepts both native `entered the game` and Release
+  `Begin() from` log forms.
 
 ### Known limitations
 

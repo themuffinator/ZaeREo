@@ -7,7 +7,7 @@ A covered record has review routing, not a completed gameplay claim.
 
 | Measure | Count |
 | --- | ---: |
-| Input SHA-256 | `b671e2431d4c4497a4d820b73d20482ec77eb1fccd15b3835e9c2bc34e3b1419` |
+| Input SHA-256 | `ec487f0e73c55b476d145adf4fd74bb4a829759de77840d81d45006332a4c802` |
 | Records | 948 |
 | Uncovered | 0 |
 | Complete | `true` |

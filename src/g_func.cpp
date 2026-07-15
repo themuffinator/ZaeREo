@@ -84,7 +84,7 @@ void G_SetMoveinfoSounds(edict_t *self, const char *default_start, const char *d
 THINK(Move_Done) (edict_t *ent) -> void
 {
 	ent->velocity = {};
-	if (level.is_zaero)
+	if (level.zaero_mapper_contract)
 		ent->avelocity = {};
 	ent->moveinfo.endfunc(ent);
 }
@@ -122,7 +122,7 @@ THINK(Move_Begin) (edict_t *ent) -> void
 	// Zaero lets trains rotate while following an ordinary linear segment.
 	// Its aspeed is angular units per second; physics still integrates it at
 	// the native 40 Hz tick.
-	if (level.is_zaero)
+	if (level.zaero_mapper_contract)
 		ent->avelocity = ent->movedir * ent->aspeed;
 }
 
@@ -160,7 +160,7 @@ void Move_Calc(edict_t *ent, const vec3_t &dest, void(*endfunc)(edict_t *self))
 	{
 		// The Zaero smooth-corner extension carries this value into a later
 		// segment, even when the current segment itself is not smooth.
-		if (level.is_zaero)
+		if (level.zaero_mapper_contract)
 			ent->moveinfo.current_speed = ent->moveinfo.speed;
 		Move_Regular(ent, dest, endfunc);
 	}
@@ -632,7 +632,7 @@ USE(Use_Plat) (edict_t *ent, edict_t *other, edict_t *activator) -> void
 	//======
 	// ROGUE
 	// if a monster is using us, then allow the activity when stopped.
-	const bool native_no_monster = !level.is_zaero && ent->spawnflags.has(SPAWNFLAG_PLAT_NO_MONSTER);
+	const bool native_no_monster = !level.zaero_mapper_contract && ent->spawnflags.has(SPAWNFLAG_PLAT_NO_MONSTER);
 	if ((other->svflags & SVF_MONSTER) && !native_no_monster)
 	{
 		if (ent->moveinfo.state == STATE_TOP)
@@ -661,7 +661,7 @@ TOUCH(Touch_Plat_Center) (edict_t *ent, edict_t *other, const trace_t &tr, bool 
 	ent = ent->enemy; // now point at the plat, not the trigger
 	if (ent->moveinfo.state == STATE_BOTTOM)
 	{
-		if (level.is_zaero && ent->spawnflags.has(SPAWNFLAG_PLAT_ZAERO_LOW_TRIGGER_2) &&
+		if (level.zaero_mapper_contract && ent->spawnflags.has(SPAWNFLAG_PLAT_ZAERO_LOW_TRIGGER_2) &&
 			other->s.origin[2] + other->mins[2] > ent->moveinfo.end_origin[2] + ent->maxs[2] + 8.0f)
 			return;
 
@@ -981,7 +981,7 @@ MOVEINFO_BLOCKED(rotating_blocked) (edict_t *self, edict_t *other) -> void
 
 TOUCH(rotating_touch) (edict_t *self, edict_t *other, const trace_t &tr, bool other_touching_self) -> void
 {
-	const bool is_rotating = level.is_zaero
+	const bool is_rotating = level.zaero_mapper_contract
 		? self->zaero_rotating_state != zaero_rotating_state_t::stopped
 		: (self->avelocity[0] || self->avelocity[1] || self->avelocity[2]);
 	if (is_rotating)
@@ -990,7 +990,7 @@ TOUCH(rotating_touch) (edict_t *self, edict_t *other, const trace_t &tr, bool ot
 
 USE(rotating_use) (edict_t *self, edict_t *other, edict_t *activator) -> void
 {
-	if (level.is_zaero)
+	if (level.zaero_mapper_contract)
 	{
 		zaero_rotating_use(self);
 		return;
@@ -1087,7 +1087,7 @@ void SP_func_rotating(edict_t *ent)
 		ent->s.effects |= EF_ANIM_ALLFAST;
 
 	// PGM
-	if (!level.is_zaero && ent->spawnflags.has(SPAWNFLAG_ROTATING_ACCEL)) // Accelerate / Decelerate
+	if (!level.zaero_mapper_contract && ent->spawnflags.has(SPAWNFLAG_ROTATING_ACCEL)) // Accelerate / Decelerate
 	{
 		if (!ent->accel)
 			ent->accel = 1;
@@ -1103,7 +1103,7 @@ void SP_func_rotating(edict_t *ent)
 
 	gi.setmodel(ent, ent->model);
 
-	if (level.is_zaero)
+	if (level.zaero_mapper_contract)
 	{
 		// The original DLL reset these after START_ON. Preserve that shipped
 		// state quirk until the Q-021 retail/map decision is resolved.
@@ -1671,7 +1671,7 @@ void door_openclose(edict_t *self, edict_t *other, edict_t *activator)
 
 USE(door_use) (edict_t *self, edict_t *other, edict_t *activator) -> void
 {
-	if (level.is_zaero && (self->active & ZAERO_DOOR_ACTIVE_TOGGLE))
+	if (level.zaero_mapper_contract && (self->active & ZAERO_DOOR_ACTIVE_TOGGLE))
 	{
 		// Eligibility uses do not move the door.  Each team member keeps its
 		// own bit-2 state.  This intentionally precedes the Rerelease team-slave
@@ -1716,7 +1716,7 @@ TOUCH(Touch_DoorTrigger) (edict_t *self, edict_t *other, const trace_t &tr, bool
 	if (level.time < self->touch_debounce_time)
 		return;
 
-	if (level.is_zaero &&
+	if (level.zaero_mapper_contract &&
 		(self->owner->active & ZAERO_DOOR_ACTIVE_TOGGLE) &&
 		!(self->owner->active & ZAERO_DOOR_ACTIVE_ON))
 		return;
@@ -1988,7 +1988,7 @@ void SP_func_door(edict_t *ent)
 
 	ent->nextthink = level.time + FRAME_TIME_S;
 
-	if (level.is_zaero)
+	if (level.zaero_mapper_contract)
 	{
 		// Only bit-1 doors retain an active state.  Those doors always need an
 		// automatic trigger: bit 2 then decides whether that trigger currently
@@ -2113,7 +2113,7 @@ void SP_func_door_rotating(edict_t *ent)
 
 	if (!ent->wait)
 		ent->wait = 3;
-	if (!ent->dmg && !level.is_zaero)
+	if (!ent->dmg && !level.zaero_mapper_contract)
 		ent->dmg = 2;
 
 	if (ent->sounds != 1)
@@ -2328,7 +2328,7 @@ constexpr spawnflags_t SPAWNFLAG_PATH_CORNER_ZAERO_CUSTOM_SMOOTH = 4_spawnflag;
 
 static vec3_t train_destination(edict_t *self, edict_t *corner, bool allow_zaero_viper_origin)
 {
-	if (level.is_zaero)
+	if (level.zaero_mapper_contract)
 	{
 		// Zaero's train_next alone gives misc_viper a raw path origin.  Initial
 		// placement, teleport corners, and train_resume retain origin-minus-mins.
@@ -2396,7 +2396,7 @@ static void zaero_train_move_calc(edict_t *ent, const vec3_t &dest,
 	const bool smooth =
 		corner_flags.has(SPAWNFLAG_PATH_CORNER_ZAERO_AUTO_SMOOTH) ||
 		corner_flags.has(SPAWNFLAG_PATH_CORNER_ZAERO_CUSTOM_SMOOTH);
-	if (!level.is_zaero || !smooth)
+	if (!level.zaero_mapper_contract || !smooth)
 	{
 		Move_Calc(ent, dest, endfunc);
 		return;
@@ -2566,7 +2566,7 @@ again:
 		self->s.origin = train_destination(self, ent, false);
 
 		self->s.old_origin = self->s.origin;
-		if (!level.is_zaero)
+		if (!level.zaero_mapper_contract)
 			self->s.event = EV_OTHER_TELEPORT;
 		gi.linkentity(self);
 		goto again;
@@ -2584,7 +2584,7 @@ again:
 			self->moveinfo.decel = ent->decel;
 		else
 			self->moveinfo.decel = ent->speed;
-		if (!level.is_zaero)
+		if (!level.zaero_mapper_contract)
 		{
 			self->speed = ent->speed;
 			self->moveinfo.current_speed = 0;
@@ -2612,7 +2612,7 @@ again:
 	self->spawnflags |= SPAWNFLAG_TRAIN_START_ON;
 
 	// PGM
-	if (!level.is_zaero && self->spawnflags.has(SPAWNFLAG_TRAIN_MOVE_TEAMCHAIN))
+	if (!level.zaero_mapper_contract && self->spawnflags.has(SPAWNFLAG_TRAIN_MOVE_TEAMCHAIN))
 	{
 		edict_t *e;
 		vec3_t	 dir, dst;
@@ -2751,7 +2751,7 @@ void SP_func_train(edict_t *self)
 	self->moveinfo.speed = self->speed;
 	self->moveinfo.accel = self->moveinfo.decel = self->moveinfo.speed;
 
-	if (level.is_zaero)
+	if (level.zaero_mapper_contract)
 	{
 		self->movedir = {};
 		if (self->spawnflags.has(SPAWNFLAG_TRAIN_ZAERO_X_AXIS))
@@ -2861,7 +2861,7 @@ constexpr size_t ZAERO_TIMER_MAX_TARGETS = 16;
 
 static bool func_timer_parse_zaero_targets(edict_t *self)
 {
-	if (!level.is_zaero || !self->target || !strchr(self->target, ';'))
+	if (!level.zaero_mapper_contract || !self->target || !strchr(self->target, ';'))
 		return true;
 
 	std::array<std::string_view, ZAERO_TIMER_MAX_TARGETS> parsed_targets;

@@ -54,7 +54,7 @@ separate roadmap gates.
 
 `docs/provenance/baselines.json` describes the untouched supplied reference,
 not the evolving `src/` directory. The current mechanical comparison finds 110
-unchanged paths, 33 modified paths, 34 added Zaero-owned paths, and one removed
+unchanged paths, 34 modified paths, 34 added Zaero-owned paths, and one removed
 in-tree `vcpkg.json` (replaced by the pinned root manifest). This is already an
 early gameplay integration; it is not the minimal Phase-1 substrate diff. The
 reproducible current comparison and all 68 classified differences are retained in

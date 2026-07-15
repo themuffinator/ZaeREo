@@ -1024,7 +1024,7 @@ THINK(monster_think) (edict_t *self) -> void
 	// Zaero performs its source-authoritative dodge trace when a client fires
 	// Rocket, BFG or Flare. Keep the native proximity scanner for every other
 	// game mode, but do not let it re-enable Blaster/grenade dodges on Zaero maps.
-	if (!level.is_zaero && self->health > 0 && self->monsterinfo.dodge &&
+	if (!level.zaero_mapper_contract && self->health > 0 && self->monsterinfo.dodge &&
 		!(globals.server_flags & SERVER_FLAG_LOADING))
 		M_CheckDodge(self);
 
@@ -1079,7 +1079,7 @@ THINK(monster_triggered_spawn) (edict_t *self) -> void
 	self->air_finished = level.time + 12_sec;
 	gi.linkentity(self);
 
-	if (level.is_zaero)
+	if (level.zaero_mapper_contract)
 		Zaero_MonsterKillBox(self);
 	else
 		KillBox(self, false);
@@ -1262,7 +1262,7 @@ bool monster_start(edict_t *self)
 		return false;
 	}
 
-	if (level.is_zaero && self->spawnflags.has(SPAWNFLAG_ZAERO_MONSTER_NO_COUNT))
+	if (level.zaero_mapper_contract && self->spawnflags.has(SPAWNFLAG_ZAERO_MONSTER_NO_COUNT))
 		self->monsterinfo.aiflags |= AI_DO_NOT_COUNT;
 
 	if (self->spawnflags.has(SPAWNFLAG_MONSTER_SCENIC))

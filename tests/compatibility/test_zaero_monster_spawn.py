@@ -27,7 +27,7 @@ class ZaeroMonsterAccountingTests(unittest.TestCase):
 
         start = MONSTER.index("bool monster_start(edict_t *self)")
         body = MONSTER[start : MONSTER.index("void monster_start_go", start)]
-        self.assertIn("level.is_zaero", body)
+        self.assertIn("level.zaero_mapper_contract", body)
         self.assertIn("SPAWNFLAG_ZAERO_MONSTER_NO_COUNT", body)
         self.assertIn("AI_DO_NOT_COUNT", body)
         self.assertLess(
@@ -65,7 +65,7 @@ class ZaeroMonsterKillBoxTests(unittest.TestCase):
 
     def test_native_policy_is_isolated_and_both_spawn_paths_use_helper(self) -> None:
         self.assertIn(
-            "if (!level.is_zaero || !(ent->svflags & SVF_MONSTER))", UTILS
+            "if (!level.zaero_mapper_contract || !(ent->svflags & SVF_MONSTER))", UTILS
         )
         self.assertIn("return KillBox(ent, false)", UTILS)
 
@@ -73,7 +73,7 @@ class ZaeroMonsterKillBoxTests(unittest.TestCase):
             MONSTER.index("THINK(monster_triggered_spawn)") :
             MONSTER.index("USE(monster_triggered_spawn_use)")
         ]
-        self.assertIn("if (level.is_zaero)", triggered)
+        self.assertIn("if (level.zaero_mapper_contract)", triggered)
         self.assertIn("Zaero_MonsterKillBox(self)", triggered)
         self.assertIn("KillBox(self, false)", triggered)
 
@@ -81,7 +81,7 @@ class ZaeroMonsterKillBoxTests(unittest.TestCase):
             TARGET.index("USE(use_target_spawner)") :
             TARGET.index("void SP_target_spawner")
         ]
-        self.assertIn("level.is_zaero && (ent->svflags & SVF_MONSTER)", spawner)
+        self.assertIn("level.zaero_mapper_contract && (ent->svflags & SVF_MONSTER)", spawner)
         self.assertIn("Zaero_MonsterKillBox(ent)", spawner)
         self.assertIn("KillBox(ent, false)", spawner)
 

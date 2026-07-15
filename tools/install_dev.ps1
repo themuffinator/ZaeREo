@@ -124,8 +124,16 @@ function Assert-NoTreeCollisions {
         }
         $relative = [IO.Path]::GetRelativePath($second, $file.FullName)
         $candidate = Get-SafeRelativePath $relative $first
-        if (Test-Path -LiteralPath $candidate -PathType Leaf) {
+        if (Test-Path -LiteralPath $candidate) {
             throw "$Description has an ownership collision at $relative"
+        }
+        $parentRelative = Split-Path -Parent $relative
+        while ($parentRelative) {
+            $parent = Get-SafeRelativePath $parentRelative $first
+            if (Test-Path -LiteralPath $parent -PathType Leaf) {
+                throw "$Description has a file/directory ownership collision at $parentRelative"
+            }
+            $parentRelative = Split-Path -Parent $parentRelative
         }
     }
 }
@@ -345,6 +353,11 @@ if ($PSCmdlet.ShouldProcess($workRoot, "Recreate owned developer work directory"
         Copy-TreeFiles $runtimeFixturePath $fixtureWork
     }
     Assert-NoTreeCollisions $projectWork $importWork "Project/import runtime content"
+    Invoke-PythonTool $python $validateTool @(
+        "--root", $importWork,
+        "--manifest", $manifestPath,
+        "--strict"
+    )
     if ($runtimeFixturePath) {
         Assert-NoTreeCollisions $projectWork $fixtureWork "Project/runtime fixture content"
         Assert-NoTreeCollisions $importWork $fixtureWork "Import/runtime fixture content"

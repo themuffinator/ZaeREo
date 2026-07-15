@@ -176,7 +176,7 @@ class ZaeroDeathmatchInjectionTests(unittest.TestCase):
         self.assertNotRegex(DM_SOURCE, r"\b(?:THINK|TOUCH|USE|PAIN|DIE)\s*\(")
 
     def test_content_activation_does_not_enable_mapper_semantics(self) -> None:
-        self.assertNotIn("level.is_zaero", DM_SOURCE)
+        self.assertNotIn("level.zaero_content_active", DM_SOURCE)
         team = SPAWN_SOURCE.index("G_FindTeams();")
         injection = SPAWN_SOURCE.index("Zaero_SpawnDeathmatchItems();")
         ctf = SPAWN_SOURCE.index("CTFSpawn();")

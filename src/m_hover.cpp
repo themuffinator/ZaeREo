@@ -75,7 +75,7 @@ MONSTERINFO_DODGE(hover_zaero_dodge) (edict_t *self, edict_t *attacker,
 	(void) tr;
 	(void) gravity;
 
-	if (!level.is_zaero || !self->classname ||
+	if (!level.zaero_mapper_contract || !self->classname ||
 		strcmp(self->classname, "monster_hover") != 0)
 		return;
 
@@ -622,7 +622,7 @@ void SP_monster_hover(edict_t *self)
 	self->monsterinfo.stand = hover_stand;
 	self->monsterinfo.walk = hover_walk;
 	self->monsterinfo.run = hover_run;
-	if (level.is_zaero && strcmp(self->classname, "monster_hover") == 0)
+	if (level.zaero_mapper_contract && strcmp(self->classname, "monster_hover") == 0)
 		self->monsterinfo.dodge = hover_zaero_dodge;
 	self->monsterinfo.attack = hover_start_attack;
 	self->monsterinfo.sight = hover_sight;

@@ -135,7 +135,11 @@ edict_t *Zaero_SpawnFlare(edict_t *self, const vec3_t &start, const vec3_t &dir,
 
 	edict_t *flare = G_Spawn();
 	flare->svflags |= SVF_PROJECTILE;
-	flare->flags |= FL_DODGE;
+	// The native bot bridge publishes FL_TRAP entities as moving danger.  This
+	// is Rerelease-only metadata: it does not alter the supplied Flare physics
+	// or damage path, but prevents bots from treating a Zaero flare as an
+	// unclassified generic edict.
+	flare->flags |= FL_DODGE | FL_TRAP;
 	flare->s.origin = start;
 	flare->s.old_origin = start;
 	flare->movedir = dir;
@@ -240,7 +244,7 @@ void Zaero_PendingWeapon(edict_t *ent, const char *message)
 void Zaero_CheckProjectileDodge(edict_t *self, const vec3_t &start,
 	const vec3_t &dir, int speed)
 {
-	if (!level.is_zaero || !self || !self->client || speed <= 0)
+	if (!level.zaero_mapper_contract || !self || !self->client || speed <= 0)
 		return;
 
 	// Easy performs this gate before the source trace, once per authoritative

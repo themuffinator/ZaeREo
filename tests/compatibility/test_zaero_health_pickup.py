@@ -130,7 +130,7 @@ class ZaeroHealthPickupTests(unittest.TestCase):
         )
         explicit = touch.index("if (ent->noise_index)")
         zaero = touch.index(
-            "else if (level.is_zaero && ent->item->pickup == Pickup_Health)",
+            "else if (level.zaero_mapper_contract && ent->item->pickup == Pickup_Health)",
             explicit,
         )
         native = touch.index("else if (ent->item->pickup_sound)", zaero)

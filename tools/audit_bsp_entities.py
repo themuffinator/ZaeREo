@@ -13,6 +13,8 @@ from typing import Any, Iterable, Sequence
 
 from audit_common import (
     AuditError,
+    BSP_HEADER,
+    BSP_LUMP,
     PakArchive,
     PakEntryRecord,
     case_collision_groups,
@@ -234,6 +236,13 @@ def _changelevel_destination(
 
 def _audit_one_map(source: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
     parsed = parse_bsp_entity_lump(source["data"])
+    # `SpawnEntities` receives the entity string, not the resolved BSP bytes.
+    # Record a stable hash of exactly the bytes it can observe (with only the
+    # conventional trailing C-string terminators removed).  This is useful for
+    # conservative runtime identity and save-mismatch diagnostics, but is not
+    # a substitute for the full BSP hash retained in `sha256` below.
+    entity_offset, entity_length = BSP_LUMP.unpack_from(source["data"], BSP_HEADER.size)
+    entity_lump = source["data"][entity_offset : entity_offset + entity_length].rstrip(b"\0")
     classname_counts: Counter[str] = Counter()
     key_counts: Counter[str] = Counter()
     value_counts: dict[str, Counter[str]] = defaultdict(Counter)
@@ -301,6 +310,8 @@ def _audit_one_map(source: dict[str, Any]) -> tuple[dict[str, Any], dict[str, An
         "coop_start_count": coop_starts,
         "deathmatch_start_count": deathmatch_starts,
         "duplicate_keys": duplicate_keys,
+        "entity_lump_sha256": hashlib.sha256(entity_lump).hexdigest(),
+        "entity_lump_size": len(entity_lump),
         "entity_count": len(parsed.entities),
         "key_counts": _ordered_counts(key_counts),
         "map_kind": "campaign" if coop_starts else "deathmatch",

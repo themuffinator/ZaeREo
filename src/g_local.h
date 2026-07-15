@@ -1234,6 +1234,15 @@ constexpr size_t MAX_HEALTH_BARS = 2;
 // this structure is cleared as each map is entered
 // it is read/written to the level.sav file for savegames
 //
+enum class zaero_mapper_contract_reason_t : uint8_t
+{
+	none,
+	shipped_entity_lump,
+	explicit_metadata,
+	signature,
+	explicit_metadata_disabled
+};
+
 struct level_locals_t
 {
 	bool in_frame;
@@ -1284,9 +1293,14 @@ struct level_locals_t
 	
 	int32_t shadow_light_count; // [Sam-KEX]
 	bool is_n64;
-	// True when stock classname behavior must follow Zaero's mapper contract.
-	// Derived at SpawnEntities time; like is_n64, it is not persisted separately.
-	bool is_zaero;
+	// The Zaero DLL can expose its gameplay/content systems on any map. This is
+	// deliberately independent from the narrow, colliding mapper contract.
+	bool zaero_content_active;
+	bool zaero_mapper_contract;
+	zaero_mapper_contract_reason_t zaero_mapper_contract_reason;
+	// SHA-256 of SpawnEntities' entity string. It distinguishes save/load map
+	// inputs but is not a full-BSP hash because the engine does not expose one.
+	std::array<uint8_t, 32> zaero_entity_lump_sha256;
 	gtime_t coop_level_restart_time; // restart the level after this time
 	bool instantitems; // instantitems 1 set in worldspawn
 

@@ -7,9 +7,9 @@
     "tree_sha256": "74b79d4f853fb521a866aaa5b1510c1c46afb63a73370b907b10143146629bf5"
   },
   "current": {
-    "file_count": 177,
-    "total_size": 2965498,
-    "tree_sha256": "2ef6442ae792d76e98b4e9cfc550884bcbdf1ea05155387e9bfbb54ae779a4a1"
+    "file_count": 180,
+    "total_size": 2985940,
+    "tree_sha256": "37bcb12e2e4aca9bb240998c1377f576897e64e2d627676a5847217558f8f9c1"
   },
   "differences": [
     {
@@ -29,6 +29,26 @@
         "docs/compatibility/entity-matrix.md"
       ],
       "path": "bg_local.h",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "path": "bots/bot_exports.cpp",
+        "sha256": "39df37958744c8790240f1e10467a8def8625ac02fa7ff4679c0ea9025d5a83b",
+        "size": 4028
+      },
+      "category": "bot-native-integration",
+      "current": {
+        "path": "bots/bot_exports.cpp",
+        "sha256": "c5baf51f172ac4fa93ad6a565f6ff793fe536884b737b19bad0982acdced7f45",
+        "size": 4463
+      },
+      "evidence": [
+        "docs/compatibility/decisions.md#d-013--bots-and-navigation",
+        "docs/compatibility/feature-matrix.md",
+        "tests/compatibility/test_zaero_bot_integration.py"
+      ],
+      "path": "bots/bot_exports.cpp",
       "status": "modified"
     },
     {
@@ -66,8 +86,8 @@
       "category": "items-weapons-client",
       "current": {
         "path": "g_cmds.cpp",
-        "sha256": "eeb12b7fc433a91001b7384c6ab7a1b1feda5bd8b1a57a6e5fe867a1aa2ecc9f",
-        "size": 40131
+        "sha256": "6557b23497c673078ce204d8b602eaaabb5409e3ee90a5640e4551e36cff2246",
+        "size": 40143
       },
       "evidence": [
         "docs/compatibility/feature-matrix.md",
@@ -97,8 +117,8 @@
       "category": "items-weapons-client",
       "current": {
         "path": "g_combat.cpp",
-        "sha256": "1cc7a0961df671ddf6ba5820d18b2fc9909dcfbb4e7c3939033a8c52ed51aabf",
-        "size": 27189
+        "sha256": "6eaace82d36d1ab93d44cdf154a225d2bd016b62d86847e48dcb20599b266238",
+        "size": 27214
       },
       "evidence": [
         "docs/compatibility/feature-matrix.md",
@@ -128,8 +148,8 @@
       "category": "mapper-entity-physics",
       "current": {
         "path": "g_func.cpp",
-        "sha256": "20c8a5b463c66930158fad3c295f1efd6ca1cc8873825b592078da5ae90c4595",
-        "size": 89590
+        "sha256": "655bacdbea2591bccf1f4ecc043aa70edb45b6ec136c2872ad915f69d197ab70",
+        "size": 89850
       },
       "evidence": [
         "docs/compatibility/entity-matrix.md",
@@ -150,8 +170,8 @@
       "category": "items-weapons-client",
       "current": {
         "path": "g_items.cpp",
-        "sha256": "99bda9dc0972b396afd646fbe5091b00cf51ae788247a1317bd90cf7e1eb8917",
-        "size": 129220
+        "sha256": "a4603ed2cf7537aa3591bd319f40289039b7d0ebd946adc68dd611b27c85662b",
+        "size": 129289
       },
       "evidence": [
         "docs/compatibility/feature-matrix.md",
@@ -181,8 +201,8 @@
       "category": "shared-contracts",
       "current": {
         "path": "g_local.h",
-        "sha256": "f048144341e35a386e810d6fe769aeb27534bf735187a0640ae54675fe71f4ae",
-        "size": 119297
+        "sha256": "f97c72ce643185694f3f3d91c140609e7e568f5bbba93467668dbb33e287aa73",
+        "size": 119747
       },
       "evidence": [
         "docs/compatibility/feature-matrix.md",
@@ -219,8 +239,8 @@
       "category": "mapper-entity-physics",
       "current": {
         "path": "g_misc.cpp",
-        "sha256": "4b6ed6dade97e0e84df9128f5ce7ad0005dda551252f4ac955e4fe372f8b85b3",
-        "size": 67196
+        "sha256": "a6808de6f42946cb3c0f646bfdb497aab82a09403c2d6bcf868cfab29e51e2ad",
+        "size": 67326
       },
       "evidence": [
         "docs/compatibility/entity-matrix.md",
@@ -241,8 +261,8 @@
       "category": "ai-monsters",
       "current": {
         "path": "g_monster.cpp",
-        "sha256": "cf0e4bcc4ff3b506e21a5668f0fe882391798717710f81d6798252f5e80885ac",
-        "size": 44802
+        "sha256": "563cb2e5f9d1c8f5667d1b623e5bdbf31262c13f49f6f7a2ec9a4dcb3cc4ad6e",
+        "size": 44841
       },
       "evidence": [
         "docs/compatibility/feature-matrix.md",
@@ -289,8 +309,8 @@
       "category": "save-export-version",
       "current": {
         "path": "g_save.cpp",
-        "sha256": "940d5f41e52669b1e4cbb5cfb3f3ff722d13367139745d4600eb8aed2e909160",
-        "size": 72485
+        "sha256": "cb92f64f81eec9343f930275ae2f14f86a42d80ea31a9186663cdb69eda134b1",
+        "size": 74518
       },
       "evidence": [
         "docs/compatibility/feature-matrix.md",
@@ -308,8 +328,8 @@
       "category": "mapper-entity-physics",
       "current": {
         "path": "g_spawn.cpp",
-        "sha256": "383faf9815b29c6c352c4363b61475e27f63250d389e3437133d79f876d86bfa",
-        "size": 53617
+        "sha256": "049337c350d275215928c5dc366d1c4d370b7e9272c596fa283e4c1b06cc0782",
+        "size": 57353
       },
       "evidence": [
         "docs/compatibility/entity-matrix.md",
@@ -352,8 +372,8 @@
       "category": "mapper-entity-physics",
       "current": {
         "path": "g_target.cpp",
-        "sha256": "90f0d51bc90e5e102ca62e54b8ee5329d18cc7ed6d2294609d7b014c2551418d",
-        "size": 57375
+        "sha256": "5ca5ccbc72732d28afa8e48c9f1bb9fbbece56c8bdf3706d3dbb99d0bc39624f",
+        "size": 57401
       },
       "evidence": [
         "docs/compatibility/entity-matrix.md",
@@ -374,8 +394,8 @@
       "category": "mapper-entity-physics",
       "current": {
         "path": "g_trigger.cpp",
-        "sha256": "a10babb1df0b9e94ed0597facbd7753b58e8188ba7f609b6352c38a3fa8dbc56",
-        "size": 37622
+        "sha256": "4bb8a9ad990f112ef5db1cb91ccb9bd4b147a403bd8553533c4670c1d1ab98e1",
+        "size": 37687
       },
       "evidence": [
         "docs/compatibility/entity-matrix.md",
@@ -418,8 +438,8 @@
       "category": "mapper-entity-physics",
       "current": {
         "path": "g_utils.cpp",
-        "sha256": "0e93e385bd0fccd6b8cc84f77ef3c806e58ddc7dcc007cf67b230855187b1bbe",
-        "size": 14178
+        "sha256": "38bccc889bc2f5b21f0baf6e3ecfbed85c40ba3eee317cb59fdf98ff67f970de",
+        "size": 14191
       },
       "evidence": [
         "docs/compatibility/entity-matrix.md",
@@ -471,8 +491,8 @@
       "category": "build-layout",
       "current": {
         "path": "game.vcxproj",
-        "sha256": "c8a666daae74797f31cb05aed32d032996b2604a02deb8680852729e23d18654",
-        "size": 13490
+        "sha256": "9d9ad2fbdc55479d3f9d270ebda5484947de6b98b55961db57d90c5213291652",
+        "size": 13662
       },
       "evidence": [
         "docs/UPSTREAM.md#relationship-between-the-baseline-and-src",
@@ -490,8 +510,8 @@
       "category": "build-layout",
       "current": {
         "path": "game.vcxproj.filters",
-        "sha256": "4da73ec0f3552247628ef3269a2654ab3f0667cfc8d1df9e17eab6ee72b01737",
-        "size": 12255
+        "sha256": "39ec58a1dc8d09f4187de76764e22f115960454028c6a37caec6d28964b662c9",
+        "size": 12541
       },
       "evidence": [
         "docs/UPSTREAM.md#relationship-between-the-baseline-and-src",
@@ -587,8 +607,8 @@
       "category": "ai-monsters",
       "current": {
         "path": "m_hover.cpp",
-        "sha256": "51d0b0578830af21ddd49e93f95ad4abfba003c99cda42d852a98211b1ebf2cd",
-        "size": 16750
+        "sha256": "52689ca2b65a09d74808e111344f1fbb5a8c0ace145dcb73f6a238d1af093d76",
+        "size": 16776
       },
       "evidence": [
         "docs/compatibility/feature-matrix.md",
@@ -691,8 +711,8 @@
       "category": "items-weapons-client",
       "current": {
         "path": "p_client.cpp",
-        "sha256": "8db292b5722c97ba3cd893f1276874281b2db81ae98d5b7ef69d00a674bb24ee",
-        "size": 103272
+        "sha256": "b7c6a655efb7fe12343594fb52074cb9c62ab855c8a6ca9c3b411d938471568b",
+        "size": 103337
       },
       "evidence": [
         "docs/compatibility/feature-matrix.md",
@@ -784,8 +804,8 @@
       "category": "items-weapons-client",
       "current": {
         "path": "p_weapon.cpp",
-        "sha256": "dbb90588d8aa14ae1b8c96ec2f7b348acd0fb6357c49d7c27b0122e4c559b468",
-        "size": 51967
+        "sha256": "a15c8dc3c1420369e67e8f91dc01d243933c473977e88bb6f9f6497892fb9d29",
+        "size": 52083
       },
       "evidence": [
         "docs/compatibility/feature-matrix.md",
@@ -845,8 +865,8 @@
       "category": "zaero-owned-modules",
       "current": {
         "path": "zaero/g_zaero_a2k.cpp",
-        "sha256": "ae20093fa5c4708b2b82a64c8e962263070810037f51bdcd268b0352a78fe13b",
-        "size": 6641
+        "sha256": "093ce2ea28fa6f8300e60ed82148803050d8504a6e3a28dc1e8aebd8fbc1a416",
+        "size": 6665
       },
       "evidence": [
         "docs/compatibility/feature-matrix.md",
@@ -877,8 +897,8 @@
       "category": "zaero-owned-modules",
       "current": {
         "path": "zaero/g_zaero_ai.cpp",
-        "sha256": "f00d73e1de10321fd8e29617826378c642057762cdd5dcd5e66ee2fd99378de9",
-        "size": 3337
+        "sha256": "460a012ef69bea99091b4d1b49b25084ea8c70d5f5a3224c890303f42e54f7ea",
+        "size": 3363
       },
       "evidence": [
         "docs/compatibility/feature-matrix.md",
@@ -973,8 +993,8 @@
       "category": "zaero-owned-modules",
       "current": {
         "path": "zaero/g_zaero_emp.cpp",
-        "sha256": "25bc9abbf330522a182fda993d9c121ce9a1321d8ace924acb02da44829273ff",
-        "size": 6018
+        "sha256": "c8ac0aedc2d932656e599814733e136f66d633f353631a7a2c1dacc57b56fc02",
+        "size": 6243
       },
       "evidence": [
         "docs/compatibility/feature-matrix.md",
@@ -1037,8 +1057,8 @@
       "category": "zaero-owned-modules",
       "current": {
         "path": "zaero/g_zaero_finale.cpp",
-        "sha256": "8ca9701bc63b2ee25f08d1c710d77965001c9cbc059b23673f971fd8c30e3a8a",
-        "size": 1379
+        "sha256": "6e9dc0acfdc64dd1386c9a592c3dbed68d01cde7dd4484a75276f801369fd23e",
+        "size": 1392
       },
       "evidence": [
         "docs/compatibility/feature-matrix.md",
@@ -1133,8 +1153,8 @@
       "category": "zaero-owned-modules",
       "current": {
         "path": "zaero/g_zaero_ired.cpp",
-        "sha256": "05b382df90a8d09b1491fe5cb923202750f5590bf6b3456d603bbc2261115e82",
-        "size": 19593
+        "sha256": "a7b8a41a7949c337ced8a8b0e8b652f9dcce2805b79d8d29ccafa60b8874d608",
+        "size": 20139
       },
       "evidence": [
         "docs/compatibility/feature-matrix.md",
@@ -1164,9 +1184,41 @@
       "baseline": null,
       "category": "zaero-owned-modules",
       "current": {
+        "path": "zaero/g_zaero_map_identity.cpp",
+        "sha256": "4dad0520d937f837af79b4ace1cfbd2209d3e54a3c5ce0a0051a796b5c142bd3",
+        "size": 5185
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_map_identity.cpp",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_map_identity.h",
+        "sha256": "22a0af93bebf9d2209edb13cf66e471b5fdf1035f9952593ea49342bf187a2a1",
+        "size": 889
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_map_identity.h",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
         "path": "zaero/g_zaero_plasma_shield.cpp",
-        "sha256": "0568e610a5d329f30130f7dd69bd490317d1a988e05478657b21f01181bd2c78",
-        "size": 4728
+        "sha256": "58afa49ad99205c26ca7cb623de266d0bb9ef6651d9bf9ec31d31bb9c573d7de",
+        "size": 4752
       },
       "evidence": [
         "docs/compatibility/feature-matrix.md",
@@ -1197,8 +1249,8 @@
       "category": "zaero-owned-modules",
       "current": {
         "path": "zaero/g_zaero_sentien.cpp",
-        "sha256": "4fea9395aab14aad4ba95e58a00d099acfb70e30d0e0d5b72c2774389e8f8fa0",
-        "size": 27896
+        "sha256": "65ddea5baa5c0e0efeb7c00747a23aee6343a0157ff5db8f470d6196d227f8b8",
+        "size": 28059
       },
       "evidence": [
         "docs/compatibility/feature-matrix.md",
@@ -1222,6 +1274,22 @@
         "tests/compatibility"
       ],
       "path": "zaero/g_zaero_sentien.h",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "category": "zaero-owned-modules",
+      "current": {
+        "path": "zaero/g_zaero_shipped_map_identity.h",
+        "sha256": "451b272812d08568107eb1b79a20990f38abc4b16d7330504071364b8464dcaa",
+        "size": 4822
+      },
+      "evidence": [
+        "docs/compatibility/feature-matrix.md",
+        "docs/compatibility/decisions.md#d-045--zdmflags-and-deathmatch-item-injection",
+        "tests/compatibility"
+      ],
+      "path": "zaero/g_zaero_shipped_map_identity.h",
       "status": "added"
     },
     {
@@ -1293,8 +1361,8 @@
       "category": "zaero-owned-modules",
       "current": {
         "path": "zaero/g_zaero_visor.cpp",
-        "sha256": "e895cb17eb33d506ef23f8ed14bba0342d69fc956af69d378c1d91251dd53b91",
-        "size": 11518
+        "sha256": "e32c1f316d90b591ab62e5e6d43155f6323b24bc70406f18528210efb39b88f0",
+        "size": 11590
       },
       "evidence": [
         "docs/compatibility/feature-matrix.md",
@@ -1325,8 +1393,8 @@
       "category": "zaero-owned-modules",
       "current": {
         "path": "zaero/g_zaero_weapons.cpp",
-        "sha256": "9ac030c06ee8288e8ef174b1842aea4c4d93d9529f556ceee631df1ae2d59353",
-        "size": 12603
+        "sha256": "a136a485c7cef2b1186be922d0dff94cc1f6883ff51b51591b081ad05ce83679",
+        "size": 12884
       },
       "evidence": [
         "docs/compatibility/feature-matrix.md",
@@ -1357,8 +1425,8 @@
       "category": "zaero-owned-modules",
       "current": {
         "path": "zaero/g_zaero_zboss.cpp",
-        "sha256": "f44c7372fc95a097808d1716cfcfc294d49457e9fe9a5ee6a758c68abd9bf429",
-        "size": 42530
+        "sha256": "d2f7dcdd41412b814b8b2f32d23db37a9e4d8fd46eb972dbadaf6e6eb16d5c5a",
+        "size": 42744
       },
       "evidence": [
         "docs/compatibility/feature-matrix.md",
@@ -1388,28 +1456,29 @@
   "format": "ZaeREo upstream integration audit",
   "policy": {
     "id": "zaereo-rerelease-integration-seams",
-    "revision": 14
+    "revision": 15
   },
   "schema_version": 1,
   "stale_policy": [],
   "summary": {
-    "added": 34,
+    "added": 37,
     "category_counts": {
       "ai-monsters": 9,
+      "bot-native-integration": 1,
       "build-layout": 3,
       "developer-runtime-evidence": 1,
       "items-weapons-client": 8,
       "mapper-entity-physics": 8,
       "save-export-version": 2,
       "shared-contracts": 3,
-      "zaero-owned-modules": 34
+      "zaero-owned-modules": 37
     },
-    "difference_count": 68,
-    "modified": 33,
+    "difference_count": 72,
+    "modified": 34,
     "policy_complete": true,
     "removed": 1,
     "stale_policy_count": 0,
-    "unchanged": 110,
+    "unchanged": 109,
     "unclassified_count": 0
   },
   "unclassified": []

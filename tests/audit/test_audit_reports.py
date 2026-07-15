@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 import struct
 import sys
@@ -73,6 +74,46 @@ class AssetReportTests(unittest.TestCase):
             self.assertEqual(report["overrides"][0]["path"], "default.cfg")
             self.assertEqual(report["warnings"], [])
             self.assertEqual(stable_json_text(report), stable_json_text(report))
+
+    def test_checked_in_legacy_override_winners_are_exact(self) -> None:
+        root = Path(__file__).resolve().parents[2]
+        report = json.loads(
+            (root / "docs" / "audits" / "assets.json").read_text(encoding="utf-8")
+        )
+        overrides = {item["path"]: item["layers"] for item in report["overrides"]}
+        self.assertEqual(
+            overrides["default.cfg"],
+            [
+                {
+                    "container": "pak0.pak",
+                    "sha256": "b5ce2b12d5c77bca7dfe74e07d1a92a626f7d9a79de91e1942007da80a23c0da",
+                    "size": 4085,
+                },
+                {
+                    "container": "pak1.pak",
+                    "sha256": "eabf975c709a60e59c7bb193959ef77a26d250f0ffe6223173071455803188f8",
+                    "size": 4855,
+                },
+            ],
+        )
+        self.assertEqual(
+            overrides["maps.lst"],
+            [
+                {
+                    "container": "pak0.pak",
+                    "sha256": "822fca8467b6d03c55d808cfd8038efc5bc94d4c400550070faed2e758e8a4e2",
+                    "size": 368,
+                },
+                {
+                    "container": "pak2.pak",
+                    "sha256": "349da628983acd3d22a8bbbb307df075c4b17f32f1d32f41555b156ad6d9b77e",
+                    "size": 491,
+                },
+            ],
+        )
+        effective = {item["path"]: item for item in report["effective_pak_entries"]}
+        self.assertEqual(effective["default.cfg"], overrides["default.cfg"][-1] | {"path": "default.cfg"})
+        self.assertEqual(effective["maps.lst"], overrides["maps.lst"][-1] | {"path": "maps.lst"})
 
 
 class BspReportTests(unittest.TestCase):

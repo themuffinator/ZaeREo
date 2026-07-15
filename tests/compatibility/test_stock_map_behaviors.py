@@ -175,7 +175,7 @@ class TriggerPushTests(unittest.TestCase):
         source = (REPOSITORY_ROOT / "src" / "g_trigger.cpp").read_text(encoding="utf-8")
         self.assertIn("SPAWNFLAG_PUSH_PLUS = 0x02_spawnflag", source)
         self.assertIn("SPAWNFLAG_PUSH_ZAERO_START_OFF = 0x02_spawnflag", source)
-        self.assertIn("if (!level.is_zaero && self->spawnflags.has(SPAWNFLAG_PUSH_PLUS))", source)
+        self.assertIn("if (!level.zaero_mapper_contract && self->spawnflags.has(SPAWNFLAG_PUSH_PLUS))", source)
         self.assertIn("self->spawnflags ^= SPAWNFLAG_PUSH_ZAERO_START_OFF", source)
         self.assertIn("other->client && self->message", source)
 
@@ -241,7 +241,7 @@ class PlatLowTriggerTests(unittest.TestCase):
         self.assertIn("SPAWNFLAG_PLAT_NO_MONSTER = 2_spawnflag", source)
         self.assertIn("SPAWNFLAG_PLAT_ZAERO_LOW_TRIGGER_2 = 2_spawnflag", source)
         self.assertIn(
-            "const bool native_no_monster = !level.is_zaero && "
+            "const bool native_no_monster = !level.zaero_mapper_contract && "
             "ent->spawnflags.has(SPAWNFLAG_PLAT_NO_MONSTER);",
             source,
         )
@@ -253,7 +253,7 @@ class PlatLowTriggerTests(unittest.TestCase):
         self.assertIn("if (other->health <= 0)", touch)
         self.assertIn("if (ent->moveinfo.state == STATE_BOTTOM)", touch)
         self.assertIn(
-            "level.is_zaero && "
+            "level.zaero_mapper_contract && "
             "ent->spawnflags.has(SPAWNFLAG_PLAT_ZAERO_LOW_TRIGGER_2)",
             touch,
         )
@@ -362,11 +362,11 @@ class IntegrationContractTests(unittest.TestCase):
         self.assertIn("self->accel * gi.frame_time_s", functions)
         self.assertIn("THINK(rotating_accel)", functions)
         self.assertIn(
-            "if (!level.is_zaero && ent->spawnflags.has(SPAWNFLAG_ROTATING_ACCEL))",
+            "if (!level.zaero_mapper_contract && ent->spawnflags.has(SPAWNFLAG_ROTATING_ACCEL))",
             functions,
         )
         self.assertIn("make_savable_memory<uint8_t, TAG_LEVEL>", functions)
-        self.assertIn("if (!level.is_zaero || !self->target", functions)
+        self.assertIn("if (!level.zaero_mapper_contract || !self->target", functions)
 
 
 if __name__ == "__main__":

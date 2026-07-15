@@ -720,6 +720,11 @@ SAVE_STRUCT_START
 	FIELD_AUTO(disguise_violation_time),
 	// ROGUE
 
+	FIELD_AUTO(zaero_content_active),
+	FIELD_AUTO(zaero_mapper_contract),
+	FIELD_AUTO(zaero_mapper_contract_reason),
+	FIELD_AUTO(zaero_entity_lump_sha256),
+
 	FIELD_AUTO(coop_level_restart_time),
 	FIELD_LEVEL_STRING(goals),
 	FIELD_AUTO(goal_num),
@@ -2561,13 +2566,37 @@ char *WriteLevelJson(bool transition, size_t *out_size)
 // not store or modify it.
 void ReadLevelJson(const char *jsonString)
 {
+	// The engine calls SpawnEntities before ReadLevelJson. Preserve the newly
+	// observed map classification before freeing the transient spawn state, then
+	// require the serialized level to agree with it. A save must not quietly
+	// acquire different meanings for colliding stock mapper flags.
+	char spawned_mapname[MAX_QPATH]{};
+	Q_strlcpy(spawned_mapname, level.mapname, sizeof(spawned_mapname));
+	const bool has_spawned_map_identity = spawned_mapname[0] != '\0';
+	const bool spawned_content_active = level.zaero_content_active;
+	const bool spawned_mapper_contract = level.zaero_mapper_contract;
+	const auto spawned_mapper_reason = level.zaero_mapper_contract_reason;
+	const auto spawned_entity_lump_sha256 = level.zaero_entity_lump_sha256;
+
 	// free any dynamic memory allocated by loading the level
 	// base state
 	gi.FreeTags(TAG_LEVEL);
 
 	Json::Value json = parseJson(jsonString);
 
-	// wipe all the entities
+	if (has_spawned_map_identity &&
+		(!json["level"].isObject() ||
+			!json["level"].isMember("zaero_content_active") ||
+			!json["level"].isMember("zaero_mapper_contract") ||
+			!json["level"].isMember("zaero_mapper_contract_reason") ||
+			!json["level"].isMember("zaero_entity_lump_sha256")))
+	{
+		gi.Com_ErrorFmt("Save for {} predates Zaero mapper classification; no safe migration is available.\n", spawned_mapname);
+	}
+
+	// Wipe the load target as well as entities. This prevents absent save fields
+	// from inheriting the transient SpawnEntities classification by accident.
+	memset(&level, 0, sizeof(level));
 	memset(g_edicts, 0, game.maxentities * sizeof(g_edicts[0]));
 	globals.num_edicts = game.maxclients + 1;
 
@@ -2575,6 +2604,18 @@ void ReadLevelJson(const char *jsonString)
 	json_push_stack("level");
 	read_save_struct_json(json["level"], &level, &level_locals_t_savestruct);
 	json_pop_stack();
+
+	if (has_spawned_map_identity &&
+		(strcmp(level.mapname, spawned_mapname) != 0 ||
+			level.zaero_content_active != spawned_content_active ||
+			level.zaero_mapper_contract != spawned_mapper_contract ||
+			level.zaero_mapper_contract_reason != spawned_mapper_reason ||
+			memcmp(level.zaero_entity_lump_sha256.data(), spawned_entity_lump_sha256.data(),
+				level.zaero_entity_lump_sha256.size()) != 0))
+	{
+		gi.Com_ErrorFmt("Zaero map identity/classification mismatch while loading {}. Refusing unsafe save migration.\n",
+			spawned_mapname);
+	}
 
 	// read entities
 	const Json::Value &entities = json["entities"];

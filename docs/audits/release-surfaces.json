@@ -483,7 +483,7 @@
         }
       },
       "path": "game.vcxproj",
-      "sha256": "c8a666daae74797f31cb05aed32d032996b2604a02deb8680852729e23d18654"
+      "sha256": "9d9ad2fbdc55479d3f9d270ebda5484947de6b98b55961db57d90c5213291652"
     },
     "scoped_forbidden_source_tokens": [
       {
@@ -495,7 +495,7 @@
         ]
       }
     ],
-    "source_file_count": 174
+    "source_file_count": 177
   },
   "release_contract": {
     "archive_binary_member_suffixes": [

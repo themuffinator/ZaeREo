@@ -155,6 +155,9 @@ THINK(Zaero_IREDExplode) (edict_t *self) -> void
 		shrapnel->classname = ZAERO_IRED_SHRAPNEL_CLASSNAME;
 		shrapnel->movetype = MOVETYPE_BOUNCE;
 		shrapnel->solid = SOLID_BBOX;
+		// The bot bridge consumes FL_TRAP for transient danger metadata.  Keep
+		// the legacy unlinked/spawn-on-first-physics-step behavior below intact.
+		shrapnel->flags |= FL_TRAP;
 		shrapnel->s.effects |= EF_GRENADE;
 		shrapnel->s.modelindex = gi.modelindex(ZAERO_IRED_SHRAPNEL_MODEL);
 		shrapnel->owner = Zaero_IREDValidatedOwner(self);
@@ -270,6 +273,9 @@ THINK(Zaero_CreateIREDLaser) (edict_t *bomb) -> void
 	laser->s.frame = 2;
 	laser->movetype = MOVETYPE_NONE;
 	laser->solid = SOLID_NOT;
+	// Use the Rerelease laser-field form so bots receive the real start/end
+	// points and active state after the beam becomes visible.
+	laser->flags |= FL_TRAP_LASER_FIELD;
 	laser->s.renderfx |= RF_BEAM | RF_TRANSLUCENT;
 	laser->s.modelindex = 1;
 	laser->chain = bomb;
@@ -346,7 +352,9 @@ void Zaero_SetupIREDBomb(edict_t *bomb, const char *classname, int32_t damage,
 	bomb->takedamage = true;
 	// FL_IMMORTAL is the Rerelease equivalent of Zaero's DAMAGE_IMMORTAL:
 	// damage effects and pain run, but health never falls below one.
-	bomb->flags |= FL_IMMORTAL;
+	// FL_TRAP is metadata for the native bot bridge only; the flag is otherwise
+	// unused by the Zaero mine's collision, damage, or mapper behavior.
+	bomb->flags |= FL_IMMORTAL | FL_TRAP;
 	bomb->pain = Zaero_IREDPain;
 }
 
@@ -437,7 +445,7 @@ void Zaero_SetIREDEMPCheck(zaero_ired_emp_check_t check)
 bool Zaero_FireIRED(edict_t *owner, const vec3_t &start, const vec3_t &direction,
 	gtime_t arm_delay, int32_t damage, float damage_radius)
 {
-	if (!level.is_zaero || !owner)
+	if (!level.zaero_content_active || !owner)
 		return false;
 
 	const trace_t tr = gi.traceline(start, start + (direction * ZAERO_IRED_PLACEMENT_RANGE),
@@ -467,7 +475,7 @@ void Weapon_ZaeroIRED(edict_t *ent)
 {
 	static const int32_t pause_frames[] = {24, 33, 43, 0};
 
-	if (!level.is_zaero || !ent->client || ent->deadflag || ent->s.modelindex != MODELINDEX_PLAYER)
+	if (!level.zaero_content_active || !ent->client || ent->deadflag || ent->s.modelindex != MODELINDEX_PLAYER)
 		return;
 
 	// IRED frames retain the supplied 10 Hz cadence at a 40 Hz host rate. The
@@ -591,7 +599,7 @@ void Weapon_ZaeroIRED(edict_t *ent)
 
 void SP_misc_ired(edict_t *self)
 {
-	if (!level.is_zaero)
+	if (!level.zaero_content_active)
 	{
 		G_FreeEdict(self);
 		return;

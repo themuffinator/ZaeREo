@@ -71,11 +71,17 @@ development scaffold: it declares the exact cinematic start chain, 14 campaign
 maps, and six deathmatch maps, but it does not pretend to preserve every stock
 episode in the New Game database.
 
-Before a release claims stock-menu coexistence, local completion must start from
-the `mapdb.json` belonging to the user's hash-supported Rerelease data build,
-append the Zaero records without reordering upstream menu arrays, and test the
-result in game. The combined database is locally generated and is not a public
-package input unless the exact base bytes are separately cleared for
-redistribution. Copying a stale database from another project would silently
-discard future upstream entries. The console command `exec zaerostart.cfg`
-remains independent of this menu limitation.
+`tools/merge_mapdb.py` provides the private mechanical merge. It reads either a
+selected loose `mapdb.json` or the exact member from a selected Rerelease PAK,
+requires that member's SHA-256, a reviewed data-build identifier, explicit
+episode/map insertion indices, and a content root containing every referenced
+Zaero BSP/cinematic; output and report paths must be beneath `.install`. It
+preserves unknown base fields and upstream array order, atomically writes the
+generated result, and proves inverse reconstruction when the Zaero records are
+removed. Before a release claims stock-menu coexistence, an owner must still
+select a supported data-build hash and menu position and test the result in
+game. The combined database is locally generated and is not a public package
+input unless the exact base bytes are separately cleared for redistribution.
+Copying a stale database from another project would silently discard future
+upstream entries. The console command `exec zaerostart.cfg` remains independent
+of this menu limitation.

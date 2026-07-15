@@ -1,0 +1,391 @@
+{
+  "bit_namespaces": {
+    "monster_ai_flags": {
+      "AI_ZAERO_DODGE_TIMEOUT": 43,
+      "AI_ZAERO_MONSTER_REDUCED_DAMAGE": 42,
+      "AI_ZAERO_ONESHOT_TARGET": 39,
+      "AI_ZAERO_REDUCED_DAMAGE": 41,
+      "AI_ZAERO_SCHOOLING": 40
+    },
+    "spawnflags2": {
+      "ZAERO_SPAWNFLAG2_MIRRORLEVEL": 1,
+      "ZAERO_SPAWNFLAG2_NONE": 0,
+      "ZAERO_SPAWNFLAG2_NOT_COOP": 2,
+      "ZAERO_SPAWNFLAG2_NOT_SINGLE": 4
+    }
+  },
+  "compile_time_assertions": {
+    "ammo_wheel_capacity": true,
+    "ammo_wheel_identity": true,
+    "camera_configstring_capacity": true,
+    "item_protocol_capacity": true,
+    "stat_protocol_capacity": true,
+    "weapon_wheel_capacity": true
+  },
+  "enum_contracts": {
+    "ammo_ids": {
+      "anchor": "AMMO_PROX",
+      "append_only": true,
+      "entries": [
+        "AMMO_FLARES",
+        "AMMO_IRED",
+        "AMMO_EMPNUKE",
+        "AMMO_A2K",
+        "AMMO_PLASMASHIELD"
+      ],
+      "tail": [
+        "AMMO_FLARES",
+        "AMMO_IRED",
+        "AMMO_EMPNUKE",
+        "AMMO_A2K",
+        "AMMO_PLASMASHIELD",
+        "AMMO_MAX"
+      ],
+      "terminator": "AMMO_MAX"
+    },
+    "camera_configstrings": {
+      "anchor": "CONFIG_STORY",
+      "append_only": true,
+      "entries": [
+        "CONFIG_ZAERO_CAMERA_MESSAGE",
+        "MAX_ZAERO_CAMERA_MESSAGES",
+        "CONFIG_ZAERO_CAMERA_MESSAGE_END"
+      ],
+      "tail": [
+        "CONFIG_ZAERO_CAMERA_MESSAGE",
+        "MAX_ZAERO_CAMERA_MESSAGES",
+        "CONFIG_ZAERO_CAMERA_MESSAGE_END",
+        "CONFIG_LAST"
+      ],
+      "terminator": "CONFIG_LAST"
+    },
+    "hud_stats": {
+      "anchor": "STAT_ACTIVE_WEAPON",
+      "append_only": true,
+      "entries": [
+        "STAT_ZAERO_SHOW_ORIGIN",
+        "STAT_ZAERO_ORIGIN_X",
+        "STAT_ZAERO_ORIGIN_Y",
+        "STAT_ZAERO_ORIGIN_Z",
+        "STAT_ZAERO_CAMERA_ICON",
+        "STAT_ZAERO_CAMERA_TIMER",
+        "STAT_ZAERO_CAMERA_LABEL"
+      ],
+      "tail": [
+        "STAT_ZAERO_SHOW_ORIGIN",
+        "STAT_ZAERO_ORIGIN_X",
+        "STAT_ZAERO_ORIGIN_Y",
+        "STAT_ZAERO_ORIGIN_Z",
+        "STAT_ZAERO_CAMERA_ICON",
+        "STAT_ZAERO_CAMERA_TIMER",
+        "STAT_ZAERO_CAMERA_LABEL",
+        "STAT_LAST"
+      ],
+      "terminator": "STAT_LAST"
+    },
+    "item_ids": {
+      "anchor": "IT_ITEM_COMPASS",
+      "append_only": true,
+      "entries": [
+        "IT_WEAPON_PUSH",
+        "IT_WEAPON_FLAREGUN",
+        "IT_AMMO_IRED",
+        "IT_WEAPON_SNIPERRIFLE",
+        "IT_WEAPON_SONICCANNON",
+        "IT_AMMO_A2K",
+        "IT_AMMO_FLARES",
+        "IT_AMMO_EMPNUKE",
+        "IT_ITEM_VISOR",
+        "IT_AMMO_PLASMASHIELD",
+        "IT_KEY_LANDING_AREA",
+        "IT_KEY_LAB",
+        "IT_KEY_CLEARANCE_PASS",
+        "IT_KEY_ENERGY",
+        "IT_KEY_LAVA",
+        "IT_KEY_SLIME"
+      ],
+      "tail": [
+        "IT_WEAPON_PUSH",
+        "IT_WEAPON_FLAREGUN",
+        "IT_AMMO_IRED",
+        "IT_WEAPON_SNIPERRIFLE",
+        "IT_WEAPON_SONICCANNON",
+        "IT_AMMO_A2K",
+        "IT_AMMO_FLARES",
+        "IT_AMMO_EMPNUKE",
+        "IT_ITEM_VISOR",
+        "IT_AMMO_PLASMASHIELD",
+        "IT_KEY_LANDING_AREA",
+        "IT_KEY_LAB",
+        "IT_KEY_CLEARANCE_PASS",
+        "IT_KEY_ENERGY",
+        "IT_KEY_LAVA",
+        "IT_KEY_SLIME",
+        "IT_TOTAL"
+      ],
+      "terminator": "IT_TOTAL"
+    },
+    "mod_ids": {
+      "anchor": "MOD_BLUEBLASTER",
+      "append_only": true,
+      "entries": [
+        "MOD_ZAERO_FLARE",
+        "MOD_ZAERO_GL_POLYBLEND",
+        "MOD_ZAERO_SONIC_CANNON",
+        "MOD_ZAERO_AUTOCANNON",
+        "MOD_ZAERO_TRIPBOMB",
+        "MOD_ZAERO_SNIPER_RIFLE",
+        "MOD_ZAERO_A2K"
+      ],
+      "tail": [
+        "MOD_ZAERO_FLARE",
+        "MOD_ZAERO_GL_POLYBLEND",
+        "MOD_ZAERO_SONIC_CANNON",
+        "MOD_ZAERO_AUTOCANNON",
+        "MOD_ZAERO_TRIPBOMB",
+        "MOD_ZAERO_SNIPER_RIFLE",
+        "MOD_ZAERO_A2K"
+      ],
+      "terminator": null
+    },
+    "monster_ai_flags": {
+      "anchor": "AI_THIRD_EYE",
+      "append_only": true,
+      "entries": [
+        "AI_ZAERO_ONESHOT_TARGET",
+        "AI_ZAERO_SCHOOLING",
+        "AI_ZAERO_REDUCED_DAMAGE",
+        "AI_ZAERO_MONSTER_REDUCED_DAMAGE",
+        "AI_ZAERO_DODGE_TIMEOUT"
+      ],
+      "tail": [
+        "AI_ZAERO_ONESHOT_TARGET",
+        "AI_ZAERO_SCHOOLING",
+        "AI_ZAERO_REDUCED_DAMAGE",
+        "AI_ZAERO_MONSTER_REDUCED_DAMAGE",
+        "AI_ZAERO_DODGE_TIMEOUT"
+      ],
+      "terminator": null
+    },
+    "powerup_ids": {
+      "anchor": "POWERUP_TECH4",
+      "append_only": true,
+      "entries": [
+        "POWERUP_ZAERO_VISOR"
+      ],
+      "tail": [
+        "POWERUP_ZAERO_VISOR",
+        "POWERUP_MAX"
+      ],
+      "terminator": "POWERUP_MAX"
+    }
+  },
+  "item_registry": {
+    "entry_count": 99,
+    "matches_item_enum": true,
+    "zaero_entries": [
+      {
+        "classname": "weapon_push",
+        "id": "IT_WEAPON_PUSH"
+      },
+      {
+        "classname": "weapon_flaregun",
+        "id": "IT_WEAPON_FLAREGUN"
+      },
+      {
+        "classname": "ammo_ired",
+        "id": "IT_AMMO_IRED"
+      },
+      {
+        "classname": "weapon_sniperrifle",
+        "id": "IT_WEAPON_SNIPERRIFLE"
+      },
+      {
+        "classname": "weapon_soniccannon",
+        "id": "IT_WEAPON_SONICCANNON"
+      },
+      {
+        "classname": "ammo_a2k",
+        "id": "IT_AMMO_A2K"
+      },
+      {
+        "classname": "ammo_flares",
+        "id": "IT_AMMO_FLARES"
+      },
+      {
+        "classname": "ammo_empnuke",
+        "id": "IT_AMMO_EMPNUKE"
+      },
+      {
+        "classname": "item_visor",
+        "id": "IT_ITEM_VISOR"
+      },
+      {
+        "classname": "ammo_plasmashield",
+        "id": "IT_AMMO_PLASMASHIELD"
+      },
+      {
+        "classname": "key_landing_area",
+        "id": "IT_KEY_LANDING_AREA"
+      },
+      {
+        "classname": "key_lab",
+        "id": "IT_KEY_LAB"
+      },
+      {
+        "classname": "key_clearancepass",
+        "id": "IT_KEY_CLEARANCE_PASS"
+      },
+      {
+        "classname": "key_energy",
+        "id": "IT_KEY_ENERGY"
+      },
+      {
+        "classname": "key_lava",
+        "id": "IT_KEY_LAVA"
+      },
+      {
+        "classname": "key_slime",
+        "id": "IT_KEY_SLIME"
+      }
+    ]
+  },
+  "legacy_protocol_adaptations": {
+    "sniper_channel": {
+      "adapted": true,
+      "legacy": "CHAN_WEAPON2",
+      "native": "CHAN_AUX"
+    },
+    "sniper_mask": {
+      "adapted": true,
+      "legacy": "MASK_SHOT_NO_WINDOW",
+      "native": "MASK_SHOT & ~CONTENTS_WINDOW"
+    },
+    "unused_legacy_symbols": [
+      {
+        "present_in_compiled_port_code": false,
+        "symbol": "EF_BOOMER"
+      },
+      {
+        "present_in_compiled_port_code": false,
+        "symbol": "MZ_BOOMERGUN"
+      },
+      {
+        "present_in_compiled_port_code": false,
+        "symbol": "TE_PLASMATRAIL"
+      }
+    ]
+  },
+  "mapper_spawnflags": [
+    {
+      "name": "SPAWNFLAG_PATH_CORNER_ZAERO_AUTO_SMOOTH",
+      "source": "g_func.cpp",
+      "value": 2
+    },
+    {
+      "name": "SPAWNFLAG_PATH_CORNER_ZAERO_CUSTOM_SMOOTH",
+      "source": "g_func.cpp",
+      "value": 4
+    },
+    {
+      "name": "SPAWNFLAG_PLAT_ZAERO_LOW_TRIGGER_2",
+      "source": "g_func.cpp",
+      "value": 2
+    },
+    {
+      "name": "SPAWNFLAG_TRAIN_ZAERO_REVERSE",
+      "source": "g_func.cpp",
+      "value": 8
+    },
+    {
+      "name": "SPAWNFLAG_TRAIN_ZAERO_X_AXIS",
+      "source": "g_func.cpp",
+      "value": 16
+    },
+    {
+      "name": "SPAWNFLAG_TRAIN_ZAERO_Y_AXIS",
+      "source": "g_func.cpp",
+      "value": 32
+    },
+    {
+      "name": "SPAWNFLAG_TRAIN_ZAERO_Z_AXIS",
+      "source": "g_func.cpp",
+      "value": 64
+    },
+    {
+      "name": "SPAWNFLAG_ZAERO_MONSTER_NO_COUNT",
+      "source": "g_local.h",
+      "value": 16
+    },
+    {
+      "name": "SPAWNFLAG_VIPER_ZAERO_CUSTOM_BOUNDS",
+      "source": "g_misc.cpp",
+      "value": 4
+    },
+    {
+      "name": "SPAWNFLAG_VIPER_ZAERO_SMOKE",
+      "source": "g_misc.cpp",
+      "value": 1
+    },
+    {
+      "name": "SPAWNFLAG_VIPER_ZAERO_SOLID",
+      "source": "g_misc.cpp",
+      "value": 2
+    },
+    {
+      "name": "SPAWNFLAG_TARGET_EXPLOSION_ZAERO_A2K_STYLE",
+      "source": "g_target.cpp",
+      "value": 1
+    },
+    {
+      "name": "SPAWNFLAG_PUSH_ZAERO_START_OFF",
+      "source": "g_trigger.cpp",
+      "value": 2
+    }
+  ],
+  "schema": "zaereo.identifier-surface-audit/v1",
+  "source_root": "src",
+  "summary": {
+    "complete": true,
+    "zaero_ai_flag_count": 5,
+    "zaero_ammo_count": 5,
+    "zaero_item_count": 16,
+    "zaero_mapper_spawnflag_count": 13,
+    "zaero_mod_count": 7,
+    "zaero_stat_count": 7
+  },
+  "type_capacities": {
+    "ammo_ids": {
+      "capacity": 255,
+      "last_value": 16
+    },
+    "item_ids": {
+      "capacity": 256,
+      "last_value": 99
+    },
+    "mod_ids": {
+      "capacity": 255,
+      "last_value": 65
+    },
+    "monster_ai_flags": {
+      "capacity": 64,
+      "last_value": 43
+    },
+    "powerup_ids": {
+      "capacity": 255,
+      "last_value": 23
+    }
+  },
+  "violations": [],
+  "wheel_capacities": {
+    "declared_ammo_slots": 17,
+    "declared_weapon_slots": 24,
+    "maximum": 32,
+    "registered": {
+      "ammo": 17,
+      "powerup": 25,
+      "weapon": 24
+    },
+    "runtime_guard_count": 3
+  }
+}

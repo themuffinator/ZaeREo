@@ -243,7 +243,7 @@ void Cmd_Give_f(edict_t *ent)
 		}
 
 		G_CheckPowerArmor(ent);
-		if (level.is_zaero && ent->client->pers.inventory[IT_ITEM_VISOR])
+		if (level.zaero_content_active && ent->client->pers.inventory[IT_ITEM_VISOR])
 			Zaero_VisorSetDefaultDuration(ent);
 		ent->client->pers.power_cubes = 0xFF;
 		return;

@@ -360,7 +360,7 @@ static bool Zaero_UsesDamageReaction(const edict_t *targ,
 	// Shipped maps use the positive map discriminator. The exact Zaero-only
 	// classname and mapper-owned mteam key also retain the source contract for
 	// community maps without changing ordinary native-map reactions.
-	return level.is_zaero || autocannon ||
+	return level.zaero_mapper_contract || autocannon ||
 		(targ && targ->mteam) || (attacker && attacker->mteam);
 }
 
@@ -671,7 +671,7 @@ void T_Damage(edict_t *targ, edict_t *inflictor, edict_t *attacker, const vec3_t
 	// ZAERO used one per-monster scale for its active Sentien fend and for
 	// monster-inflicted damage against ZBoss. Keep the hook gated to Zaero
 	// levels and explicit flags so native Rerelease monsters are unchanged.
-	if (level.is_zaero && (targ->svflags & SVF_MONSTER) &&
+	if (level.zaero_content_active && (targ->svflags & SVF_MONSTER) &&
 		targ->monsterinfo.zaero_damage_scale > 0.0f &&
 		((targ->monsterinfo.aiflags & AI_ZAERO_REDUCED_DAMAGE) ||
 		 ((targ->monsterinfo.aiflags & AI_ZAERO_MONSTER_REDUCED_DAMAGE) &&

@@ -214,7 +214,7 @@ class ZaeroItemRegistryTests(unittest.TestCase):
         self.assertNotIn("AMMO_FLARES", pack)
 
         self.assertIn("ZAERO_AMMO_WHEEL_SLOTS = 17", ITEMS)
-        self.assertIn("ZAERO_WEAPON_WHEEL_SLOTS = 25", ITEMS)
+        self.assertIn("ZAERO_WEAPON_WHEEL_SLOTS = 24", ITEMS)
         self.assertIn("AMMO_MAX == ZAERO_AMMO_WHEEL_SLOTS", ITEMS)
         self.assertIn("itemlist[i].flags & IF_NO_WEAPON_SELECTION", ITEMS)
 
@@ -257,20 +257,20 @@ class ZaeroItemRegistryTests(unittest.TestCase):
         self.assertIn("Zaero_UseWeaponNumber(ent, atoi(number))", dispatch)
         self.assertIn("weapon index expected (1 to 10)", dispatch)
 
-    def test_ammo_spawnflag_contracts_are_zaero_only(self) -> None:
+    def test_ammo_spawnflag_contracts_require_the_mapper_contract(self) -> None:
         pickup = ITEMS[ITEMS.index("bool Pickup_Ammo") : ITEMS.index("void Drop_Ammo")]
         spawn = ITEMS[ITEMS.index("void SpawnItem") : ITEMS.index("void SetItemNames")]
 
-        self.assertIn("level.is_zaero && ent->spawnflags.has(SPAWNFLAG_ITEM_MAX)", pickup)
+        self.assertIn("level.zaero_mapper_contract && ent->spawnflags.has(SPAWNFLAG_ITEM_MAX)", pickup)
         self.assertIn("if (oldcount >= count)", pickup)
         self.assertIn("count -= oldcount", pickup)
         self.assertIn(
-            "level.is_zaero && ent->spawnflags.has(SPAWNFLAG_ITEM_TOSS_SPAWN)", pickup
+            "level.zaero_mapper_contract && ent->spawnflags.has(SPAWNFLAG_ITEM_TOSS_SPAWN)", pickup
         )
         self.assertIn("SetRespawn(ent, 15_sec)", pickup)
 
         self.assertIn("valid_zaero_ammo_spawnflags", spawn)
-        self.assertIn("level.is_zaero && (item->flags & IF_AMMO)", spawn)
+        self.assertIn("level.zaero_mapper_contract && (item->flags & IF_AMMO)", spawn)
         self.assertIn("!(ent->spawnflags.value & ~0x0Fu)", spawn)
         self.assertIn("!valid_zaero_ammo_spawnflags", spawn)
 
@@ -282,7 +282,7 @@ class ZaeroItemRegistryTests(unittest.TestCase):
 
         self.assertIn("empties_active_ammo_weapon", drop)
         self.assertIn("item->flags & IF_AMMO", drop)
-        self.assertIn("if (empties_active_ammo_weapon && !level.is_zaero)", drop)
+        self.assertIn("if (empties_active_ammo_weapon && !level.zaero_content_active)", drop)
         self.assertIn("$g_cant_drop_weapon", drop)
         self.assertLess(
             drop.index("pers.inventory[index] -= dropped->count"),
@@ -295,7 +295,7 @@ class ZaeroItemRegistryTests(unittest.TestCase):
             self.assertIn("/* drop */ Drop_Ammo", item_block(item_id))
 
         remove_ammo = P_WEAPON[P_WEAPON.index("void G_RemoveAmmo(edict_t *ent, int32_t quantity)") :]
-        self.assertIn("if (level.is_zaero)", remove_ammo)
+        self.assertIn("if (level.zaero_content_active)", remove_ammo)
         self.assertIn("ammo = max(0, ammo - quantity)", remove_ammo)
 
     def test_complex_items_use_dedicated_callbacks_and_never_stock_aliases(self) -> None:

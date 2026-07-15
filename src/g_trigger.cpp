@@ -476,7 +476,7 @@ trigger_push
 constexpr spawnflags_t SPAWNFLAG_PUSH_ONCE = 0x01_spawnflag;
 constexpr spawnflags_t SPAWNFLAG_PUSH_PLUS = 0x02_spawnflag;
 // Zaero predates PUSH_PLUS and assigns the same bit to its persistent off
-// state. level.is_zaero selects the correct mapper contract for this collision.
+// state. level.zaero_mapper_contract selects the correct mapper contract for this collision.
 constexpr spawnflags_t SPAWNFLAG_PUSH_ZAERO_START_OFF = 0x02_spawnflag;
 constexpr spawnflags_t SPAWNFLAG_PUSH_SILENT = 0x04_spawnflag;
 constexpr spawnflags_t SPAWNFLAG_PUSH_START_OFF = 0x08_spawnflag;
@@ -487,7 +487,7 @@ static cached_soundindex windsound;
 
 TOUCH(trigger_push_touch) (edict_t *self, edict_t *other, const trace_t &tr, bool other_touching_self) -> void
 {
-	if (level.is_zaero && self->spawnflags.has(SPAWNFLAG_PUSH_ZAERO_START_OFF))
+	if (level.zaero_mapper_contract && self->spawnflags.has(SPAWNFLAG_PUSH_ZAERO_START_OFF))
 	{
 		// Zaero keeps the trigger linked while disabled so its optional message
 		// can still be shown. Guard the Rerelease print API from non-client
@@ -539,7 +539,7 @@ TOUCH(trigger_push_touch) (edict_t *self, edict_t *other, const trace_t &tr, boo
 // PGM
 USE(trigger_push_use) (edict_t *self, edict_t *other, edict_t *activator) -> void
 {
-	if (level.is_zaero)
+	if (level.zaero_mapper_contract)
 	{
 		self->spawnflags ^= SPAWNFLAG_PUSH_ZAERO_START_OFF;
 		return;
@@ -630,7 +630,7 @@ void SP_trigger_push(edict_t *self)
 	self->touch = trigger_push_touch;
 
 	// RAFAEL
-	if (!level.is_zaero && self->spawnflags.has(SPAWNFLAG_PUSH_PLUS))
+	if (!level.zaero_mapper_contract && self->spawnflags.has(SPAWNFLAG_PUSH_PLUS))
 	{
 		if (!self->wait)
 			self->wait = 10;
@@ -645,7 +645,7 @@ void SP_trigger_push(edict_t *self)
 		self->speed = 1000;
 
 	// PGM
-	if (level.is_zaero)
+	if (level.zaero_mapper_contract)
 	{
 		// Zaero toggles the bit rather than unlinking the volume; this preserves
 		// disabled-touch messages and is save-safe through spawnflags.

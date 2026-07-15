@@ -157,7 +157,7 @@ class ZaeroPlayerPresentationContractTests(unittest.TestCase):
         lookup = function_body(CLIENT, "const char *Zaero_GetMonsterObituary")
         self.assertIn("attacker->svflags & SVF_MONSTER", lookup)
         self.assertIn("Q_strcasecmp(attacker->classname, obituary.classname)", lookup)
-        self.assertIn("level.is_zaero || obituary.zaero_owned", lookup)
+        self.assertIn("level.zaero_mapper_contract || obituary.zaero_owned", lookup)
 
         obituary = function_body(CLIENT, "void ClientObituary")
         self.assertIn("Zaero_GetMonsterObituary(attacker)", obituary)
@@ -190,7 +190,7 @@ class ZaeroPlayerPresentationContractTests(unittest.TestCase):
             "{} killed himself.\\n",
         ):
             self.assertIn(message, obituary)
-        self.assertGreaterEqual(obituary.count("if (level.is_zaero)"), 3)
+        self.assertGreaterEqual(obituary.count("if (level.zaero_mapper_contract)"), 3)
 
 
 if __name__ == "__main__":

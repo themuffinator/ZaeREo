@@ -111,7 +111,7 @@ void Zaero_EMPNukeNoGenericFire(edict_t *)
 
 edict_t *Zaero_FireEMPNuke(edict_t *owner, const vec3_t &center, int radius)
 {
-	if (!level.is_zaero)
+	if (!level.zaero_content_active)
 		return nullptr;
 
 	if (owner)
@@ -127,6 +127,9 @@ edict_t *Zaero_FireEMPNuke(edict_t *owner, const vec3_t &center, int radius)
 	empnuke->s.origin = center;
 	empnuke->classname = ZAERO_EMP_CENTER_CLASSNAME;
 	empnuke->movetype = MOVETYPE_NONE;
+	// Publish the field as an active danger to Rerelease bots. This is bot
+	// metadata only; EMP queries still use the source-compatible radius scan.
+	empnuke->flags |= FL_TRAP;
 	empnuke->s.modelindex = gi.modelindex(ZAERO_EMP_BLAST_MODEL);
 	empnuke->s.skinnum = 0;
 	empnuke->think = Zaero_EMPBlastAnim;
@@ -137,7 +140,7 @@ edict_t *Zaero_FireEMPNuke(edict_t *owner, const vec3_t &center, int radius)
 
 bool Zaero_EMPNukeCheck(edict_t *subject, const vec3_t &position)
 {
-	if (!level.is_zaero)
+	if (!level.zaero_content_active)
 		return false;
 
 	edict_t *center = nullptr;
@@ -154,7 +157,7 @@ bool Zaero_EMPNukeCheck(edict_t *subject, const vec3_t &position)
 
 void Zaero_PlayEMPMisfire(edict_t *subject)
 {
-	if (!level.is_zaero || !subject)
+	if (!level.zaero_content_active || !subject)
 		return;
 
 	gi.sound(subject, CHAN_AUTO, gi.soundindex(ZAERO_EMP_MISFIRE_SOUND), 1.0f, ATTN_NORM, 0.0f);
@@ -162,7 +165,7 @@ void Zaero_PlayEMPMisfire(edict_t *subject)
 
 void Weapon_ZaeroEMPNuke(edict_t *ent)
 {
-	if (!level.is_zaero || !ent || !ent->client)
+	if (!level.zaero_content_active || !ent || !ent->client)
 		return;
 
 	// Think_Weapon runs at the server tick rate while Weapon_Generic advances

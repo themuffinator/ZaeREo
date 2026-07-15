@@ -110,7 +110,7 @@ class ZaeroHoverStrafeContractTests(unittest.TestCase):
     def test_hover_callback_is_exactly_zaero_and_classname_scoped(self) -> None:
         dodge = function_body(HOVER, "MONSTERINFO_DODGE(hover_zaero_dodge)")
         for contract in (
-            "!level.is_zaero",
+            "!level.zaero_mapper_contract",
             'strcmp(self->classname, "monster_hover") != 0',
             "active_move == &hover_move_attack1",
             "frandom() < 0.75f",
@@ -121,7 +121,7 @@ class ZaeroHoverStrafeContractTests(unittest.TestCase):
         spawn = function_body(HOVER, "void SP_monster_hover")
         assignment = "self->monsterinfo.dodge = hover_zaero_dodge"
         self.assertEqual(spawn.count(assignment), 1)
-        self.assertIn("level.is_zaero", spawn)
+        self.assertIn("level.zaero_mapper_contract", spawn)
         self.assertIn('strcmp(self->classname, "monster_hover") == 0', spawn)
 
     def test_begin_selects_the_bounded_legacy_3d_direction(self) -> None:

@@ -113,7 +113,13 @@
 	<ClInclude Include="zaero\g_zaero_ired.h">
 	  <Filter>zaero</Filter>
 	</ClInclude>
+	<ClInclude Include="zaero\g_zaero_map_identity.h">
+	  <Filter>zaero</Filter>
+	</ClInclude>
 	<ClInclude Include="zaero\g_zaero_plasma_shield.h">
+	  <Filter>zaero</Filter>
+	</ClInclude>
+	<ClInclude Include="zaero\g_zaero_shipped_map_identity.h">
 	  <Filter>zaero</Filter>
 	</ClInclude>
 	<ClInclude Include="zaero\g_zaero_sniper.h">
@@ -332,6 +338,9 @@
 	  <Filter>zaero</Filter>
 	</ClCompile>
 	<ClCompile Include="zaero\g_zaero_ired.cpp">
+	  <Filter>zaero</Filter>
+	</ClCompile>
+	<ClCompile Include="zaero\g_zaero_map_identity.cpp">
 	  <Filter>zaero</Filter>
 	</ClCompile>
 	<ClCompile Include="zaero\g_zaero_plasma_shield.cpp">

@@ -83,8 +83,8 @@ class UpstreamIntegrationAuditTests(unittest.TestCase):
         self.assertEqual(report, expected)
         self.assertEqual(integration_markdown(report), (ROOT / "docs" / "audits" / "upstream-integration.md").read_text(encoding="utf-8"))
         self.assertTrue(report["summary"]["policy_complete"])
-        self.assertEqual(report["summary"]["modified"], 33)
-        self.assertEqual(report["summary"]["added"], 34)
+        self.assertEqual(report["summary"]["modified"], 34)
+        self.assertEqual(report["summary"]["added"], 37)
         self.assertEqual(report["summary"]["removed"], 1)
 
     def test_complete_fixture_classifies_every_difference(self) -> None:

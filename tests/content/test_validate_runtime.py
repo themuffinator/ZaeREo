@@ -1,9 +1,9 @@
 from __future__ import annotations
 
+import shutil
 import sys
 import tempfile
 import unittest
-import shutil
 from pathlib import Path
 
 
@@ -115,6 +115,24 @@ class ValidateRuntimeTests(unittest.TestCase):
             (project / "base.dat").write_bytes(b"project override")
             build_pak(project, stage / "pak0.pak")
             with self.assertRaisesRegex(ValidationError, "ownership collision"):
+                validate_stage(stage, manifest=manifest)
+
+    def test_stage_rejects_project_import_file_directory_collision(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            stage, manifest = self._stage_fixture(root)
+            project = root / "file-project"
+            project.mkdir()
+            (project / "base.dat").write_bytes(b"project directory blocker")
+            build_pak(project, stage / "pak0.pak")
+            imported = root / "file-import"
+            (imported / "base.dat").mkdir(parents=True)
+            (imported / "base.dat" / "child.bin").write_bytes(b"imported child")
+            build_pak(imported, stage / "pak1.pak")
+            for relative in manifest["required_loose_paths"]:
+                destination = stage.joinpath(*relative.split("/"))
+                self.assertTrue(destination.is_file())
+            with self.assertRaisesRegex(ValidationError, "file/directory ownership collision"):
                 validate_stage(stage, manifest=manifest)
 
     def test_stage_rejects_imported_loose_member_collision(self) -> None:

@@ -1,0 +1,56 @@
+{
+  "schema": "zaereo.runtime-matrix/v1",
+  "schema_version": 1,
+  "scenarios": [
+    {
+      "id": "q2dm1-zdmflags0-injection",
+      "map": "q2dm1",
+      "deathmatch": true,
+      "zdmflags": 0,
+      "probe_deathmatch_items": true,
+      "wait_frames": 200,
+      "timeout_seconds": 60,
+      "requires_private_content": true
+    },
+    {
+      "id": "q2dm1-zdmflags1-injection",
+      "map": "q2dm1",
+      "deathmatch": true,
+      "zdmflags": 1,
+      "probe_deathmatch_items": true,
+      "wait_frames": 200,
+      "timeout_seconds": 60,
+      "requires_private_content": true
+    },
+    {
+      "id": "q2dm1-zdmflags2-disabled",
+      "map": "q2dm1",
+      "deathmatch": true,
+      "zdmflags": 2,
+      "probe_deathmatch_items": true,
+      "wait_frames": 200,
+      "timeout_seconds": 60,
+      "requires_private_content": true
+    },
+    {
+      "id": "q2dm1-zdmflags3-disabled",
+      "map": "q2dm1",
+      "deathmatch": true,
+      "zdmflags": 3,
+      "probe_deathmatch_items": true,
+      "wait_frames": 200,
+      "timeout_seconds": 60,
+      "requires_private_content": true
+    },
+    {
+      "id": "zdm1-authored-suppression",
+      "map": "zdm1",
+      "deathmatch": true,
+      "zdmflags": 0,
+      "probe_deathmatch_items": true,
+      "wait_frames": 200,
+      "timeout_seconds": 60,
+      "requires_private_content": true
+    }
+  ]
+}

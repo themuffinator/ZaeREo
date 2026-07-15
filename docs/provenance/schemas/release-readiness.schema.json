@@ -1,0 +1,306 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zaereo.invalid/schemas/release-readiness/v1",
+  "title": "ZaeREo release readiness evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema_version",
+    "generated_utc",
+    "generator",
+    "source",
+    "version",
+    "mode",
+    "channel",
+    "profile",
+    "ready",
+    "publication_status",
+    "publication_attempted",
+    "policy",
+    "inputs",
+    "gates",
+    "non_waivable_rules",
+    "unmet_requirements"
+  ],
+  "properties": {
+    "schema": {
+      "const": "zaereo.release-readiness/v1"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "generated_utc": {
+      "$ref": "#/$defs/utc"
+    },
+    "generator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "const": "tools/release_readiness.py"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "git_available",
+        "commit",
+        "working_tree_clean"
+      ],
+      "properties": {
+        "git_available": {
+          "type": "boolean"
+        },
+        "commit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "working_tree_clean": {
+          "type": "boolean"
+        }
+      }
+    },
+    "version": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "sha256"
+      ],
+      "properties": {
+        "value": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "tools-only",
+        "importer-kit",
+        "asset-full",
+        "local-full"
+      ]
+    },
+    "channel": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "profile": {
+      "type": "string",
+      "enum": [
+        "tools-progress",
+        "playable-candidate",
+        "playable-stable",
+        "local-full-private"
+      ]
+    },
+    "ready": {
+      "type": "boolean"
+    },
+    "publication_status": {
+      "enum": [
+        "blocked",
+        "private-local-only",
+        "eligible"
+      ]
+    },
+    "publication_attempted": {
+      "const": false
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "policy_id",
+        "revision"
+      ],
+      "properties": {
+        "path": {
+          "const": "docs/provenance/distribution-policy.json"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "policy_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "inputs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]*$"
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._/-]*$"
+          },
+          "sha256": {
+            "$ref": "#/$defs/sha256"
+          }
+        }
+      }
+    },
+    "gates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "required",
+          "status",
+          "detail"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]*$"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "status": {
+            "enum": [
+              "passed",
+              "failed",
+              "missing",
+              "not-applicable",
+              "blocked"
+            ]
+          },
+          "detail": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "non_waivable_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "status",
+          "description"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]*$"
+          },
+          "status": {
+            "enum": [
+              "passed",
+              "failed",
+              "missing",
+              "not-applicable",
+              "blocked"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "unmet_requirements": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "ready": {
+            "const": true
+          }
+        },
+        "required": [
+          "ready"
+        ]
+      },
+      "then": {
+        "properties": {
+          "publication_status": {
+            "const": "eligible"
+          },
+          "unmet_requirements": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "ready": {
+            "const": false
+          }
+        },
+        "required": [
+          "ready"
+        ]
+      },
+      "then": {
+        "properties": {
+          "unmet_requirements": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "utc": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    }
+  }
+}

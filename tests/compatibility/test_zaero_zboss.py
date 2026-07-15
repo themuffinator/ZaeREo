@@ -165,7 +165,7 @@ class ZaeroZBossContractTests(unittest.TestCase):
 
     def test_fresh_zboss_entry_resets_only_that_clients_persistence(self) -> None:
         self.assertIn(
-            'spawn_from_begin && level.is_zaero &&\n\t\tQ_strcasecmp(level.mapname, "zboss") == 0',
+            'spawn_from_begin && level.zaero_mapper_contract &&\n\t\tQ_strcasecmp(level.mapname, "zboss") == 0',
             CLIENT,
         )
         self.assertIn("if (client->pers.health <= 0)", CLIENT)
@@ -192,7 +192,7 @@ class ZaeroZBossContractTests(unittest.TestCase):
 
     def test_finale_uses_five_second_white_per_client_fade(self) -> None:
         self.assertIn("ZAERO_FINALE_FADE_DURATION = 5_sec", FINALE)
-        self.assertIn("level.is_zaero && !deathmatch->integer", FINALE)
+        self.assertIn("level.zaero_mapper_contract && !deathmatch->integer", FINALE)
         self.assertIn('Q_strcasecmp(level.mapname, "zboss") == 0', FINALE)
         self.assertIn("level.time + ZAERO_FINALE_FADE_DURATION", FINALE)
         self.assertIn(

@@ -617,6 +617,9 @@ void zboss_fire_hook(edict_t *self)
 	hook->velocity = direction * ZBOSS_HOOK_SPEED;
 	hook->movetype = MOVETYPE_FLYMISSILE;
 	hook->svflags |= SVF_PROJECTILE;
+	// Rerelease bot metadata only; keep the supplied hook collision and damage
+	// lifecycle unchanged while exposing it as moving danger.
+	hook->flags |= FL_TRAP;
 	hook->clipmask = MASK_PROJECTILE;
 	hook->solid = SOLID_BBOX;
 	hook->s.modelindex = gi.modelindex(ZBOSS_GRAPPLE_MODEL);
@@ -786,6 +789,7 @@ void zboss_fire_plasma(edict_t *self, const vec3_t &start,
 	plasma->avelocity = { 300, 300, 300 };
 	plasma->movetype = MOVETYPE_BOUNCE;
 	plasma->svflags |= SVF_PROJECTILE;
+	plasma->flags |= FL_TRAP;
 	plasma->clipmask = MASK_PROJECTILE;
 	plasma->solid = SOLID_BBOX;
 	plasma->s.modelindex = gi.modelindex(ZBOSS_PLASMA_MODEL);
@@ -1066,6 +1070,7 @@ void zboss_fire_dead_hook(edict_t *self)
 	hook->velocity = up * 500.0f;
 	hook->movetype = MOVETYPE_FLYMISSILE;
 	hook->svflags |= SVF_PROJECTILE;
+	hook->flags |= FL_TRAP;
 	hook->clipmask = MASK_PROJECTILE;
 	hook->solid = SOLID_BBOX;
 	hook->s.modelindex = gi.modelindex(ZBOSS_GRAPPLE_MODEL);

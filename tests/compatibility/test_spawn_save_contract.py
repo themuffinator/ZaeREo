@@ -2,15 +2,21 @@ from __future__ import annotations
 
 from pathlib import Path
 import re
+import sys
 import unittest
 
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "tools"))
+from generate_shipped_map_identity import load_records, render  # noqa: E402
+
 LOCAL = (ROOT / "src" / "g_local.h").read_text(encoding="utf-8")
 SPAWN = (ROOT / "src" / "g_spawn.cpp").read_text(encoding="utf-8")
 SAVE = (ROOT / "src" / "g_save.cpp").read_text(encoding="utf-8")
 MAIN = (ROOT / "src" / "g_main.cpp").read_text(encoding="utf-8")
 BG = (ROOT / "src" / "bg_local.h").read_text(encoding="utf-8")
+MAP_AUDIT = ROOT / "docs" / "audits" / "bsp-entities.json"
+MAP_IDENTITY_HEADER = ROOT / "src" / "zaero" / "g_zaero_shipped_map_identity.h"
 
 
 class ZaeroSpawnSaveContractTests(unittest.TestCase):
@@ -50,17 +56,67 @@ class ZaeroSpawnSaveContractTests(unittest.TestCase):
         for field in ("spawnflags2", "aspeed", "active", "mangle"):
             self.assertRegex(SAVE, rf"FIELD_AUTO\({field}\)")
 
-    def test_zaero_map_discriminator_covers_all_retail_bsps(self) -> None:
-        start = SPAWN.index("static bool G_IsZaeroMap")
-        body = SPAWN[start : start + 2200]
+    def test_mapper_classifier_separates_content_from_colliding_stock_semantics(self) -> None:
         expected = {
             "zbase1", "zbase2", "zdef1", "zdef2", "zdef3", "zdef4",
             "zwaste1", "zwaste2", "zwaste3", "ztomb1", "ztomb2", "ztomb3",
             "ztomb4", "zboss", "zdm1", "zdm2", "zdm3", "zdm4", "zdm5", "zdm6",
         }
-        names = set(re.findall(r'"(z(?:base|def|waste|tomb|boss|dm)[0-9]*)"', body))
-        self.assertEqual(names, expected)
-        self.assertIn("level.is_zaero = G_IsZaeroMap", SPAWN)
+        records = load_records(MAP_AUDIT)
+        self.assertEqual({record["map_name"] for record in records}, expected)
+        self.assertTrue(all(record["sha256"] for record in records))
+        self.assertTrue(all(record["entity_lump_sha256"] for record in records))
+        self.assertEqual(MAP_IDENTITY_HEADER.read_text(encoding="utf-8"), render(records))
+        self.assertIn('"zaero_mapper_contract"', SPAWN)
+        self.assertIn("G_ParseZaeroMapperMetadata", SPAWN)
+        self.assertIn("G_ZaeroMapperSignature", SPAWN)
+        self.assertIn("Zaero_FindShippedMapEntityIdentity", SPAWN)
+        self.assertNotIn('"spawnflags2"', SPAWN[SPAWN.index("G_ZaeroMapperSignature"):SPAWN.index("G_ClassifyZaeroMapperContract")])
+        self.assertIn("level.zaero_content_active = true", SPAWN)
+        self.assertIn("level.zaero_mapper_contract = mapper_classification.enabled", SPAWN)
+        self.assertIn("level.zaero_mapper_contract_reason = mapper_classification.reason", SPAWN)
+        self.assertIn("entity-sha256", SPAWN)
+        self.assertNotIn("G_IsZaeroMap", SPAWN)
+
+    def test_mapper_scope_identity_is_registered_and_save_mismatches_fail_closed(self) -> None:
+        self.assertIn("bool zaero_content_active;", LOCAL)
+        self.assertIn("bool zaero_mapper_contract;", LOCAL)
+        self.assertIn("zaero_mapper_contract_reason_t zaero_mapper_contract_reason;", LOCAL)
+        self.assertIn("std::array<uint8_t, 32> zaero_entity_lump_sha256;", LOCAL)
+        for field in (
+            "zaero_content_active",
+            "zaero_mapper_contract",
+            "zaero_mapper_contract_reason",
+            "zaero_entity_lump_sha256",
+        ):
+            self.assertIn(f"FIELD_AUTO({field})", SAVE)
+            self.assertIn(f'json["level"].isMember("{field}")', SAVE)
+        self.assertIn("predates Zaero mapper classification; no safe migration", SAVE)
+        self.assertIn("Zaero map identity/classification mismatch", SAVE)
+        self.assertIn("memset(&level, 0, sizeof(level))", SAVE)
+
+    def test_map_only_native_adaptations_use_mapper_scope_not_content_scope(self) -> None:
+        expected = {
+            "g_items.cpp": "SPAWNFLAG_ITEM_MAX",
+            "g_monster.cpp": "SPAWNFLAG_ZAERO_MONSTER_NO_COUNT",
+            "g_target.cpp": "Zaero_MonsterKillBox(ent)",
+            "g_utils.cpp": "bool Zaero_MonsterKillBox",
+            "m_hover.cpp": "hover_zaero_dodge",
+            "p_client.cpp": 'Q_strcasecmp(level.mapname, "zboss")',
+            "p_weapon.cpp": "Weapon_RocketLauncher_Fire",
+        }
+        for filename, contract in expected.items():
+            source = (ROOT / "src" / filename).read_text(encoding="utf-8")
+            self.assertIn(contract, source)
+            self.assertIn("level.zaero_mapper_contract", source)
+
+        for filename in (
+            "g_zaero_ai.cpp",
+            "g_zaero_finale.cpp",
+            "g_zaero_weapons.cpp",
+        ):
+            source = (ROOT / "src" / "zaero" / filename).read_text(encoding="utf-8")
+            self.assertIn("level.zaero_mapper_contract", source)
 
     def test_cvar_hud_and_capacity_contracts_are_named(self) -> None:
         self.assertIn('gi.cvar("zdmflags", "0", CVAR_SERVERINFO)', MAIN)

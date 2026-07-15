@@ -376,7 +376,7 @@ THINK(target_explosion_explode_think) (edict_t *self) -> void
 
 THINK(target_explosion_explode) (edict_t *self) -> void
 {
-	if (level.is_zaero && self->spawnflags.has(SPAWNFLAG_TARGET_EXPLOSION_ZAERO_A2K_STYLE))
+	if (level.zaero_mapper_contract && self->spawnflags.has(SPAWNFLAG_TARGET_EXPLOSION_ZAERO_A2K_STYLE))
 	{
 		// Zaero called this flag EMP_STYLE, but the supplied implementation
 		// only swaps presentation.  Ordinary radius damage and target firing
@@ -597,7 +597,7 @@ USE(use_target_spawner) (edict_t *self, edict_t *other, edict_t *activator) -> v
 	ED_CallSpawn(ent);
 	gi.linkentity(ent);
 
-	if (level.is_zaero && (ent->svflags & SVF_MONSTER))
+	if (level.zaero_mapper_contract && (ent->svflags & SVF_MONSTER))
 		Zaero_MonsterKillBox(ent);
 	else
 		KillBox(ent, false);

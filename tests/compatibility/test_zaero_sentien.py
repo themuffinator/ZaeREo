@@ -110,7 +110,7 @@ class ZaeroSentienContractTests(unittest.TestCase):
         self.assertIn("AI_HOLD_FRAME | AI_ZAERO_REDUCED_DAMAGE", SOURCE)
 
     def test_damage_reduction_hook_is_zaero_gated_and_boss_reusable(self) -> None:
-        self.assertIn("if (level.is_zaero && (targ->svflags & SVF_MONSTER)", COMBAT)
+        self.assertIn("if (level.zaero_content_active && (targ->svflags & SVF_MONSTER)", COMBAT)
         self.assertIn("targ->monsterinfo.zaero_damage_scale > 0.0f", COMBAT)
         self.assertIn("AI_ZAERO_REDUCED_DAMAGE", COMBAT)
         self.assertIn("AI_ZAERO_MONSTER_REDUCED_DAMAGE", COMBAT)

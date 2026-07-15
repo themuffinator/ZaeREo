@@ -32,16 +32,43 @@ class RuntimeHarnessTests(unittest.TestCase):
         self.assertIn("EnumWindows", text)
         self.assertIn("GetVisibleTopLevelWindows", text)
         self.assertIn("SendConsoleCommand", text)
+        self.assertIn("SendInput", text)
+        self.assertIn("MOUSEINPUT", text)
+        self.assertIn("HARDWAREINPUT", text)
+        self.assertIn("VkKeyScanW", text)
+        self.assertIn("MapVirtualKeyW", text)
+        self.assertIn("KEYEVENTF_SCANCODE", text)
+        self.assertIn("SendConsoleCharacter", text)
+        self.assertNotIn("SendUnicodeCharacter", text)
+        self.assertIn("GetForegroundWindow", text)
+        self.assertIn("GetCurrentThreadId", text)
+        self.assertIn("AttachThreadInput", text)
+        self.assertIn("ShowWindow", text)
+        self.assertIn("SetActiveWindow", text)
+        self.assertIn("SetFocus", text)
+        self.assertIn("targetAttached", text)
+        self.assertIn("SwitchToThisWindow", text)
+        self.assertIn("ActivateWithoutForegroundQueue", text)
+        self.assertIn("no-foreground-task-switch", text)
+        self.assertIn("FocusExactWindow", text)
+        self.assertIn("LastConsoleCommandStatus", text)
+        self.assertIn("foreground-unavailable", text)
+        self.assertNotIn("PostMessage", text)
         self.assertIn("non_windowed_visible_observed", text)
         self.assertIn("window_safety_abort", text)
         self.assertIn("two-stage-window-before-mod-map/v1", text)
         self.assertIn("mod_map_command_injected_after_window_verification", text)
+        self.assertIn("ManualCommandDelivery", text)
+        self.assertIn("manual-awaiting-engine-confirmation", text)
+        self.assertIn("$modMapCommandDeliveryAttempted", text)
         self.assertIn("3-second startup quiescence interval", text)
         self.assertIn("if ($windowSafetyAborted)", text)
         self.assertIn('"+set", "v_width", "1280"', text)
         self.assertIn('"+set", "v_height", "720"', text)
+        self.assertNotIn('"+echo"', text)
         self.assertNotIn('"+set", "game"', text)
         self.assertNotIn('"+map", $Map', text)
+        self.assertIn('"echo $beginMarker"', text)
         self.assertIn('"set v_windowmode 0"', text)
         self.assertIn('"set game zaereo"', text)
         self.assertIn('"map $Map"', text)
@@ -55,10 +82,15 @@ class RuntimeHarnessTests(unittest.TestCase):
         self.assertIn("ZAEREO_DM_PROBE_ITEM", text)
         self.assertIn("WaitForExit", text)
         self.assertIn("Get-RereleaseProcesses", text)
+        self.assertIn("Stop-RunRereleaseProcesses", text)
+        self.assertIn("residual_process_ids", text)
+        self.assertNotIn('throw "Rerelease did not produce its stdout log', text)
         self.assertIn("Stop-Process -Id $current.Id -Force", text)
         self.assertIn("Refusing to launch while the selected Rerelease executable is already running", text)
         self.assertIn("ZAEREO_RUNTIME_BEGIN_", text)
         self.assertIn("ZAEREO_RUNTIME_END_", text)
+        self.assertIn("$windowReadyDelay", text)
+        self.assertIn("$windowVerifiedAt", text)
         self.assertIn("$sessionLog", text)
         self.assertIn("Begin\\(\\) from", text)
         self.assertIn('schema = "zaereo.runtime-smoke/v2"', text)
@@ -121,6 +153,7 @@ class RuntimeHarnessTests(unittest.TestCase):
                     "-ZdmFlags",
                     "3",
                     "-ProbeDeathmatchItems",
+                    "-ManualCommandDelivery",
                     "-ReportOutput",
                     str(report),
                     "-WhatIf",
@@ -135,6 +168,7 @@ class RuntimeHarnessTests(unittest.TestCase):
             self.assertIn("mode:    deathmatch", result.stdout)
             self.assertIn("zdmflags: 3", result.stdout)
             self.assertIn("DM item probe: True", result.stdout)
+            self.assertIn("command delivery: manual engine-confirmed", result.stdout)
             self.assertFalse(report.exists())
 
             invalid = subprocess.run(
@@ -204,6 +238,16 @@ class RuntimeHarnessTests(unittest.TestCase):
         )
         probe_schema = schema["properties"]["dm_item_probe"]["oneOf"][1]
         self.assertEqual(probe_schema["properties"]["items"]["maxItems"], 8)
+        self.assertEqual(
+            schema["allOf"][0]["then"]["properties"]["residual_process_ids"],
+            {"maxItems": 0},
+        )
+        self.assertEqual(
+            schema["allOf"][0]["then"]["properties"]["command_delivery"],
+            {"const": "engine-confirmed"},
+        )
+        self.assertIn("focus_diagnostic", schema["properties"])
+        self.assertTrue(schema["properties"]["focus_diagnostic"]["additionalProperties"] is False)
 
         try:
             import jsonschema
@@ -263,9 +307,15 @@ class RuntimeHarnessTests(unittest.TestCase):
                 "width": 1296,
                 "height": 759,
             },
+            "focus_diagnostic": {
+                "stage": "queue-activation",
+                "foreground_process_id": 1234,
+                "target_foreground": True,
+            },
             "non_windowed_visible_observed": False,
             "window_safety_abort": False,
             "launch_protocol": "two-stage-window-before-mod-map/v1",
+            "command_delivery": "engine-confirmed",
             "mod_map_command_injected_after_window_verification": True,
             "engine_executable": "quake2ex_steam.exe",
             "engine_sha256": "1" * 64,
@@ -290,6 +340,7 @@ class RuntimeHarnessTests(unittest.TestCase):
             "stderr_empty": True,
             "fatal_matches": [],
             "crash_dumps": [],
+            "residual_process_ids": [],
             "console_log": "stdout.txt",
             "publication_status": "private-local-only",
         }
@@ -305,6 +356,20 @@ class RuntimeHarnessTests(unittest.TestCase):
         with self.assertRaises(jsonschema.ValidationError):
             jsonschema.Draft202012Validator(schema).validate(safety_aborted_pass)
 
+        missing_delivery_evidence = json.loads(json.dumps(report))
+        del missing_delivery_evidence["command_delivery"]
+        with self.assertRaises(jsonschema.ValidationError):
+            jsonschema.Draft202012Validator(schema).validate(missing_delivery_evidence)
+
+        legacy_v2_without_focus_diagnostic = json.loads(json.dumps(report))
+        del legacy_v2_without_focus_diagnostic["focus_diagnostic"]
+        jsonschema.Draft202012Validator(schema).validate(legacy_v2_without_focus_diagnostic)
+
+        missing_residual_evidence = json.loads(json.dumps(report))
+        del missing_residual_evidence["residual_process_ids"]
+        with self.assertRaises(jsonschema.ValidationError):
+            jsonschema.Draft202012Validator(schema).validate(missing_residual_evidence)
+
         missing_safety_evidence = json.loads(json.dumps(report))
         del missing_safety_evidence["window_safety_abort"]
         with self.assertRaises(jsonschema.ValidationError):
@@ -319,6 +384,16 @@ class RuntimeHarnessTests(unittest.TestCase):
         impossible_radius["dm_item_probe"]["items"][0]["placement_radius_xy"] = 127.0
         with self.assertRaises(jsonschema.ValidationError):
             jsonschema.Draft202012Validator(schema).validate(impossible_radius)
+
+        residual_process_pass = json.loads(json.dumps(report))
+        residual_process_pass["residual_process_ids"] = [1234]
+        with self.assertRaises(jsonschema.ValidationError):
+            jsonschema.Draft202012Validator(schema).validate(residual_process_pass)
+
+        failed_delivery_pass = json.loads(json.dumps(report))
+        failed_delivery_pass["command_delivery"] = "foreground-unavailable"
+        with self.assertRaises(jsonschema.ValidationError):
+            jsonschema.Draft202012Validator(schema).validate(failed_delivery_pass)
 
 
 if __name__ == "__main__":

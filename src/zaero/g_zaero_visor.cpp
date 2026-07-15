@@ -149,7 +149,7 @@ void Zaero_VisorSelectCamera(edict_t *ent, edict_t *camera, bool initial)
 
 bool Pickup_ZaeroVisor(edict_t *ent, edict_t *other)
 {
-	if (!level.is_zaero || !ent || !ent->item || !other || !other->client)
+	if (!level.zaero_content_active || !ent || !ent->item || !other || !other->client)
 		return false;
 
 	auto &inventory = other->client->pers.inventory[ent->item->id];
@@ -174,7 +174,7 @@ bool Pickup_ZaeroVisor(edict_t *ent, edict_t *other)
 
 void Drop_ZaeroVisor(edict_t *ent, gitem_t *item)
 {
-	if (!level.is_zaero || !ent || !ent->client || !item)
+	if (!level.zaero_content_active || !ent || !ent->client || !item)
 		return;
 
 	Zaero_VisorStop(ent, true);
@@ -192,7 +192,7 @@ void Drop_ZaeroVisor(edict_t *ent, gitem_t *item)
 
 void Zaero_VisorSetDefaultDuration(edict_t *ent)
 {
-	if (!level.is_zaero || !ent || !ent->client)
+	if (!level.zaero_content_active || !ent || !ent->client)
 		return;
 
 	ent->client->pers.zaero_visor_remaining = ZAERO_VISOR_DEFAULT_DURATION;
@@ -200,7 +200,7 @@ void Zaero_VisorSetDefaultDuration(edict_t *ent)
 
 void Zaero_VisorClearDurationIfUnowned(edict_t *ent)
 {
-	if (!level.is_zaero || !ent || !ent->client)
+	if (!level.zaero_content_active || !ent || !ent->client)
 		return;
 
 	if (ent->client->pers.inventory[IT_ITEM_VISOR] <= 0)
@@ -212,7 +212,7 @@ void Zaero_VisorClearDurationIfUnowned(edict_t *ent)
 
 void Use_ZaeroVisor(edict_t *ent, gitem_t *)
 {
-	if (!level.is_zaero || !ent || !ent->client)
+	if (!level.zaero_content_active || !ent || !ent->client)
 		return;
 
 	if (ent->client->zaero_visor_camera && !Zaero_VisorCamera(ent))
@@ -243,7 +243,7 @@ void Use_ZaeroVisor(edict_t *ent, gitem_t *)
 
 bool Zaero_VisorIsActive(const edict_t *ent)
 {
-	return level.is_zaero && ent && ent->client &&
+	return level.zaero_content_active && ent && ent->client &&
 		ent->client->zaero_visor_camera != nullptr;
 }
 

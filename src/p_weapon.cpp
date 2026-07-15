@@ -454,7 +454,7 @@ void G_RemoveAmmo(edict_t *ent, int32_t quantity)
 		ent->client->pers.weapon->quantity_warn;
 
 	int32_t &ammo = ent->client->pers.inventory[ent->client->pers.weapon->ammo];
-	if (level.is_zaero)
+	if (level.zaero_content_active)
 		ammo = max(0, ammo - quantity);
 	else
 		ammo -= quantity;
@@ -1338,7 +1338,7 @@ void Weapon_RocketLauncher_Fire(edict_t *ent)
 	gi.multicast(ent->s.origin, MULTICAST_PVS, false);
 
 	PlayerNoise(ent, start, PNOISE_WEAPON);
-	if (level.is_zaero)
+	if (level.zaero_mapper_contract)
 		Weapon_PowerupSound(ent);
 	
 	G_RemoveAmmo(ent);
@@ -1350,7 +1350,7 @@ void Weapon_RocketLauncher(edict_t *ent)
 	constexpr int fire_frames[] = { 5, 0 };
 
 	Weapon_Generic(ent, 4, 12, 50, 54, pause_frames, fire_frames,
-		Weapon_RocketLauncher_Fire, !level.is_zaero);
+		Weapon_RocketLauncher_Fire, !level.zaero_mapper_contract);
 }
 
 /*
@@ -1395,7 +1395,7 @@ bool Blaster_Fire(edict_t *ent, const vec3_t &g_offset, int damage, bool hyper, 
 	gi.multicast(ent->s.origin, MULTICAST_PVS, false);
 
 	PlayerNoise(ent, start, PNOISE_WEAPON);
-	if (level.is_zaero)
+	if (level.zaero_mapper_contract)
 		Weapon_PowerupSound(ent);
 	return true;
 }
@@ -1413,7 +1413,7 @@ void Weapon_Blaster(edict_t *ent)
 	constexpr int fire_frames[] = { 5, 0 };
 
 	Weapon_Generic(ent, 4, 8, 52, 55, pause_frames, fire_frames,
-		Weapon_Blaster_Fire, !level.is_zaero);
+		Weapon_Blaster_Fire, !level.zaero_mapper_contract);
 }
 
 void Weapon_HyperBlaster_Fire(edict_t *ent)
@@ -1878,7 +1878,7 @@ void weapon_railgun_fire(edict_t *ent)
 	gi.multicast(ent->s.origin, MULTICAST_PVS, false);
 
 	PlayerNoise(ent, start, PNOISE_WEAPON);
-	if (level.is_zaero)
+	if (level.zaero_mapper_contract)
 		Weapon_PowerupSound(ent);
 	
 	G_RemoveAmmo(ent);
@@ -1890,7 +1890,7 @@ void Weapon_Railgun(edict_t *ent)
 	constexpr int fire_frames[] = { 4, 0 };
 
 	Weapon_Generic(ent, 3, 18, 56, 61, pause_frames, fire_frames,
-		weapon_railgun_fire, !level.is_zaero);
+		weapon_railgun_fire, !level.zaero_mapper_contract);
 }
 
 /*
@@ -1959,7 +1959,7 @@ void weapon_bfg_fire(edict_t *ent)
 	gi.multicast(ent->s.origin, MULTICAST_PVS, false);
 
 	PlayerNoise(ent, start, PNOISE_WEAPON);
-	if (level.is_zaero)
+	if (level.zaero_mapper_contract)
 		Weapon_PowerupSound(ent);
 	
 	G_RemoveAmmo(ent);
@@ -1971,7 +1971,7 @@ void Weapon_BFG(edict_t *ent)
 	constexpr int fire_frames[] = { 9, 17, 0 };
 
 	Weapon_Generic(ent, 8, 32, 54, 58, pause_frames, fire_frames,
-		weapon_bfg_fire, !level.is_zaero);
+		weapon_bfg_fire, !level.zaero_mapper_contract);
 }
 
 //======================================================================

@@ -44,7 +44,7 @@ class ZaeroIREDContractTests(unittest.TestCase):
             self.assertIn(contract, HEADER)
 
         self.assertIn("MOD_ZAERO_TRIPBOMB", SOURCE)
-        self.assertIn("if (!level.is_zaero", SOURCE)
+        self.assertIn("if (!level.zaero_content_active", SOURCE)
         self.assertIn("THINK(Zaero_IREDExplode)", SOURCE)
         self.assertIn("THINK(Zaero_IREDLaserThink)", SOURCE)
         self.assertIn("THINK(Zaero_IREDLaserOn)", SOURCE)

@@ -24,7 +24,8 @@ facilities correctly.
 | Platform | Quake II Rerelease, Windows x64 first | Supplied substrate is an exact per-file match for pinned official commit `8dc1fc9`; local Debug/Release/export proof exists, while engine-load/data-build certification remains open |
 | Single player | 14-map campaign, cinematics through finale | Foundations and selected gameplay systems integrated; not map-verified/playable |
 | Co-op | Authored starts and progression across all campaign maps | All 121 starts audited and native paths retained; full gameplay/progression matrix not implemented or live-verified |
-| Deathmatch | Six ZDM maps plus campaign-map starts and item injection | All 230 starts and exact injection semantics are source/BSP/model-tested; private windowed `q2dm1` proves values 0–3 plus exact eight-item order/start/offset/native-drop state, `zdm1` proves authored suppression, a real-brush fixture proves partial success, and eight one-member fixtures prove every precondition member. Full rules, saves, dedicated and live 2/4/8-client sessions remain |
+| Deathmatch | Six ZDM maps plus campaign-map starts and item injection | All 230 starts and exact injection semantics are source/BSP/model-tested. Private legacy-v1 one-stage `q2dm1`/fixture reports record values 0–3, exact eight-item order/start/offset/native-drop state, authored suppression, partial success, and every one-member precondition; they must be rerun under the v2 window-before-mod/map protocol before they count as current runtime evidence. Full rules, saves, dedicated and live 2/4/8-client sessions remain |
+| Bots | Safe coexistence with Rerelease bots | Appended Zaero item IDs use the native generic registry; custom active hazards publish native trap/laser metadata and invalid external item IDs are rejected before indexing. Live zdm1–6 bot/no-navigation sessions remain |
 | Saves | Native Rerelease JSON save/load | Implemented-slice fields/callbacks registered; live lifecycle round trips and remaining systems are incomplete |
 | Split screen | Isolated per-client HUD, views, zoom, and Visor | Flare/Sonic/Sniper/showorigin plus the active Visor view/HUD/copy state are client-local under static contracts, and full native Zaero wheel allocation plus 1–10 aliases are static-tested; live wheel/Visor/cross-talk matrices remain |
 | Legacy content | 20 BSPs, 969 effective PAK paths, nine required loose files | Hash-audited importer works locally; content is not distributed |
@@ -76,14 +77,39 @@ The planned release defaults to the upstream-recommended per-user directory:
 
 For development, debugging, and validation, use `tools/run_game.ps1`; it
 starts a visible `-window`/`v_windowmode 0` bootstrap, positively verifies all
-visible native windows owned by the selected executable, and only then injects
-the `zaereo`/map command. Do not substitute a direct command line or fullscreen
-launch for that verifier. Future end-user instructions will distinguish the
-game's mod selector from the verified developer workflow.
+visible native windows owned by the selected executable, and only then attempts
+foreground-gated delivery of the `zaereo`/map command. The exact handle is
+foregrounded through caller/target queue attachment with a task-switch retry
+before any system key is sent. A v2 report is a pass
+only when the game's own session marker confirms delivery; an accepted synthetic
+input sequence is not compatibility evidence. Do not substitute a direct command
+line or fullscreen launch for that verifier. Future end-user instructions will
+distinguish the game's mod selector from the verified developer workflow.
 
 Stable releases will include install, update, uninstall, version, and checksum
 instructions. Until one exists, GitHub source snapshots and locally generated
 verification archives are not supported game packages.
+
+### Mapper-contract scope
+
+Zaero gameplay/content is active in the `zaereo` game module, but the legacy
+meanings of colliding stock classname flags and other map-only changes to
+native actors, weapons, presentation, or campaign flow are not enabled
+globally. The separate mapper contract is enabled only by an audited
+shipped-map identity, a conservative Zaero-owned classname signature, or the
+exact worldspawn key:
+
+~~~text
+"zaero_mapper_contract" "1"
+~~~
+
+Use `"0"` to opt out explicitly. The key is case-sensitive; duplicate or
+invalid values fail closed. The DLL logs the map name, classification reason,
+and SHA-256 of the entity string it was actually given, and a save may load only
+when those classification fields agree. This is deliberately not described as
+a full-BSP verification: the Rerelease game-DLL API does not expose the
+resolved BSP bytes. Full-BSP identity remains audited at import time and is an
+open engine-extension requirement before this classifier can be VERIFIED.
 
 ## Development
 
@@ -116,9 +142,24 @@ python ./tools/validate_runtime.py --root .install/imported/zaereo --manifest .i
 ./tools/install_dev.ps1 -EngineRoot "D:\Games\Quake II Rerelease\rerelease" -ContentRoot .install/imported/zaereo -AssetManifest .install/imported/zaereo-asset-manifest.json -Configuration Debug -WhatIf
 # Inspect the plan, then repeat without -WhatIf to use the per-user default.
 ./tools/run_game.ps1 -Map q2dm1 -Deathmatch -ZdmFlags 0 -ProbeDeathmatchItems -ReportOutput .install/runtime-reports/q2dm1-zdmflags0-placement.json
-# The wrapper starts a visible -window/v_windowmode 0 bootstrap and only injects
-# the mod/map after all visible native windows pass its caption/non-popup check.
+./tools/run_runtime_matrix.ps1 -WhatIf
+./tools/run_runtime_matrix.ps1 -ScenarioFile ./tools/runtime-scenarios-dm.json -WhatIf
+python ./tools/release_readiness.py --mode local-full --channel private-local-filesystem --profile local-full-private
+# The wrapper starts a visible -window/v_windowmode 0 bootstrap and attempts
+# delivery only after all visible native windows pass its caption/non-popup check.
+# The matrix consumes private-only reviewed scenarios and creates no output under -WhatIf.
+# The D-045 DM matrix reruns values 0–3 and authored suppression; the separate
+# `runtime-scenarios-dm-fixtures.json` matrix requires the private fixture overlay.
+# The readiness evaluator writes an ignored local record. It is expected to say
+# ready=false while the active policy blocks every public mode; it never publishes.
 ~~~
+
+If the KEX client rejects synthetic input, add `-ManualCommandDelivery` to the
+single-map wrapper or private matrix. The matrix runs scenarios serially and
+records that manual mode was selected, but still accepts a case only when that
+case's report is `engine-confirmed`. Enter each nonce-bearing command only after
+its client window is verified. Do not treat a prompted or pasted command as a
+passing smoke until the report is written.
 
 `tools/make_dm_runtime_fixture.py` can derive an ignored, private-only
 partial-placement BSP from a locally owned `baseq2/pak0.pak` for D-045 runtime
@@ -172,8 +213,12 @@ archives, external manifests, SHA-256 checksums, a pinned SPDX 2.3 substrate
 SBOM, and exact vcpkg license bundle, but current tooling output is not evidence
 of publication rights or release readiness. Remote workflows
 are read-only and the publisher fails closed before external access; those
-controls must remain in place while every public mode is blocked. Stable publication
-additionally requires the exact-commit machine-readable readiness gate, private
+controls must remain in place while every public mode is blocked. The local
+readiness evaluator fingerprints the policy, audited/ledger inputs, source state,
+and requested mode/channel/profile, but intentionally produces a blocked record
+until exact-candidate manifests, test evidence, and rights/channel gates exist.
+Stable publication additionally requires that exact-commit machine-readable
+readiness gate, private
 live evidence, a clean tagged commit, version/tag agreement, eligible
 code/media policy, and protected human approval of a draft GitHub release. A
 `local-full` package contains the user's commercial content and is permanently

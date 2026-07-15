@@ -27,4 +27,4 @@ Set-StrictMode -Version Latest
 # reintroduced together with the versioned, machine-readable distribution
 # policy and readiness report required by the roadmap. A prose acknowledgement
 # or command-line switch is not a gate.
-throw "REMOTE_PUBLICATION_DISABLED: gameplay-tree GitHub publication is disabled until the machine-readable distribution policy and readiness gate are implemented and verified. No GitHub state was read or modified."
+throw "REMOTE_PUBLICATION_DISABLED: gameplay-tree GitHub publication is disabled until the active machine-readable distribution policy permits the exact mode/channel and a validated exact-candidate readiness record is ready. No GitHub state was read or modified."

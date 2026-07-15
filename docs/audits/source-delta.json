@@ -8930,7 +8930,7 @@
   },
   "format": "ZaeREo source delta audit",
   "inputs": {
-    "legacy_label": "legacy-quake2-game",
+    "legacy_label": "quake2-legacy-game",
     "rerelease_label": "quake2-rerelease-api-2023",
     "zaero_label": "zaero-source"
   },

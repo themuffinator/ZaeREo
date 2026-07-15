@@ -147,7 +147,7 @@ void Zaero_A2KFireFrame(edict_t *ent)
 
 bool Zaero_A2KProtects(const edict_t *ent)
 {
-	return level.is_zaero && ent && ent->client &&
+	return level.zaero_content_active && ent && ent->client &&
 		ent->client->zaero_a2k_detonate_time > level.time;
 }
 
@@ -177,7 +177,7 @@ void Weapon_ZaeroA2K(edict_t *ent)
 	static const int32_t pause_frames[] = {20, 30, 40, 0};
 	static const int32_t fire_frames[] = {ZAERO_A2K_START_FRAME, ZAERO_A2K_HOLD_FRAME, 0};
 
-	if (!level.is_zaero || !ent->client || ent->deadflag ||
+	if (!level.zaero_content_active || !ent->client || ent->deadflag ||
 		ent->s.modelindex != MODELINDEX_PLAYER)
 	{
 		return;
