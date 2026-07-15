@@ -1,10 +1,10 @@
-name: Verify stable Windows candidate locally
+name: Verify stable Windows release eligibility
 
 on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "Existing protected stable tag (exactly vVERSION)"
+        description: "Existing annotated stable tag (exactly vMAJOR.MINOR.PATCH)"
         type: string
         required: true
 
@@ -12,23 +12,49 @@ permissions:
   contents: read
 
 concurrency:
-  group: zaereo-stable-${{ github.ref_name }}
+  # Do not interpolate an unvalidated dispatch value into a concurrency group.
+  group: zaereo-stable-release-eligibility
   cancel-in-progress: false
+
+defaults:
+  run:
+    shell: pwsh
 
 env:
   VCPKG_ROOT: ${{ runner.temp }}\vcpkg
   VCPKG_DEFAULT_BINARY_CACHE: ${{ runner.temp }}\vcpkg-cache
 
 jobs:
-  release-candidate:
+  validate_dispatch:
+    runs-on: windows-2022
+    timeout-minutes: 5
+    outputs:
+      stable_tag: ${{ steps.validate.outputs.stable_tag }}
+    steps:
+      - name: Validate stable tag input before checkout
+        id: validate
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $tag = $env:RELEASE_TAG
+          if ([string]::IsNullOrWhiteSpace($tag) -or
+              $tag -notmatch '^v(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)$') {
+            throw 'Stable tag must be exactly vMAJOR.MINOR.PATCH with no prerelease or build suffix.'
+          }
+          "stable_tag=$tag" >> $env:GITHUB_OUTPUT
+
+  release_candidate:
+    needs: validate_dispatch
     runs-on: windows-2022
     timeout-minutes: 90
     steps:
-      - name: Check out protected tag without proprietary content
+      - name: Check out requested tag without proprietary content
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          ref: ${{ inputs.tag }}
+          ref: refs/tags/${{ needs.validate_dispatch.outputs.stable_tag }}
           fetch-depth: 0
+          fetch-tags: true
           lfs: false
           persist-credentials: false
 
@@ -37,37 +63,128 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install pinned vcpkg outside the worktree
-        shell: pwsh
-        run: |
-          $baseline = (Get-Content ./vcpkg.json -Raw | ConvertFrom-Json).'builtin-baseline'
-          git clone --filter=blob:none https://github.com/microsoft/vcpkg.git $env:VCPKG_ROOT
-          git -C $env:VCPKG_ROOT checkout $baseline
-          & "$env:VCPKG_ROOT\bootstrap-vcpkg.bat" -disableMetrics
-          New-Item -ItemType Directory -Force $env:VCPKG_DEFAULT_BINARY_CACHE | Out-Null
-
-      - name: Verify stable identity
+      - name: Verify immutable stable identity and fail-closed readiness
         id: identity
-        shell: pwsh
+        env:
+          STABLE_TAG: ${{ needs.validate_dispatch.outputs.stable_tag }}
         run: |
+          $ErrorActionPreference = 'Stop'
+          $tag = $env:STABLE_TAG
           $version = (Get-Content ./VERSION -Raw).Trim()
-          if ($version.Contains('-')) { throw 'Stable workflow refuses a prerelease VERSION.' }
-          $tag = '${{ inputs.tag }}'
-          if ($tag -ne "v$version") { throw "Tag '$tag' must exactly equal v$version." }
-          $commit = (git rev-parse HEAD).Trim()
+          if ($version -notmatch '^(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)$') {
+            throw "Stable workflow refuses non-stable VERSION '$version'."
+          }
+          if ($tag -ne "v$version") {
+            throw "Tag '$tag' must exactly equal v$version."
+          }
+
+          $tagRef = "refs/tags/$tag"
+          & git show-ref --verify --quiet $tagRef
+          if ($LASTEXITCODE -ne 0) { throw "Requested tag ref is absent: $tagRef" }
+          $tagType = (& git cat-file -t $tagRef).Trim()
+          if ($tagType -ne 'tag') {
+            throw "Stable releases require an annotated tag; '$tag' is $tagType."
+          }
+          $tagCommit = (& git rev-parse --verify "$tagRef^{commit}").Trim()
+          $commit = (& git rev-parse HEAD).Trim()
+          if ($commit -ne $tagCommit) {
+            throw "Checked-out commit $commit does not equal tag target $tagCommit."
+          }
+          & git fsck --strict --connectivity-only --no-dangling --no-reflogs | Out-Null
+          if ($LASTEXITCODE -ne 0) { throw 'Git object connectivity validation failed.' }
+          & git show-ref --verify --quiet refs/remotes/origin/main
+          if ($LASTEXITCODE -ne 0) {
+            throw 'Full-depth checkout did not provide origin/main for stable ancestry validation.'
+          }
+          & git merge-base --is-ancestor $commit refs/remotes/origin/main
+          if ($LASTEXITCODE -ne 0) {
+            throw "Stable tag target $commit is not reachable from origin/main."
+          }
+          $dirty = @(git status --porcelain --untracked-files=all)
+          if ($dirty.Count -ne 0) { throw 'Checked-out release ref is not clean.' }
+
+          & python ./tools/validate_distribution_policy.py
+          if ($LASTEXITCODE -ne 0) { throw 'Distribution policy validation failed.' }
+          $readinessPath = Join-Path $env:GITHUB_WORKSPACE 'dist\release-readiness.json'
+          & python ./tools/release_readiness.py `
+            --mode importer-kit `
+            --channel gameplay-release-assets `
+            --profile playable-stable `
+            --output $readinessPath `
+            --require-ready
+          if ($LASTEXITCODE -ne 0) {
+            throw 'Stable release readiness is not satisfied; no dependency install, build, package, or publication will run.'
+          }
+
           "version=$version" >> $env:GITHUB_OUTPUT
           "tag=$tag" >> $env:GITHUB_OUTPUT
           "commit=$commit" >> $env:GITHUB_OUTPUT
 
-      - name: Build, validate, and package importer-only release candidate
-        id: package
-        shell: pwsh
-        run: ./tools/package_windows.ps1 -DistributionMode importer-kit -ArtifactLabel "${{ steps.identity.outputs.tag }}" -IncludeSymbols
-
-      - name: Confirm stable candidate remains runner-local
+      - name: Install exact vcpkg baseline outside the worktree
         shell: pwsh
         run: |
-          if (-not (Test-Path '${{ steps.package.outputs.archive_path }}' -PathType Leaf)) {
-            throw 'Expected local stable verification archive is missing.'
+          $ErrorActionPreference = 'Stop'
+          $baseline = (Get-Content ./vcpkg.json -Raw | ConvertFrom-Json).'builtin-baseline'
+          if ($baseline -notmatch '^[0-9a-f]{40}$') {
+            throw 'vcpkg.json must contain a lowercase 40-character builtin-baseline.'
           }
-          Write-Host 'Phase-0 containment: no candidate artifact, cache, tag, draft, or release is published.'
+          if (Test-Path -LiteralPath $env:VCPKG_ROOT) {
+            throw "Refusing a pre-existing vcpkg directory: $env:VCPKG_ROOT"
+          }
+          git clone --filter=blob:none --no-checkout https://github.com/microsoft/vcpkg.git $env:VCPKG_ROOT
+          if ($LASTEXITCODE -ne 0) { throw 'vcpkg clone failed.' }
+          & git -C $env:VCPKG_ROOT checkout --detach $baseline
+          if ($LASTEXITCODE -ne 0) { throw 'vcpkg baseline checkout failed.' }
+          $resolved = (& git -C $env:VCPKG_ROOT rev-parse HEAD).Trim()
+          if ($resolved -ne $baseline) {
+            throw "Resolved vcpkg commit $resolved does not equal requested baseline $baseline."
+          }
+          & "$env:VCPKG_ROOT\bootstrap-vcpkg.bat" -disableMetrics
+          if ($LASTEXITCODE -ne 0) { throw 'vcpkg bootstrap failed.' }
+          New-Item -ItemType Directory -Force $env:VCPKG_DEFAULT_BINARY_CACHE | Out-Null
+
+      - name: Build, validate, and package importer-only stable candidate
+        id: package
+        run: ./tools/package_windows.ps1 -DistributionMode importer-kit -ArtifactLabel "${{ steps.identity.outputs.tag }}" -IncludeSymbols
+
+      - name: Verify package identity and keep it runner-local
+        env:
+          ARCHIVE_PATH: ${{ steps.package.outputs.archive_path }}
+          ARCHIVE_NAME: ${{ steps.package.outputs.archive_name }}
+          ARCHIVE_SHA256: ${{ steps.package.outputs.archive_sha256 }}
+          MANIFEST_PATH: ${{ steps.package.outputs.manifest_path }}
+          CHECKSUM_PATH: ${{ steps.package.outputs.checksum_path }}
+          SYMBOLS_PATH: ${{ steps.package.outputs.symbols_path }}
+          PACKAGE_VERSION: ${{ steps.package.outputs.version }}
+          PACKAGE_COMMIT: ${{ steps.package.outputs.source_commit }}
+          PACKAGE_MODE: ${{ steps.package.outputs.distribution_mode }}
+          EXPECTED_VERSION: ${{ steps.identity.outputs.version }}
+          EXPECTED_COMMIT: ${{ steps.identity.outputs.commit }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $paths = @($env:ARCHIVE_PATH, $env:MANIFEST_PATH, $env:CHECKSUM_PATH, $env:SYMBOLS_PATH)
+          foreach ($path in $paths) {
+            if ([string]::IsNullOrWhiteSpace($path) -or -not (Test-Path -LiteralPath $path -PathType Leaf)) {
+              throw "Expected runner-local package output is missing: $path"
+            }
+          }
+          if ($env:PACKAGE_VERSION -ne $env:EXPECTED_VERSION -or
+              $env:PACKAGE_COMMIT -ne $env:EXPECTED_COMMIT -or
+              $env:PACKAGE_MODE -ne 'importer-kit') {
+            throw 'Packager output identity does not match the verified stable ref.'
+          }
+          $archiveHash = (Get-FileHash -LiteralPath $env:ARCHIVE_PATH -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($archiveHash -ne $env:ARCHIVE_SHA256) {
+            throw "Archive checksum does not match the packager output: $archiveHash"
+          }
+          $checksumLine = "$archiveHash  $env:ARCHIVE_NAME"
+          if (@(Get-Content -LiteralPath $env:CHECKSUM_PATH) -notcontains $checksumLine) {
+            throw 'Checksum file does not bind the reported archive name and SHA-256.'
+          }
+          $manifest = Get-Content -LiteralPath $env:MANIFEST_PATH -Raw | ConvertFrom-Json
+          if ($manifest.version -ne $env:EXPECTED_VERSION -or
+              $manifest.source_commit -ne $env:EXPECTED_COMMIT -or
+              $manifest.distribution_mode -ne 'importer-kit') {
+            throw 'External package manifest does not match the verified stable ref.'
+          }
+          Write-Host 'Stable candidate verified locally. Phase-0 containment remains active: no artifact, cache, tag, draft, or release is published.'

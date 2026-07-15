@@ -58,6 +58,8 @@ record.
 | D-045 | zdmflags and deathmatch item injection | ACTIVE | Preserve numeric bits 1/2 and the exact eight-item precondition/order/search/placement pass through native Rerelease item lifecycle; never use mapper classification as the content gate | Rerun the historical v1 values 0–3, eligible/ineligible including all eight one-member controls, exact open placement/native-drop state, and real-brush partial placement under D-046; then pickup/respawn/save, dedicated/multiplayer/server-info and native-mode isolation |
 | D-046 | Window-before-mod/map runtime launch | ACTIVE | Visible two-stage bootstrap, exact-PID full window enumeration, then caller/target-queue-attached/task-switch-retried foreground-gated mod/map delivery with residual-PID cleanup | Private v2 cross-distribution client reruns |
 | D-047 | Legacy PAK layer/runtime ownership semantics | INTERIM | Preserve source-layer audit and effective bytes, permit deterministic resolved import `pak1` beside project `pak0` only under strict ownership/collision proof | Phase 2 import/package/install lifecycle matrix |
+| D-048 | Fail-closed release-readiness evidence | ACTIVE | Generate private schema-valid readiness records that fingerprint current policy, source state, ledgers, and requested mode without granting publication | Exact package/SBOM/build/live/rights collectors before any future eligible record |
+| D-049 | Rerelease material/glow-map asset generation | ACTIVE | Track text-only `.mat` descriptors in project `pak0`; generate `_glow.png` files only from a verified local Zaero import as import-owned private media | Visual lookup proof, tuning review, and ownership lifecycle checks |
 
 ## D-001 — Product and game directory
 
@@ -2155,6 +2157,45 @@ record.
   manually changed ready record. Add exact release-manifest, package/SBOM,
   build/test, save/editor, map/live, and rights/channel collectors before any
   future record can be eligible.
+
+## D-049 — Rerelease material and glow-map asset generation
+
+- **Status/date/owner:** ACTIVE; 2026-07-15; content/provenance maintainers.
+- **Context:** Quake II Rerelease consumes simple `.mat` material descriptors
+  and conventional `_glow.png` emission maps. REBLIVION already demonstrated a
+  conservative local workflow for both surfaces, but ZaeREo cannot place
+  Zaero-derived pixel output in the tracked runtime tree while media rights are
+  unresolved.
+- **Decision:** Generate and track text-only `.mat` descriptors under
+  `pack/textures/**` from verified Zaero texture names. They contain Rerelease
+  material tokens only and belong to project `pak0.pak`. Generate glow maps
+  from locally imported Zaero WAL/PCX pixel data only through
+  [zaero_material_assets.py](../../tools/zaero_material_assets.py) and
+  [import_legacy_assets.py](../../tools/import_legacy_assets.py); write those
+  `_glow.png` files into ignored import-owned content, record each manifest
+  source as `generated:glowmap:<source-path>`, and never commit them under
+  `pack/`.
+- **Alternatives:** Commit generated glow PNGs, rejected because they are
+  modified Zaero media; skip material/glow support, rejected because it loses
+  Rerelease presentation parity that can be generated locally; put all generated
+  assets in project `pak0`, rejected because it collapses ownership; require a
+  third-party image dependency, rejected because the importer can decode the
+  needed PCX/WAL/PNG formats with the standard library.
+- **Behavioral impact:** Enables Rerelease material and glow lookup without
+  changing gameplay, classnames, save state, map progression, or original media
+  precedence. Glow output remains local private import lineage.
+- **Evidence:** [Generator](../../tools/zaero_material_assets.py), [importer
+  integration](../../tools/import_legacy_assets.py), checked-in
+  [material descriptors](../../pack/textures), and
+  [material/import tests](../../tests/content/test_zaero_material_assets.py).
+  Current local private generation created 368 `.mat` files and 119 glow maps;
+  strict local import validation matched all 1,072 manifest assets.
+- **Tests/migration:** Material/glow fixture tests cover conservative `.mat`
+  classification, WAL/PCX glow extraction, dark-source skipping, importer
+  manifest insertion, and collision handling. Before verification, add live
+  visual lookup proof, any needed material-token tuning with recorded evidence,
+  and install/update ownership tests proving generated import assets are kept
+  separate from project assets.
 
 ## Adding or superseding a decision
 

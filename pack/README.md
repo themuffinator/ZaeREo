@@ -1,8 +1,10 @@
 # Tracked runtime contribution
 
-This directory contains only redistributable, source-controlled configuration.
-Do not commit files imported from a commercial Zaero installation unless their
-redistribution status has been resolved and recorded by the project.
+This directory contains only redistributable, source-controlled runtime
+definitions: configuration, map scaffolding, and Quake II Rerelease material
+descriptors. Do not commit files imported from a commercial Zaero installation
+unless their redistribution status has been resolved and recorded by the
+project.
 
 ## Verified legacy input
 
@@ -21,6 +23,27 @@ retail hashes, and missing loose files.
 Legacy native libraries, demos, saves, screenshots, `default.cfg`, and
 `autoexec`/`autoexec.cfg` are excluded. In particular, the retail `default.cfg`
 starts with `unbindall` and must never replace Rerelease user configuration.
+
+## Rerelease materials and glow maps
+
+The checked-in `textures/**/*.mat` files are text-only Rerelease material
+descriptors generated from verified Zaero texture names. They contain only
+Rerelease material tokens such as `clank`, `glass`, or `splash`, and belong to
+the project-owned `pak0.pak` contribution.
+
+Regenerate them from a local import when the texture inventory changes:
+
+```powershell
+python tools/zaero_material_assets.py generate-mats `
+  --source-root .install/imported/zaereo `
+  --output-root pack
+```
+
+Glow maps are different. `_glow.png` files are derived from Zaero pixel data, so
+they are generated only into the ignored import tree by `import_legacy_assets.py`
+or `zaero_material_assets.py generate-glow`, recorded in the import manifest,
+and remain import-owned private local output. Do not commit generated glow PNGs
+under `pack/`.
 
 Never import commercial content into this tracked directory. From the repository
 root, validate the known input without writing:
@@ -45,14 +68,14 @@ python tools/validate_runtime.py `
 ```
 
 The packager merges this tracked contribution with a separately validated
-import stage according to the selected distribution mode. A config-only PAK
+import stage according to the selected distribution mode. A project-owned PAK
 can be inspected without copying commercial media:
 
 ```powershell
 python tools/make_pak.py pack .install/stage/zaereo/pak0.pak --exclude README.md
 ```
 
-Do not validate that config-only PAK against the legacy import manifest; they
+Do not validate that project-owned PAK against the legacy import manifest; they
 describe different inputs. The current release manifest treats a PAK as one
 outer file, and the current `validate_runtime.py --pak` path does not compare
 member names against staged loose files. Before publication, the roadmap

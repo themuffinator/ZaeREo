@@ -289,6 +289,28 @@ class ReleaseSurfaceTests(unittest.TestCase):
             self.assertIn("lfs: false", workflow)
         self.assertNotIn("publish_release", nightly)
         self.assertNotIn("push:", stable)
+        self.assertIn("validate_dispatch:", stable)
+        self.assertIn("needs: validate_dispatch", stable)
+        self.assertIn("refs/tags/${{ needs.validate_dispatch.outputs.stable_tag }}", stable)
+        self.assertIn("fetch-tags: true", stable)
+        self.assertIn("git cat-file -t $tagRef", stable)
+        self.assertIn("require an annotated tag", stable)
+        self.assertIn("git merge-base --is-ancestor $commit refs/remotes/origin/main", stable)
+        self.assertIn("validate_distribution_policy.py", stable)
+        self.assertIn("release_readiness.py", stable)
+        self.assertIn("--channel gameplay-release-assets", stable)
+        self.assertIn("--profile playable-stable", stable)
+        self.assertIn("--require-ready", stable)
+        self.assertLess(
+            stable.index("--require-ready"),
+            stable.index("Install exact vcpkg baseline outside the worktree"),
+        )
+        self.assertLess(
+            stable.index("--require-ready"),
+            stable.index("package_windows.ps1"),
+        )
+        self.assertIn("Archive checksum does not match the packager output", stable)
+        self.assertIn("External package manifest does not match", stable)
 
         for path in (
             "CHANGELOG.md",

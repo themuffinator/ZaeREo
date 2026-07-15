@@ -32,6 +32,12 @@ begin.
   artifacts; per-user installation; deterministic mapdb
   merging, private live testing, save-schema policy, editor gamepacks, and
   machine-readable release readiness.
+- Stable Windows release eligibility workflow hardening: dispatch input accepts
+  only an exact annotated stable SemVer tag; its target, repository integrity,
+  clean ancestry, policy, and `playable-stable` readiness record are verified
+  before any dependency install or package build. A future candidate remains
+  runner-local and must match its source commit, manifest, and checksum; current
+  policy fails the workflow before build and cannot publish anything.
 - Completed source-gap classification for A2K immunity/countdown, low-trigger
   platforms, FALLFLOAT explosive barrels, door/train/path extensions, inbound
   boss inventory, runtime helpers, exact laser triggers, Visor/cameras,

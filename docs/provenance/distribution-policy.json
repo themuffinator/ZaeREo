@@ -184,7 +184,7 @@
     {
       "id": "zaero-runtime-media",
       "kind": "media",
-      "description": "Original Zaero maps, models, textures, images, sounds, sprites, cinematics, configuration, and other runtime media supplied by a user's installation.",
+      "description": "Original Zaero maps, models, textures, images, sounds, sprites, cinematics, configuration, generated local derivatives such as glow maps, and other runtime media supplied by a user's installation.",
       "selectors": {
         "exact_paths": [],
         "narrow_globs": [
@@ -210,7 +210,7 @@
       "jurisdiction_scope": "All project-operated public hosting, CI, source, editor, and release channels.",
       "expires_at": null,
       "revisit_condition": "Record holder identity and specific permission covering exact works, modification, hosting, sublicensing, attribution, and intended channels.",
-      "notes": "Known hashes prove identity only. The current permitted operation is local import from a legitimate user installation, not project redistribution."
+      "notes": "Known hashes prove identity only. The current permitted operation is local import from a legitimate user installation, plus private local generation of derived runtime media from that import, not project redistribution."
     },
     {
       "id": "zaero-runtime-definitions",
@@ -243,10 +243,11 @@
     {
       "id": "independent-tools-candidate",
       "kind": "tool",
-      "description": "The three standard-library acquisition, PAK, and runtime-validation scripts proposed for a future tools-only artifact.",
+      "description": "The standard-library acquisition, material-generation, PAK, and runtime-validation scripts proposed for a future tools-only artifact.",
       "selectors": {
         "exact_paths": [
           "tools/import_legacy_assets.py",
+          "tools/zaero_material_assets.py",
           "tools/make_pak.py",
           "tools/validate_runtime.py"
         ],
@@ -934,6 +935,17 @@
         {
           "artifact_path": "zaereo-tools/tools/import_legacy_assets.py",
           "source_path": "tools/import_legacy_assets.py",
+          "component_id": "independent-tools-candidate",
+          "distribution_status": "unknown",
+          "evidence_refs": [
+            "roadmap-d003",
+            "third-party-notices"
+          ],
+          "notes": "Candidate exact path; independent authorship and outbound-license approval are pending."
+        },
+        {
+          "artifact_path": "zaereo-tools/tools/zaero_material_assets.py",
+          "source_path": "tools/zaero_material_assets.py",
           "component_id": "independent-tools-candidate",
           "distribution_status": "unknown",
           "evidence_refs": [

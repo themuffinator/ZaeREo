@@ -79,6 +79,8 @@ Subject to provenance clearance, runtime dependencies include:
 
 - 20 BSP maps and their effective textures, skies, models, skins, sprites,
   images, sounds, cinematics, and victory presentation;
+- generated local derivatives such as Rerelease glow maps, which remain private
+  import output while media rights are unresolved;
 - Zaero-specific item, weapon, monster, autocannon, camera, communications-dish,
   crate, IRED, seat, shrapnel, flare, shield, barrier, and explosion media;
 - effective configuration data translated into non-destructive zaero.cfg,
@@ -164,6 +166,8 @@ The importer must:
 - resolve last-package-wins precedence deterministically;
 - preserve each effective path's source container, source path, hash, size, and
   case;
+- record generated local derivatives, including glow maps, with explicit
+  generated-source provenance tied to the imported source path;
 - exclude the non-runtime categories above through an allowlist;
 - copy loose files only after hash validation;
 - write only beneath a verified repository-local/stage destination;

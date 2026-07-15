@@ -557,7 +557,8 @@ if ($DistributionMode -eq "importer-kit") {
     $toolStage = Join-Path $stagePath "tools"
     New-Item -ItemType Directory -Path $toolStage -Force | Out-Null
     foreach ($name in @(
-        "complete_importer_kit.ps1", "import_legacy_assets.py", "make_pak.py", "validate_runtime.py"
+        "complete_importer_kit.ps1", "import_legacy_assets.py", "make_pak.py",
+        "validate_runtime.py", "zaero_material_assets.py"
     )) {
         Copy-Item -LiteralPath (Join-Path $workspacePath "tools\$name") -Destination (Join-Path $toolStage $name) -Force
     }
@@ -572,8 +573,9 @@ installation. From this zaereo directory, run:
   pwsh -File .\tools\complete_importer_kit.ps1 -ZaeroLegacyRoot "D:\Games\Zaero"
 
 The tool verifies the three known retail PAK SHA-256 hashes, never downloads
-content, creates pak1.pak locally, and retains the nine required loose files.
-Generated content is private local output; do not commit or redistribute it.
+content, creates pak1.pak locally with generated glow maps, and retains the
+nine required loose files. Generated content is private local output; do not
+commit or redistribute it.
 "@
     Write-Utf8NoBom (Join-Path $stagePath "IMPORT_ASSETS.txt") $importInstructions
 }

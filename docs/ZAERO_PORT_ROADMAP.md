@@ -813,8 +813,11 @@ The legacy installation uses last-package-wins precedence:
 `maps.lst`; those two names are the only overridden PAK paths. Resolve package
 precedence before importing into an ignored `.install/imported/` working tree,
 and keep an origin/layer column in the importer manifest. Tracked `pack/`
-contains only redistributable project-owned configuration while D-003 remains
-open. The effective legacy PAK view contains 969 unique paths.
+contains only redistributable project-owned runtime definitions while D-003
+remains open, including text-only Rerelease `.mat` material descriptors.
+Generated `_glow.png` maps are derived from local Zaero pixels, so they remain
+ignored import-owned output. The effective legacy PAK view contains 969 unique
+paths before generated local derivatives.
 
 [D-047](compatibility/decisions.md#d-047--legacy-pak-layer-to-runtime-ownership-semantics)
 defines the output contract: preserving `pak0 < pak1 < pak2` means preserving
@@ -2005,6 +2008,7 @@ zaereo-windows-x64-vX.Y.Z-importer-kit.zip
     ├── tools/
     │   ├── complete_importer_kit.ps1
     │   ├── import_legacy_assets.py
+    │   ├── zaero_material_assets.py
     │   ├── manage_install.ps1
     │   ├── make_pak.py
     │   ├── merge_mapdb.py
@@ -2023,9 +2027,10 @@ zaereo-windows-x64-vX.Y.Z-importer-kit.zip
 ~~~
 
 Completing that kit locally verifies the three retail PAK hashes, creates a
-separate local `pak1.pak` from the effective imported content, and retains the
-nine required loose files. Completion never downloads content and never turns
-the locally completed directory into a publishable artifact.
+separate local `pak1.pak` from the effective imported content plus generated
+glow maps, and retains the nine required loose files. Completion never
+downloads content and never turns the locally completed directory into a
+publishable artifact.
 
 Private integration and parity verification use a deliberately marked
 `local-full` mode:
@@ -2040,6 +2045,7 @@ zaereo-windows-x64-vX.Y.Z-local-full-private.zip
     │   ├── manage_install.ps1
     │   ├── make_pak.py
     │   ├── merge_mapdb.py
+    │   ├── zaero_material_assets.py
     │   ├── data/zaereo-mapdb.fragment.json
     │   └── validate_runtime.py
     ├── .zaereo-install/import-ownership.json
@@ -2160,10 +2166,19 @@ or install/update/rollback lifecycle matrix.
 Remote containment landed on 2026-07-13: package/nightly/stable workflows are
 read-only verification jobs with no cache, artifact, release, or credential
 publication path; checkout credentials are not persisted; and the manual
-publisher is a fail-closed stub. Their deterministic archives remain local
-development evidence only. Remote mutation must stay technically absent until
-the mode schema, packager, publisher, workflows and tests implement this section
-end to end and the relevant rights gates are independently permitted.
+publisher is a fail-closed stub. The manually dispatched stable workflow first
+accepts only an exact stable SemVer tag, requires its annotated-tag object and
+commit to match the checkout, verifies object connectivity, a clean worktree,
+and ancestry from `origin/main`, then validates the distribution policy and a
+current `importer-kit`/`gameplay-release-assets`/`playable-stable` readiness
+record with `--require-ready`. It performs no dependency install, build, or
+package if any of those gates fail. If a future approved policy and complete
+evidence allow it to continue, it pins the vcpkg commit exactly and rechecks the
+package version, source commit, manifest, and checksum while retaining every
+output on the runner. Their deterministic archives remain local development
+evidence only. Remote mutation must stay technically absent until the mode
+schema, packager, publisher, workflows and tests implement this section end to
+end and the relevant rights gates are independently permitted.
 The release manifest still treats each PAK as one outer file, but
 `validate_runtime.py --stage` now compares importer `pak1` members plus the
 required loose paths to the import manifest and rejects all project/import/
@@ -3402,6 +3417,8 @@ initial decisions that cannot be left implicit:
 | D-045 | zdmflags and deathmatch item injection | Preserve external bits 1/2 and the exact eight-item precondition/order/wrapping-start/placement/partial-count pass through native item lifecycle; keep it independent of mapper classification | Phase 8 v2 reruns for values 0–3, eligible/ineligible including all eight one-member controls, exact open placement/native-drop state and real-brush partial placement; then multiplayer/save/dedicated/server-info and native-mode isolation |
 | D-046 | Two-stage visible window-before-mod/map runtime launch | Bootstrap visibly with `-window`/`v_windowmode 0`, inspect every exact-PID top-level window, then use caller-queue-attached/task-switch-retried foreground-gated system input for the mod/map only after a captioned/non-popup result and record residual-PID cleanup | Private v2 reruns of Release/campaign/DM/fixture smokes; command-delivery proof on every supported KEX distribution |
 | D-047 | Legacy PAK layer to runtime ownership semantics | Retain audited `pak0 < pak1 < pak2` source precedence and final effective paths/bytes while allowing a deterministic import-owned effective `pak1` beside project-owned `pak0` | Override/origin/loose/case/reference/collision and package/install lifecycle proof |
+| D-048 | Fail-closed release-readiness evidence | Generate private schema-valid readiness records that fingerprint current policy, source state, ledgers, and requested mode without granting publication | Exact package/SBOM/build/live/rights collectors before any future eligible record |
+| D-049 | Rerelease material and glow-map asset generation | Keep checked-in text `.mat` descriptors project-owned while generating `_glow.png` maps only from verified local imports as private import-owned output | Visual lookup proof, tuning review, and ownership lifecycle checks |
 
 Every decision record needs context, alternatives, behavioral impact, evidence,
 date/owner, and tests or migration consequences.

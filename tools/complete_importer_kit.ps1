@@ -85,9 +85,10 @@ if (-not (Test-Path -LiteralPath $legacyPath -PathType Container)) {
 }
 
 $importTool = Join-Path $PSScriptRoot "import_legacy_assets.py"
+$materialTool = Join-Path $PSScriptRoot "zaero_material_assets.py"
 $pakTool = Join-Path $PSScriptRoot "make_pak.py"
 $validateTool = Join-Path $PSScriptRoot "validate_runtime.py"
-foreach ($tool in @($importTool, $pakTool, $validateTool)) {
+foreach ($tool in @($importTool, $materialTool, $pakTool, $validateTool)) {
     if (-not (Test-Path -LiteralPath $tool -PathType Leaf)) {
         throw "Importer kit is incomplete: $tool"
     }
@@ -108,7 +109,7 @@ Invoke-Python $importTool @(
 
 if ($WhatIfPreference) {
     Write-Host "WhatIf plan: create a private import workspace below $modPath."
-    Write-Host "WhatIf plan: build deterministic pak1.pak and copy nine required loose assets."
+    Write-Host "WhatIf plan: build deterministic pak1.pak with generated glow maps and copy nine required loose assets."
     return
 }
 
@@ -180,7 +181,7 @@ try {
         "ZaeREo importer kit completed locally.",
         "Known Zaero retail PAK hashes: verified",
         "pak1.pak SHA-256: $($secondHash.ToLowerInvariant())",
-        "This generated content must not be committed or redistributed without permission."
+        "Generated glow maps are private local output and must not be committed or redistributed without permission."
     ) | Set-Content -LiteralPath (Join-Path $modPath "IMPORT-COMPLETE.txt") -Encoding utf8
 }
 finally {

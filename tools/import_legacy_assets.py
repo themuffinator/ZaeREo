@@ -28,6 +28,13 @@ from make_pak import (
     sha256_file,
     validate_pak_path,
 )
+from zaero_material_assets import (
+    COLORMAP_PATH,
+    AssetGenerationError,
+    GeneratedAsset,
+    generate_glow_assets,
+    is_glow_source_path,
+)
 
 
 SCHEMA_VERSION = 1
@@ -77,11 +84,17 @@ def excluded_reason(path: str) -> str | None:
 class AssetSource:
     path: str
     source_label: str
-    container: Path
+    container: Path | None
     size: int
     pak_entry: PakEntry | None = None
+    data: bytes | None = None
 
     def chunks(self) -> Iterator[bytes]:
+        if self.data is not None:
+            yield self.data
+            return
+        if self.container is None:
+            raise ImportError(f"Generated asset has no bytes: {self.path}")
         if self.pak_entry is None:
             with self.container.open("rb") as stream:
                 for chunk in iter(lambda: stream.read(COPY_CHUNK_SIZE), b""):
@@ -125,6 +138,49 @@ def _insert_asset(
             }
         )
     merged[folded] = asset
+
+
+def _asset_from_generated(asset: GeneratedAsset) -> AssetSource:
+    return AssetSource(
+        asset.path,
+        f"generated:{asset.kind}:{asset.source_path}",
+        None,
+        asset.size,
+        data=asset.data,
+    )
+
+
+def _generated_manifest_entry(asset: GeneratedAsset) -> dict[str, object]:
+    return {
+        "path": asset.path,
+        "source_path": asset.source_path,
+        "kind": asset.kind,
+        "size": asset.size,
+        "sha256": asset.sha256,
+        **asset.metadata,
+    }
+
+
+def _collect_glow_source_bytes(assets: Sequence[AssetSource]) -> dict[str, bytes]:
+    candidates = [asset for asset in assets if is_glow_source_path(asset.path)]
+    if not candidates:
+        return {}
+    result: dict[str, bytes] = {}
+    for asset in assets:
+        if asset.path.casefold() == COLORMAP_PATH or is_glow_source_path(asset.path):
+            result[asset.path] = b"".join(asset.chunks())
+    return result
+
+
+def _insert_generated_asset(merged: dict[str, AssetSource], asset: GeneratedAsset) -> None:
+    folded = asset.path.casefold()
+    existing = merged.get(folded)
+    if existing is not None:
+        raise ImportError(
+            f"Generated {asset.kind} path collides with imported content: "
+            f"{asset.path!r} from {asset.source_path!r}"
+        )
+    merged[folded] = _asset_from_generated(asset)
 
 
 def collect_import_plan(
@@ -218,6 +274,16 @@ def collect_import_plan(
         )
 
     assets = tuple(sorted(merged.values(), key=lambda asset: (asset.path.casefold(), asset.path)))
+    generated_assets: list[GeneratedAsset] = []
+    try:
+        glow_sources = _collect_glow_source_bytes(assets)
+        generated_assets, _ = generate_glow_assets(glow_sources)
+    except AssetGenerationError as exc:
+        raise ImportError(f"Could not generate Rerelease glow maps: {exc}") from exc
+    for generated_asset in generated_assets:
+        _insert_generated_asset(merged, generated_asset)
+
+    assets = tuple(sorted(merged.values(), key=lambda asset: (asset.path.casefold(), asset.path)))
     asset_entries: list[dict[str, object]] = []
     for asset in assets:
         asset_entries.append(
@@ -249,6 +315,11 @@ def collect_import_plan(
             key=lambda item: (str(item["path"]).casefold(), str(item["source"])),
         ),
     }
+    if generated_assets:
+        manifest["generated_assets"] = sorted(
+            (_generated_manifest_entry(asset) for asset in generated_assets),
+            key=lambda item: (str(item["path"]).casefold(), str(item["path"])),
+        )
     return ImportPlan(assets, manifest)
 
 

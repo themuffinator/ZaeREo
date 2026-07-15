@@ -42,7 +42,7 @@
       <pre><code>cd zaereo
 pwsh -File .\tools\complete_importer_kit.ps1 `
   -ZaeroLegacyRoot "D:\Games\Zaero"</code></pre>
-      <p>The importer verifies the three known retail PAK SHA-256 hashes, downloads nothing, builds <code>pak1.pak</code> locally, retains the nine required loose sprite/video files, and writes a local asset manifest plus <code>IMPORT-COMPLETE.txt</code>. The current importer kit does not combine a base map database: the source checkout provides a hash-pinned private <code>merge_mapdb.py</code> tool, but completion deliberately does not guess the supported Rerelease data-build hash or menu position. The import-ownership manifest remains roadmap work.</p>
+      <p>The importer verifies the three known retail PAK SHA-256 hashes, downloads nothing, builds <code>pak1.pak</code> locally with generated glow maps, retains the nine required loose sprite/video files, and writes a local asset manifest plus <code>IMPORT-COMPLETE.txt</code>. The current importer kit does not combine a base map database: the source checkout provides a hash-pinned private <code>merge_mapdb.py</code> tool, but completion deliberately does not guess the supported Rerelease data-build hash or menu position. The import-ownership manifest remains roadmap work.</p>
     </article>
     <article class="card">
       <h2>Local-full mode</h2>
@@ -80,7 +80,7 @@ pwsh -File .\tools\complete_importer_kit.ps1 `
   LICENSE.txt
   LICENSE_SCOPE.md
   THIRD_PARTY_NOTICES.md</code></pre>
-      <p>Importer kits also contain <code>IMPORT_ASSETS.txt</code> and <code>tools/</code>. The current completion tool writes local effective media to <code>pak1.pak</code>, the nine verified loose files, <code>.zaereo-asset-manifest.json</code>, and <code>IMPORT-COMPLETE.txt</code>. An install manager and import-ownership manifest are planned; this template must not claim either exists. Asset-full media, if ever cleared, is package-owned instead.</p>
+      <p>Importer kits also contain <code>IMPORT_ASSETS.txt</code> and <code>tools/</code>. The current completion tool writes local effective media plus generated glow maps to <code>pak1.pak</code>, the nine verified loose files, <code>.zaereo-asset-manifest.json</code>, and <code>IMPORT-COMPLETE.txt</code>. Project-owned material descriptors remain in <code>pak0.pak</code>. An install manager and import-ownership manifest are planned; this template must not claim either exists. Asset-full media, if ever cleared, is package-owned instead.</p>
     </article>
     <article class="card">
       <h2>Support evidence</h2>
