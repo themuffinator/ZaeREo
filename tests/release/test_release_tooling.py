@@ -261,8 +261,8 @@ class ReleaseSurfaceTests(unittest.TestCase):
             "git tag",
         )
         allowed_actions = {
-            "actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
-            "actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0",
+            "actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
         }
         for name, workflow in workflows.items():
             self.assertIn("contents: read", workflow, name)
