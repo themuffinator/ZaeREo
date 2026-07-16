@@ -134,7 +134,7 @@ if ($failed) {{ exit 2 }}
         self.assertIn("LICENSE_SCOPE.md", package)
         self.assertIn("source_date_epoch", package)
         self.assertIn("ZIP determinism check failed", package)
-        self.assertIn('ValidateSet("importer-kit", "local-full")', package)
+        self.assertIn('ValidateSet("importer-kit", "local-full", "asset-full")', package)
         self.assertIn("Assert-NoTreeCollisions", package)
         self.assertIn("file/directory ownership collision", package)
         self.assertNotIn("$contentWork", package)
@@ -143,14 +143,18 @@ if ($failed) {{ exit 2 }}
         self.assertIn("RUNTIME-OWNERSHIP.json", package)
         self.assertIn('"--stage", $stagePath', package)
 
-        self.assertIn("publication_eligible = $false", package)
-        self.assertIn("Local verification output only", package)
-        self.assertIn("REMOTE_PUBLICATION_DISABLED", publish)
-        self.assertIn("validated exact-candidate readiness record", publish)
-        self.assertNotIn("Get-Command gh", publish)
-        self.assertNotIn("& git", publish)
-        self.assertNotIn("release create", publish.lower())
-        self.assertNotIn("--clobber", publish)
+        # asset-full/importer-kit are publication-eligible; local-full is not.
+        self.assertIn('publication_eligible = ($DistributionMode -ne "local-full")', package)
+        self.assertIn("Packaging requires a clean worktree", package)
+        # The publisher is real but human-gated: no GitHub mutation without
+        # -Publish, it refuses a dirty tree, and it binds the archive checksum.
+        self.assertIn("if (-not $Publish)", publish)
+        self.assertIn("DRY RUN", publish)
+        self.assertIn("Working tree is not clean", publish)
+        self.assertIn("Checksum file does not bind", publish)
+        self.assertIn("GitHub CLI (gh) was not found", publish)
+        self.assertIn("release create", publish.lower())
+        self.assertIn("--clobber", publish)
 
         release_readme = (ROOT / "docs" / "release-readme.html").read_text(
             encoding="utf-8"
@@ -159,7 +163,7 @@ if ($failed) {{ exit 2 }}
         self.assertNotIn(".zaereo-install/import-ownership.json", release_readme)
         self.assertIn("tools/run_game.ps1", release_readme)
 
-    def test_manual_publisher_fails_before_git_or_github_access(self) -> None:
+    def test_publisher_validates_inputs_before_touching_git_or_github(self) -> None:
         pwsh = shutil.which("pwsh")
         if not pwsh:
             self.skipTest("PowerShell 7 is not installed")
@@ -201,7 +205,6 @@ if ($failed) {{ exit 2 }}
                     "-UseExistingTag",
                     "-AllowDetachedHead",
                     "-ReplaceExistingAssets",
-                    "-ConfirmRecovery",
                 ],
                 cwd=ROOT,
                 env=environment,
@@ -212,8 +215,10 @@ if ($failed) {{ exit 2 }}
             )
             output = result.stdout + result.stderr
             self.assertNotEqual(result.returncode, 0, output)
-            self.assertIn("REMOTE_PUBLICATION_DISABLED", output)
-            self.assertFalse(marker.exists(), "publisher invoked git or gh before containment")
+            # The real publisher validates its inputs first, so a missing archive
+            # fails before any git or gh command runs.
+            self.assertIn("not found", output)
+            self.assertFalse(marker.exists(), "publisher invoked git or gh before validating inputs")
 
     def test_explicit_environment_config_discovery_precedence_is_ordered(self) -> None:
         paths = (TOOLS / "zaereo_paths.ps1").read_text(encoding="utf-8")
@@ -238,13 +243,18 @@ class ReleaseSurfaceTests(unittest.TestCase):
         self.assertIn("ZaeREo: Install developer build", labels)
         self.assertIn("ZaeREo: Package importer kit (local verification)", labels)
 
-    def test_workflows_are_read_only_and_never_upload_or_publish(self) -> None:
+    def test_read_only_workflows_stay_read_only_and_publisher_is_human_gated(self) -> None:
         workflow_root = ROOT / ".github" / "workflows"
-        workflows = {
+        all_workflows = {
             path.name: path.read_text(encoding="utf-8")
             for path in sorted(workflow_root.glob("*.yml"))
         }
-        self.assertTrue(workflows)
+        self.assertTrue(all_workflows)
+        # The publishing workflow is the single intentional publisher (contents:
+        # write, human dispatch only). Every other workflow stays read-only.
+        publisher_name = "release-publish-windows.yml"
+        self.assertIn(publisher_name, all_workflows)
+        workflows = {n: w for n, w in all_workflows.items() if n != publisher_name}
         forbidden = (
             "contents: write",
             "actions/upload-artifact",
@@ -321,6 +331,24 @@ class ReleaseSurfaceTests(unittest.TestCase):
         ):
             self.assertIn(f'      - "{path}"', package)
         self.assertNotIn("publish_release", stable)
+
+        # The publisher workflow: contents: write, human-triggered ONLY (no push/
+        # schedule auto-fire), and it runs the packager + real publisher.
+        publisher = all_workflows[publisher_name]
+        self.assertIn("contents: write", publisher)
+        self.assertIn("workflow_dispatch:", publisher)
+        self.assertNotIn("\n  push:", publisher)
+        self.assertNotIn("\n  schedule:", publisher)
+        self.assertIn("publish_github_release.ps1", publisher)
+        self.assertIn("package_windows.ps1", publisher)
+        publisher_actions = {
+            line.split("uses:", 1)[1].split("#", 1)[0].strip()
+            for line in publisher.splitlines()
+            if line.strip().startswith("uses:")
+        }
+        self.assertTrue(publisher_actions)
+        for action in publisher_actions:
+            self.assertRegex(action, r"^[^@]+@[0-9a-f]{40}$", publisher_name)
 
     def test_release_readme_is_standalone_and_honest(self) -> None:
         text = (ROOT / "docs" / "release-readme.html").read_text(encoding="utf-8")

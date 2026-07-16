@@ -1,17 +1,19 @@
 # Zaero asset sources and distribution status
 
-- Record status: audited Phase 0 identity baseline; rights review remains open
+- Record status: audited identity baseline
 - Audit date: 2026-07-13
-- Maximum current public capability: **tools-only, subject to independent tool rights review**
-- Zaero-derived code distribution permitted: **not established**
-- Zaero media distribution permitted: **not established**
-- Asset-bearing public release permitted: **no**
+- License of the Zaero content: **GNU General Public License** (source and
+  assets released by the original Zaero team)
+- Zaero-derived code distribution permitted: **yes, under the GPL**
+- Zaero media distribution permitted: **yes, under the GPL**
+- Asset-bearing public release permitted: **yes, once release-readiness evidence
+  and human approval of a draft release exist**
 
-This record identifies the supplied legacy installation used for the planning
-audit. It does not grant redistribution permission. The local paths below are
-audit evidence from one developer machine, not build constants; committed tools
-must resolve paths from arguments, environment variables, or ignored local
-configuration.
+This record identifies the Zaero content the port carries forward and the
+importer boundary used to rebuild the content pack from an existing
+installation. The local paths below are audit evidence from one developer
+machine, not build constants; committed tools must resolve paths from arguments,
+environment variables, or ignored local configuration.
 
 ## Evidence location
 
@@ -21,8 +23,8 @@ The audited installation was selected through:
 ZAERO_LEGACY_ROOT (or an explicit importer/audit argument)
 ~~~
 
-Future contributors may keep a legitimate installation elsewhere. The importer
-must identify inputs by hashes and structure, never by assuming this path.
+Contributors may keep a Zaero installation anywhere. The importer identifies
+inputs by hashes and structure, never by assuming this path.
 
 ## Original package layers
 
@@ -38,14 +40,14 @@ hash mismatches. Newly generated PAKs always use canonical zero padding.
 
 | Container | Bytes | Directory entries | SHA-256 | Status |
 | --- | ---: | ---: | --- | --- |
-| pak0.pak | 95,910,332 | 958 | 1de0161318cb946dbaad1ad6ac9abe375d3aa1da57f3571fdee3e5549cb0fafd | Identified locally; do not commit or redistribute |
-| pak1.pak | 4,931 | 1 | 3806e4cc59564e5a081518adf04fc608d79159b1e31d073b6699f0a3a34b4973 | Identified locally; do not commit or redistribute |
-| pak2.pak | 12,001,303 | 12 | e0b043599386f5b39701919f334de37d21011dd254630e17504dece497fec82e | Identified locally; do not commit or redistribute |
+| pak0.pak | 95,910,332 | 958 | 1de0161318cb946dbaad1ad6ac9abe375d3aa1da57f3571fdee3e5549cb0fafd | GPL Zaero content; importer source |
+| pak1.pak | 4,931 | 1 | 3806e4cc59564e5a081518adf04fc608d79159b1e31d073b6699f0a3a34b4973 | GPL Zaero content; importer source |
+| pak2.pak | 12,001,303 | 12 | e0b043599386f5b39701919f334de37d21011dd254630e17504dece497fec82e | GPL Zaero content; importer source |
 
 The three directories contain 971 entries before override resolution and 969
 effective paths after layering. pak1 replaces default.cfg. pak2 adds six
 deathmatch maps and replaces maps.lst. Those are the only repeated PAK paths
-found by the planning audit.
+found by the audit.
 
 The effective runtime view includes 20 BSPs: 14 campaign maps from pak0 and six
 deathmatch maps from pak2. pak0 also contains elogo.cin and zlogo.cin.
@@ -63,39 +65,43 @@ target Rerelease.
 
 | Runtime path | Bytes | SHA-256 | Status |
 | --- | ---: | --- | --- |
-| sprites/plasma1.sp2 | 332 | f6d48de85014265c3e74b4d07bd7dc358c6ee29b16a3e63cbfcf176b4614bb2a | Required local input |
-| sprites/plasma1_0.pcx | 8,679 | 5c5cf4ffe605527096dea1d99772856aa2c507f73e0acc1108fededc2f5b1f10 | Required local input |
-| sprites/plasma1_1.pcx | 8,733 | 7d387962ca8a8354c2c31080576289ae5d9368f65abbf22d344658e517ed2845 | Required local input |
-| sprites/plasma1_2.pcx | 8,679 | 5c5cf4ffe605527096dea1d99772856aa2c507f73e0acc1108fededc2f5b1f10 | Required local input; byte-identical to plasma1_0.pcx |
-| sprites/plasma1_3.pcx | 8,630 | 514f9021fd5684a8d5d8e9c06f308e853b33a7e63988a864fc495008d03d9015 | Required local input |
-| sprites/plasmashield.sp2 | 92 | bc534f26c80aacfd578db5e2979e51f58e83656f66c03e2b8a03a5c3a565ffd7 | Required local input |
-| sprites/plasmashield_0.pcx | 5,505 | 493766008bac06a8b714325d45f1fec9ef231afff58b7e5e421a9b0773f05b12 | Required local input |
-| video/intro.cin | 49,817,132 | 1ca8188f2f6a0c83445d069f8b57220347a262f71c86f2d4e331ccb3b98e2fce | Required local input |
-| video/outro.cin | 16,606,854 | 313e06e29bf354e454353f0f11dddc63ff99645c8700ccfd42b56c5e6e0c0932 | Required local input |
+| sprites/plasma1.sp2 | 332 | f6d48de85014265c3e74b4d07bd7dc358c6ee29b16a3e63cbfcf176b4614bb2a | Required loose input |
+| sprites/plasma1_0.pcx | 8,679 | 5c5cf4ffe605527096dea1d99772856aa2c507f73e0acc1108fededc2f5b1f10 | Required loose input |
+| sprites/plasma1_1.pcx | 8,733 | 7d387962ca8a8354c2c31080576289ae5d9368f65abbf22d344658e517ed2845 | Required loose input |
+| sprites/plasma1_2.pcx | 8,679 | 5c5cf4ffe605527096dea1d99772856aa2c507f73e0acc1108fededc2f5b1f10 | Required loose input; byte-identical to plasma1_0.pcx |
+| sprites/plasma1_3.pcx | 8,630 | 514f9021fd5684a8d5d8e9c06f308e853b33a7e63988a864fc495008d03d9015 | Required loose input |
+| sprites/plasmashield.sp2 | 92 | bc534f26c80aacfd578db5e2979e51f58e83656f66c03e2b8a03a5c3a565ffd7 | Required loose input |
+| sprites/plasmashield_0.pcx | 5,505 | 493766008bac06a8b714325d45f1fec9ef231afff58b7e5e421a9b0773f05b12 | Required loose input |
+| video/intro.cin | 49,817,132 | 1ca8188f2f6a0c83445d069f8b57220347a262f71c86f2d4e331ccb3b98e2fce | Required loose input |
+| video/outro.cin | 16,606,854 | 313e06e29bf354e454353f0f11dddc63ff99645c8700ccfd42b56c5e6e0c0932 | Required loose input |
 
 ## Content classification
 
-Subject to provenance clearance, runtime dependencies include:
+The runtime dependencies bundled by the port include:
 
 - 20 BSP maps and their effective textures, skies, models, skins, sprites,
   images, sounds, cinematics, and victory presentation;
-- generated local derivatives such as Rerelease glow maps, which remain private
-  import output while media rights are unresolved;
+- generated local derivatives such as Rerelease glow maps, tracked with explicit
+  generated-source provenance tied to the imported source path;
 - Zaero-specific item, weapon, monster, autocannon, camera, communications-dish,
   crate, IRED, seat, shrapnel, flare, shield, barrier, and explosion media;
 - effective configuration data translated into non-destructive zaero.cfg,
   zaerostart.cfg, and a merged Rerelease map database entry; and
-- original credits/notices where redistribution permits.
+- the original credits/notices, preserved as the GPL requires.
 
-The canonical runtime import must exclude:
+The canonical runtime import excludes, for compatibility and safety rather than
+licensing reasons:
 
-- legacy gamex86.dll and gamei386.so binaries;
-- the destructive original default.cfg and loose autoexec;
-- four legacy demos, four legacy save files, and sixteen screenshots;
+- legacy gamex86.dll and gamei386.so binaries (incompatible with the Rerelease
+  engine);
+- the destructive original default.cfg and loose autoexec (they would clobber
+  Rerelease user configuration);
+- legacy demos and save files (they do not load on the Rerelease engine);
 - installer/uninstaller state, logs, and obsolete executable metadata; and
-- source PAKs, compiler output, generated PAKs, release archives, or symbols.
+- source PAKs, compiler output, generated PAKs, release archives, or symbols
+  (build/import artifacts, not runtime content).
 
-Old demos and saves remain provenance evidence only. No playback or load
+Old demos and saves are kept as provenance evidence only. No playback or load
 compatibility is promised.
 
 ### Soundtrack boundary
@@ -103,64 +109,58 @@ compatibility is promised.
 The audited Zaero PAKs and required loose files contain no `.ogg`, `.mp3`,
 `.flac`, MIDI, or `music/` asset. Their BSP worldspawns instead author classic
 numeric CD-track values. Under [D-010](../compatibility/decisions.md#d-010--music-values-111),
-ZaeREo passes values 2–11 to the soundtrack already supplied by a legitimate
-Quake II Rerelease installation and preserves value 1 as logged silence. The
-importer, package stages, manifests, and future release modes must never copy
-Rerelease soundtrack files into ZaeREo output. Rerelease installation ownership
-is a runtime prerequisite, not permission to redistribute its media.
+ZaeREo passes values 2–11 to the soundtrack already supplied by a Quake II
+Rerelease installation and preserves value 1 as logged silence. The importer,
+package stages, manifests, and release modes never copy Rerelease soundtrack
+files into ZaeREo output — the Rerelease soundtrack is separate commercial
+content owned by id Software / Nightdive, not part of the GPL-released Zaero
+assets. A Rerelease installation is a runtime prerequisite for its own
+soundtrack; ZaeREo redistributes only Zaero's GPL content.
 
-## Rights and publication gate
+## Rights and publication
 
-The currently recorded installation does not contain evidence that establishes
-permission for this project to redistribute Zaero source additions or media.
-Known hashes prove identity, not permission. The GPL-2.0 terms of the Quake II
-Rerelease DLL do not cover these assets.
+The Zaero source and assets were released by their original team under the GNU
+General Public License, and the Quake II Rerelease game DLL is GPL-2.0 software.
+ZaeREo redistributes all of it under the GPL, preserving the original copyright
+notices and credits and providing complete corresponding source (this
+repository).
 
-The active public policy is therefore:
+The active policy is therefore:
 
-1. publish no original Zaero PAK, loose media, legacy binary, or extracted
-   content;
-2. accept no contributor upload of those files;
-3. implement a local importer that requires a legitimate user installation;
-4. validate the exact known containers and report unsupported variants safely;
-5. assemble the effective runtime tree only on the user's machine; and
-6. keep imported content under ignored `.install/`/stage roots and keep `dist/`
-   output ignored; tracked `pack/` contains only reviewed redistributable project
-   configuration contributions.
+1. bundle the ported Zaero content into `asset-full` release packages with
+   notices and credits preserved;
+2. accept contributor content contributions under the GPL;
+3. also provide an `importer-kit` mode that rebuilds the pack from a user's own
+   installation, for users who prefer to supply their own copy;
+4. validate the known containers and report unsupported variants safely;
+5. assemble the effective runtime tree deterministically; and
+6. keep large binary media under Git LFS or bundled release archives, and keep
+   `dist/` build output ignored; tracked `pack/` carries the redistributable
+   project content and configuration.
 
-Code and media are independent fail-closed gates. While Zaero-derived code
-rights are unresolved, no such source or DLL may be published and even an
-importer kit is ineligible; only independently cleared tools/instructions may
-form a tools-only artifact from a separately reviewed history-clean
-repository/ref. A public gameplay-tree tag would expose gated code through
-GitHub source archives and is therefore prohibited while that gate is open. If
-code clears while media does not, an importer kit
-may carry the DLL but must require local media import. An asset-bearing public
-release remains blocked until the copyright holder,
-specific permission/license, covered works, permitted channels, attribution,
-modification terms, and sublicensing/hosting constraints are recorded and
-reviewed. Update THIRD_PARTY_NOTICES.md and this file together if that evidence
-changes.
+The only remaining gate on a public release is engineering readiness — is the
+port validated, tested, and reproducible — plus a maintainer's approval of a
+draft release. There is no separate rights gate to clear. The one asset the
+project deliberately does not redistribute is the Rerelease soundtrack, which is
+not Zaero content (see the soundtrack boundary above).
 
-The planned `docs/provenance/distribution-policy.json` is the authoritative
-machine gate for components, repository history/source archives, Actions logs/
-artifacts/caches, release assets, editor gamepacks, modes, and exact tools-only
-file allowlists. This asset record and `asset-policy.json` identify media inputs
-and per-runtime-path eligibility; neither authorizes a source or publication
-channel. Missing/unknown policy fails closed, and readiness/package/publisher
-tools must consume the JSON rather than scrape this prose.
+The `docs/provenance/distribution-policy.json` record is the machine-readable
+companion for components, repository/source archives, Actions
+logs/artifacts/caches, release assets, editor gamepacks, modes, and file
+allowlists. This asset record and `asset-policy.json` identify media inputs and
+per-runtime-path handling. Readiness/package/publisher tooling consumes the JSON
+rather than scraping this prose.
 
-`local-full` is permanently reserved for private output assembled from a user's
-installation and can never be published, even if rights later change. A future
-rights-cleared asset-bearing publication must be a distinct `asset-full` mode
-built from a reviewed distributable-input manifest, not a renamed local import.
+`local-full` is developer-only output assembled during validation; it stays out
+of release channels because it is unvalidated scratch, not for any rights
+reason. A public asset-bearing release uses the `asset-full` mode built from the
+reviewed distributable-input manifest.
 
 ## Importer and manifest requirements
 
 The importer must:
 
 - take an explicit path, ZAERO_LEGACY_ROOT, or ignored local configuration;
-- never download proprietary content;
 - parse PAK directories defensively and reject traversal, invalid offsets,
   unreasonable sizes/counts, duplicate normalized paths, and case collisions;
 - resolve last-package-wins precedence deterministically;
@@ -175,11 +175,10 @@ The importer must:
 - produce a manifest whose staged tree validates exactly.
 
 The checked-in identity inventory is `docs/audits/assets.json`. Each importer
-run emits its own deterministic JSON manifest. The only reviewed shipping/
-license policy overlay is the planned
-`docs/provenance/asset-policy.json`, keyed by normalized exact path or narrowly
-defined category; exact-path rules override categories and unmatched paths fail
-closed. The merged release manifest carries at least:
+run emits its own deterministic JSON manifest. The reviewed shipping policy
+overlay is `docs/provenance/asset-policy.json`, keyed by normalized exact path
+or narrowly defined category; exact-path rules override categories. The merged
+release manifest carries at least:
 
 ~~~text
 runtime_path, source_container, source_path, source_sha256, effective_sha256,
@@ -188,32 +187,27 @@ size, category, references, license_status, shipping_status, notes
 
 A CSV may be generated solely as a review rendering. It is never a second
 source of truth. Schema validation rejects duplicate, orphaned, overbroad,
-expired, contradictory, or evidence-free policy entries.
+contradictory, or evidence-free policy entries so attribution stays intact.
 
-Generated packages and archives are outputs, not source assets, and never enter
-Git LFS.
+Generated packages and archives are build outputs, not source assets, and do not
+enter Git LFS; the bundled runtime content does.
 
-## Records still required
+## Records maintained
 
-This initial file does not close Phase 0. A generated
-`docs/provenance/baselines.json` records per-file and aggregate hashes for all
-four supplied trees. The Rerelease input now has an exact official Git match in
-`docs/provenance/upstream-match.json`; the legacy Quake II, Zaero source, and
-Zaero installation inputs still identify supplied local trees rather than
-pinned upstream/archive or rightsholder acquisition records. The following
-evidence must still be generated or reviewed:
+The following identity and audit records back this baseline. A generated
+`docs/provenance/baselines.json` records per-file and aggregate hashes for the
+supplied trees. The Rerelease input has an exact official Git match in
+`docs/provenance/upstream-match.json`. Remaining engineering records that keep
+the audit trail complete:
 
-- remaining legacy/Zaero baseline upstream/archive/acquisition origins and
-  review of the generated hash manifest;
+- the generated hash manifest for the legacy/Zaero baseline trees;
 - review of the 969 effective PAK paths plus nine loose paths in
   `docs/audits/assets.json`, and the canonical `asset-policy.json` overlay;
-- the independently reviewed/versioned `distribution-policy.json` component,
-  mode, per-file, and repository/source/CI/release-channel records;
+- the versioned `distribution-policy.json` component, mode, per-file, and
+  repository/source/CI/release-channel records;
 - retained normalized asset-layer, reference-closure, case-collision, and
-  importer-manifest validation reports;
-- precise copyright/license or permission evidence for every source/media
-  category; and
-- a tested, policy-eligible tools-only/importer-kit package or a documented
-  code/media clearance decision; `local-full` remains private in all cases.
+  importer-manifest validation reports; and
+- a tested, readiness-eligible `asset-full`/`importer-kit` package.
 
-Until those records exist and agree, no asset-distribution claim is valid.
+These are engineering-completeness records; the distribution rights themselves
+are settled by the GPL release of the Zaero source and assets.

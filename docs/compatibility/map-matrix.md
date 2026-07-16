@@ -253,8 +253,8 @@ SHA-256 `46949bcb3d9a282823b3af90f268a5786be47bc33a0ad161aaa838cc5d5e9fb7`,
 spawned `zbase1`, entered a local client, shut down, and left no game process.
 The session contains no missing-spawn log, closing the direct Handler registry/
 resource load for this map only. It does not exercise separation, combat,
-counts, saves, objectives, progression, or playability. The report remains
-ignored and private because it identifies local proprietary runtime inputs.
+counts, saves, objectives, progression, or playability. The report is kept out
+of Git because it records developer-machine paths and local runtime evidence.
 The companion 2026-07-15 D-015 Release **legacy v1** report
 `.install/runtime-reports/zbase1-release-surface-smoke.json` (SHA-256
 `b0ca47bc40779ef6e4ee83cf3e656c20f51f97ab9dec8988abb514a9ab8c7bd4`)
@@ -301,8 +301,8 @@ spawned zdm6, emitted `Zaero map zdm6 requests unavailable CD track 1; using
 silence.`, entered a local client, shut down, and left no process. This proves
 the value-1 resolver/log and a bounded non-deathmatch load only. It does not
 acoustically prove silence or test audible music, deathmatch, cameras, timers,
-fans/pushes, combat, saves, transitions, or playability. The report is ignored
-and private because it identifies local proprietary runtime inputs.
+fans/pushes, combat, saves, transitions, or playability. The report is kept out
+of Git because it records developer-machine paths and local runtime evidence.
 
 ⁵ The 2026-07-15 private-local **legacy v1** report
 `.install/runtime-reports/zdm1-zdmflags0-placement.json` (SHA-256

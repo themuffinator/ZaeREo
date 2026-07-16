@@ -13,7 +13,7 @@ installation, save handling, networking, and packaging.
 ## Report a vulnerability privately
 
 Do not open a public issue containing exploit details, malicious files,
-credentials, private paths, or proprietary game content.
+credentials, or private paths.
 
 Use GitHub's private vulnerability-reporting form for this repository:
 [open a private security advisory](https://github.com/themuffinator/ZaeREo/security/advisories/new).

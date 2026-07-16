@@ -132,7 +132,9 @@ def parse_args() -> argparse.Namespace:
     create.add_argument("--version", required=True)
     create.add_argument("--commit", required=True)
     create.add_argument(
-        "--distribution-mode", choices=("importer-kit", "local-full"), required=True
+        "--distribution-mode",
+        choices=("tools-only", "importer-kit", "asset-full", "local-full"),
+        required=True,
     )
     verify = subparsers.add_parser("verify", help="Verify an existing manifest")
     verify.add_argument("--root", type=Path, required=True)

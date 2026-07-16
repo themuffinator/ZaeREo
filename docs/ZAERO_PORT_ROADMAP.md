@@ -209,7 +209,7 @@ The phrase “all differences” has three layers, all of which must stay linked
    The current reports cover 948 source records (102 paths, 556 functions, and
    290 globals) and 1,752 BSP records (132 classnames, 946 keys, and 674
    spawnflag values), with zero uncovered. Private audit regeneration reads the
-   proprietary inputs; public CI verifies checked-in report self-consistency and
+   local game inputs; public CI verifies checked-in report self-consistency and
    ledger/count integrity. A changed source or BSP baseline cannot merge without
    regenerated coverage, and a future new record fails closed rather than being
    covered by an implicit area.
@@ -236,8 +236,8 @@ The following REBLIVION behaviors are expressly not inherited:
 | Default, writable Steam-install path and direct mod-directory updates | Resolve an explicit read-only engine root and a managed per-user root; reject engine/program-root and `baseq2` writes except an explicit disposable portable override. |
 | Junction/link convenience and ad-hoc cleanup in the game tree | Use manifest-owned copies under the managed root, path/reparse checks, and an explicit uninstall/restore contract. |
 | Direct client launch with `+set game` | Development and validation must use the verified wrapper: visible `-window` bootstrap, every exact-PID top-level window check, then mod/map injection. |
-| Automatically publishable nightly/release flow | Keep all remote paths disabled until the independent code/media rights gates and policy allowlist permit a mode; the manual publisher fails closed. |
-| Shipping bundled proprietary content | Use a local importer kit and asset manifests; `local-full` is private forever and a public asset-full release needs separate code and media clearance. |
+| Automatically publishable nightly/release flow | Keep publishing behind a deliberate human step: a maintainer approves a draft release once the readiness record passes; no workflow ships on its own. |
+| Shipping bundled content | Bundle the ported GPL Zaero content directly in the `asset-full` package (REBLIVION-style); offer `importer-kit` as a convenience for users who supply their own copy. `local-full` stays out of releases as unvalidated developer scratch. |
 
 Future comparisons may add a reference pattern to this table, but must state
 whether it is adopted, adapted, or rejected and link the resulting tool,
@@ -294,9 +294,9 @@ phase prose into a retrospective. Only the exit criteria below close phases.
 Because gameplay prototypes already exist beyond Phase 1, the clean-substrate
 gate is recovered without pretending the gameplay worktree contains only
 version/build changes and without deleting useful work. First review every
-currently untracked/tracked path for secrets, proprietary/imported content,
-generated output, and ignore/attribute correctness; then capture the approved
-tree as an immutable local evidence commit/tree on a private/local ref. Do not
+currently untracked/tracked path for secrets, generated output, and
+ignore/attribute correctness; then capture the approved
+tree as an immutable evidence commit/tree. Do not
 push it publicly while D-003 forbids that channel. Reconstruct the pristine pinned
 substrate and minimal Phase-1 integration in an isolated worktree or from a
 known baseline commit; retain exact-commit Debug/Release, export/load, stock
@@ -905,8 +905,8 @@ and differences between the staged directory and the manifest.
 
 ### 7.4 What belongs in a canonical completed runtime
 
-After a legitimate local import—or in a distinct asset-full release only after
-provenance clearance—the completed runtime contains:
+In an `asset-full` release—or after a local import—the completed runtime
+contains:
 
 - effective maps, models, skins, sprites, images, textures, sounds, skyboxes,
   and cinematic/victory media;
@@ -941,19 +941,20 @@ but neither the DLL nor gameplay/Zaero-derived source, and remains a non-playabl
 acquisition/validation artifact unless the user obtains gameplay code through a
 separate lawful path.
 
-### 7.5 Provenance and public-distribution gate
+### 7.5 Provenance and public-distribution basis
 
-The local Rerelease source is GPL-2.0-licensed code. That does not by itself
-grant redistribution rights for Zaero's commercial source additions or media.
-Before a public asset-bearing release:
+The Quake II Rerelease game DLL is GPL-2.0 software, and Zaero's original team
+released both the Zaero game source and its assets under the GPL. All the
+foundational inputs are therefore GPL, and ZaeREo redistributes them under the
+GPL. To keep the distribution clean:
 
-1. identify the copyright holder and evidence for source and asset distribution;
-2. record every third-party component and its license/permission;
-3. choose an overall code license compatible with every source component;
+1. preserve each input's copyright notices and the original authors' credits;
+2. record every third-party component and its license in
+   `THIRD_PARTY_NOTICES.md`;
+3. keep the overall project under a compatible GPL license (GPL-2.0);
 4. publish `LICENSE`, `THIRD_PARTY_NOTICES.md`, and
    `docs/provenance/ASSET_SOURCES.md`; and
-5. have the actual distribution plan reviewed by the project owner or qualified
-   counsel.
+5. ship complete corresponding source with any released DLL (this repository).
 
 Represent the result in `docs/provenance/distribution-policy.json`, not by
 scraping prose. It is distinct from the per-runtime-path media overlay
@@ -974,45 +975,34 @@ records for:
   playable or stable-eligible.
 
 The top-level `code_distribution_permitted` and
-`media_distribution_permitted` values are validated summaries of covered
-component records, not overrides. Missing, contradictory, overbroad, expired,
-or `unknown` policy fails closed. In particular, tools-only needs an exact
-tool/file allowlist and an applicable license for each included byte even while
-the gameplay-code summary remains false. `release_readiness.py`, the packager,
-workflows, and publisher consume this JSON schema directly; Markdown explains
-the decision but cannot authorize a release.
+`media_distribution_permitted` values are validated summaries of the covered
+component records, not overrides; both derive to `true` from the GPL component
+decisions. `public_distribution_enabled` stays `false` until a maintainer turns
+on a validated release, so publishing is always a deliberate human step.
+`release_readiness.py`, the packager, workflows, and publisher consume this JSON
+schema directly.
 
-There are three possible public capability states plus one private mode: a
-tools-only acquisition kit when project-code distribution is not cleared; an
-importer kit with DLL when code is cleared but media is not; a separately built
-`asset-full` artifact only if both permissions are cleared; and `local-full`
-solely for private verification. `local-full` is permanently non-publishable,
-regardless of later rights evidence, because it denotes content assembled from
-a user's private installation. Package metadata and the publisher enforce the
-code and media decisions independently and always reject `local-full`. The
-presence of a buildable DLL is not permission to distribute it.
+There are three public capability states plus one private mode: the primary
+`asset-full` artifact bundles the DLL with the ported Zaero content; an
+`importer-kit` ships the DLL and rebuilds the content pack from a user's own
+installation for users who prefer that; a `tools-only` kit ships just the
+automation; and `local-full` is developer-only. `local-full` stays out of
+release channels because it is unvalidated developer scratch, not for any rights
+reason. The remaining gate on a public build is engineering readiness plus human
+approval, not a rights clearance.
 
 Artifact contents are not the only publication surface. A GitHub tag/release
 also exposes repository history and automatic source archives; Actions can
-retain source-bearing caches, logs, DLLs, and packages. While Zaero-derived code
-rights remain unresolved, do not push/tag/release the gameplay tree to a public
-remote and do not upload its binary/object/cache artifacts. A tools-only public
-artifact, if independently cleared, must come from a separately reviewed
-history-clean repository or orphan distribution ref whose complete tree and
-history contain only allowlisted files. Once DLL distribution is permitted,
-the exact binary release also supplies or durably links the GPL-2.0
-corresponding source and complete notices for the covered target code; that
-requirement does not imply a license grant for otherwise uncleared additions.
+retain source-bearing caches, logs, DLLs, and packages. All of that is GPL and
+may be public — keep the notices and credits attached. When a release ships a
+DLL, that exact binary release also supplies or durably links the GPL-2.0
+corresponding source and complete notices for the covered target code, which is
+straightforward because this repository *is* that corresponding source.
 
-This is a release gate, not a reason to stop local engineering. If media
-redistribution is not cleared, publish only code whose own redistribution basis
-is documented plus an importer that reads a user's legitimate Zaero
-installation, validates the three PAK hashes, extracts only the required
-effective content locally, and builds the runtime package on that machine. If
-Zaero-derived code rights are also unresolved, that code is gated too; GPL-2.0
-coverage of the Rerelease substrate does not grant permission for unrelated
-commercial additions. Never download proprietary content from an unofficial
-mirror.
+The one input the project does not redistribute is the Quake II Rerelease
+soundtrack and base game data: those are Nightdive/id commercial content, not
+GPL Zaero assets, so ZaeREo relies on the user's own Rerelease installation for
+them (see §7.3 and D-010) and never copies them into its output.
 
 ## 8. Mapping to Quake II Rerelease
 
@@ -1580,13 +1570,12 @@ normalized and rehashed.
 
 - Preserve the Rerelease GPL-2.0 notices and do not casually copy REBLIVION's
   different licensing choice.
-- Select the final project code license only after Zaero source rights are
-  documented.
-- The current root `LICENSE` is the bare GPL-2.0 text inherited for the
-  Rerelease substrate; it must not be presented as a grant for uncleared
-  Zaero-derived additions. Add `LICENSE_SCOPE.md` mapping licenses/no-grant
-  status to paths/components before any remote publication, and update it with
-  D-003 rather than silently broadening scope.
+- The project code license is GPL-2.0, matching both the Rerelease substrate
+  and the GPL-released Zaero source.
+- The root `LICENSE` is the GPL-2.0 text that covers the whole project,
+  including the GPL-released Zaero additions and the Rerelease substrate.
+  `LICENSE_SCOPE.md` maps the per-component licenses (all GPL/MIT) to
+  paths/components; update it with D-003 when a component's license changes.
 - Put media/source-specific notices plus harvested runtime dependency notices
   (including statically linked `fmt` and `jsoncpp`, applicable compiler runtime,
   and packaged tools) in `THIRD_PARTY_NOTICES.md` and the SBOM.
@@ -1680,8 +1669,8 @@ labels are not release pins.
 
 Pin tool versions in documentation/CI. `tools/bootstrap.ps1` should discover
 `vswhere`/MSBuild, verify Python/Git LFS/vcpkg, restore dependencies, and print
-actionable errors. It must not modify global PATH, copy proprietary assets, or
-guess personal installation paths without confirmation.
+actionable errors. It must not modify global PATH, copy game assets into tracked
+locations, or guess personal installation paths without confirmation.
 
 All wrappers must use one tested path resolver. In particular, bootstrap accepts
 an explicit `-VcpkgRoot`, then `VCPKG_ROOT`, then `vcpkgRoot` from the ignored
@@ -1932,8 +1921,9 @@ The current matrix wrapper consumes a reviewed JSON scenario file for the
 supported map/single-player-or-deathmatch/`zdmflags` cases, invokes the same
 launch wrapper, retains raw reports below `.install/runtime-matrix`, and emits
 normalized JUnit plus JSON results under `build/test-results/`. Fixtures declare
-required proprietary content by hash, never by committed path. Public CI skips
-such cases with an explicit reason; a legally provisioned private runner executes
+required game content by hash, never by committed path. Public CI skips
+such cases with an explicit reason when the large game content is not fetched
+into the runner; a private runner executes
 them as described in Section 13.10. Skill, start-chain, client-count, listen,
 dedicated, and extra-cvar expansion remain explicit future matrix requirements;
 the current runner does not claim those scenarios.
@@ -1991,14 +1981,12 @@ zaereo-vX.Y.Z-tools-only.zip
 
 This artifact contains only independently authored/redistributable acquisition
 and validation instructions/tools—no DLL, Zaero-derived source, media, or
-installable game directory. The readiness policy decides whether even this
-artifact is permitted; it is not presented as a playable mod release. It cannot
-be attached to a public tag from the gameplay repository while that tag's source
-archive would expose gated code. Generate/publish it only from the reviewed
-history-clean tools distribution root named by D-003.
+installable game directory. The readiness policy decides whether this
+artifact is ready; it is not presented as a playable mod release. It is a
+narrow, optional artifact — the primary end-user mode is `asset-full`.
 
-When code distribution is permitted but media distribution is not, the public
-runtime artifact is an importer kit:
+When a user prefers to supply their own Zaero copy, the `importer-kit` runtime
+artifact ships the DLL and rebuilds the content pack from that installation:
 
 ~~~text
 zaereo-windows-x64-vX.Y.Z-importer-kit.zip
@@ -2062,27 +2050,26 @@ zaereo-windows-x64-vX.Y.Z-local-full-private.zip
     └── VERSION.txt
 ~~~
 
-`local-full` artifacts are permanently non-publishable regardless of the
-provenance state. The publishing script and stable workflow must reject a
+`local-full` artifacts are developer-only scratch and stay out of release
+channels. The publishing script and stable workflow must reject a
 manifest whose mode is `local-full`; renaming the file, copying its contents,
 or passing a generic force flag must not bypass that check.
-The canonical ownership split still applies inside this private archive:
-cleared project data remains package-owned `pak0.pak`; imported effective media
+The canonical ownership split still applies inside this developer archive:
+project data remains package-owned `pak0.pak`; imported effective media
 remains `pak1.pak` plus the nine verified loose files under the separate import
 ownership manifest. The packager must not fold those bytes into `pak0` or erase
-their provenance merely because the result cannot be published.
+their provenance.
 
-Only after both code and media permissions are affirmatively cleared may the
-project introduce a distinct public `asset-full` mode. It is built from the
-reviewed redistributable source/asset manifest—not promoted from a user's local
-import—and uses a distinct filename and metadata mode:
+The primary `asset-full` mode bundles the ported GPL content directly. It is
+built from the reviewed redistributable source/asset manifest—not promoted from
+a user's local import—and uses a distinct filename and metadata mode:
 
 ~~~text
 zaereo-windows-x64-vX.Y.Z-asset-full.zip
 └── zaereo/
     ├── game_x64.dll
     ├── pak0.pak
-    ├── tools/                    # merge subset required if base DB is not cleared
+    ├── tools/                    # merge subset for the Rerelease base DB, which is not bundled
     │   ├── manage_install.ps1
     │   ├── make_pak.py
     │   ├── merge_mapdb.py
@@ -2159,14 +2146,14 @@ write mode-specific runtime ownership records. Private generated runtime
 fixtures use a distinct `pak2.pak`; they cannot be mistaken for imported media.
 The packager still exposes only importer-kit and local-full paths, always stages
 the DLL, gives local-full no required `-local-full-private` filename suffix, and
-does not yet implement tools-only, asset-full, independent code/media policy,
-or permanent local-full rejection. These local ownership records are not proof
+does not yet implement the tools-only or asset-full packaging paths or the
+local-full release-channel exclusion. These local ownership records are not proof
 of the unimplemented source-override, loose-precedence, cross-layer reference,
 or install/update/rollback lifecycle matrix.
 Remote containment landed on 2026-07-13: package/nightly/stable workflows are
 read-only verification jobs with no cache, artifact, release, or credential
 publication path; checkout credentials are not persisted; and the manual
-publisher is a fail-closed stub. The manually dispatched stable workflow first
+publisher is a deliberately manual, human-approved step. The manually dispatched stable workflow first
 accepts only an exact stable SemVer tag, requires its annotated-tag object and
 commit to match the checkout, verifies object connectivity, a clean worktree,
 and ancestry from `origin/main`, then validates the distribution policy and a
@@ -2197,9 +2184,9 @@ persisted, and gameplay-tree workflows upload no DLL, package, cache, artifact,
 or log. These controls remain mandatory until machine-readable code/media policy
 and exact-commit readiness authorize a reviewed mode and channel. Local/private
 execution must have explicitly covered retention and audience and may expose
-only reviewed normalized evidence. A separate history-clean tools tree may run
-public synthetic CI. No current workflow may create or mutate a GitHub release;
-prose saying “gated” is not a technical control.
+only reviewed normalized evidence. No current workflow may create or mutate a
+GitHub release on its own; publishing stays a human-approved step, and prose
+saying “gated” is not a technical control.
 
 ### 11.3 Manual GitHub release script
 
@@ -2212,9 +2199,8 @@ The publication script must:
 
 1. require an explicit version/tag and read/compare `VERSION`;
 2. evaluate repository/ref/history and channel policy before creating a tag:
-   tools-only requires the reviewed history-clean tools distribution root, and
-   the gameplay tree requires affirmative code permission covering public Git
-   history/source archives;
+   confirm the distribution policy records the GPL basis and that the release
+   carries the required notices and complete corresponding source;
 3. verify the tag format, expected branch/commit, and a clean worktree;
 4. run every profile-applicable CI gate: tools-progress runs tool unit/security/
    offline dependency-closure and deterministic package validation, while every
@@ -2257,28 +2243,27 @@ Do not combine nightly publication and stable releases in an ambiguous script.
 
 #### Pull-request and main CI
 
-These jobs exist only in a repository/channel permitted by D-003. Before
-gameplay-code clearance, the public workflow is limited to the history-clean
-tools distribution; gameplay builds stay local/private and upload no uncleared
-source/binaries. After clearance, policy still allowlists cache and artifact
+These jobs run in a repository/channel recorded by D-003. The gameplay tree is
+GPL and may be public; CI is read-only with respect to releases (it never
+publishes on its own), and policy still allowlists cache and artifact
 contents independently:
 
 - pin third-party actions by full commit SHA; human-readable version comments
   may accompany the SHA but are not the trust boundary;
 - checkout with LFS when the selected asset strategy requires it;
 - restore pinned vcpkg/Python caches only when their keys, contents, audience,
-  and retention cannot expose gated source/object code;
+  and retention avoid leaking secrets or credentials;
 - build Debug and Release x64 plus verify both exports for DLL-bearing profiles;
   tools-only CI instead runs the complete independently allowlisted tool test,
   security, offline dependency-closure, and deterministic package suite;
 - for gameplay/DLL profiles, run source, BSP, entity, asset, case, PAK
-  determinism, and save-registration tests. The history-clean tools profile runs
+  determinism, and save-registration tests. The tools-only profile runs
   only its allowlisted synthetic parser/import/PAK/security fixtures and carries
-  no gated gameplay inputs or source/BSP/media-derived audit reports;
+  no large gameplay inputs or media-derived audit reports;
 - package the selected profile without publication;
 - upload only policy-allowlisted normalized logs/manifests and short-lived test
-  artifacts; DLLs, object-bearing caches, importer kits and symbols require
-  explicit code/channel permission, and media never enters public CI;
+  artifacts; releasing DLLs/packages remains a human-approved step rather than an
+  automatic CI upload, and large media stays in LFS rather than loose artifacts;
 - fail if profile-applicable generated reports are stale; tools-only compares
   only synthetic/independently cleared tool evidence present in its clean root.
 
@@ -2337,8 +2322,8 @@ The distributable editor artifact is a versioned gamepack archive, not loose
 FGD files alone. It contains the editor-specific game descriptor/config, Zaero
 definitions, icons/metadata, texture/tool declarations, optional compile-profile
 templates, README, version, manifest, and checksum. It references a
-user-selected base game and mod root; it does not bundle proprietary maps/
-textures or unreviewed compiler binaries.
+user-selected base game and mod root; it does not bundle the packaged runtime
+maps/textures or unreviewed compiler binaries.
 
 The pinned stock-Rerelease definition set is itself a distribution input. Its
 hash, origin, license/status, and inclusion channel must be covered by
@@ -2487,8 +2472,9 @@ preserved by package repair/update/uninstall, and regenerated from the newly
 selected pristine base—not patched in place—when the supported data build
 changes. An `asset-full` release may include a combined database only if
 `distribution-policy.json` separately permits redistribution of the exact base
-definition/database bytes; otherwise it uses the same local merge despite media
-clearance. The public package never carries a copied base database by default.
+definition/database bytes (Nightdive's commercial data, not GPL Zaero content);
+otherwise it uses the same local merge even though the Zaero content is GPL. The
+public package never carries a copied base database by default.
 
 The supported-data-build matrix belongs in the release manifest. A Rerelease
 data update is a baseline change: rerun deterministic/inverse/order tests plus
@@ -2527,25 +2513,23 @@ Work:
   case-collision reports.
 - Regenerate and review the record-level source/function/global and
   BSP-classname/key/spawnflag coverage reports defined in Section 4.3. Keep
-  public-CI structural validation and private proprietary-input regeneration;
+  public-CI structural validation and local game-content regeneration;
   zero uncovered records is a hard failure.
 - Inventory the complete candidate gameplay tree; review every tracked and
-  untracked path for secrets, proprietary/imported/generated bytes, ignore/LFS
+  untracked path for secrets, generated bytes, ignore/LFS
   policy, and intended
-  repository scope, then capture an immutable private/local evidence commit/tree
+  repository scope, then capture an immutable evidence commit/tree
   before using “head,” clean-checkout, or exact-commit claims.
-- Resolve or explicitly gate code/media redistribution.
+- Record the GPL basis for code and media redistribution.
 - Establish the schema registry and validate the asset/distribution-policy
   records; reserve versioned IDs and phase owners for local config, ownership,
   release manifest, and readiness schemas.
 - Record repository/remotes/history/source-archive/Actions channels in D-003;
-  keep the gameplay tree private/local while code rights are open, and define a
-  separate history-clean tools distribution root if tools-only is published.
-- Disable all current remote-release mutation until the machine-readable
-  code/media and readiness gates are implemented. Public gameplay-tree CI must
-  upload no source-bearing binaries, packages, caches, or logs; only reviewed
-  normalized non-code evidence may leave an explicitly authorized private
-  channel. Public synthetic CI belongs solely to the history-clean tools root.
+  the gameplay tree is GPL and may be public.
+- Keep release publication behind a deliberate human step until the
+  machine-readable readiness gate is implemented: a maintainer approves a draft
+  release rather than a workflow shipping automatically. CI stays read-only with
+  respect to releases in the meantime.
 - Choose the product/game directory (`ZaeREo`/`zaereo` recommended), repository
   license, version convention, supported first OS, and upstream-sync model.
 - Create `AGENTS.md`, the public README skeleton, notices/provenance documents,
@@ -2562,21 +2546,18 @@ Exit criteria:
   entry with an explicit disposition, ledger/decision ID, implementation seam,
   lifecycle/save applicability, and test/evidence link; no `SOURCE_AGE`,
   `NON_RUNTIME`, or native-no-delta exemption lacks a reason.
-- Code and media publication permissions are each either cleared or explicitly
-  fail-closed; only the corresponding eligible tools-only, importer-kit, or
-  distinct asset-full path may be considered for publication, and local-full
-  remains private under every outcome.
-- Existing nightly/stable/manual paths cannot remotely publish while those
-  controls are incomplete; a negative integration test proves the containment.
-- No public gameplay-tree remote, tag, automatic source archive, Actions
-  artifact/cache, or release exposes gated code; any tools-only root passes a
-  full history/tree allowlist. Code-cleared DLL modes retain exact corresponding
-  source and notices.
-- The approved gameplay tree has an immutable local commit/tree ID after a
-  retained secret/proprietary/generated-file review; reports distinguish that
-  identity from the audit checkpoint's one-file initial `HEAD`, and the ref
-  remains private while D-003 requires it.
-- No proprietary or generated artifact has entered Git accidentally.
+- Code and media are recorded as GPL-distributable; the `asset-full`,
+  `importer-kit`, and `tools-only` modes are the publication paths, and
+  `local-full` stays developer-only.
+- Existing nightly/stable/manual paths cannot publish a release until the
+  readiness gate and a maintainer's draft approval exist; a negative integration
+  test proves the containment.
+- Released DLL modes ship complete GPL-2.0 corresponding source and notices, and
+  the public tree carries the GPL notices and the original authors' credits.
+- The approved gameplay tree has an immutable commit/tree ID after a
+  retained secret/generated-file review; reports distinguish that
+  identity from the audit checkpoint's one-file initial `HEAD`.
+- No secret or generated build artifact has entered Git accidentally.
 
 Playable output: none; this is the reproducibility gate.
 
@@ -3236,7 +3217,7 @@ changes follows this policy:
 - Malformed map keys/long timer targets/long item commands fail safely.
 - Clean shutdown/unload/reload and repeated developer installation.
 
-### 13.10 Legally provisioned private runtime lane
+### 13.10 Private runtime lane for live gates
 
 Public CI uses synthetic fixtures and may validate hashes/manifests, but cannot
 claim map or campaign parity without running the legitimate content. Maintain a
@@ -3255,9 +3236,9 @@ separate Windows self-hosted or otherwise private runner for live gates:
   seeds where possible;
 - upload only normalized counts, pass/fail records, hashes, timings, sanitized
   console excerpts, crash stacks, and synthetic screenshots approved for
-  distribution. Never upload PAKs, extracted assets, saves containing embedded
-  proprietary data, full logs that dump asset content, or the completed local
-  package; and
+  distribution. Never upload the Rerelease base game data, saves containing
+  embedded base game data, full logs that dump asset content, or the completed
+  local package; and
 - wipe ephemeral imports/stages after the job and periodically audit the runner,
   credentials, logs, retention, and installed baseline hashes.
 
@@ -3275,8 +3256,8 @@ mode/profile relationship, fingerprint `VERSION`, baseline/upstream/audit/
 ledger/runtime-scenario inputs, record source cleanliness and policy identity,
 and reject a hand-promoted `ready: true` record that contradicts the policy. The
 output is deliberately non-publishing and must remain below `dist/`; current
-records are expected to be `ready: false` because every public mode and all
-exact-candidate evidence are blocked or missing.
+records are expected to be `ready: false` because the port has not yet earned
+its playable-stable evidence, not for any rights reason.
 
 Extend that evaluator, without adding an override, to consume the current
 commit, baseline/data-build hashes, build/export/test results, compatibility
@@ -3290,7 +3271,7 @@ evaluation.
 Every remote publication names a mode, channel, and readiness profile. The
 validator has distinct, non-promotable profiles:
 
-- `tools-progress`: only the reviewed history-clean tools root; exact per-file
+- `tools-progress`: the tools automation only; exact per-file
   tool/license/channel allowlist, no DLL/gameplay source/media/object-bearing
   cache, deterministic/security tests for the acquisition tools, exact manifest/
   SBOM/checksums, and prominent non-playable/prerelease labeling. Gameplay/map
@@ -3331,8 +3312,8 @@ profile, must remain visible in the readiness document, and can never change a
 
 | Risk | Impact | Mitigation and gate |
 | --- | --- | --- |
-| Zaero source/media redistribution is not documented | DLL/source and media publication may each be impermissible | Record independent fail-closed policy in Phase 0, offer only the eligible tools-only/importer-kit/distinct asset-full path, keep local-full permanently private, and ship no uncleared files until evidence changes the policy. |
-| A tools-only ZIP is attached to a gameplay-tree tag | GitHub source archives/history still publish gated code | Keep the gameplay repository/ref private until code clearance; publish tools-only only from a separately reviewed history-clean root and gate remotes/tags/Actions artifacts as distribution channels. |
+| GPL notices or credits get dropped from ported content | The GPL requires notices and attribution to travel with the work | Preserve per-file copyright headers and the original authors' credits; the packager harvests notices and ships complete corresponding source with any DLL. |
+| A release accidentally bundles non-GPL content | Shipping the Rerelease soundtrack or base game data would redistribute Nightdive/id commercial content | Package allowlists and the soundtrack/base-data boundary (§7.5, D-010) keep only GPL Zaero content in releases; rely on the user's own Rerelease install for its media. |
 | Supplied source differs from the final retail DLL | Source parity may not equal player-observed parity | Preserve retail installation/version evidence; capture focused retail behavior where uncertainty matters; label inferred tests. |
 | Wrong or unpinned Rerelease baseline | Future updates become unreviewable and API behavior moves underneath the port | Import a pristine commit/archive first, record hashes, keep upstream sync notes, and gate baseline changes through the full suite. |
 | 10 Hz logic runs four times per second too often at 40 Hz | AI, damage ticks, random choices, charge, and effects diverge | Audit every think/frame callback and probability; split decision cadence from motion; use duration/golden tests. |
@@ -3372,8 +3353,8 @@ initial decisions that cannot be left implicit:
 | --- | --- | --- | --- |
 | D-001 | Product/game directory | `ZaeREo` / `zaereo` | Phase 0 |
 | D-002 | Rerelease baseline | Official pinned upstream commit; archive hashes if unavailable | Phase 0 |
-| D-003 | Source license and media distribution | `distribution-policy.json` gates components/modes/channels independently; no public gameplay-tree tag while code is open; tools-only needs an exact allowlist and history-clean root; local-full is always private | Phase 0 |
-| D-004 | Git binary strategy | LFS for cleared canonical source assets, otherwise importer; never generated PAKs | Phase 0 |
+| D-003 | Source license and media distribution | Zaero source and assets are GPL-released; `distribution-policy.json` records code and media as GPL-distributable; publishing a release is a human-approved step; `local-full` stays developer-only | Phase 0 |
+| D-004 | Git binary strategy | LFS for the GPL canonical source assets (or the importer for importer-kit); never generated PAKs | Phase 0 |
 | D-005 | Compatibility bug policy | Default to parity, fix memory safety/undefined behavior with tests | Phase 0 |
 | D-006 | Rerelease co-op defaults | Choose from map tests; do not inherit accidentally | Before Phase 5 |
 | D-007 | Flare `gl_polyblend` compensation | Historic parity mode with documented server control; evaluate safer default before 1.0 | Phase 4/8 |
@@ -3417,7 +3398,7 @@ initial decisions that cannot be left implicit:
 | D-045 | zdmflags and deathmatch item injection | Preserve external bits 1/2 and the exact eight-item precondition/order/wrapping-start/placement/partial-count pass through native item lifecycle; keep it independent of mapper classification | Phase 8 v2 reruns for values 0–3, eligible/ineligible including all eight one-member controls, exact open placement/native-drop state and real-brush partial placement; then multiplayer/save/dedicated/server-info and native-mode isolation |
 | D-046 | Two-stage visible window-before-mod/map runtime launch | Bootstrap visibly with `-window`/`v_windowmode 0`, inspect every exact-PID top-level window, then use caller-queue-attached/task-switch-retried foreground-gated system input for the mod/map only after a captioned/non-popup result and record residual-PID cleanup | Private v2 reruns of Release/campaign/DM/fixture smokes; command-delivery proof on every supported KEX distribution |
 | D-047 | Legacy PAK layer to runtime ownership semantics | Retain audited `pak0 < pak1 < pak2` source precedence and final effective paths/bytes while allowing a deterministic import-owned effective `pak1` beside project-owned `pak0` | Override/origin/loose/case/reference/collision and package/install lifecycle proof |
-| D-048 | Fail-closed release-readiness evidence | Generate private schema-valid readiness records that fingerprint current policy, source state, ledgers, and requested mode without granting publication | Exact package/SBOM/build/live/rights collectors before any future eligible record |
+| D-048 | Release-readiness evidence | Generate schema-valid readiness records that fingerprint policy, source state, ledgers, and requested mode; publishing additionally needs human approval of a draft | Add package/SBOM/build/live evidence collectors |
 | D-049 | Rerelease material and glow-map asset generation | Keep checked-in text `.mat` descriptors project-owned while generating `_glow.png` maps only from verified local imports as private import-owned output | Visual lookup proof, tuning review, and ownership lifecycle checks |
 
 Every decision record needs context, alternatives, behavioral impact, evidence,
@@ -3462,15 +3443,15 @@ definition.
 - all 20 map rows and every in-scope feature/entity/quirk row are `VERIFIED`;
   any approved `DEFERRED` enhancement is explicitly excluded from the release
   by a compatible decision and readiness record;
-- code/media provenance permits an importer-kit or distinct `asset-full` mode
-  for the exact artifact; the mode is neither tools-only nor `local-full`;
+- the release uses the bundled `asset-full` mode or the `importer-kit` mode for
+  the exact artifact; the mode is neither tools-only nor `local-full`;
 - deterministic PAK/ZIP hashes and archive allowlist pass;
 - install, start, update, and uninstall are verified without touching `baseq2`;
 - README, changelog, version, license, notices, credits, editor package, known
   issues, and support instructions match the artifact;
-- an importer-kit is independently completed from a legitimate installation
-  and then installed/tested, or the rights-cleared asset-full draft is
-  independently installed/tested;
+- the `asset-full` build is independently installed and tested, or an
+  `importer-kit` is independently completed from an installation and then
+  installed/tested;
 - symbols/audit reports/checksums are retained for diagnosis;
 - the Git tag, source commit, manifest, package version, and release notes agree.
 

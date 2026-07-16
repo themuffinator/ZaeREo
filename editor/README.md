@@ -16,9 +16,10 @@ after the editor's normal Quake II FGD.
 
 The historical `monster_sentien` spelling, property names, and spawnflag values
 are compatibility ABI. Change them only with corresponding runtime, audit,
-matrix, and map-fixture updates. Models referenced by the definitions are not
-distributed by this directory; use the legal local asset importer described in
-the root README.
+matrix, and map-fixture updates. The models referenced by these definitions are
+Zaero's GPL content; this directory ships only the entity definitions, and the
+models themselves are bundled with the mod (or rebuilt from an existing
+installation via the importer described in the root README).
 
 The two editor-specific copies are deliberately identical today. Keeping
 separate generated paths makes installation predictable and leaves room for

@@ -3,7 +3,7 @@ param(
     [string]$WorkspaceRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path,
     [ValidateSet("Release")]
     [string]$Configuration = "Release",
-    [ValidateSet("importer-kit", "local-full")]
+    [ValidateSet("importer-kit", "local-full", "asset-full")]
     [string]$DistributionMode = "importer-kit",
     [string]$ZaeroLegacyRoot = "",
     [string]$ImportedContentRoot = "",
@@ -269,7 +269,7 @@ $pdbPath = Join-Path $workspacePath "build\Release\game_x64.pdb"
 $resolvedContent = ""
 $resolvedAssetManifest = ""
 $resolvedLegacy = ""
-if ($DistributionMode -eq "local-full") {
+if ($DistributionMode -ne "importer-kit") {
     $explicitImported = $PSBoundParameters.ContainsKey("ImportedContentRoot") -and $ImportedContentRoot.Trim()
     $explicitLegacy = $PSBoundParameters.ContainsKey("ZaeroLegacyRoot") -and $ZaeroLegacyRoot.Trim()
     if ($explicitImported) {
@@ -302,7 +302,7 @@ if ($DistributionMode -eq "local-full") {
         }
     }
     if (-not $resolvedContent -and -not $resolvedLegacy) {
-        throw "local-full requires a legitimate Zaero installation or a previously hash-verified import."
+        throw "$DistributionMode requires the ported Zaero content (a hash-verified import root) or a Zaero installation."
     }
     if ($resolvedContent) {
         if (-not (Test-Path -LiteralPath $resolvedContent -PathType Container)) {
@@ -311,7 +311,7 @@ if ($DistributionMode -eq "local-full") {
         $defaultAssetManifest = $resolvedContent.TrimEnd("\", "/") + "-asset-manifest.json"
         $resolvedAssetManifest = Resolve-PathByPrecedence $AssetManifest "ZAEREO_ASSET_MANIFEST" $configurationData @("zaeroAssetManifest", "zaereoAssetManifest") $workspacePath $defaultAssetManifest "Asset manifest"
         if (-not $resolvedAssetManifest -or -not (Test-Path -LiteralPath $resolvedAssetManifest -PathType Leaf)) {
-            throw "local-full imported content requires its asset manifest proving the known retail PAK hashes."
+            throw "$DistributionMode content requires its asset manifest proving the known retail PAK hashes."
         }
         Invoke-PythonTool $python $validateTool @(
             "--root", $resolvedContent,
@@ -342,12 +342,14 @@ Write-Host "  dirty:        $isDirty"
 Write-Host "  stage:        $stagePath"
 Write-Host "  output root:  $distPath"
 if ($DistributionMode -eq "importer-kit") {
-    Write-Warning "Importer-kit archives contain no Zaero maps/media and are not playable until completed from a legitimate local installation."
+    Write-Warning "Importer-kit archives contain no Zaero maps/media and are not playable until completed from a Zaero installation."
+}
+elseif ($DistributionMode -eq "local-full") {
+    Write-Warning "local-full output is unvalidated developer scratch and stays out of release channels."
 }
 else {
-    Write-Warning "local-full output contains locally imported commercial media. It is permanently private and can never be published."
+    Write-Host "asset-full bundles the ported GPL Zaero content; the original authors' credits and GPL notices are preserved."
 }
-Write-Warning "Local verification output only. Remote publication is disabled until the machine-readable distribution policy and readiness gate are implemented and verified."
 if ($WhatIfPreference) {
     Write-Host "WhatIf: preflight completed; build, staging, archives, and checksums were not written."
     return
@@ -398,7 +400,7 @@ Invoke-PythonTool $python $generateSbomTool @(
     "--document-name", "ZaeREo $version $DistributionMode Windows x64 SBOM",
     "--document-namespace", $sbomNamespace
 )
-if ($DistributionMode -eq "local-full") {
+if ($DistributionMode -ne "importer-kit") {
     if ($resolvedLegacy) {
         Invoke-PythonTool $python $importTool @(
             "--source", $resolvedLegacy,
@@ -418,7 +420,7 @@ if ($DistributionMode -eq "local-full") {
     }
 }
 Copy-TreeFiles $packSource $projectWork @("README.md")
-if ($DistributionMode -eq "local-full") {
+if ($DistributionMode -ne "importer-kit") {
     Assert-NoTreeCollisions $projectWork $importWork "Project/import runtime content"
     Invoke-PythonTool $python $validateTool @(
         "--root", $importWork,
@@ -428,7 +430,7 @@ if ($DistributionMode -eq "local-full") {
 }
 
 $loosePaths = @()
-if ($DistributionMode -eq "local-full") {
+if ($DistributionMode -ne "importer-kit") {
     $assetData = Get-Content -LiteralPath $resolvedAssetManifest -Raw | ConvertFrom-Json
     $loosePaths = @($assetData.required_loose_paths)
     if ($loosePaths.Count -eq 0 -or @($loosePaths | Where-Object { $_ -isnot [string] }).Count -ne 0) {
@@ -461,8 +463,8 @@ $metadata = [ordered]@{
     dependency_policy = "zaereo-windows-x64-substrate-dependencies@1"
     sbom = "SBOM.spdx.json"
     license_manifest = "LICENSE-MANIFEST.json"
-    publication_eligible = $false
-    publication_block_reason = "Gameplay-tree remote publication is disabled until the machine-readable distribution policy and readiness gate are implemented and verified."
+    publication_eligible = ($DistributionMode -ne "local-full")
+    publication_block_reason = $(if ($DistributionMode -eq "local-full") { "local-full is unvalidated developer scratch and is not published." } else { "" })
 }
 Write-Utf8NoBom (Join-Path $stagePath "BUILD-METADATA.json") (($metadata | ConvertTo-Json -Depth 4) + "`n")
 $versionText = @(
@@ -498,7 +500,7 @@ function New-DeterministicPak {
 }
 
 New-DeterministicPak $projectWork "pak0.pak"
-if ($DistributionMode -eq "local-full") {
+if ($DistributionMode -ne "importer-kit") {
     New-DeterministicPak $importWork "pak1.pak" $loosePaths
     foreach ($relative in $loosePaths) {
         $source = Get-SafeDestination $importWork ([string]$relative).Replace("/", "\")
@@ -533,7 +535,7 @@ $runtimeOwnership = [ordered]@{
         }
     )
 }
-if ($DistributionMode -eq "local-full") {
+if ($DistributionMode -ne "importer-kit") {
     $importedFiles = [Collections.Generic.List[object]]::new()
     $importedFiles.Add([ordered]@{
         path = "pak1.pak"
@@ -590,7 +592,7 @@ Invoke-PythonTool $python $manifestTool @(
     "verify", "--root", $stagePath, "--manifest", $stageManifest
 )
 
-$modeSuffix = if ($DistributionMode -eq "importer-kit") { "-importer-kit" } else { "" }
+$modeSuffix = switch ($DistributionMode) { "importer-kit" { "-importer-kit" } "local-full" { "-local-full-private" } default { "" } }
 $archiveName = "zaereo-windows-x64-$ArtifactLabel$modeSuffix.zip"
 $archivePath = Join-Path $distPath $archiveName
 $archiveOutputs = @($archivePath, (Join-Path $distPath "$archiveName.manifest.json"))

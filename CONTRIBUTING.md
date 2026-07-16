@@ -13,7 +13,8 @@ content, build logic, or compatibility records.
 
 The supported first environment is Windows 10/11 x64 with Visual Studio 2022
 Desktop C++ Build Tools, PowerShell 7, Python 3.11+, Git LFS, vcpkg, Quake II
-Rerelease, and—only for local importing—a legitimate Zaero installation.
+Rerelease, and—optionally, for rebuilding the content pack from its original
+files—an existing Zaero installation.
 
 Create an ignored local path file:
 
@@ -21,8 +22,8 @@ Create an ignored local path file:
 Copy-Item .zaereo.local.example.json .zaereo.local.json
 ~~~
 
-Fill in local paths only. Do not add tokens, passwords, or proprietary content.
-The normal local loop is:
+Fill in local paths only. Do not add tokens or passwords. The normal local loop
+is:
 
 ~~~powershell
 ./tools/bootstrap.ps1 -VcpkgRoot "C:\path\to\vcpkg"
@@ -94,15 +95,18 @@ extensions are outside the 1.0 baseline unless approved in decisions.md.
 
 ## Assets and generated files
 
-Zaero source/media redistribution is not cleared. Never commit files copied from
-a local Zaero installation, original PAKs, legacy DLLs, saves, demos, or media.
-Do not download them from unofficial mirrors. Importer tests should use synthetic
-fixtures or locally generated ignored stages.
+The Zaero source and assets are GPL-released, so the ported content is
+redistributable and is bundled into `asset-full` releases. Large binary media is
+tracked via Git LFS; keep the original authors' credits and notices intact
+whenever you touch ported content. Do not commit legacy
+`gamex86.dll`/`gamei386.so` binaries, the destructive original `default.cfg`, or
+legacy saves/demos — those are excluded for engine-compatibility and safety
+reasons, not licensing. Importer tests may use synthetic fixtures or locally
+generated ignored stages.
 
 Do not hand-edit build/, .install/, dist/, vcpkg_installed/, generated PAK/ZIP
 files, or audit scratch output. Change the source/tool, regenerate deterministically,
-and commit only normalized reports that the roadmap requires. Cleared binary
-source assets may enter Git LFS only after an explicit policy decision.
+and commit only normalized reports that the roadmap requires.
 
 ## Test expectations
 
@@ -128,10 +132,10 @@ missing mandatory assets, or nondeterministic package output are failures.
 - Complete the pull-request template and link the matrix rows and tests.
 - Use draft pull requests while evidence or release gates remain incomplete.
 
-While Zaero-derived code rights remain open, gameplay changes stay local/private
-or use only an authorized private remote; do not push or tag the gameplay tree
-publicly. A public tools-only contribution belongs in the separately reviewed,
-history-clean tools distribution root and must satisfy its exact allowlist.
+Gameplay changes are GPL and may be pushed and tagged like any other part of the
+repository. Publishing a release archive is a separate, human-approved step (see
+[the release notes in the README](README.md#releases-and-checksums)); routine
+source contributions do not need to wait on it.
 
 Maintainers may require additional review for game/cgame ABI, save schemas,
 physics, security-sensitive parsers, provenance, packaging, and stable release

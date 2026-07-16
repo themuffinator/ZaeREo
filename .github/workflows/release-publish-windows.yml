@@ -1,0 +1,117 @@
+name: Publish Windows Release
+
+# Real publishing workflow, modeled on the sibling REBLIVION nightly-windows-release.
+# ZaeREo redistributes the GPL Rerelease DLL and the GPL Zaero source/assets under
+# the GPL, so publishing is permitted; it is kept a deliberate, human-triggered step
+# (workflow_dispatch) rather than an automatic push. Set a schedule block to enable
+# nightly prereleases once the shipped content set is committed via Git LFS.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag. Stable: vMAJOR.MINOR.PATCH. Prerelease: vX.Y.Z-<suffix>."
+        type: string
+        required: true
+      mode:
+        description: "Distribution mode to package and publish."
+        type: choice
+        required: true
+        default: importer-kit
+        options:
+          - importer-kit
+          - asset-full
+      prerelease:
+        description: "Mark the GitHub release as a prerelease."
+        type: boolean
+        required: true
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: zaereo-publish-windows-release
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: pwsh
+
+env:
+  VCPKG_ROOT: ${{ runner.temp }}\vcpkg
+  VCPKG_DEFAULT_BINARY_CACHE: ${{ runner.temp }}\vcpkg-cache
+  VCPKG_DEFAULT_TRIPLET: x64-windows-static
+
+jobs:
+  publish:
+    runs-on: windows-2022
+    timeout-minutes: 90
+    steps:
+      - name: Validate tag input
+        id: validate
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+          RELEASE_MODE: ${{ inputs.mode }}
+          RELEASE_PRERELEASE: ${{ inputs.prerelease }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $tag = $env:RELEASE_TAG
+          if ($tag -notmatch '^v(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)(?:-[0-9A-Za-z.-]+)?$') {
+            throw "Tag must be v MAJOR.MINOR.PATCH with an optional -prerelease suffix: $tag"
+          }
+          $stable = ($tag -match '^v(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)$')
+          if ($stable -and $env:RELEASE_PRERELEASE -eq 'true') {
+            Write-Host "Note: stable-shaped tag will still be marked prerelease per input."
+          }
+          "tag=$tag" >> $env:GITHUB_OUTPUT
+
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+          # asset-full bundles the GPL Zaero media, which is tracked via Git LFS.
+          lfs: ${{ inputs.mode == 'asset-full' }}
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.0.0
+        with:
+          python-version: "3.11"
+
+      - name: Bootstrap pinned vcpkg outside the worktree
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $baseline = (Get-Content ./vcpkg.json -Raw | ConvertFrom-Json).'builtin-baseline'
+          if ($baseline -notmatch '^[0-9a-f]{40}$') { throw 'vcpkg.json must contain a 40-char builtin-baseline.' }
+          if (Test-Path -LiteralPath $env:VCPKG_ROOT) { Remove-Item -Recurse -Force $env:VCPKG_ROOT }
+          git clone --filter=blob:none --no-checkout https://github.com/microsoft/vcpkg.git $env:VCPKG_ROOT
+          git -C $env:VCPKG_ROOT checkout --detach $baseline
+          & "$env:VCPKG_ROOT\bootstrap-vcpkg.bat" -disableMetrics
+          New-Item -ItemType Directory -Force $env:VCPKG_DEFAULT_BINARY_CACHE | Out-Null
+
+      - name: Build and package
+        id: package
+        run: >
+          ./tools/package_windows.ps1
+          -DistributionMode ${{ inputs.mode }}
+          -ArtifactLabel "${{ steps.validate.outputs.tag }}"
+          -IncludeSymbols
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          ./tools/publish_github_release.ps1
+          -Version "${{ steps.package.outputs.version }}"
+          -Tag "${{ steps.validate.outputs.tag }}"
+          -ArchivePath "${{ steps.package.outputs.archive_path }}"
+          -ManifestPath "${{ steps.package.outputs.manifest_path }}"
+          -ChecksumPath "${{ steps.package.outputs.checksum_path }}"
+          -SymbolsPath "${{ steps.package.outputs.symbols_path }}"
+          -Repository "${{ github.repository }}"
+          -ExpectedCommit "${{ github.sha }}"
+          -AllowDetachedHead
+          -ReplaceExistingAssets
+          ${{ inputs.prerelease == true && '-Prerelease' || '' }}
+          -Publish

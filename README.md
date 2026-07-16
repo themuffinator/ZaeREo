@@ -11,7 +11,7 @@ facilities correctly.
 > clean Debug and Release builds plus bounded legacy single-stage windowed load
 > smokes (which must be rerun under the current window-before-mod/map protocol),
 > but no supplied map has yet passed the live compatibility
-> matrix and there is no supported public release.**
+> matrix and there is no stable release yet.**
 > Do not treat the current DLL as a campaign-playable build. See the
 > [port roadmap](docs/ZAERO_PORT_ROADMAP.md) and the
 > [feature matrix](docs/compatibility/feature-matrix.md) for evidence-based
@@ -28,8 +28,8 @@ facilities correctly.
 | Bots | Safe coexistence with Rerelease bots | Appended Zaero item IDs use the native generic registry; custom active hazards publish native trap/laser metadata and invalid external item IDs are rejected before indexing. Live zdm1–6 bot/no-navigation sessions remain |
 | Saves | Native Rerelease JSON save/load | Implemented-slice fields/callbacks registered; live lifecycle round trips and remaining systems are incomplete |
 | Split screen | Isolated per-client HUD, views, zoom, and Visor | Flare/Sonic/Sniper/showorigin plus the active Visor view/HUD/copy state are client-local under static contracts, and full native Zaero wheel allocation plus 1–10 aliases are static-tested; live wheel/Visor/cross-talk matrices remain |
-| Legacy content | 20 BSPs, 969 effective PAK paths, nine required loose files | Hash-audited importer works locally; content is not distributed |
-| Tooling | Audit, import, build, managed install, package and release containment | Development tools are fixture-tested; fail-closed distribution policy and remote containment are active, while player install management, exact-commit readiness, and complete release modes remain incomplete |
+| Legacy content | 20 BSPs, 969 effective PAK paths, nine required loose files | Hash-audited; the ported Zaero content is GPL and is bundled into release packages (see [assets and license](#assets-and-license)) |
+| Tooling | Audit, import, build, managed install, package and release | Development tools are fixture-tested; packaging is deterministic. Player install management, exact-commit readiness, and complete release modes remain incomplete |
 | Remastered content | Optional post-parity overlay | Out of 1.0 scope |
 
 The compatibility target is the supplied Zaero source and installation, not
@@ -38,36 +38,51 @@ the [map](docs/compatibility/map-matrix.md),
 [entity](docs/compatibility/entity-matrix.md), and
 [quirk](docs/compatibility/quirks.md) ledgers.
 
-## Assets and legal status
+## Assets and license
 
-The Quake II Rerelease game-DLL baseline is GPL-2.0 software. That license does
-not establish permission to redistribute Zaero's commercial source additions,
-maps, textures, audio, models, or cinematics. No such permission is claimed by
-this repository.
+ZaeREo is free software distributed under the **GNU General Public License,
+version 2**. See [LICENSE](LICENSE). The port stands on two GPL-released works:
 
-Until provenance is resolved, ZaeREo independently fails closed on code and
-media publication. The maximum eligible artifact is tools-only while
-Zaero-derived code rights are open; an importer kit with a DLL requires code
-clearance, and a distinct public asset-full release requires both code and media
-clearance. A `local-full` archive is always private verification output and can
-never be published or promoted into that future mode.
-The importer reads a user's legitimate Zaero installation, verifies the known
-retail PAK hashes, applies PAK/loose-file precedence, excludes legacy binaries
-and destructive configuration, and assembles content locally. Do not upload
-original PAKs, loose media, or uncleared source/binaries.
+- The **Quake II Rerelease game-DLL** substrate from id Software, released under
+  GPL-2.0. Its pinned identity is recorded in [docs/UPSTREAM.md](docs/UPSTREAM.md).
+- The original **Zaero** mission pack. Zaero's creators released both its
+  **game source code and its game assets** — maps, models, textures, sounds,
+  sprites, and cinematics — under the GPL. That release is what makes this port,
+  and its distribution, possible.
+
+Because both foundations are GPL, ZaeREo may freely study, modify, bundle, and
+redistribute the ported Zaero content alongside the Rerelease runtime, provided
+it keeps the GPL notices intact, preserves the original authors' credits, and
+makes complete corresponding source available. This repository *is* that
+corresponding source.
+
+Release archives bundle the ported Zaero content directly, in `pak0.pak` plus
+the required loose runtime files — the same way the sibling
+[REBLIVION](https://github.com/themuffinator/REBLIVION) port ships Oblivion.
+End users do not need to supply their own copy of Zaero. A local importer is
+also available as a convenience for rebuilding the content pack from an existing
+Zaero installation; it verifies the known retail PAK hashes, applies PAK/loose
+precedence, and excludes legacy binaries and destructive configuration, but it
+is a development aid, not a licensing requirement.
+
 See [asset sources](docs/provenance/ASSET_SOURCES.md) and
-[third-party notices](THIRD_PARTY_NOTICES.md).
-While code rights are open, do not push/tag the gameplay tree to a public remote:
-its history and automatic source archives are distribution channels. A public
-tools-only artifact must come from the separately reviewed history-clean root
-specified by the active fail-closed machine-readable distribution policy.
+[third-party notices](THIRD_PARTY_NOTICES.md) for the recorded component and
+asset evidence, and [LICENSE_SCOPE.md](LICENSE_SCOPE.md) for the per-component
+license map.
 
 ## Installation and launch
 
-There is no supported end-user package yet. The managed developer installer is
-available for local testing, but the resulting build is incomplete. It refuses
-to target `baseq2`; legacy game DLLs are never imported because they are not
-compatible with Quake II Rerelease.
+A stable end-user package is not published yet, because the port is still in
+active development rather than because of any licensing constraint. When a
+release ships it is self-contained: extract it into your Quake II Rerelease
+install so the bundled `zaereo/` directory lands beside `baseq2/`, and launch
+the Rerelease with the `zaereo` game module selected. The bundled `pak0.pak`
+already carries this project's ported Zaero content, so there is no separate
+retail-era Zaero directory to assemble first.
+
+The managed developer installer is available for local testing today, though the
+resulting build is incomplete. It refuses to target `baseq2`; legacy game DLLs
+are never imported because they are not compatible with Quake II Rerelease.
 
 The planned release defaults to the upstream-recommended per-user directory:
 
@@ -88,7 +103,8 @@ distinguish the game's mod selector from the verified developer workflow.
 
 Stable releases will include install, update, uninstall, version, and checksum
 instructions. Until one exists, GitHub source snapshots and locally generated
-verification archives are not supported game packages.
+verification archives are development artifacts rather than finished game
+packages.
 
 ### Mapper-contract scope
 
@@ -122,7 +138,8 @@ The first supported environment is:
 - Git and Git LFS;
 - vcpkg in manifest mode;
 - a legally installed Quake II Rerelease; and
-- a legitimate Zaero installation for local content import.
+- optionally, an existing Zaero installation if you want to rebuild the content
+  pack from its original files rather than the tracked/bundled copy.
 
 Copy `.zaereo.local.example.json` to the ignored `.zaereo.local.json` and set
 the Rerelease, Zaero, and optional vcpkg roots. All path-aware PowerShell tools
@@ -144,37 +161,36 @@ python ./tools/validate_runtime.py --root .install/imported/zaereo --manifest .i
 ./tools/run_game.ps1 -Map q2dm1 -Deathmatch -ZdmFlags 0 -ProbeDeathmatchItems -ReportOutput .install/runtime-reports/q2dm1-zdmflags0-placement.json
 ./tools/run_runtime_matrix.ps1 -WhatIf
 ./tools/run_runtime_matrix.ps1 -ScenarioFile ./tools/runtime-scenarios-dm.json -WhatIf
-python ./tools/release_readiness.py --mode local-full --channel private-local-filesystem --profile local-full-private
+python ./tools/release_readiness.py --mode asset-full --channel github-release --profile playable-stable
 # The wrapper starts a visible -window/v_windowmode 0 bootstrap and attempts
 # delivery only after all visible native windows pass its caption/non-popup check.
-# The matrix consumes private-only reviewed scenarios and creates no output under -WhatIf.
 # The D-045 DM matrix reruns values 0–3 and authored suppression; the separate
 # `runtime-scenarios-dm-fixtures.json` matrix requires the private fixture overlay.
-# The readiness evaluator writes an ignored local record. It is expected to say
-# ready=false while the active policy blocks every public mode; it never publishes.
+# The readiness evaluator writes a local record. It is expected to say
+# ready=false until the port earns its playable-stable evidence; it never
+# publishes on its own.
 ~~~
 
 If the KEX client rejects synthetic input, add `-ManualCommandDelivery` to the
-single-map wrapper or private matrix. The matrix runs scenarios serially and
+single-map wrapper or matrix. The matrix runs scenarios serially and
 records that manual mode was selected, but still accepts a case only when that
 case's report is `engine-confirmed`. Enter each nonce-bearing command only after
 its client window is verified. Do not treat a prompted or pasted command as a
 passing smoke until the report is written.
 
-`tools/make_dm_runtime_fixture.py` can derive an ignored, private-only
-partial-placement BSP from a locally owned `baseq2/pak0.pak` for D-045 runtime
-testing. `--include-existing-member-controls` additionally emits one map for
+`tools/make_dm_runtime_fixture.py` can derive a local partial-placement BSP from
+a locally owned `baseq2/pak0.pak` for D-045 runtime testing.
+`--include-existing-member-controls` additionally emits one map for
 each of the eight historical item classnames. `install_dev.ps1 -RuntimeFixtureRoot`
 accepts only
 `maps/zaereo_fixture_*.bsp` beneath `.install/runtime-fixtures`, refuses content
 collisions and reparse points, and manages the overlay like every other owned
-install byte in a private generated `pak2.pak`, above project `pak0.pak` and
+install byte in a generated `pak2.pak`, above project `pak0.pak` and
 the importer-owned `pak1.pak`. Reinstall without `-RuntimeFixtureRoot`
-immediately after the test. The derived BSP, its identity manifest, the
-resulting PAK, and runtime
-report must never be committed or published.
+immediately after the test. The derived test fixtures are development scratch and
+are kept out of Git by `.gitignore`, not by any distribution restriction.
 
-The importer and installer write only to ignored/managed locations. The
+The importer and installer write to managed locations. The
 installer reads `-EngineRoot` but writes the managed mod beneath
 `%USERPROFILE%\Saved Games\Nightdive Studios\Quake II` by default. Pass
 `-UserRoot` to select another writable user-data parent. `-GameRoot` is reserved
@@ -183,11 +199,11 @@ it cannot be combined with `-UserRoot`. The installer refuses engine/program-roo
 and `baseq2` writes, refuses unmanaged overwrite, and prints the launch
 arguments. A normal install builds project-owned `pak0.pak` and importer-owned
 `pak1.pak`, retains the verified loose files, and validates the completed stage
-against the import manifest before it is copied to the user-data mod root. For an
-asset-free local packaging check, use
-`./tools/package_windows.ps1 -DistributionMode importer-kit -AllowDirty`;
-this is local development output and is not publication-authorized. Dirty or
-validation-skipped artifacts are also marked non-publishable. Contributor
+against the import manifest before it is copied to the user-data mod root. For a
+local packaging check, use
+`./tools/package_windows.ps1 -DistributionMode asset-full -AllowDirty`;
+dirty or validation-skipped artifacts are marked non-release for engineering
+hygiene, not for licensing reasons. Contributor
 requirements are in [CONTRIBUTING.md](CONTRIBUTING.md) and
 [AGENTS.md](AGENTS.md).
 
@@ -195,36 +211,29 @@ requirements are in [CONTRIBUTING.md](CONTRIBUTING.md) and
 
 | Path | Purpose |
 | --- | --- |
-| src/ | Officially pinned Rerelease substrate reconstruction plus reviewed Zaero integration |
-| pack/ | Tracked redistributable configuration contribution only; imported commercial content stays under ignored `.install/` |
+| src/ | Officially pinned Rerelease substrate reconstruction plus Zaero integration, all under GPL |
+| pack/ | Tracked redistributable runtime content and configuration; large binary Zaero media is tracked via Git LFS |
 | tools/ | Bootstrap, audits, importer, build, install, validation, packaging |
 | tests/ | Audit fixtures and runtime/golden coverage |
 | docs/audits/ | Normalized source, upstream-integration, map/entity, and asset evidence |
 | docs/compatibility/ | Feature, entity, map, quirk, and decision ledgers |
-| docs/provenance/ | Baseline identities and distribution evidence |
+| docs/provenance/ | Baseline identities and license evidence |
 | editor/ | Generated mapper definitions and editor integration |
 | build/, .install/, dist/ | Ignored compiler, developer-stage, and release output |
 
 ## Releases and checksums
 
-No supported binaries or asset-bearing releases are currently published. The
-packager already produces deterministic local importer-kit/`local-full`
-archives, external manifests, SHA-256 checksums, a pinned SPDX 2.3 substrate
-SBOM, and exact vcpkg license bundle, but current tooling output is not evidence
-of publication rights or release readiness. Remote workflows
-are read-only and the publisher fails closed before external access; those
-controls must remain in place while every public mode is blocked. The local
-readiness evaluator fingerprints the policy, audited/ledger inputs, source state,
-and requested mode/channel/profile, but intentionally produces a blocked record
-until exact-candidate manifests, test evidence, and rights/channel gates exist.
-Stable publication additionally requires that exact-commit machine-readable
-readiness gate, private
-live evidence, a clean tagged commit, version/tag agreement, eligible
-code/media policy, and protected human approval of a draft GitHub release. A
-`local-full` package contains the user's commercial content and is permanently
-ineligible for publication. Any future rights-cleared asset-bearing release is
-a distinct `asset-full` artifact built from reviewed distributable inputs, not
-a renamed local import. A tools-only artifact is not a playable mod release.
+No stable binary or asset-bearing release is published yet, because the port is
+still being validated. The packager already produces deterministic
+`asset-full`/`importer-kit` archives, external manifests, SHA-256 checksums, a
+pinned SPDX 2.3 substrate SBOM, and the exact vcpkg license bundle. A stable
+publication additionally requires the exact-commit machine-readable readiness
+gate, private live evidence, a clean tagged commit, version/tag agreement, and
+protected human approval of a draft GitHub release. Publishing is deliberately a
+human-approved step; no workflow ships a release on its own. An `asset-full`
+package bundles the ported Zaero content directly; an `importer-kit` package
+omits it and rebuilds the pack from a user's existing Zaero installation for
+users who prefer that. A tools-only artifact is not a playable mod release.
 
 ## Reporting problems
 
@@ -235,26 +244,25 @@ Use the repository issue forms. Compatibility reports should include:
 - skill and mode, including player count;
 - reproducible steps and expected versus observed behavior;
 - a save made before the failure when safe to share; and
-- console/log output, without credentials or proprietary game content.
+- console/log output.
 
 Report security issues privately as described in [SECURITY.md](SECURITY.md).
 
 ## Credits, license, and trademarks
 
-Zaero was created by its original developers and rightsholders. Quake and
-Quake II were created by id Software. ZaeREo contributors are building this
-independent compatibility port; no original creator or publisher endorsement is
-implied.
+Zaero was created by its original team (Team Evolve) and released, source and
+assets, under the GNU General Public License. Quake and Quake II were created by
+id Software, and the Rerelease game DLL is likewise GPL software. ZaeREo
+contributors are building this independent compatibility port on top of that
+freely licensed work; the original authors' credits and notices are preserved in
+the ported content, as the GPL requires.
 
 The target baseline is the
 [Quake II Rerelease game DLL](https://github.com/id-Software/quake2-rerelease-dll).
-Repository licensing remains constrained by the provenance decisions described
-above; the roadmap requires a component/path `LICENSE_SCOPE.md` before any
-publication. Consult LICENSE and THIRD_PARTY_NOTICES.md before reuse or
-distribution and do not infer a grant for uncleared additions from the bare
-GPL-2.0 text.
+ZaeREo as a whole is distributed under the GPL v2 (see [LICENSE](LICENSE) and
+[LICENSE_SCOPE.md](LICENSE_SCOPE.md)); consult [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
+for component-level attribution before reuse or redistribution.
 
 Quake, Quake II, Zaero, and related names and marks belong to their respective
-owners. This project is not affiliated with or endorsed by id Software,
-Bethesda Softworks, Nightdive Studios, or Zaero's original publisher or
-rightsholders.
+owners. This project is unofficial and is not affiliated with or endorsed by id
+Software, Bethesda Softworks, Nightdive Studios, or Zaero's original team.

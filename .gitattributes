@@ -16,7 +16,7 @@
 *.zip binary
 *.7z binary
 
-# Source assets, when redistribution is cleared, are stored through Git LFS.
+# Zaero's GPL-released source assets are stored through Git LFS.
 # Generated PAK/ZIP artifacts remain ignored and must not be committed.
 *.bsp filter=lfs diff=lfs merge=lfs -text
 *.cin filter=lfs diff=lfs merge=lfs -text

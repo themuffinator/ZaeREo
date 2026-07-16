@@ -35,8 +35,8 @@ result
 
 - [ ] Focused tests and the available affected full gates pass.
 - [ ] No generated build/stage/package or local configuration is included.
-- [ ] No proprietary or otherwise uncleared source/media is included.
-- [ ] Applicable upstream copyright and license notices are retained.
+- [ ] No non-GPL game data (e.g. the Rerelease soundtrack or base files) or engine-incompatible legacy binaries are included.
+- [ ] GPL notices and the original authors' credits are retained on any ported content.
 - [ ] Unrelated dirty-worktree changes were preserved.
 
 ## Remaining limitations

@@ -22,7 +22,8 @@ behavior as live-compatible.
 
 The supported first environment is Windows 10/11 x64, Visual Studio 2022 C++
 Build Tools, PowerShell 7, Python 3.11+, Git LFS, vcpkg, Quake II Rerelease,
-and—when importing content—a legitimate Zaero installation.
+and—optionally, when rebuilding the content pack from its original files—an
+existing Zaero installation.
 
 Local source and game locations are configuration, never repository constants.
 The shared resolver order is explicit script argument, current environment
@@ -68,15 +69,16 @@ start Quake II Rerelease fullscreen, including for a one-off manual smoke. A
 post-start switch out of fullscreen does not satisfy this rule.
 
 Developer installation, deterministic packaging, and importer-kit completion
-are present. The machine-readable distribution policy is active and fails
-closed; all public modes are blocked, remote workflows are read-only, and the
-manual publisher is a deliberately disabled stub. Exact-commit readiness and
-the complete mode-specific packager are not implemented. Do not add or invoke a
-remote path. Do not push/tag the gameplay tree to a public remote while code
-rights are open; a tools-only distribution requires the separate history-clean
-root defined by D-003. A `local-full` archive is private verification output and
-can never be published. If a roadmap command is not present, do not create a
-fake success path or bypass its gate.
+are present. The machine-readable distribution policy records GPL-permitted code
+and media distribution; publishing a release is a human-approved step, and the
+manual publisher stays behind that approval. Exact-commit readiness and the
+complete mode-specific packager are not fully implemented yet — that is an
+engineering-readiness gap, not a rights gap. The gameplay tree is GPL and may be
+pushed and tagged normally; only a public release archive waits on maintainer
+approval of a draft release. A `local-full` archive is unvalidated developer
+scratch and is kept out of release channels for that reason, not a licensing
+one. If a roadmap command is not present, do not create a fake success path or
+bypass its gate.
 
 ## Porting rules
 
@@ -121,25 +123,25 @@ under docs/audits; scratch output does not.
 
 ## Assets and provenance
 
-Zaero source and media redistribution has not been established and the two
-rights gates are independent. Public output is tools-only while Zaero-derived
-code rights remain open; an importer kit with a DLL additionally requires code
-clearance, and a distinct asset-full release requires code and media clearance.
-`local-full` remains private forever. Never commit or publish files copied from
-a legacy installation merely because they are locally available. Never fetch
-proprietary content from an unofficial mirror.
+The Zaero source and assets are GPL-released, and the Rerelease substrate is
+GPL-2.0, so ZaeREo redistributes all of it under the GPL. The ported content is
+bundled into `asset-full` releases; an `importer-kit` mode is also offered for
+users who prefer to rebuild the pack from their own installation. When you touch
+ported content, keep the original authors' copyright notices and credits intact.
+Do not commit legacy `gamex86.dll`/`gamei386.so` binaries or the destructive
+original `default.cfg` — they are excluded for engine-compatibility and safety
+reasons, not licensing.
 
 Use `docs/audits/assets.json` as the checked-in identity inventory, the current
 import's deterministic JSON manifest as byte evidence, and the reviewed
-future reviewed asset-policy overlay as the per-runtime-path media policy. The
-active `distribution-policy.json` separately gates components, modes,
-repository/source/CI/release channels, and exact tools-only candidate
-allowlists; it currently authorizes no public mode, and no prose file can
-substitute for it. Preserve
+asset-policy overlay as the per-runtime-path media policy. The
+`distribution-policy.json` record maps components, modes, and
+repository/source/CI/release channels to their licenses; publication of a
+release still waits on maintainer approval of a draft. Preserve
 pak0 < pak1 < pak2 precedence.
-Generated PAKs, ZIPs, stages, and compiler output do not belong in Git. Cleared
-binary source assets may use Git LFS only after the repository policy is
-recorded. Do not treat LFS as a home for generated packages.
+Generated PAKs, ZIPs, stages, and compiler output do not belong in Git;
+regenerate them. Binary Zaero media is tracked via Git LFS. Do not treat LFS as a
+home for generated packages.
 
 Do not edit generated build/, .install/, dist/, vcpkg_installed/, packaged
 archives, or generated audit scratch files. Regenerate an owned artifact through
@@ -155,8 +157,9 @@ affected row in map-matrix.md.
 
 Preserve unrelated work in a dirty/shared worktree. Inspect status and diffs
 before editing, use focused patches, never discard another contributor's change,
-and do not use destructive Git commands. Do not publish, tag, or stage a public
-release without explicit authorization and a satisfied provenance gate.
+and do not use destructive Git commands. Do not publish a release archive without
+maintainer approval of a draft release; routine commits, pushes, and tags are
+fine.
 
 Remasters, decompiled/rebuilt maps, balance changes, and new protocol/engine work
 are outside the 1.0 parity baseline unless an approved decision says otherwise.

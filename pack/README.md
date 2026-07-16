@@ -1,10 +1,12 @@
-# Tracked runtime contribution
+# Tracked runtime content
 
-This directory contains only redistributable, source-controlled runtime
-definitions: configuration, map scaffolding, and Quake II Rerelease material
-descriptors. Do not commit files imported from a commercial Zaero installation
-unless their redistribution status has been resolved and recorded by the
-project.
+This directory holds the source-controlled runtime content packed into the
+project-owned `pak0.pak`. Today that is configuration, the map-database scaffold,
+and Quake II Rerelease material descriptors. Zaero's assets are GPL-released, so
+its binary media (maps, models, textures, sounds, sprites, and cinematics) may
+also be tracked here through Git LFS, or supplied by the importer at pack time.
+When you add ported content, keep the original authors' credits and notices
+intact.
 
 ## Verified legacy input
 
@@ -39,14 +41,15 @@ python tools/zaero_material_assets.py generate-mats `
   --output-root pack
 ```
 
-Glow maps are different. `_glow.png` files are derived from Zaero pixel data, so
-they are generated only into the ignored import tree by `import_legacy_assets.py`
-or `zaero_material_assets.py generate-glow`, recorded in the import manifest,
-and remain import-owned private local output. Do not commit generated glow PNGs
-under `pack/`.
+Glow maps are generated. `_glow.png` files are derived from Zaero pixel data by
+`import_legacy_assets.py` or `zaero_material_assets.py generate-glow` and
+recorded in the import manifest. As GPL derivatives they may be tracked here
+through Git LFS and bundled, or left as regenerable import output — either is
+fine; prefer regenerating them at pack time to keep the tree small unless a
+release needs them tracked.
 
-Never import commercial content into this tracked directory. From the repository
-root, validate the known input without writing:
+From the repository root, you can validate an existing Zaero installation as an
+importer source without writing:
 
 ```powershell
 python tools/import_legacy_assets.py `
@@ -103,8 +106,9 @@ preserves unknown base fields and upstream array order, atomically writes the
 generated result, and proves inverse reconstruction when the Zaero records are
 removed. Before a release claims stock-menu coexistence, an owner must still
 select a supported data-build hash and menu position and test the result in
-game. The combined database is locally generated and is not a public package
-input unless the exact base bytes are separately cleared for redistribution.
-Copying a stale database from another project would silently discard future
-upstream entries. The console command `exec zaerostart.cfg` remains independent
+game. The combined database is locally generated. Note that the Rerelease *base*
+`mapdb.json` bytes are Nightdive's commercial game data, not GPL Zaero content,
+so a shipped database entry carries only the Zaero records rather than
+redistributing the base file. Copying a stale database from another project would
+silently discard future upstream entries. The console command `exec zaerostart.cfg` remains independent
 of this menu limitation.

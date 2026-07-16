@@ -98,17 +98,19 @@ class DistributionPolicyTests(unittest.TestCase):
         }
         validate_schema_instance(fixture, self.asset_schema, "asset policy fixture")
 
-    def test_current_summaries_and_all_public_modes_are_fail_closed(self) -> None:
-        self.assertFalse(self.policy["code_distribution_permitted"])
-        self.assertFalse(self.policy["media_distribution_permitted"])
-        self.assertFalse(self.policy["public_gameplay_tree_permitted"])
+    def test_current_summaries_reflect_gpl_distribution_with_publishing_gated(self) -> None:
+        # The GPL release of the inputs makes code and media distributable.
+        self.assertTrue(self.policy["code_distribution_permitted"])
+        self.assertTrue(self.policy["media_distribution_permitted"])
+        self.assertTrue(self.policy["public_gameplay_tree_permitted"])
+        # Publishing a release stays human-gated: no mode publishes on its own.
         self.assertFalse(self.policy["public_distribution_enabled"])
         public_modes = [mode for mode in self.policy["modes"] if mode["public_mode"]]
         self.assertTrue(public_modes)
         self.assertTrue(all(not mode["publication_permitted"] for mode in public_modes))
         self.assertTrue(all(mode["status"] == "blocked" for mode in public_modes))
 
-    def test_tools_only_is_exact_unknown_and_history_clean_only(self) -> None:
+    def test_tools_only_is_exact_and_history_clean_only(self) -> None:
         modes = {mode["id"]: mode for mode in self.policy["modes"]}
         channels = {channel["id"]: channel for channel in self.policy["channels"]}
         tools = modes["tools-only"]
@@ -116,7 +118,7 @@ class DistributionPolicyTests(unittest.TestCase):
         self.assertEqual(len(artifact_paths), len({path.casefold() for path in artifact_paths}))
         self.assertNotEqual(artifact_paths, [])
         self.assertTrue(
-            all(entry["distribution_status"] == "unknown" for entry in tools["file_allowlist"])
+            all(entry["distribution_status"] == "permitted" for entry in tools["file_allowlist"])
         )
         self.assertEqual(tools["permitted_channel_ids"], [])
         self.assertTrue(
@@ -151,18 +153,23 @@ class DistributionPolicyTests(unittest.TestCase):
         )
 
     def test_derived_summary_cannot_be_overridden(self) -> None:
+        # The headline booleans must equal the validated component summary; a
+        # hand-edited value that disagrees (here, false while components permit
+        # distribution) is rejected.
         policy = deepcopy(self.policy)
-        policy["code_distribution_permitted"] = True
+        policy["code_distribution_permitted"] = False
         with self.assertRaisesRegex(PolicyError, "validated summary"):
             self.validate(policy)
 
-    def test_unknown_tools_cannot_be_enabled_by_mode_flag(self) -> None:
+    def test_not_ready_mode_cannot_be_enabled_by_mode_flag(self) -> None:
+        # Flipping a mode's publication flag cannot bypass readiness: the mode
+        # still has unmet requirements and unresolved (not-yet-set-up) channels.
         policy = deepcopy(self.policy)
         tools = next(mode for mode in policy["modes"] if mode["id"] == "tools-only")
         tools["status"] = "eligible"
         tools["publication_permitted"] = True
         policy["public_distribution_enabled"] = True
-        with self.assertRaisesRegex(PolicyError, "unresolved components"):
+        with self.assertRaisesRegex(PolicyError, "unmet requirements"):
             self.validate(policy)
 
     def test_unknown_channel_cannot_be_labeled_permitted(self) -> None:
@@ -201,11 +208,14 @@ class DistributionPolicyTests(unittest.TestCase):
             self.validate(policy)
 
         policy = deepcopy(self.policy)
-        policy["channels"][0]["covered_component_ids"].append("missing-component")
+        channel = next(
+            c for c in policy["channels"] if c["id"] == "tools-public-git-tree"
+        )
+        channel["covered_component_ids"].append("missing-component")
         with self.assertRaisesRegex(PolicyError, "unknown id"):
             self.validate(policy)
 
-    def test_cli_reports_no_enabled_public_mode(self) -> None:
+    def test_cli_reports_gpl_distribution_and_no_enabled_public_mode(self) -> None:
         result = subprocess.run(
             [sys.executable, str(TOOLS / "validate_distribution_policy.py")],
             cwd=ROOT,
@@ -215,8 +225,8 @@ class DistributionPolicyTests(unittest.TestCase):
             check=False,
         )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertIn("code=false", result.stdout)
-        self.assertIn("media=false", result.stdout)
+        self.assertIn("code=true", result.stdout)
+        self.assertIn("media=true", result.stdout)
         self.assertIn("public_modes=none", result.stdout)
 
 

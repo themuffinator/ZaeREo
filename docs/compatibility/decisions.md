@@ -13,8 +13,8 @@ record.
 | --- | --- | --- | --- | --- |
 | D-001 | Product/game directory | ACTIVE | ZaeREo / zaereo | Only with an install migration plan |
 | D-002 | Rerelease baseline | ACTIVE | Pin official commit `8dc1fc9794c01ece06881e703851b768fb3994de`, whose `rerelease/` subtree exactly matches all supplied bytes | Any proposed upstream refresh |
-| D-003 | Source/media distribution | INTERIM | Gate code/media and distribution channel independently; no public gameplay-repo push/tag while code is open; tools-only needs a history-clean distribution root; local-full is always private | When rights evidence is obtained |
-| D-004 | Git binary strategy | INTERIM | No legacy assets; LFS only for cleared canonical source binaries; never generated packages | Before first binary source commit |
+| D-003 | Source/media distribution | ACTIVE | Zaero source and assets are GPL-released; redistribute code and media under the GPL with notices and credits preserved; publishing a release is a human-approved step | When the license terms of an input change |
+| D-004 | Git binary strategy | ACTIVE | Track GPL Zaero source binaries via Git LFS; never commit generated PAKs/ZIPs/DLLs/stages | Before hosting-quota changes |
 | D-005 | Compatibility bug policy | ACTIVE | Parity first; tested FIX for safety/undefined behavior | Per quirk |
 | D-006 | Rerelease co-op defaults | OPEN | Decide from all-map tests | Before Phase 5 |
 | D-007 | Flare blend compensation | INTERIM | Preserve historical behavior and zdmflags opt-out | Phase 4 and before 1.0 |
@@ -58,8 +58,8 @@ record.
 | D-045 | zdmflags and deathmatch item injection | ACTIVE | Preserve numeric bits 1/2 and the exact eight-item precondition/order/search/placement pass through native Rerelease item lifecycle; never use mapper classification as the content gate | Rerun the historical v1 values 0–3, eligible/ineligible including all eight one-member controls, exact open placement/native-drop state, and real-brush partial placement under D-046; then pickup/respawn/save, dedicated/multiplayer/server-info and native-mode isolation |
 | D-046 | Window-before-mod/map runtime launch | ACTIVE | Visible two-stage bootstrap, exact-PID full window enumeration, then caller/target-queue-attached/task-switch-retried foreground-gated mod/map delivery with residual-PID cleanup | Private v2 cross-distribution client reruns |
 | D-047 | Legacy PAK layer/runtime ownership semantics | INTERIM | Preserve source-layer audit and effective bytes, permit deterministic resolved import `pak1` beside project `pak0` only under strict ownership/collision proof | Phase 2 import/package/install lifecycle matrix |
-| D-048 | Fail-closed release-readiness evidence | ACTIVE | Generate private schema-valid readiness records that fingerprint current policy, source state, ledgers, and requested mode without granting publication | Exact package/SBOM/build/live/rights collectors before any future eligible record |
-| D-049 | Rerelease material/glow-map asset generation | ACTIVE | Track text-only `.mat` descriptors in project `pak0`; generate `_glow.png` files only from a verified local Zaero import as import-owned private media | Visual lookup proof, tuning review, and ownership lifecycle checks |
+| D-048 | Release-readiness evidence | ACTIVE | Generate schema-valid readiness records that fingerprint policy, source state, ledgers, and requested mode; a public release additionally needs human approval of a draft | Add package/SBOM/build/live evidence collectors |
+| D-049 | Rerelease material/glow-map asset generation | ACTIVE | Track text-only `.mat` descriptors in project `pak0`; `_glow.png` files are GPL derivatives, regenerated at pack time or tracked via Git LFS when a release needs them | Visual lookup proof and tuning review |
 
 ## D-001 — Product and game directory
 
@@ -103,65 +103,57 @@ record.
 
 ## D-003 — Source and media distribution
 
-- **Status/date/owner:** INTERIM; 2026-07-13; repository maintainers.
-- **Context:** GPL-2.0 terms for the Rerelease DLL do not establish rights for
-  Zaero's commercial source additions or media.
-- **Decision:** Treat project-code and media publication as independent,
-  machine-readable fail-closed permissions. While code rights are unresolved,
-  publish no Zaero-derived source or DLL; at most, publish an independently
-  cleared tools-only acquisition kit from a separate reviewed repository or
-  history-free/orphan distribution ref containing only allowlisted cleared
-  files. Do not push, tag, or create a public release from the gameplay tree:
-  GitHub's tag/source archives would publish the excluded source regardless of
-  ZIP contents. If code is cleared but media is not, an
-  importer kit may contain the DLL and clean configuration/tools but no Zaero
-  media. A distinct `asset-full` artifact requires both permissions. The
-  developer-only `local-full` mode always contains user-provided commercial
-  content and is permanently non-publishable regardless of future clearance;
-  it can never be promoted by renaming its archive or manifest mode. Never commit or
-  publish original PAKs, loose files, legacy binaries, extracted media, or
-  uncleared source merely because they are locally available.
-- **Alternatives:** Treat GPL coverage of the Rerelease substrate as permission
-  for Zaero additions, rejected because it does not establish those rights;
-  asset-bearing/importer-DLL publication without independent evidence,
-  rejected; stop local engineering, unnecessary because hash-verified private
-  compatibility work can proceed according to each contributor's lawful access.
-- **Behavioral impact:** Users provide a legitimate installation for media;
-  public tools-only CI uses only cleared files/synthetic fixtures, while the
-  gameplay tree remains local/private until its channel is cleared; the public artifact capability advances
-  only from tools-only to importer-kit to a separately constructed asset-full
-  mode as evidence permits. Tools-only remains non-playable; importer-kit becomes
-  locally playable only after the user completes a validated legitimate import.
-- **Evidence:** THIRD_PARTY_NOTICES.md and
-  docs/provenance/ASSET_SOURCES.md.
+- **Status/date/owner:** ACTIVE; opened 2026-07-13, resolved by the GPL
+  release of Zaero; repository maintainers.
+- **Context:** The Rerelease game DLL is GPL-2.0, and Zaero's original team
+  released both the Zaero game source and the Zaero assets under the GPL. All
+  the foundational inputs are therefore GPL, and the combined work is GPL.
+- **Decision:** Redistribute the code and media under the GPL. The ported Zaero
+  content is bundled into `asset-full` release packages, the same way the
+  sibling REBLIVION port ships Oblivion; an `importer-kit` mode is also offered
+  for users who prefer to rebuild the pack from their own installation. A
+  `tools-only` artifact remains a narrow, non-playable option. Preserve the
+  original authors' copyright notices and credits on all ported content, and
+  ship complete corresponding source with any released DLL (this repository).
+  The one input the project does not redistribute is the Rerelease soundtrack
+  and base game data, which are Nightdive/id commercial content, not GPL Zaero
+  assets (see D-010). The `local-full` mode is unvalidated developer scratch and
+  stays out of release channels for that engineering reason, not a rights one.
+- **Alternatives:** Continue treating Zaero source/media as rights-unresolved,
+  rejected because the original team released them under the GPL; redistribute
+  the Rerelease soundtrack/base data, rejected because that content is not GPL
+  Zaero material.
+- **Behavioral impact:** Release packaging bundles the ported content; CI and
+  contributors work with the GPL tree normally; the public artifact set spans
+  `tools-only`, `importer-kit`, and the primary `asset-full` mode. The remaining
+  gate on a public build is engineering readiness plus human approval of a
+  draft release, not any rights clearance.
+- **Evidence:** [LICENSE](../../LICENSE), [LICENSE_SCOPE.md](../../LICENSE_SCOPE.md),
+  THIRD_PARTY_NOTICES.md, and docs/provenance/ASSET_SOURCES.md.
 - **Tests/migration:** Structured provenance records
-  `code_distribution_permitted` and `media_distribution_permitted` with holder,
-  scope, channel (repository, source archive, Actions artifact/cache, binary,
-  media), evidence, review date and conditions. Package/publisher/readiness
-  tests independently enforce both, plus repository/history identity,
-  stage/archive denylists and importer hashes. Once a GPL-covered DLL may be
-  distributed, the exact release/tag must also provide or durably link the
-  corresponding source and notices required for that binary; a bare GPL text
-  must not be represented as licensing uncleared Zaero additions.
-  Revisit only with holder, scope, permission text, attribution, license
-  compatibility, and distribution review.
+  `code_distribution_permitted: true` and `media_distribution_permitted: true`
+  with license, holder, scope, and channel (repository, source archive, Actions
+  artifact/cache, binary, media). Package/publisher/readiness tests keep
+  notices and corresponding source attached to any released binary and keep
+  non-GPL base data out. Revisit only if the license terms of an input change.
 
 ## D-004 — Git binary strategy
 
-- **Status/date/owner:** INTERIM; 2026-07-13; repository maintainers.
-- **Context:** Original media is large and uncleared; generated PAKs/ZIPs are
+- **Status/date/owner:** ACTIVE; 2026-07-13; repository maintainers.
+- **Context:** Zaero's binary media is GPL and large; generated PAKs/ZIPs are
   reproducible outputs rather than source.
-- **Decision:** Commit no original legacy binary content. If a category is later
-  cleared, store canonical source binaries in Git LFS after hosting policy
-  review. Never put generated PAKs, ZIPs, DLLs, PDBs, or stages in LFS.
+- **Decision:** Store the GPL Zaero source binaries (canonical BSP/model/texture/
+  sound/cinematic files) in Git LFS. Never put generated PAKs, ZIPs, DLLs, PDBs,
+  or stages in Git or LFS — regenerate them from source at pack time.
 - **Alternatives:** Normal Git blobs or source PAKs, rejected for history size,
-  hosting limits, provenance, and irreproducible layering; importer-only forever,
-  remains valid.
-- **Behavioral impact:** Development imports locally; releases regenerate from a
-  manifest.
+  hosting limits, provenance, and irreproducible layering; keep media out of the
+  repo and rely on the importer only, remains a valid `importer-kit` path but is
+  no longer the only option now that the content is GPL.
+- **Behavioral impact:** The tracked content builds the shipped `pak0.pak`;
+  releases regenerate the PAK from a manifest.
 - **Evidence:** Package sizes/hashes in ASSET_SOURCES.md and roadmap Section 7.
 - **Tests/migration:** Attributes/ignore checks, repository-object allowlist,
-  deterministic package comparison. Revisit before any binary source commit.
+  deterministic package comparison. Revisit before hosting-quota changes.
 
 ## D-005 — Compatibility and defect policy
 
@@ -463,8 +455,8 @@ record.
   clean current commit/version/tag plus a commit-bound machine-readable release-
   readiness artifact, generate checksums, and create a human-approved draft/
   manual GitHub release. Stable promotion requires a protected environment
-  approval and retained legally provisioned private live evidence. Nightlies
-  are prereleases and may package only the provenance-eligible capability.
+  approval and retained private live playtest evidence. Nightlies
+  are prereleases and may package only the readiness-eligible capability.
 - **Alternatives:** Automatic stable publication or mutable assets, rejected;
   manual one-off packaging, rejected because it diverges from CI.
 - **Behavioral impact:** Releases are reproducible, reviewable, and recoverable.
@@ -474,7 +466,7 @@ record.
 - **Tests/migration:** `tests/release/` locks deterministic archives, manifests,
   path/provenance gates, draft-first publication, and non-mutating dry runs.
   Add exact-commit readiness, protected approval, private live report, and
-  independent code/media policy enforcement. A clean-machine install, draft
+  license/notice checks. A clean-machine install, draft
   independent playthrough, and tag/version agreement remain mandatory before
   any stable promotion.
 
@@ -2094,17 +2086,18 @@ record.
   tests authorize an alternative. Package, install, repair, update, rollback,
   and uninstall ownership manifests must distinguish project, imported, and
   generated bytes.
-- **Alternatives:** Copy the three source PAKs unchanged, rejected while media
-  rights are open and because it obscures generated/runtime ownership; flatten
+- **Alternatives:** Copy the three source PAKs unchanged, rejected because it
+  obscures generated/runtime ownership and layering; flatten
   files without origin, rejected because it cannot prove the two overrides or
-  support rights review; let project data overwrite arbitrary import paths,
+  support the provenance record; let project data overwrite arbitrary import paths,
   rejected because mapper/media behavior could drift silently; pack loose media
   now, rejected before Rerelease lookup behavior is tested.
 - **Behavioral impact:** Rerelease sees the same effective legacy runtime paths
   and bytes after importer completion, subject only to approved safe
   configuration adaptation. The physical output has two owned layers for
   install/update purposes, not a claim that legacy source-layer history ceased
-  to matter. No player-facing asset is redistributed by this decision.
+  to matter. This decision governs runtime layer ownership only; the ported
+  content itself is GPL and is shipped through the `asset-full` package.
 - **Evidence:** `docs/audits/assets.json` identifies the three source layers,
   their hashes, override paths, and loose files. The importer manifest retains
   source-container/origin and effective-byte records. `install_dev.ps1` now
@@ -2123,67 +2116,67 @@ record.
   update/rollback removes only its owned bytes. Until those pass, SYS-016 remains
   IN PROGRESS and no archive or local stage may claim precedence closure.
 
-## D-048 — fail-closed release-readiness evidence
+## D-048 — release-readiness evidence
 
 - **Status/date/owner:** ACTIVE; 2026-07-15; Release/provenance maintainers.
-- **Context:** The distribution policy already makes every public mode
-  ineligible, while the former release surface had no machine-readable record
-  tying that decision to the current source, ledgers, and requested mode. A
-  package or a prose acknowledgement cannot safely stand in for that record.
+- **Context:** Distribution rights are settled by the GPL release of the inputs,
+  but a public release still needs a machine-checkable record tying a build to
+  the current source, ledgers, and requested mode. A package or a prose
+  acknowledgement cannot safely stand in for that record.
 - **Decision:** [release_readiness.py](../../tools/release_readiness.py) is the
-  only current readiness generator. It validates the policy, selected mode,
-  channel, and non-promotable profile; fingerprints `VERSION`, provenance,
-  audits, compatibility ledgers, and runtime scenario source; records Git
-  source state; and writes an atomic schema-valid record only beneath ignored
-  `dist/`. It has no publication, tag, upload, dirty-tree bypass, or readiness
-  override. It records the policy's non-waivable rules and refuses a
-  hand-promoted ready record. While the active policy blocks public channels and
-  exact-candidate evidence is missing, all output remains `ready: false`.
-  `publish_github_release.ps1` and remote workflows remain deliberately
-  disabled; later integration must consume a validated record, never relax it.
+  current readiness generator. It validates the policy, selected mode,
+  channel, and profile; fingerprints `VERSION`, provenance, audits,
+  compatibility ledgers, and runtime scenario source; records Git source state;
+  and writes an atomic schema-valid record beneath `dist/`. It does not publish,
+  tag, or upload, and it refuses a hand-promoted ready record. Until the port
+  earns its `playable-stable` readiness evidence (live map/save validation and
+  the exact package/build collectors below), output remains `ready: false`.
+  `publish_github_release.ps1` stays behind human approval of a draft release;
+  later integration must consume a validated record, never relax it.
 - **Alternatives:** A `-Force`/`-AllowDirty` flag, an editable JSON checklist,
-  or allowing a blocked result to return publication eligibility is rejected:
-  each would permit a local assertion to defeat rights, provenance, or
+  or allowing a not-ready result to return publication eligibility is rejected:
+  each would permit a local assertion to defeat the readiness, provenance, or
   compatibility gates.
 - **Behavioral impact:** None on the game, maps, assets, saves, or developer
-  installation. This is private generated engineering evidence only and does
-  not authorize a package, public tag, release asset, CI upload, or remote read.
+  installation. This is generated engineering evidence; a maintainer's approval
+  of a draft release is the final step before anything is published.
 - **Evidence:** [Schema](../provenance/schemas/release-readiness.schema.json),
   [generator](../../tools/release_readiness.py), [distribution policy](../provenance/distribution-policy.json),
   and [release contract tests](../../tests/release/test_release_readiness.py).
-- **Tests/migration:** Validate an ordinary blocked `local-full-private`
+- **Tests/migration:** Validate an ordinary not-ready `local-full-private`
   record, reject output outside `dist/`, reject a mode/profile mismatch, retain
   a false record under `--require-ready` while returning failure, and reject a
   manually changed ready record. Add exact release-manifest, package/SBOM,
-  build/test, save/editor, map/live, and rights/channel collectors before any
-  future record can be eligible.
+  build/test, save/editor, and map/live collectors before a record can be
+  eligible.
 
 ## D-049 — Rerelease material and glow-map asset generation
 
 - **Status/date/owner:** ACTIVE; 2026-07-15; content/provenance maintainers.
 - **Context:** Quake II Rerelease consumes simple `.mat` material descriptors
   and conventional `_glow.png` emission maps. REBLIVION already demonstrated a
-  conservative local workflow for both surfaces, but ZaeREo cannot place
-  Zaero-derived pixel output in the tracked runtime tree while media rights are
-  unresolved.
+  workflow for both surfaces. Zaero's assets are GPL, so ZaeREo can follow the
+  same approach and track or regenerate the derived pixel output freely.
 - **Decision:** Generate and track text-only `.mat` descriptors under
   `pack/textures/**` from verified Zaero texture names. They contain Rerelease
   material tokens only and belong to project `pak0.pak`. Generate glow maps
-  from locally imported Zaero WAL/PCX pixel data only through
+  from Zaero WAL/PCX pixel data through
   [zaero_material_assets.py](../../tools/zaero_material_assets.py) and
-  [import_legacy_assets.py](../../tools/import_legacy_assets.py); write those
-  `_glow.png` files into ignored import-owned content, record each manifest
-  source as `generated:glowmap:<source-path>`, and never commit them under
-  `pack/`.
-- **Alternatives:** Commit generated glow PNGs, rejected because they are
-  modified Zaero media; skip material/glow support, rejected because it loses
-  Rerelease presentation parity that can be generated locally; put all generated
-  assets in project `pak0`, rejected because it collapses ownership; require a
+  [import_legacy_assets.py](../../tools/import_legacy_assets.py); record each
+  manifest source as `generated:glowmap:<source-path>`. As GPL derivatives the
+  `_glow.png` files may be regenerated at pack time (the default, to keep the
+  tree small) or tracked under `pack/` via Git LFS when a release needs them
+  committed.
+- **Alternatives:** Always commit generated glow PNGs, deprioritized because
+  they are regenerable and inflate the tree (LFS tracking stays available when a
+  release needs it); skip material/glow support, rejected because it loses
+  Rerelease presentation parity; put all generated assets in project `pak0`
+  without provenance, rejected because it collapses ownership tracking; require a
   third-party image dependency, rejected because the importer can decode the
   needed PCX/WAL/PNG formats with the standard library.
 - **Behavioral impact:** Enables Rerelease material and glow lookup without
   changing gameplay, classnames, save state, map progression, or original media
-  precedence. Glow output remains local private import lineage.
+  precedence. Glow output carries generated-from-Zaero provenance in the manifest.
 - **Evidence:** [Generator](../../tools/zaero_material_assets.py), [importer
   integration](../../tools/import_legacy_assets.py), checked-in
   [material descriptors](../../pack/textures), and

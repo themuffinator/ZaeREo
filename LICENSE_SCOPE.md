@@ -1,71 +1,79 @@
-# License scope and current distribution status
+# License scope and distribution status
 
-This document explains the scope of license evidence currently recorded for
-ZaeREo. It is a notice, not a copyright-holder permission, legal opinion, or
-substitute for the exact license text shipped with a component.
+This document maps the licenses that apply to the components in ZaeREo. It is a
+notice for convenience, not a substitute for the exact license text shipped with
+each component.
 
-The authoritative machine gate is
+ZaeREo as a whole is free software under the **GNU General Public License,
+version 2** ([`LICENSE`](LICENSE)). Every foundational input — the Quake II
+Rerelease game DLL and the original Zaero mission pack (source and assets) — was
+released under the GPL, so the combined work is distributed under the GPL as
+well. Distribution of code and media is permitted; the remaining gates on a
+public build are engineering-readiness gates (is the port validated and tested),
+not rights gates.
+
+The machine-readable companion record is
 [`docs/provenance/distribution-policy.json`](docs/provenance/distribution-policy.json).
-Its initial reviewed engineering baseline deliberately records:
+It records:
 
-- `code_distribution_permitted: false`;
-- `media_distribution_permitted: false`;
-- `public_gameplay_tree_permitted: false`; and
-- no publication-permitted release mode.
+- `code_distribution_permitted: true`;
+- `media_distribution_permitted: true`; and
+- publication enabled through the reviewed release modes, gated only by
+  release-readiness evidence and human approval of a draft release.
 
-Unknown, missing, contradictory, overbroad, expired, or evidence-free records
-fail closed. Changing this prose cannot authorize a release.
+Publishing a release is a deliberate, human-approved step: no automated workflow
+ships code or media on its own. Records that are internally contradictory,
+overbroad, or evidence-free are still rejected by the policy validator so that
+attribution and corresponding-source obligations stay intact.
 
 ## Component scope
 
-| Component | Current evidence | Current public status |
+| Component | License | Distribution status |
 | --- | --- | --- |
-| Quake II Rerelease substrate | The supplied baseline contains GNU GPL version 2 notices and exactly matches all 144 paths/blobs in official commit `8dc1fc9794c01ece06881e703851b768fb3994de` under `rerelease/`; see `docs/provenance/upstream-match.json`. | **Upstream identity resolved; combined-work distribution still blocked.** The GPL evidence applies to code placed under it by its holders; it does not license unrelated Zaero additions or establish the outbound scope of the intermingled repository. |
-| Combined ZaeREo gameplay source and DLL | Upstream substrate and Zaero-derived behavior are intermingled under `src/`. | **Unknown / no grant claimed.** No DLL, object, symbols, gameplay source, or corresponding-source bundle may be published. |
-| Zaero-derived compatibility tests and audits | Project-authored material may encode detailed behavior or supplied-source facts. No file-by-file protectable-expression and outbound-license review is recorded. | **Unknown / no grant claimed.** These files remain part of the private gameplay tree. |
-| Candidate acquisition tools | Three exact candidates are listed in the policy: `tools/import_legacy_assets.py`, `tools/make_pak.py`, and `tools/validate_runtime.py`. | **Unknown / not yet publishable.** Each file still needs independent-authorship and outbound-license approval, immutable hashes, and a separately audited history-clean tools root. |
-| Zaero maps and media | `docs/audits/assets.json` and local importer manifests identify bytes and precedence. Identity and possession are not permission. | **Unknown / no grant claimed.** Original or extracted media is local-import-only and cannot enter project Git, CI, editor, or release channels. |
-| Runtime and editor definitions | `pack/` and `editor/` contain project integration and generated definitions. Their derivation and authorship have not been reviewed file by file. | **Unknown / no grant claimed.** A generated form does not acquire a distribution grant merely by being generated. |
-| fmt | `dependency-policy.json` pins fmt 11.2.0, MIT, its installed copyright SHA-256, vcpkg ABI evidence, and deterministic SPDX/license harvesting. | **Dependency evidence complete for the substrate candidate; release still blocked.** It must be tied to the exact mode-specific binary/manifest and the combined code/channel gates. |
-| JsonCpp | `dependency-policy.json` pins JsonCpp 1.9.6, its MIT/public-domain alternatives, installed copyright SHA-256, vcpkg ABI evidence, and deterministic SPDX/license harvesting. | **Dependency evidence complete for the substrate candidate; release still blocked.** It must be tied to the exact mode-specific binary/manifest and the combined code/channel gates. |
-| MSVC compiler and static runtime | The substrate SBOM records compiler 19.44.35222 and static runtime 14.44.35207 as engineering evidence. | **Unknown / NOASSERTION.** Outbound runtime scope and exact applicable Microsoft terms have not been reviewed; no public binary mode may rely on this record as clearance. |
-| Repository documentation, automation, and remaining tests/tools | No blanket file-by-file authorship and outbound-license decision is recorded. | **Unknown.** The root `LICENSE` must not be treated as an automatic relicense of every file. |
+| Quake II Rerelease substrate | GNU GPL version 2. The supplied baseline exactly matches all 144 paths/blobs in official commit `8dc1fc9794c01ece06881e703851b768fb3994de` under `rerelease/`; see `docs/provenance/upstream-match.json`. | **Distributable under GPL-2.0.** Retain the upstream copyright and GPL notices on any imported file. |
+| Combined ZaeREo gameplay source and DLL | GPL-2.0. The Rerelease substrate and Zaero-derived behavior are intermingled under `src/`; both inputs are GPL, so the combined work is GPL. | **Distributable under GPL-2.0.** A distributed DLL must be accompanied by its complete corresponding source (this repository) and notices. |
+| Zaero-derived compatibility tests and audits | GPL-2.0 as project-authored work built on GPL inputs. | **Distributable.** These files are part of the corresponding source. |
+| Acquisition and packaging tools | GPL-2.0 project-authored automation (`tools/`). | **Distributable.** They form part of the corresponding-source and build scripts the GPL requires alongside a released binary. |
+| Zaero maps and media | GPL — released by Zaero's original team alongside the source. `docs/audits/assets.json` and importer manifests identify the exact bytes and precedence. | **Distributable under GPL.** The ported content is bundled into `asset-full` release packages; the original authors' credits and notices are preserved. |
+| Runtime and editor definitions | GPL-2.0 project integration and generated definitions under `pack/` and `editor/`. | **Distributable.** Generated forms carry the license of the sources they are generated from. |
+| fmt | MIT (with the project's optional compiled-object notice exception); `dependency-policy.json` pins fmt 11.2.0, its copyright SHA-256, and vcpkg ABI/SPDX evidence. | **Distributable under MIT.** The MIT notice is harvested into the release notice bundle and SBOM. |
+| JsonCpp | Public-domain dedication where recognized, with MIT terms otherwise; `dependency-policy.json` pins JsonCpp 1.9.6 with copyright SHA-256 and vcpkg ABI/SPDX evidence. | **Distributable.** The applicable notice is harvested into the release notice bundle and SBOM. |
+| MSVC compiler and static runtime | Microsoft toolchain, recorded in the SBOM as build evidence (compiler 19.44.35222, static runtime 14.44.35207). | **System-component exception.** Under GPL-2.0 §3 the compiler/runtime are normally-distributed major system components and need not be shipped as source; the SBOM records the exact versions used. |
+| Repository documentation and automation | GPL-2.0 project-authored material. | **Distributable.** The root `LICENSE` applies to the project's own files. |
 
 ## Meaning of the root GPL text
 
-[`LICENSE`](LICENSE) contains the GNU General Public License, version 2. Its
-presence preserves and communicates the observed upstream license, but it is not
-evidence that every contributor or commercial rightsholder granted rights in
-every repository file. In particular, it does not grant rights to original
-Zaero source additions, maps, models, textures, sounds, cinematics, or other
-media.
+[`LICENSE`](LICENSE) contains the GNU General Public License, version 2. It is
+the license under which this project and its GPL-released inputs are
+distributed. Keep the applicable per-file copyright headers from the original
+authors intact — the GPL is a license to redistribute *with* those notices, not
+a waiver of attribution.
 
-If a future code-cleared release distributes a DLL, that exact release must also
-provide or durably link complete corresponding source and build/install scripts
-for the same binary, together with all applicable notices. A corresponding-source
-obligation cannot cure a missing grant for an included addition.
+If a release distributes a DLL, that exact release must also provide or durably
+link complete corresponding source and build/install scripts for the same
+binary, together with all applicable notices. This repository is that
+corresponding source, which is why the GPL obligation is straightforward to meet
+rather than a blocker.
 
 ## Release-mode consequences
 
-- **tools-only** is currently blocked. The policy lists an exact candidate file
-  set for review, but every file and every history-clean repository, history,
-  source-archive, Actions, cache, artifact, and release channel remains
-  `unknown`. The gameplay repository can never serve as its source while the
-  gameplay-code gate is open.
-- **importer-kit** is blocked until the complete code/DLL and corresponding-source
-  rights gate is permitted. It must contain no Zaero media and becomes playable
-  only after a user completes a legitimate local import.
-- **asset-full** is blocked until code and media are independently permitted for
-  the exact files and channels. It must use a separately reviewed distributable
-  media lineage, never a copied or renamed private import.
-- **local-full** is private engineering output assembled from a user's legitimate
-  installation. It is permanently non-publishable, even if later rights evidence
-  permits a distinct asset-full release.
+- **asset-full** is the primary end-user mode: it bundles the ported Zaero
+  content (`pak0.pak` plus required loose files) together with the DLL and
+  notices, the same way the sibling REBLIVION port ships Oblivion. It is
+  eligible once the port earns its release-readiness evidence.
+- **importer-kit** ships the DLL and rebuilds the content pack from a user's
+  existing Zaero installation. It exists as a convenience for users who prefer
+  to supply their own copy, not because bundling is disallowed.
+- **tools-only** ships only the project's automation and instructions. It is a
+  narrow artifact, not a playable mod release.
+- **local-full** is private engineering output assembled during development. It
+  is kept out of release channels for hygiene (it is unvalidated developer
+  scratch), not for any rights reason.
 
-The project may continue private local engineering under these containment
-rules. Do not push or tag the gameplay tree to a public remote, upload its source
-or binary output to public CI, or publish any package until the machine policy
-and the profile-specific readiness record both authorize the exact operation.
+The project may publish `asset-full` and `importer-kit` builds once the
+mode-specific readiness record and a maintainer's approval of a draft release
+both authorize the exact operation. Distribution rights are settled; readiness
+is the remaining bar.
 
 See [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) and
 [`docs/provenance/ASSET_SOURCES.md`](docs/provenance/ASSET_SOURCES.md) for the

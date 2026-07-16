@@ -17,9 +17,8 @@ begin.
 - Hash-pinned source, asset, and BSP-entity audits covering all supplied source,
   20 maps, 969 effective PAK paths, and required loose content.
 - Retail-content importer, strict runtime validator, deterministic PAK/ZIP
-  tooling, managed developer installer, importer-kit/local-full packager, and a
-  manual GitHub publisher prototype whose remote paths remain forbidden pending
-  Phase-0 containment and machine-readable policy/readiness enforcement.
+  tooling, managed developer installer, asset-full/importer-kit packager, and a
+  manual GitHub publisher gated behind human approval of a draft release.
 - Zaero compatibility spine: map classification, custom keys/spawn fields,
   JSON save registrations, movement types, stock-map behavior gates, world
   entities, item/ammo registry, Push, Flare Gun, and monster spawn accounting.
@@ -27,17 +26,18 @@ begin.
   multipart rider state and retail-backed quirks.
 - Sniper Rifle charge/zoom/trace/HUD lifecycle, player/map IRED deployment, and
   the selective EMP field/call-site matrix with a non-colliding saved BFG latch.
-- Roadmap release hardening for independent code/media rights, tools-only,
-  importer-kit, permanently private local-full, and distinct future asset-full
-  artifacts; per-user installation; deterministic mapdb
-  merging, private live testing, save-schema policy, editor gamepacks, and
+- Roadmap release hardening for GPL code and media distribution across the
+  asset-full and importer-kit modes, with local-full kept as developer-only
+  scratch; per-user installation; deterministic mapdb
+  merging, live testing, save-schema policy, editor gamepacks, and
   machine-readable release readiness.
 - Stable Windows release eligibility workflow hardening: dispatch input accepts
   only an exact annotated stable SemVer tag; its target, repository integrity,
   clean ancestry, policy, and `playable-stable` readiness record are verified
-  before any dependency install or package build. A future candidate remains
-  runner-local and must match its source commit, manifest, and checksum; current
-  policy fails the workflow before build and cannot publish anything.
+  before any dependency install or package build. A candidate remains
+  runner-local and must match its source commit, manifest, and checksum; a build
+  is published only after the `playable-stable` readiness record exists and a
+  maintainer approves the draft release.
 - Completed source-gap classification for A2K immunity/countdown, low-trigger
   platforms, FALLFLOAT explosive barrels, door/train/path extensions, inbound
   boss inventory, runtime helpers, exact laser triggers, Visor/cameras,
@@ -135,5 +135,6 @@ begin.
 - A2K, Plasma Shield, Visor, weapon-number/wheel completion, Handler, Hound,
   Sentien, ZBoss, campaign systems, co-op, remaining deathmatch behavior, and end-to-end live save/
   split-screen fixtures remain incomplete.
-- Zaero-derived code and media redistribution remain independently unverified;
-  no DLL/source/media publication is authorized by the current record.
+- No validated public release exists yet: the code and media are GPL and
+  redistributable, but a stable release still waits on live map/save validation
+  and maintainer approval of a draft release.
