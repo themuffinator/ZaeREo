@@ -127,7 +127,9 @@ def build_integration_report(
     policy = _read_json(policy_path.resolve(), "upstream integration policy")
     assignments = _validate_policy(policy, baseline, repository_root.resolve())
 
-    current = tree_manifest(source_root)
+    # src/maps/ holds decompiled map sources (content), not upstream-integrated
+    # C++ code, so it is outside this audit's surface.
+    current = tree_manifest(source_root, exclude_prefixes=("maps/",))
     baseline_files = {record["path"]: record for record in baseline["files"]}
     current_files = {record["path"]: record for record in current["files"]}
     all_paths = sorted(set(baseline_files) | set(current_files), key=lambda path: path.encode("utf-8"))

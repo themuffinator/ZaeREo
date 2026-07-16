@@ -147,6 +147,16 @@ void zboss_possible_taunt(edict_t *self)
 		1, ATTN_NORM, 0);
 }
 
+// monsterinfo.idle is serialized under the IDLE save tag, so it must point at a
+// MONSTERINFO_IDLE-registered function. zboss_possible_taunt is a plain frame
+// thinkfunc; assigning it directly to idle leaves the pointer unlinked and
+// crashes the JSON save ("value pointer ... not linked to save tag") whenever
+// the boss exists at a save/checkpoint. Wrap it so idle keeps the taunt.
+MONSTERINFO_IDLE(zboss_idle) (edict_t *self) -> void
+{
+	zboss_possible_taunt(self);
+}
+
 MONSTERINFO_SIGHT(zboss_sight) (edict_t *self, edict_t *other) -> void
 {
 	(void) other;
@@ -1198,7 +1208,7 @@ void SP_monster_zboss(edict_t *self)
 	self->monsterinfo.attack = zboss_attack_start;
 	self->monsterinfo.melee = zboss_melee;
 	self->monsterinfo.sight = zboss_sight;
-	self->monsterinfo.idle = zboss_possible_taunt;
+	self->monsterinfo.idle = zboss_idle;
 	self->monsterinfo.scale = 1.0f;
 	self->monsterinfo.combat_style = COMBAT_MIXED;
 	M_SetAnimation(self, &zboss_move_stand1);

@@ -276,6 +276,16 @@ MONSTERINFO_STAND(hound_stand) (edict_t *self) -> void
 	M_SetAnimation(self, frandom() < 0.8f ? &hound_move_stand1 : &hound_move_stand2);
 }
 
+// The monsterinfo.idle slot is serialized under the IDLE save tag, so it must
+// hold a MONSTERINFO_IDLE-registered function. Reusing hound_stand (a STAND
+// function) here would leave the pointer unlinked and crash the JSON save with
+// "value pointer ... was not linked to save tag" the moment a Hound exists at a
+// save/checkpoint. Preserve the intended "idle behaves like stand" behavior.
+MONSTERINFO_IDLE(hound_idle) (edict_t *self) -> void
+{
+	hound_stand(self);
+}
+
 mframe_t hound_frames_run[] = {
 	{ hound_school_run, 60 }, { hound_school_run, 60 }, { hound_school_run, 40 },
 	{ hound_school_run, 30 }, { hound_school_run, 30 }, { hound_school_run, 30 },
@@ -536,7 +546,7 @@ void setup_hound(edict_t *self)
 	self->monsterinfo.attack = hound_jump;
 	self->monsterinfo.melee = hound_melee;
 	self->monsterinfo.sight = hound_sight;
-	self->monsterinfo.idle = hound_stand;
+	self->monsterinfo.idle = hound_idle;
 	self->monsterinfo.checkattack = hound_checkattack;
 	self->monsterinfo.setskin = hound_setskin;
 	self->monsterinfo.combat_style = COMBAT_MIXED;

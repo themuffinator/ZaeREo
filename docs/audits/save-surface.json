@@ -241,6 +241,12 @@
       "source": "zaero/g_zaero_hound.cpp"
     },
     {
+      "macro": "MONSTERINFO_IDLE",
+      "name": "hound_idle",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_hound.cpp"
+    },
+    {
       "macro": "MMOVE_T",
       "name": "hound_move_run",
       "registered_by_macro": true,
@@ -605,6 +611,12 @@
       "name": "Zaero_FlareThink",
       "registered_by_macro": true,
       "source": "zaero/g_zaero_weapons.cpp"
+    },
+    {
+      "macro": "MONSTERINFO_IDLE",
+      "name": "zboss_idle",
+      "registered_by_macro": true,
+      "source": "zaero/g_zaero_zboss.cpp"
     },
     {
       "macro": "MONSTERINFO_SIGHT",
@@ -1148,8 +1160,8 @@
   "schema": "zaereo.save-surface-audit/v1",
   "source_root": "src",
   "summary": {
-    "callback_count": 145,
-    "callback_registration_count": 145,
+    "callback_count": 147,
+    "callback_registration_count": 147,
     "complete": true,
     "field_count": 41,
     "field_registration_count": 41

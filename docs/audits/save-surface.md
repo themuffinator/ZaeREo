@@ -7,8 +7,8 @@ It is static registration evidence only; live save/load round trips remain requi
 
 - Zaero-owned fields: `41`
 - Registered fields: `41`
-- Zaero-owned callbacks/mmoves: `145`
-- Macro-registered callbacks/mmoves: `145`
+- Zaero-owned callbacks/mmoves: `147`
+- Macro-registered callbacks/mmoves: `147`
 - Complete: `true`
 
 ## Fields
@@ -101,6 +101,7 @@ It is static registration evidence only; live save/load round trips remain requi
 | `zaero/g_zaero_hound.cpp` | `MMOVE_T` | `hound_move_stand1` |
 | `zaero/g_zaero_hound.cpp` | `MMOVE_T` | `hound_move_stand2` |
 | `zaero/g_zaero_hound.cpp` | `MONSTERINFO_STAND` | `hound_stand` |
+| `zaero/g_zaero_hound.cpp` | `MONSTERINFO_IDLE` | `hound_idle` |
 | `zaero/g_zaero_hound.cpp` | `MMOVE_T` | `hound_move_run` |
 | `zaero/g_zaero_hound.cpp` | `MONSTERINFO_RUN` | `hound_run` |
 | `zaero/g_zaero_hound.cpp` | `MMOVE_T` | `hound_move_walk` |
@@ -162,6 +163,7 @@ It is static registration evidence only; live save/load round trips remain requi
 | `zaero/g_zaero_sentien.cpp` | `DIE` | `sentien_die` |
 | `zaero/g_zaero_sonic.cpp` | `THINK` | `Zaero_SonicExplosionThink` |
 | `zaero/g_zaero_weapons.cpp` | `THINK` | `Zaero_FlareThink` |
+| `zaero/g_zaero_zboss.cpp` | `MONSTERINFO_IDLE` | `zboss_idle` |
 | `zaero/g_zaero_zboss.cpp` | `MONSTERINFO_SIGHT` | `zboss_sight` |
 | `zaero/g_zaero_zboss.cpp` | `MMOVE_T` | `zboss_move_stand1` |
 | `zaero/g_zaero_zboss.cpp` | `MMOVE_T` | `zboss_move_stand2` |

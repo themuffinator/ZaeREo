@@ -105,7 +105,9 @@ def markdown_cell(value: object) -> str:
     return str(value).replace("|", "\\|").replace("\r", " ").replace("\n", " ")
 
 
-def _relative_files(root: Path) -> list[tuple[str, Path]]:
+def _relative_files(
+    root: Path, exclude_prefixes: tuple[str, ...] = ()
+) -> list[tuple[str, Path]]:
     root_resolved = root.resolve()
     records: list[tuple[str, Path]] = []
     for candidate in root.rglob("*"):
@@ -119,20 +121,31 @@ def _relative_files(root: Path) -> list[tuple[str, Path]]:
         except ValueError as error:
             raise AuditError(f"tree entry escapes its root: {candidate}") from error
         relative = normalize_runtime_path(relative, "tree-relative path")
+        # Opt-in exclusion: callers may drop content subtrees (e.g. src/maps/)
+        # that are not part of the audited surface. Default excludes nothing.
+        if any(
+            relative == prefix.rstrip("/") or relative.startswith(prefix)
+            for prefix in exclude_prefixes
+        ):
+            continue
         records.append((relative, resolved))
     records.sort(key=lambda item: item[0].encode("utf-8"))
     return records
 
 
-def tree_manifest(root: Path) -> dict[str, Any]:
-    """Hash every regular file and a canonical stream of the resulting records."""
+def tree_manifest(root: Path, exclude_prefixes: tuple[str, ...] = ()) -> dict[str, Any]:
+    """Hash every regular file and a canonical stream of the resulting records.
+
+    ``exclude_prefixes`` optionally drops content subtrees (e.g. ``maps/``) that
+    are outside the audited surface; it defaults to excluding nothing.
+    """
 
     files: list[dict[str, Any]] = []
     aggregate = hashlib.sha256()
     total_size = 0
     seen_case: dict[str, str] = {}
     case_collisions: list[list[str]] = []
-    for relative, path in _relative_files(root):
+    for relative, path in _relative_files(root, exclude_prefixes):
         folded = relative.casefold()
         previous = seen_case.get(folded)
         if previous is not None and previous != relative:

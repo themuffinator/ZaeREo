@@ -1514,7 +1514,7 @@ static void G_InitStatusbar()
 	// local/split-screen views isolated without commandeering scoreboard state.
 	sb.ifstat(STAT_ZAERO_CAMERA_ICON)
 		.ifstat(STAT_ZAERO_CAMERA_LABEL)
-			.xv(26).yb(-75).string("Tracking ").stat_string(STAT_ZAERO_CAMERA_LABEL)
+			.xv(26).yb(-75).string("Tracking ").xv(98).stat_string(STAT_ZAERO_CAMERA_LABEL)
 		.endifstat()
 		.xv(246).num(3, STAT_ZAERO_CAMERA_TIMER)
 		.xv(296).pic(STAT_ZAERO_CAMERA_ICON)
