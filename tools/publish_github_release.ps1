@@ -1,4 +1,4 @@
-[CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "High")]
+[CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)][string]$Version,
     [Parameter(Mandatory = $true)][string]$Tag,
@@ -119,8 +119,6 @@ try {
         $assets | ForEach-Object { Write-Host "    $_" }
         return
     }
-
-    if (-not $PSCmdlet.ShouldProcess("$Tag", "Create/publish GitHub release")) { return }
 
     $gh = Get-Command gh -ErrorAction SilentlyContinue
     if (-not $gh) { throw "GitHub CLI (gh) was not found in PATH. Install it and 'gh auth login', or run this from Actions with GH_TOKEN." }
