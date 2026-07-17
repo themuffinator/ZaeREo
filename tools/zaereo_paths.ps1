@@ -220,11 +220,15 @@ function Resolve-ZaeREoInstallRoots {
         [object]$Configuration,
         [string]$EngineRoot = "",
         [string]$UserRoot = "",
-        [string]$GameRoot = ""
+        [string]$GameRoot = "",
+        [switch]$IntoGameDir
     )
 
     if ($GameRoot.Trim() -and $UserRoot.Trim()) {
         throw "-GameRoot is an explicit portable/developer override and cannot be combined with -UserRoot."
+    }
+    if ($IntoGameDir -and ($GameRoot.Trim() -or $UserRoot.Trim())) {
+        throw "-IntoGameDir installs into the resolved engine/game root and cannot be combined with -GameRoot or -UserRoot."
     }
 
     $portableOverride = [bool]$GameRoot.Trim()
@@ -253,14 +257,25 @@ function Resolve-ZaeREoInstallRoots {
             -WorkspacePath $WorkspacePath `
             -Discovery { Find-ZaeREoRereleaseRoot } `
             -Description "read-only Quake II Rerelease engine/data root"
-        $userRootPath = Resolve-ZaeREoPath `
-            -ExplicitValue $UserRoot `
-            -EnvironmentNames @("Q2RERELEASE_USER_ROOT") `
-            -Configuration $Configuration `
-            -ConfigurationNames @("q2RereleaseUserRoot") `
-            -WorkspacePath $WorkspacePath `
-            -Discovery { Get-ZaeREoDefaultUserRoot } `
-            -Description "writable Quake II Rerelease user-data root"
+        if ($IntoGameDir) {
+            # Explicit opt-in: install beside baseq2 in the resolved Rerelease
+            # game directory (e.g. a Steam install) instead of the per-user root.
+            # This intentionally writes under the game root, so bypass the
+            # program-root guard below the same way an explicit -GameRoot does.
+            $userRootPath = $enginePath
+            $portableOverride = $true
+            Write-Warning "Installing into the resolved Rerelease game directory (beside baseq2); this writes under the game root."
+        }
+        else {
+            $userRootPath = Resolve-ZaeREoPath `
+                -ExplicitValue $UserRoot `
+                -EnvironmentNames @("Q2RERELEASE_USER_ROOT") `
+                -Configuration $Configuration `
+                -ConfigurationNames @("q2RereleaseUserRoot") `
+                -WorkspacePath $WorkspacePath `
+                -Discovery { Get-ZaeREoDefaultUserRoot } `
+                -Description "writable Quake II Rerelease user-data root"
+        }
     }
 
     if (-not $enginePath -or -not (Test-Path -LiteralPath $enginePath -PathType Container) -or

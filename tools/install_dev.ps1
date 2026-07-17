@@ -4,6 +4,8 @@ param(
     [string]$EngineRoot = "",
     [string]$UserRoot = "",
     [string]$GameRoot = "",
+    [switch]$IntoGameDir,
+    [switch]$ReplaceUnmanaged,
     [string]$ContentRoot = "",
     [string]$AssetManifest = "",
     [string]$RuntimeFixtureRoot = "",
@@ -11,7 +13,9 @@ param(
     [string]$Configuration = "Debug",
     [switch]$SkipBuild,
     [switch]$NoPak,
-    [switch]$Link
+    [switch]$Link,
+    [switch]$Launch,
+    [string]$Executable = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -152,7 +156,7 @@ function Get-ManagedFiles {
 }
 
 function Install-ManagedCopy {
-    param([string]$Stage, [string]$Destination)
+    param([string]$Stage, [string]$Destination, [bool]$ReplaceUnmanaged = $false)
 
     $stagePath = Get-ZaeREoFullPath $Stage
     $destinationPath = Get-ZaeREoFullPath $Destination
@@ -177,7 +181,16 @@ function Install-ManagedCopy {
             }
         }
         elseif (@(Get-ChildItem -LiteralPath $destinationPath -Force).Count -gt 0) {
-            throw "Target is non-empty but has no ZaeREo managed-file manifest: $destinationPath"
+            if (-not $ReplaceUnmanaged) {
+                throw "Target is non-empty but has no ZaeREo managed-file manifest: $destinationPath. Pass -ReplaceUnmanaged to replace an unmanaged install (for example an extracted release archive)."
+            }
+            Write-Warning "Replacing an unmanaged install at $destinationPath (no managed-file manifest present)."
+            foreach ($entry in Get-ChildItem -LiteralPath $destinationPath -Force) {
+                if ($entry.Attributes -band [IO.FileAttributes]::ReparsePoint) {
+                    throw "Refusing to clear a reparse point in the target: $($entry.FullName)"
+                }
+                Remove-Item -LiteralPath $entry.FullName -Recurse -Force
+            }
         }
     }
     else {
@@ -213,6 +226,100 @@ function Install-ManagedCopy {
     }
 }
 
+function Resolve-RereleaseExecutable {
+    param([string]$EnginePath, [string]$ExplicitExecutable)
+
+    if ($ExplicitExecutable.Trim()) {
+        $candidate = Get-ZaeREoFullPath $ExplicitExecutable $EnginePath
+        [void](Assert-StrictChildPath $EnginePath $candidate "Rerelease executable")
+        if (-not (Test-Path -LiteralPath $candidate -PathType Leaf)) {
+            throw "Rerelease executable does not exist: $candidate"
+        }
+        return $candidate
+    }
+    foreach ($name in @("quake2ex_steam.exe", "quake2ex_gog.exe", "quake2ex.exe")) {
+        $candidate = Join-Path $EnginePath $name
+        if (Test-Path -LiteralPath $candidate -PathType Leaf) {
+            return $candidate
+        }
+    }
+    throw "No supported Rerelease executable was found below $EnginePath; pass -Executable."
+}
+
+function Stop-RunningRerelease {
+    param([Parameter(Mandatory = $true)][string]$ExecutablePath)
+
+    $expected = Get-ZaeREoFullPath $ExecutablePath
+    $processName = [IO.Path]::GetFileNameWithoutExtension($expected)
+    $running = @(Get-Process -Name $processName -ErrorAction SilentlyContinue | Where-Object {
+            try {
+                $_.Path -and (Get-ZaeREoFullPath $_.Path).Equals(
+                    $expected, [StringComparison]::OrdinalIgnoreCase)
+            }
+            catch {
+                $false
+            }
+        })
+    foreach ($process in $running) {
+        Write-Warning "Stopping a running Rerelease instance (PID $($process.Id)) so the game DLL can be replaced."
+        try {
+            Stop-Process -Id $process.Id -Force
+            [void]$process.WaitForExit(5000)
+        }
+        catch {
+            # A residual lock is surfaced as a copy failure during install.
+        }
+    }
+    if ($running.Count) {
+        Start-Sleep -Milliseconds 500
+    }
+}
+
+function Remove-ManagedShadow {
+    param([Parameter(Mandatory = $true)][string]$ShadowRoot)
+
+    # KEX loads a mod's game DLL (and loose files) from the per-user Saved Games
+    # root in preference to the game directory. A managed copy left there would
+    # shadow a game-dir install, so strip exactly the ZaeREo-managed files while
+    # preserving user saves and configs. Returns $true when a shadow was cleared.
+    $shadowPath = Get-ZaeREoFullPath $ShadowRoot
+    $manifestPath = Join-Path $shadowPath ".zaereo-managed-files.json"
+    if (-not (Test-Path -LiteralPath $manifestPath -PathType Leaf)) {
+        return $false
+    }
+    $shadowItem = Get-Item -LiteralPath $shadowPath -Force
+    if ($shadowItem.Attributes -band [IO.FileAttributes]::ReparsePoint) {
+        throw "Refusing to modify a reparse-point mod directory: $shadowPath"
+    }
+    try {
+        $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
+        $files = @($manifest.files)
+    }
+    catch {
+        Write-Warning "Shadow install manifest is invalid; leaving it untouched: $manifestPath"
+        return $false
+    }
+    foreach ($relative in $files) {
+        if ($relative -isnot [string]) {
+            continue
+        }
+        $target = Get-SafeRelativePath $relative $shadowPath
+        if (Test-Path -LiteralPath $target -PathType Leaf) {
+            Remove-Item -LiteralPath $target -Force
+        }
+    }
+    # Remove the managed content subdirectories once emptied, but keep the mod
+    # directory itself: KEX still writes saves and configs here.
+    foreach ($name in @("sprites", "video")) {
+        $directory = Join-Path $shadowPath $name
+        if ((Test-Path -LiteralPath $directory -PathType Container) -and
+            -not @(Get-ChildItem -LiteralPath $directory -Force).Count) {
+            Remove-Item -LiteralPath $directory -Force
+        }
+    }
+    return $true
+}
+
 $workspacePath = Get-ZaeREoFullPath $WorkspaceRoot
 if (-not (Test-Path -LiteralPath $workspacePath -PathType Container)) {
     throw "Workspace does not exist: $workspacePath"
@@ -223,9 +330,18 @@ $installRoots = Resolve-ZaeREoInstallRoots `
     -Configuration $configurationData `
     -EngineRoot $EngineRoot `
     -UserRoot $UserRoot `
-    -GameRoot $GameRoot
+    -GameRoot $GameRoot `
+    -IntoGameDir:$IntoGameDir
 $enginePath = $installRoots.EngineRoot
 $userRootPath = $installRoots.UserRoot
+
+# When launching, the running game holds an open handle on the installed
+# game DLL, so stop it up front before the managed copy tries to replace it.
+$launchExecutablePath = ""
+if ($Launch) {
+    $launchExecutablePath = Resolve-RereleaseExecutable $enginePath $Executable
+    Stop-RunningRerelease $launchExecutablePath
+}
 
 $defaultContent = Join-Path $workspacePath ".install\imported\zaereo"
 $contentPath = Resolve-ZaeREoPath `
@@ -461,11 +577,41 @@ if ($Link) {
     }
 }
 elseif ($PSCmdlet.ShouldProcess($targetPath, "Update ZaeREo-managed developer files")) {
-    Install-ManagedCopy $stagePath $targetPath
+    Install-ManagedCopy $stagePath $targetPath ([bool]$ReplaceUnmanaged)
+}
+
+if ($IntoGameDir -and -not $Link -and -not $WhatIfPreference) {
+    # This install lives in the game directory, so clear any managed copy left
+    # in the per-user Saved Games root that would otherwise shadow it (KEX gives
+    # the user-data root priority for the game DLL and loose files).
+    $userDataRoots = Resolve-ZaeREoInstallRoots `
+        -WorkspacePath $workspacePath `
+        -Configuration $configurationData
+    $shadowPath = $userDataRoots.TargetPath
+    if ((Get-ZaeREoFullPath $shadowPath) -ne (Get-ZaeREoFullPath $targetPath) -and
+        (Test-Path -LiteralPath $shadowPath -PathType Container)) {
+        if (Remove-ManagedShadow $shadowPath) {
+            Write-Host "De-shadowed user-data install (removed managed files, kept saves/configs): $shadowPath"
+        }
+    }
 }
 
 Write-Host "Developer stage: $stagePath"
 Write-Host "Engine/data root: $enginePath (read-only)"
 Write-Host "User-data root:   $userRootPath"
 Write-Host "Installed mod:    $targetPath"
-Write-Host "For any verified development/debug/validation launch, run tools/run_game.ps1; do not bypass its window-before-mod/map safety check."
+if ($Launch -and -not $WhatIfPreference) {
+    if (-not $launchExecutablePath) {
+        $launchExecutablePath = Resolve-RereleaseExecutable $enginePath $Executable
+    }
+    if ($PSCmdlet.ShouldProcess($launchExecutablePath, "Launch Quake II Rerelease with +game zaereo")) {
+        Stop-RunningRerelease $launchExecutablePath
+        $launchArguments = @("+set", "com_skipIntroVideos", "1", "+game", "zaereo")
+        Write-Host "Launching: $launchExecutablePath $($launchArguments -join ' ')"
+        Start-Process -FilePath $launchExecutablePath -ArgumentList $launchArguments -WorkingDirectory $enginePath | Out-Null
+        Write-Host "Launched Quake II Rerelease with +game zaereo. Choose New Game to start ZaeREo."
+    }
+}
+else {
+    Write-Host "For any verified development/debug/validation launch, run tools/run_game.ps1; do not bypass its window-before-mod/map safety check."
+}

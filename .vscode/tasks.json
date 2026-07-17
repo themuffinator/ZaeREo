@@ -25,10 +25,7 @@
         "-Configuration",
         "Debug"
       ],
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
+      "group": "build",
       "problemMatcher": "$msCompile"
     },
     {
@@ -132,6 +129,32 @@
         "-AllowDirty"
       ],
       "problemMatcher": []
+    },
+    {
+      "label": "ZaeREo: Build, install & launch (Steam Q2RE)",
+      "detail": "Build Release, pack pak0/pak1, install the full zaereo mod into the Steam Quake II Rerelease directory (beside baseq2) under zaereo/, de-shadow any stale copy in the Saved Games user-data root, then launch the game with +game zaereo. Resolves the engine root from .zaereo.local.json (or auto-discovery).",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoLogo",
+        "-NoProfile",
+        "-File",
+        "./tools/install_dev.ps1",
+        "-IntoGameDir",
+        "-ReplaceUnmanaged",
+        "-Launch",
+        "-ContentRoot",
+        ".install/imported/zaereo",
+        "-AssetManifest",
+        ".install/imported/zaereo-asset-manifest.json",
+        "-Configuration",
+        "Release"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "$msCompile"
     }
   ],
   "inputs": [
